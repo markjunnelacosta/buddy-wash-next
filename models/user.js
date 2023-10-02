@@ -1,17 +1,16 @@
 import { Schema, model, models } from "mongoose";
 
 const UserSchema = new Schema({
-  userId: {
+  id: {
     type: Schema.Types.ObjectId,
   },
-  username: {
+  userName: {
     type: String,
-    unique: [true, "Username already exists!"],
     required: [true, "Username is required"],
   },
-  password: {
+  phoneNumber: {
     type: String,
-    required: [true, "Password is required"],
+    required: [true, "Phone Number is required"],
   },
   userAddress: {
     type: String,
@@ -21,6 +20,16 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Role is required"],
   },
+  userId: {
+    type: String,
+    unique: [true, "User ID already exists!"],
+    required: [true, "User ID is required"],
+  },
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+  }
+  
 });
 
 const User = models.User || model("User", UserSchema);

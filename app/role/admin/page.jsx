@@ -1,20 +1,29 @@
 "use client";
+import { useRadioGroup } from "@mui/material";
 import React, { useState } from "react";
 
 const AdminPage = () => {
-  const [userName, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
+  const [userName, setUserName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userAddress, setUserAddress] = useState("");
   const [userRole, setUserRole] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  
+  
   const onClick = async () => {
-    console.log(userName, password, address, userRole);
+    console.log(userName, phoneNumber, userAddress, userRole, userId, password);
     const response = await fetch("/api/user", {
       method: "POST",
       body: JSON.stringify({
-        username: userName,
-        password: password,
-        userAddress: address,
+        userName: userName,
+        phoneNumber: phoneNumber,
+        userAddress: userAddress,
         userRole: userRole,
+        userId: userId,
+        password: password,
+        
+        
       }),
     });
 
@@ -26,19 +35,19 @@ const AdminPage = () => {
         type="text"
         placeholder="User Name"
         value={userName}
-        onChange={(e) => setUsername(e.currentTarget.value)}
+        onChange={(e) => setUserName(e.currentTarget.value)}
       ></input>
       <input
         type="text"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.currentTarget.value)}
+        placeholder="Phone Number"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.currentTarget.value)}
       ></input>
       <input
         type="text"
         placeholder="Address"
-        value={address}
-        onChange={(e) => setAddress(e.currentTarget.value)}
+        value={userAddress}
+        onChange={(e) => setUserAddress(e.currentTarget.value)}
       ></input>
       <input
         type="text"
@@ -46,6 +55,20 @@ const AdminPage = () => {
         value={userRole}
         onChange={(e) => setUserRole(e.currentTarget.value)}
       ></input>
+      <input
+        type="text"
+        placeholder="User ID"
+        value={userId}
+        onChange={(e) => setUserId(e.currentTarget.value)}
+      ></input>
+      <input
+        type="text"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.currentTarget.value)}
+      ></input>
+      
+      
       <button onClick={onClick}>Add User</button>
     </div>
   );
