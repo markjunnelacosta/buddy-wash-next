@@ -6,7 +6,7 @@ import Machines from "@/components/main-content/staff/machine/Machines";
 import ManageCustomer from "@/components/main-content/staff/manageCustomer/ManageCustomer";
 import Reports from "@/components/main-content/staff/reports/Reports";
 import SupplyInOut from "@/components/main-content/staff/supplyInOut/SupplyInOut";
-
+import SupplyList from "@/components/main-content/staff/supplyList/SupplyList";
 const Staff = () => {
   return(
     <div>
@@ -17,6 +17,7 @@ const Staff = () => {
       {/* < ManageCustomer /> */}
       {/* <Reports /> */}
       {/* <SupplyInOut /> */}
+      {/* <SupplyList /> */}
     </div>
   )
 
