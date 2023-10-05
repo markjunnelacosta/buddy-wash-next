@@ -10,3 +10,25 @@
     border-radius: 10px;
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
+
+.table-container{
+    display: flex;
+    gap: 10px;
+    padding: 2rem;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #fff;
+    background-color: #fff;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+    font-size: 15px;
+    background-color: white;
+}
