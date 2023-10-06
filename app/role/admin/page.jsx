@@ -1,76 +1,41 @@
-"use client";
-import React, { useState } from "react";
+import React from 'react';
+import Link from 'next/link';
+import './page.css';
 
-const AdminPage = () => {
-  const [userName, setUserName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [userAddress, setUserAddress] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  
-  
-  const onClick = async () => {
-    console.log(userName, phoneNumber, userAddress, userRole, userId, password);
-    const response = await fetch("/api/user", {
-      method: "POST",
-      body: JSON.stringify({
-        userName: userName,
-        phoneNumber: phoneNumber,
-        userAddress: userAddress,
-        userRole: userRole,
-        userId: userId,
-        password: password,
-        
-        
-      }),
-    });
 
-    console.log(response);
-  };
+import Person2RoundedIcon from '@mui/icons-material/Person2Rounded';
+
+function NavBar() {
   return (
     <div>
-      <input
-        type="text"
-        placeholder="User Name"
-        value={userName}
-        onChange={(e) => setUserName(e.currentTarget.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Phone Number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Address"
-        value={userAddress}
-        onChange={(e) => setUserAddress(e.currentTarget.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="User Role"
-        value={userRole}
-        onChange={(e) => setUserRole(e.currentTarget.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="User ID"
-        value={userId}
-        onChange={(e) => setUserId(e.currentTarget.value)}
-      ></input>
-      <input
-        type="text"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.currentTarget.value)}
-      ></input>
-      
-      
-      <button onClick={onClick}>Add User</button>
-    </div>
-  );
-};
+      <div className="container">
+        <div className="name">
+          <p className="center-text-name">BuddyWash</p>
+        </div>
+        <div className="role">
+          <Person2RoundedIcon className="user-icon" />
+          <p className="center-text">Admin</p>
+        </div>
+      </div>
 
-export default AdminPage;
+      <div className="sidebar">
+        <ul className="sidebar-list">
+          <li>
+            <Link href="/role/admin/users">Users</Link>
+          </li>
+          <li>
+            <Link href="/role/admin/branches">Branches</Link>
+          </li>
+          <li>
+            <Link href="/role/admin/mobile-users">Mobile Users</Link>
+          </li>
+          <li>
+            <Link href="/">Logout</Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  )
+}
+export default NavBar;

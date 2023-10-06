@@ -36,7 +36,7 @@ export default function Home() {
         if (data.password == password) {
           switch (data.userRole) {
             case "admin":
-              router.push("role/admin");
+              router.push("role/admin/users");
               break;
             case "owner":
               router.push("role/owner");
