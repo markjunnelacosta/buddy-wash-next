@@ -2,21 +2,14 @@
 
 import Image from "next/image";
 import "./page.css";
-import { connectToDB } from "@/utils/database";
 import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Grid,
   Paper,
   Box,
-  Avatar,
-  Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
-  Link,
-  CssBaseline,
 } from "@mui/material";
 import washing_machines from "../public/washing_machines.png";
 import favicon from "../public/favicon.png";

@@ -25,7 +25,7 @@ function NavBar(){
         <div className="side-nav-bar-container">
         <List component="nav">
           <React.Fragment>
-            <ListItemButton className="button">
+            <ListItemButton className="button" >
               <ListItemIcon className="button-content">
                 <QueryStatsIcon />
               </ListItemIcon>
@@ -36,7 +36,7 @@ function NavBar(){
            
             <p className='white-space'> </p>
             <span className="nav-section-text">Laundry Service</span>
-            <ListItemButton className="button">
+            <ListItemButton className="button" >
               <ListItemIcon className="button-content">
                 <ShoppingCartIcon />
               </ListItemIcon>
@@ -75,6 +75,7 @@ function NavBar(){
             </ListItemButton>
             
             <p className='white-space'> &nbsp; </p>
+
             <ListItemButton  className="button">
               <ListItemIcon className="button-content">
                 <BarChartIcon />
@@ -84,6 +85,7 @@ function NavBar(){
             
            
             <p className='white-space'> &nbsp; </p>
+
             <ListItemButton  className="button">
               <ListItemIcon className="button-content">
                 <LogoutIcon />
