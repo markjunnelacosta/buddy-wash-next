@@ -7,11 +7,15 @@ import ManageCustomer from "@/components/main-content/staff/manageCustomer/Manag
 import Reports from "@/components/main-content/staff/reports/Reports";
 import SupplyInOut from "@/components/main-content/staff/supplyInOut/SupplyInOut";
 import SupplyList from "@/components/main-content/staff/supplyList/SupplyList";
+import { Header } from "@/components/header/staff/Header";
+
 const Staff = () => {
   return(
     <div>
-      {/* <NavBar />
-      <Dashboard /> */}
+      {/* <Header /> */}
+      {/* <Dashboard /> */}
+      {/* <NavBar /> */}
+      
       {/* < LaundryBin /> */}
       {/* <Machines /> */}
       {/* < ManageCustomer /> */}
