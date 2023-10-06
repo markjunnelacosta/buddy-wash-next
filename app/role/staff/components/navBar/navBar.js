@@ -25,7 +25,7 @@ function NavBar(){
         <div className="side-nav-bar-container">
         <List component="nav">
           <React.Fragment>
-            <ListItemButton className="button" >
+            <ListItemButton className="button" href="/role/staff/components/main-content/dashBoard">
               <ListItemIcon className="button-content">
                 <QueryStatsIcon />
               </ListItemIcon>
@@ -36,21 +36,21 @@ function NavBar(){
            
             <p className='white-space'> </p>
             <span className="nav-section-text">Laundry Service</span>
-            <ListItemButton className="button" >
+            <ListItemButton className="button"  href="/role/staff/components/main-content/laundryBin" >
               <ListItemIcon className="button-content">
                 <ShoppingCartIcon />
               </ListItemIcon>
               <ListItemText  primary="Laundry Bin" />
             </ListItemButton>
 
-            <ListItemButton className="button">
+            <ListItemButton className="button" href="/role/staff/components/main-content/manageCustomer">
               <ListItemIcon className="button-content">
                 <PeopleIcon />
               </ListItemIcon>
               <ListItemText  primary="Manage Customer" />
             </ListItemButton >
 
-            <ListItemButton className="button">
+            <ListItemButton className="button" href="/role/staff/components/main-content/machine">
               <ListItemIcon className="button-content">
                 <LocalLaundryServiceIcon />
               </ListItemIcon>
@@ -60,14 +60,14 @@ function NavBar(){
             <p className='white-space'> &nbsp; </p>
             
             <span className="nav-section-text">Inventory Management</span>
-            <ListItemButton  className="button">
+            <ListItemButton  className="button" href="/role/staff/components/main-content/supplyList">
               <ListItemIcon className="button-content">
                 <ListIcon />
               </ListItemIcon>
               <ListItemText  primary="Supply List" />
             </ListItemButton>
 
-            <ListItemButton  className="button">
+            <ListItemButton  className="button" href="/role/staff/components/main-content/supplyInOut">
               <ListItemIcon className="button-content">
                 <CompareArrowsIcon />
               </ListItemIcon>
@@ -76,7 +76,7 @@ function NavBar(){
             
             <p className='white-space'> &nbsp; </p>
 
-            <ListItemButton  className="button">
+            <ListItemButton  className="button" href="/role/staff/components/main-content/reports">
               <ListItemIcon className="button-content">
                 <BarChartIcon />
               </ListItemIcon>
@@ -86,7 +86,7 @@ function NavBar(){
            
             <p className='white-space'> &nbsp; </p>
 
-            <ListItemButton  className="button">
+            <ListItemButton  className="button" href="/">
               <ListItemIcon className="button-content">
                 <LogoutIcon />
               </ListItemIcon>

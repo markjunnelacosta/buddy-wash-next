@@ -8,7 +8,7 @@ import Person2RoundedIcon from '@mui/icons-material/Person2Rounded';
 function NavBar() {
   return (
     <div>
-      <div className="container">
+      <div className="container" >
         <div className="name">
           <p className="center-text-name">BuddyWash</p>
         </div>
