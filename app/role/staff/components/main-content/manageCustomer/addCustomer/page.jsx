@@ -1,7 +1,24 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 import './AddCustomer.css';
 
-function AddCustomer (){
+const AddCustomer= () =>{
+    const [customerName, setCustomerName]= useState("");
+    const [customerNumber, setCustomerNumber]= useState("");
+
+    const onClick = async() => {
+        console.log(customerName, customerNumber);
+
+        const response = await fetch("/api/customer", {
+            method: "POST",
+            body: JSON.stringify({
+                customerName: customerName,
+                customerNumber: customerNumber,
+
+            }),
+        });
+        console.log(response);
+    };
     return (
         <div className="add-customer-form">
             <div className="new-customer-text">
@@ -10,16 +27,24 @@ function AddCustomer (){
             <div className="input">
                 <div className="customer-name"> 
                     <p>Customer Name</p>
-                    <input className="text-box"></input>
+                    <input 
+                    className="text-box"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.currentTarget.value)} ></input>
                 </div>
                 <div className="phone-number"> 
                     <p>Phone Number</p>
-                    <input className="text-box"></input> 
+                    <input 
+                    className="text-box"
+                    value={customerNumber}
+                    onChange={(e)=> setCustomerNumber(e.currentTarget.value)}></input> 
                 </div>
             </div>
             <div className="buttons">
                 <div >
-                    <button className="button">Save</button>
+                    <button 
+                    className="button"
+                    onClick={onClick}>Save</button>
                     
                 </div>
                 <div >
