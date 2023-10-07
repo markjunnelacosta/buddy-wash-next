@@ -35,7 +35,7 @@ export default function Home() {
               router.push("role/owner");
               break;
             case "staff":
-              router.push("role/staff");
+              router.push("/role/staff/components/main-content/dashBoard");
               break;
             default:
               router.push("/");
