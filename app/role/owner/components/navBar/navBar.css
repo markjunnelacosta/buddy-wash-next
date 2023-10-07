@@ -1,16 +1,13 @@
 .side-nav-bar-container {
     width: 20%;
-
     .MuiListItemText-primary {
       font-size: 14px !important;
     }
-
     .MuiListItemIcon-root {
       min-width: 30px;
     }
   }
   .nav-section-text {
-    
     padding-left: 16px;
     font-size: 18px !important;
   }
