@@ -1,0 +1,35 @@
+.branch1-container {
+    width: 80%;
+    display: flex;
+    height:90vh;
+    float:right;
+
+    .graphs-container {
+      width: 100%;
+      background-color: #ececec;
+      display: flex;
+      flex-direction: column;
+  
+      .top-container {
+        display: flex;
+        padding: 16px;
+        .counters-container {
+          display: flex;
+          margin: 0px 10px;
+          gap:10px;
+  
+          .counter {
+            padding: 16px;
+            background-color: #bee5e5;
+            height: 150px;
+            width: 150px;
+          }
+        }
+  
+        .customers-container {
+          width: 70%;
+        }
+      }
+    }    
+  }
+  
