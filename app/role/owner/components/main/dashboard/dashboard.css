@@ -17,7 +17,7 @@
           display: flex;
           margin: 0px 10px;
           gap:10px;
-  
+
           .counter {
             padding: 16px;
             background-color: #bee5e5;
@@ -30,6 +30,6 @@
           width: 70%;
         }
       }
-    }    
+    } 
   }
   
