@@ -8,8 +8,8 @@ const AdminPage = () => {
   const [userRole, setUserRole] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  
-  
+
+
   const onClick = async () => {
     console.log(userName, phoneNumber, userAddress, userRole, userId, password);
     const response = await fetch("/api/user", {
@@ -21,8 +21,8 @@ const AdminPage = () => {
         userRole: userRole,
         userId: userId,
         password: password,
-        
-        
+
+
       }),
     });
 
@@ -66,8 +66,8 @@ const AdminPage = () => {
         value={password}
         onChange={(e) => setPassword(e.currentTarget.value)}
       ></input>
-      
-      
+
+
       <button onClick={onClick}>Add User</button>
     </div>
   );
