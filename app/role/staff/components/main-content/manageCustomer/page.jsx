@@ -11,7 +11,9 @@ function ManageCustomer (){
     return(
         <div className="manageCustomer-container">
             <div className="blue-container">
-            <Button style={{backgroundColor:"white", color:"black", width:"200px", height:"50px",fontWeight:"bold", alignSelf:"flex-end", margin:"30px", borderRadius:"10px"}} variant="contained" startIcon={<Add />}>
+            <Button 
+            href="/role/components/forms/addCustomer"
+            style={{backgroundColor:"white", color:"black", width:"200px", height:"50px",fontWeight:"bold", alignSelf:"flex-end", margin:"30px", borderRadius:"10px"}} variant="contained" startIcon={<Add />}>
               New Customer
             </Button>
             <div className="searchContainer">

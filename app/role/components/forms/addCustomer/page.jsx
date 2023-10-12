@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import './AddCustomer.css';
 
+
+
 const AddCustomer= () =>{
     const [customerName, setCustomerName]= useState("");
     const [customerNumber, setCustomerNumber]= useState("");
 
-    const onClick = async() => {
+    const onClickSave = async() => {
         console.log(customerName, customerNumber);
 
         const response = await fetch("/api/customer", {
@@ -20,6 +22,7 @@ const AddCustomer= () =>{
         console.log(response);
     };
     return (
+        
         <div className="add-customer-form">
             <div className="new-customer-text">
                 <p>New Customer</p>
@@ -44,7 +47,7 @@ const AddCustomer= () =>{
                 <div >
                     <button 
                     className="button"
-                    onClick={onClick}>Save</button>
+                    onClick={onClickSave}>Save</button>
                     
                 </div>
                 <div >
@@ -52,6 +55,8 @@ const AddCustomer= () =>{
                 </div>
             </div>
         </div>
+        
+        
     )
 }
 export default AddCustomer;
