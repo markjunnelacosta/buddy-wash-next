@@ -4,109 +4,63 @@ body {
   margin: 0;
 }
 
-.sidebar {
-  height: 90vh;
-  width: 22vw;
+/*HEADER CSS*/
+.header-toolbar {
   background-color: white;
-  float: left;
-  flex: 1;
-  overflow-y: auto;
+  padding-left: 0 !important;
+  justify-content: space-between;
+  margin: 0 !important;
+
+  #logoText {
+    text-align: center;
+    background-color: #54bcbc;
+    width: 20.3%;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+  }
+}
+.right-side {
+  display: flex;
+  
+}
+.__className_e66fe9{
+  margin: 0px;
 }
 
-.container {
+
+/*NAVBAR CSS*/
+.side-nav-bar-container {
+  width: 20%;
   background-color: white;
-  width: 100vw;
-  height: 8vh;
-  display: block;
+  height: 87vh;
+  display: flex;
+  float: left;
   padding: 0;
   margin: 0;
+  overflow-y: auto;
+
+  .MuiListItemText-primary {
+    font-size: 14px !important;
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 30px;
+  }
 }
-
-.name {
-  background-color: #54BCBC;
-  width: 22vw;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  float: left;
-  height: 8vh;
-  display: flex;
+.nav-section-text {
+  
+  padding-left: 16px;
+  font-size: 18px !important;
 }
-
-.role {
-  background-color: white;
-  float: right;
-  height: 8vh;
-  margin-right: 20px;
-  display: flex;
+.button{
+  height:50px;
+  padding-left: 50px;
 }
-
-.user-icon {
-  place-content: center;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  margin-right: 5px;
-}
-
-.sidebar{
-  height: 92vh;
-}
-
-
-.sidebar-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-
-.sidebar-list li {
-  margin: 20px 20px 0px 20px;
-  padding: 0;
-  /* Add a default background color for list items */
-  background-color: transparent; /* Change this to your desired default background color */
-  transition: background-color 0.3s; /* Add a smooth background color transition on hover */
-}
-
-/* Change the background color of list items on hover */
-.sidebar-list li:hover {
-  cursor: pointer;
-}
-
-/* Style the links */
-.sidebar-list li a {
-  text-decoration: none;
-  color: #333; /* Default text color */
-  transition: color 0.3s; /* Add smooth color transition on hover */
-}
-
-/* Change link color on hover */
-.sidebar-list li a:hover {
-  color: #d9d9d9; /* Change to your desired hover color */
-}
-
-/* Change link color when active (e.g., when the page is active) */
-.sidebar-list li a.active {
-  color: #54bcdc; /* Change to your desired active color */
-}
-
-.sidebar-list li:last-child{
-  margin-bottom: 0px;
-  margin-top: 220px;
-}
-
-.sidebar-list li:first-child{
-  margin-top: 30px;
-}
-
-
-.center-text {
-  margin: auto;
-  font-size: 15px;
-}
-
-.center-text-name {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 500;
-  color: white;
+.button-content{
+  margin-left: 10px;
+  color: black;
 }

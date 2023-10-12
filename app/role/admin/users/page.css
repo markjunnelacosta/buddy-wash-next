@@ -1,14 +1,16 @@
 .container-box{
-    margin-top: 20px;
-    margin-left: 25%;
-    width: 70vw;
-    height: 80vh;
+    margin-top: 10px;
+    margin-left: 23%;
+    width: 72vw;
+    height: 78vh;
     align-items: center;
     text-align: center;
     background: #54BCBC;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .table-container{
@@ -31,4 +33,30 @@ th {
     padding: 5px;
     font-size: 15px;
     background-color: white;
+}
+
+.add-button{
+    background-color: white;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 10px;
+    width: 130px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    display: flex;
+}
+
+.add-button svg {
+    margin-right: 8px;
+}
+
+.button-container{
+    float: right;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-right: 30px;
+    align-self: flex-end;
 }
