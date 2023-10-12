@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Customer from "@/models/customer";
+import {NextResponse} from "next/server";
 
 export const GET = async (req, res) => {
   try {
@@ -10,6 +11,7 @@ export const GET = async (req, res) => {
     return new Response("Failed get customer", { status: 500 });
   }
 };
+
 
 export const POST = async (req) => {
   const body = await req.json();
@@ -30,3 +32,10 @@ export const POST = async (req) => {
     return new Response(error, { status: 500 });
   }
 };
+
+export async function DELETE(request) {
+  const id= request.nextUrl.searchParams.get("id");
+  await connectToDB();
+  await Customer.findByIdAndDelete(id);
+  return NextResponse.json({message: "Deleted a customer Record"}, {status:201});
+}
