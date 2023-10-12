@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../components/layout';
 import './page.css'
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -8,6 +8,7 @@ import AdminPage from './add-users/page';
 function Users() {
 
   const [showAdminPage, setShowAdminPage] = useState(false);
+  const [userData, setUserData] = useState([]);
 
   const openAdminPage = () => {
     setShowAdminPage(true);
@@ -16,6 +17,12 @@ function Users() {
   const closeAdminPage = () => {
     setShowAdminPage(false);
   };
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then((response) => response.json())
+      .then((data) => setUserData(data));
+  }, [])
 
   return (
     <>
@@ -28,17 +35,28 @@ function Users() {
           <table>
             <thead>
               <tr>
-                <th>UserID</th>
                 <th>Name</th>
-                <th>Address</th>
                 <th>Phone Number</th>
+                <th>Address</th>
                 <th>Position</th>
-                <th>UserName</th>
+                <th>UserID</th>
                 <th>Password</th>
                 <th>Action</th>
               </tr>
             </thead>
-
+            <tbody>
+              {userData.map((user) => (
+                <tr key={user.userId}>
+                  <td>{user.userId}</td>
+                  <td>{user.userName}</td>
+                  <td>{user.phoneNumber}</td>
+                  <td>{user.userAddress}</td>
+                  <td>{user.userRole}</td>
+                  <td>{user.password}</td>
+                  <td> {/* You can add action buttons here */}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
