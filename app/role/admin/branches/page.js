@@ -1,11 +1,16 @@
 import React from 'react'
 import Layout from '../components/layout';
+import './branches.css'
+
 
 function Branches() {
   return (
-    <Layout>
-        this is branch!
-    </Layout>
+    <>
+      <Layout />
+      <div className="form-container">
+        <p>helloworld!</p>
+      </div>
+    </>
   )
 }
 

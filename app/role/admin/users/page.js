@@ -47,11 +47,11 @@ function Users() {
             <tbody>
               {userData.map((user) => (
                 <tr key={user.userId}>
-                  <td>{user.userId}</td>
                   <td>{user.userName}</td>
                   <td>{user.phoneNumber}</td>
                   <td>{user.userAddress}</td>
                   <td>{user.userRole}</td>
+                  <td>{user.userId}</td>
                   <td>{user.password}</td>
                   <td> {/* You can add action buttons here */}</td>
                 </tr>

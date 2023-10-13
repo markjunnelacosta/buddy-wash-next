@@ -1,0 +1,14 @@
+.form-container{
+    margin-top: 10px;
+    margin-left: 23%;
+    width: 72vw;
+    height: 78vh;
+    align-items: center;
+    text-align: center;
+    background: #54BCBC;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
