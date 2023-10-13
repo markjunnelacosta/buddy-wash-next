@@ -38,7 +38,6 @@ const AdminPage = ({isOpen, onClose}) => {
         <div>
           <p>Add User</p>
           <hr />
-          <form>
             <div className="form-group">
             <div id="first">
               <p>UserID</p>
@@ -92,7 +91,6 @@ const AdminPage = ({isOpen, onClose}) => {
             <br/>
             <button className="cancel" onClick={onClose}>Cancel</button>
             <button className="save" onClick={onClick}>Save</button>
-          </form>
         </div>
 
       )}
