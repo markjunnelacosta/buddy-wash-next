@@ -74,7 +74,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./CustomerTable.css";
 import Link from "next/link";
-
+import Button from "@mui/material/Button";
+import { blue } from "@mui/material/colors";
+import RemoveButton from "./RemoveButton";
 const getCustomers = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/customer", {
@@ -140,7 +142,13 @@ const CustomerTable = () => {
                   {customer.customerName}
                 </TableCell>
                 <TableCell align="center">{customer.customerNumber}</TableCell>
-                <TableCell align="center">"edit/delete"</TableCell>
+                <TableCell align="center">
+                  <Button variant="outlined" id="edit-button">
+                    Edit
+                  </Button>
+                  &nbsp;
+                  <RemoveButton id={customer._id} />
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>
