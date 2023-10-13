@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import './addUsers.css'
 
 
-const AdminPage = ({isOpen, onClose}) => {
+const AdminPage = ({ isOpen, onClose }) => {
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userAddress, setUserAddress] = useState("");
@@ -38,7 +38,7 @@ const AdminPage = ({isOpen, onClose}) => {
         <div>
           <p>Add User</p>
           <hr />
-            <div className="form-group">
+          <div className="form-group">
             <div id="first">
               <p>UserID</p>
               <input
@@ -87,10 +87,10 @@ const AdminPage = ({isOpen, onClose}) => {
               ></input>
             </div>
 
-            </div>
-            <br/>
-            <button className="cancel" onClick={onClose}>Cancel</button>
-            <button className="save" onClick={onClick}>Save</button>
+          </div>
+          <br />
+          <button className="cancel" onClick={onClose}>Cancel</button>
+          <button className="save" onClick={onClick}>Save</button>
         </div>
 
       )}
