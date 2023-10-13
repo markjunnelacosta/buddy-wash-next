@@ -5,11 +5,13 @@ export const GET = async (req, res) => {
   try {
     await connectToDB();
     const users = await User.find({}).populate("userName");
-    return new Response(JSON.stringify(users), { status: 200 });
+    const responseData = { userData: users }; 
+    return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response("Failed get users", { status: 500 });
   }
 };
+
 
 export const POST = async (req) => {
   const body = await req.json();
