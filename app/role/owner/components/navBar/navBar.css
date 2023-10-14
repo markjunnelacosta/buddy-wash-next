@@ -5,7 +5,7 @@
     font-size: 14px !important;
   }
 
-  .dropdown name{
+  .dropdown name {
     font-size: 14px !important;
   }
 
@@ -27,5 +27,13 @@
 .button-content {
   margin-left: 10px;
   color: black;
-} 
+}
 
+.dropdown-item {
+  border: solid gray 0.5px;
+  list-style-type: none;
+  background-color: white;
+  padding: 0;
+  margin-top: 0;
+  margin-left: 10px;
+}
