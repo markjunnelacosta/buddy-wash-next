@@ -1,5 +1,6 @@
 import React from 'react';
 import './navBar.css';
+import Dropdown from "./Dropdown";
 import {
     List,
     Divider,
@@ -26,25 +27,25 @@ function NavBar(){
               <ListItemText primary="Dashboard" />
             </ListItemButton>
 
-            <ListItemButton className="button"  href="/role/owner/components/main/branch1" >
+            <ListItemButton className="button">
               <ListItemIcon className="button-content">
                 <LocationOnIcon />
               </ListItemIcon>
-              <ListItemText  primary="Branch 1" />
+              <Dropdown name="Branch 1" />
             </ListItemButton>
 
-            <ListItemButton className="button"  href="/role/owner/components/main/branch2" >
+            <ListItemButton className="button">
               <ListItemIcon className="button-content">
                 <LocationOnIcon />
               </ListItemIcon>
-              <ListItemText  primary="Branch 2" />
+              <Dropdown name="Branch 2" />
             </ListItemButton>
 
-            <ListItemButton className="button"  href="/role/owner/components/main/branch3" >
+            <ListItemButton className="button">
               <ListItemIcon className="button-content">
                 <LocationOnIcon />
               </ListItemIcon>
-              <ListItemText  primary="Branch 3" />
+              <Dropdown name="Branch 3" />
             </ListItemButton>
            
             <p className='white-space'> &nbsp; </p>
