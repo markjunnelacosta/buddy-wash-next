@@ -32,7 +32,7 @@ export default function Home() {
               router.push("role/admin/users");
               break;
             case "owner":
-              router.push("role/owner");
+              router.push("role/owner/components/main/dashboard");
               break;
             case "staff":
               router.push("/role/staff/components/main-content/dashBoard");
