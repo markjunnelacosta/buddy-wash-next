@@ -25,7 +25,7 @@ export default function RemoveButton({ id }) {
       onClick={removeCustomer}
       variant="outlined"
       id="delete-button"
-      href="/role/staff/components/main-content/manageCustomer"
+      href="/role/staff/manageCustomer"
     >
       Delete
     </Button>

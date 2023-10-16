@@ -4,18 +4,17 @@ body {
 p {
   font-weight: bold;
 }
-.__className_e66fe9 {
+/* .__className_e66fe9 {
   font-family: "__Inter_e66fe9", "__Inter_Fallback_e66fe9";
   font-style: normal;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
+} */
 .add-customer-form {
   display: flex;
   flex-flow: column;
-  height: 200px;
   width: 500px;
   background-color: white;
   padding: 30px;
@@ -41,7 +40,7 @@ p {
   margin-top: 30px;
   height: 50px;
 }
-.button {
+.dialog-button {
   background-color: #54bcbc;
   height: 40px;
   color: white;
@@ -52,4 +51,12 @@ p {
 }
 .button:hover {
   background-color: #bee5e5;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  padding-top: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+.css-ypiqx9-MuiDialogContent-root {
+  padding: 10px;
 }
