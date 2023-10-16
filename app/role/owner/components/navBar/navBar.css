@@ -30,6 +30,7 @@
 }
 
 .dropdown-item {
+  border: solid gray 0.5px;
   list-style-type: none;
   background-color: white;
   padding: 0;

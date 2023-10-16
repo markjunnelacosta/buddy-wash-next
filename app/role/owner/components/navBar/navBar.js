@@ -100,14 +100,14 @@ function NavBar() {
                 <ListItemIcon className="button-content">
                   <LocationOnIcon />
                 </ListItemIcon>
-                <ListItemText primary="Branch 2" />
+                <ListItemText primary="Branch 1" />
               </ListItemButton>
             </DropdownTrigger>
             <DropdownMenu className="dropdown-item" aria-label="Static Actions">
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Transactions"
+                  href="/role/owner/components/main/branch1/Transactions"
                 >
                   <ListItemIcon className="button-content">
                     <ReceiptLongIcon />
@@ -117,7 +117,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Staff"
+                  href="/role/owner/components/main/branch1/Staff"
                 >
                   <ListItemIcon className="button-content">
                     <GroupsIcon />
@@ -127,7 +127,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Prices"
+                  href="/role/owner/components/main/branch1/Prices"
                 >
                   <ListItemIcon className="button-content">
                     <SellIcon />
@@ -137,7 +137,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Machines"
+                  href="/role/owner/components/main/branch1/Machines"
                 >
                   <ListItemIcon className="button-content">
                     <LocalLaundryServiceIcon />
@@ -154,14 +154,14 @@ function NavBar() {
                 <ListItemIcon className="button-content">
                   <LocationOnIcon />
                 </ListItemIcon>
-                <ListItemText primary="Branch 3" />
+                <ListItemText primary="Branch 1" />
               </ListItemButton>
             </DropdownTrigger>
             <DropdownMenu className="dropdown-item" aria-label="Static Actions">
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Transactions"
+                  href="/role/owner/components/main/branch1/Transactions"
                 >
                   <ListItemIcon className="button-content">
                     <ReceiptLongIcon />
@@ -171,7 +171,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Staff"
+                  href="/role/owner/components/main/branch1/Staff"
                 >
                   <ListItemIcon className="button-content">
                     <GroupsIcon />
@@ -181,7 +181,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Prices"
+                  href="/role/owner/components/main/branch1/Prices"
                 >
                   <ListItemIcon className="button-content">
                     <SellIcon />
@@ -191,7 +191,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Machines"
+                  href="/role/owner/components/main/branch1/Machines"
                 >
                   <ListItemIcon className="button-content">
                     <LocalLaundryServiceIcon />
@@ -201,15 +201,6 @@ function NavBar() {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-
-          <p className='white-space'> &nbsp; </p>
-
-            <ListItemButton  className="button" href="/">
-              <ListItemIcon className="button-content">
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText  primary="Logout" />
-            </ListItemButton>
         </React.Fragment>
       </List>
     </div>

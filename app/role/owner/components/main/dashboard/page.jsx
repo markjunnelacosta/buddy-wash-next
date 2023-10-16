@@ -21,6 +21,7 @@ import Chart from "./Chart";
 const Dashboard = () => {
   return (
     <div className="dashboard-container">
+    
       <div className="graphs-container">
         <div className="top-container">
           <div className="counters-container">
