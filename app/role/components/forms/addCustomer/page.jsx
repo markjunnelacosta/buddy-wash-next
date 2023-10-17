@@ -1,9 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import "./AddCustomer.css";
 import { Button } from "@mui/material";
+// import * as React from "react";
+// import Button from '@mui/material/Button';
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Add } from "@mui/icons-material";
 
-const AddCustomer = () => {
+export default function AddCustomer() {
   const [customerName, setCustomerName] = useState("");
   const [customerNumber, setCustomerNumber] = useState("");
 
@@ -19,49 +29,82 @@ const AddCustomer = () => {
     });
     console.log(response);
   };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="add-customer-form">
-      <div className="new-customer-text">
-        <p>New Customer</p>
-      </div>
-      <div className="input">
-        <div className="customer-name">
-          <p>Customer Name</p>
-          <input
-            className="text-box"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.currentTarget.value)}
-          ></input>
-        </div>
-        <div className="phone-number">
-          <p>Phone Number</p>
-          <input
-            className="text-box"
-            value={customerNumber}
-            onChange={(e) => setCustomerNumber(e.currentTarget.value)}
-          ></input>
-        </div>
-      </div>
-      <div className="buttons">
-        <div>
+    <div>
+      <Button
+        // href="/role/components/forms/addCustomer"
+        style={{
+          backgroundColor: "white",
+          color: "black",
+          width: "200px",
+          height: "50px",
+          fontWeight: "bold",
+          alignSelf: "flex-end",
+          margin: "30px",
+          borderRadius: "10px",
+          marginLeft: "83.5%",
+        }}
+        variant="contained"
+        onClick={handleClickOpen}
+        startIcon={<Add />}
+      >
+        New Customer
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New Customer</DialogTitle>
+        <DialogContent>
+          <div className="add-customer-form">
+            <div className="input">
+              <div className="customer-name">
+                <p>Customer Name</p>
+                <input
+                  className="text-box"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.currentTarget.value)}
+                ></input>
+              </div>
+              <div className="phone-number">
+                <p>Phone Number</p>
+                <input
+                  className="text-box"
+                  value={customerNumber}
+                  onChange={(e) => setCustomerNumber(e.currentTarget.value)}
+                ></input>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+        <DialogActions>
           <Button
-            href="/role/staff/components/main-content/manageCustomer"
-            className="button"
-            onClick={onClickSave}
+            href="/role/staff/manageCustomer"
+            className="dialog-button"
+            onClick={() => {
+              onClickSave();
+              handleClose();
+            }}
           >
             Save
           </Button>
-        </div>
-        <div>
           <Button
-            href="/role/staff/components/main-content/manageCustomer"
-            className="button"
+            // href="/role/staff/components/main-content/manageCustomer"
+            className="dialog-button"
+            onClick={handleClose}
           >
             Cancel
           </Button>
-        </div>
-      </div>
+        </DialogActions>
+      </Dialog>
     </div>
   );
-};
-export default AddCustomer;
+}

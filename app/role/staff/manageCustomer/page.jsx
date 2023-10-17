@@ -12,28 +12,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
 import "./CustomerTable";
 import CustomerTable from "./CustomerTable";
-
+import AddCustomer from "../../components/forms/addCustomer/page";
 function ManageCustomer() {
   return (
     <div className="manageCustomer-container">
       <div className="blue-container">
-        <Button
-          href="/role/components/forms/addCustomer"
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            width: "200px",
-            height: "50px",
-            fontWeight: "bold",
-            alignSelf: "flex-end",
-            margin: "30px",
-            borderRadius: "10px",
-          }}
-          variant="contained"
-          startIcon={<Add />}
-        >
-          New Customer
-        </Button>
+        <AddCustomer />
+
         <div className="searchContainer">
           <div className="searchContainer-left">
             <p style={{ fontWeight: "bold" }}>Show</p>

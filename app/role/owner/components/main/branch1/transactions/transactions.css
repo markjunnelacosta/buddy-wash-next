@@ -1,4 +1,4 @@
-.manageCustomer-container{
+.transactions-container{
     background-color: #ececec;
     width: 80%;
     display: flex;
@@ -16,30 +16,31 @@
     border-radius: 10px;
 
 }
-    
-
 .table-container{
     background-color: white;
-    margin: 30px 30px;
+    margin: 10px 30px;
     height:100%;
     
 }
 .searchContainer{
-
     display:flex;
     flex-direction: row;
     margin-left: 30px;
+    margin-top: 20px;
     justify-content: space-between;
 }
 .searchContainer-left{
     display:flex;
+    align-content: center;
+    align-items: center;
 }
 .searchContainer-right{
     display:flex;
 
 }
-#searchName{
+.inputDate{
     border-color: white;
     margin: 10px 35px 10px 10px;
     width: 200px;
+    height: 30px;
 }
