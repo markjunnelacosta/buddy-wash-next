@@ -4,13 +4,7 @@ import Image from "next/image";
 import "./page.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Grid,
-  Paper,
-  Box,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Grid, Paper, Box, TextField, Button } from "@mui/material";
 import washing_machines from "../public/washing_machines.png";
 import favicon from "../public/favicon.png";
 
@@ -35,7 +29,7 @@ export default function Home() {
               router.push("role/owner");
               break;
             case "staff":
-              router.push("/role/staff/components/main-content/dashBoard");
+              router.push("/role/staff/dashBoard");
               break;
             default:
               router.push("/");

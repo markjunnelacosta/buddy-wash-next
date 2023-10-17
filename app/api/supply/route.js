@@ -1,7 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Supply from "@/models/supply";
 import { NextResponse } from "next/server";
-import Supply from "@/models/supply";
 
 export async function GET() {
   await connectToDB();
