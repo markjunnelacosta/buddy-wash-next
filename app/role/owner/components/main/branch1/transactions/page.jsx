@@ -5,7 +5,7 @@ import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material
 import AddIcon from '@mui/icons-material/Add';
 import { Add } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
-import AddReports from './ReportTable';
+import AddTransactions from './transactionsTable';
 
 function Transactions (){
     return(
@@ -29,7 +29,7 @@ function Transactions (){
                 
                 </div>
             </div>
-            <div className="table-container">{AddReports()}</div>
+            <div className="table-container">{AddTransactions()}</div>
             </div>
 
         </div>
