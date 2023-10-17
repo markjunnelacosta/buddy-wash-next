@@ -1,76 +1,70 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import './addUsers.css';
 
-// AdminPage component that allows adding a new user
 const AdminPage = ({ isOpen, onClose, selectedUser }) => {
-  // Define state variables for form inputs
-  const [userName, setUserName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [userAddress, setUserAddress] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    userName: "",
+    phoneNumber: "",
+    userAddress: "",
+    userRole: "",
+    userId: "",
+    password: "",
+  });
 
-  // Set form field values when the selectedUser prop changes
   useEffect(() => {
     if (selectedUser) {
-      setUserName(selectedUser.userName || "");
-      setPhoneNumber(selectedUser.phoneNumber || "");
-      setUserAddress(selectedUser.userAddress || "");
-      setUserRole(selectedUser.userRole || "");
-      setUserId(selectedUser.userId || "");
-      setPassword(selectedUser.password || "");
+      setFormData({
+        userName: selectedUser.userName || "",
+        phoneNumber: selectedUser.phoneNumber || "",
+        userAddress: selectedUser.userAddress || "",
+        userRole: selectedUser.userRole || "",
+        userId: selectedUser.userId || "",
+        password: selectedUser.password || "",
+      });
     } else {
-      // Clear form fields when no user is selected
-      setUserName("");
-      setPhoneNumber("");
-      setUserAddress("");
-      setUserRole("");
-      setUserId("");
-      setPassword("");
+      setFormData({
+        userName: "",
+        phoneNumber: "",
+        userAddress: "",
+        userRole: "",
+        userId: "",
+        password: "",
+      });
     }
   }, [selectedUser]);
 
-  // Handle the onClick event when the "Save" button is clicked
-  const onClick = async () => {
-    if (selectedUser) {
-      // Update an existing user
-      const response = await fetch(`/api/user/${selectedUser._id}`, {
-        method: "PUT", // Use PUT or PATCH as per your backend API
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: userName,
-          phoneNumber: phoneNumber,
-          userAddress: userAddress,
-          userRole: userRole,
-          userId: userId,
-          password: password,
-        }),
-      });
-      // Handle response and update the user data in the frontend as needed
-    }
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSave = async () => {
+    const apiUrl = selectedUser
+      ? `/api/user/${selectedUser._id}`
+      : "/api/user";
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: selectedUser ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData), // Include the updated user data
+        });
     
-    else{
-      console.log(userName, phoneNumber, userAddress, userRole, userId, password);
+        if (response.status === 200) {
+          // Update the user data in your component, or perform any necessary action
+          const updatedUser = await response.json();
+          console.log('User updated:', updatedUser);
+        } else {
+          console.error('Error updating user:', response.status);
+        }
+      } catch (error) {
+        console.error('API request failed:', error);
+      }
 
-    // Send a POST request to the server to add the new user
-    const response = await fetch("/api/user", {
-      method: "POST",
-      body: JSON.stringify({
-        userName: userName,
-        phoneNumber: phoneNumber,
-        userAddress: userAddress,
-        userRole: userRole,
-        userId: userId,
-        password: password,
-      }),
-    });
-
-    console.log(response);
-    }
+    // Close the form or update user data as needed.
+    onClose();
     
   };
 
@@ -82,56 +76,63 @@ const AdminPage = ({ isOpen, onClose, selectedUser }) => {
           <hr />
           <div className="form-group">
             <div id="first">
-              <p>UserID</p>
-              <input
-                type="text"
-                placeholder="User ID"
-                value={userId}
-                onChange={(e) => setUserId(e.currentTarget.value)}
-              ></input>
+              
               <p>User Name</p>
               <input
                 type="text"
+                name="userName"
                 placeholder="User Name"
-                value={userName}
-                onChange={(e) => setUserName(e.currentTarget.value)}
-              ></input>
+                value={formData.userName}
+                onChange={handleFieldChange}
+              />
               <p>Address</p>
               <input
                 type="text"
+                name="userAddress"
                 placeholder="Address"
-                value={userAddress}
-                onChange={(e) => setUserAddress(e.currentTarget.value)}
-              ></input>
+                value={formData.userAddress}
+                onChange={handleFieldChange}
+              />
+              <p>UserID</p>
+              <input
+                type="text"
+                name="userId"
+                placeholder="User ID"
+                value={formData.userId}
+                onChange={handleFieldChange}
+              />
             </div>
 
             <div id="second">
               <p>Phone Number</p>
               <input
                 type="text"
+                name="phoneNumber"
                 placeholder="Phone Number"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-              ></input>
+                value={formData.phoneNumber}
+                onChange={handleFieldChange}
+              />
               <p>Position</p>
               <input
                 type="text"
+                name="userRole"
                 placeholder="User Role"
-                value={userRole}
-                onChange={(e) => setUserRole(e.currentTarget.value)}
-              ></input>
+                value={formData.userRole}
+                onChange={handleFieldChange}
+              />
               <p>Password</p>
               <input
                 type="text"
+                name="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.currentTarget.value)}
-              ></input>
+                value={formData.password}
+                onChange={handleFieldChange}
+              />
             </div>
           </div>
           <br />
           <button className="cancel" onClick={onClose}>Cancel</button>
-          <button className="save" onClick={onClick}>Save</button>
+          <button className="save" onClick={handleSave}>Save</button>
         </div>
       )}
     </div>

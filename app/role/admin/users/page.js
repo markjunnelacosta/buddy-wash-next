@@ -102,7 +102,7 @@ const Users = () => {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="customerName" />
+            <input type="text" id="searchName" name="userName" />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAdminPage}>
@@ -155,7 +155,7 @@ const Users = () => {
           </button>
         </div>
       </div>
-      <AdminPage isOpen={showAdminPage} onClose={closeAdminPage} />
+      <AdminPage isOpen={showAdminPage} onClose={closeAdminPage} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
     </>
   )
 }

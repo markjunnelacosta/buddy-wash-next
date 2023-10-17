@@ -21,6 +21,7 @@
     width: 95%;
     overflow-x: auto;
     max-height: 400px;
+    overflow-y: scroll;
 }
 
 table {
@@ -38,6 +39,11 @@ th, td {
     font-size: 15px;
     background-color: white;
 
+}
+
+td{
+    /* width: 150px; */
+    height: 40px;
 }
 
 .add-button {
