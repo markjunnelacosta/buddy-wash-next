@@ -70,8 +70,8 @@ const Users = () => {
     setShowAdminPage(false);
   };
 
-   // Function to handle the "Edit" button click
-   const handleEditUser = (user) => {
+  // Function to handle the "Edit" button click
+  const handleEditUser = (user) => {
     setSelectedUser(user);
     setShowAdminPage(true); // Open the admin page
   };
@@ -124,23 +124,24 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage).map((user) => (
-                <tr key={user._id}>
-                  <td>{user.userName}</td>
-                  <td>{user.phoneNumber}</td>
-                  <td>{user.userAddress}</td>
-                  <td>{user.userRole}</td>
-                  <td>{user.userId}</td>
-                  <td>{user.password}</td>
-                  <td>
-                    <Button variant="outlined" id="edit-button" onClick={() => handleEditUser(user)}>
-                      Edit
-                    </Button>
-                    &nbsp;
-                    <RemoveButton id={user._id} />
-                  </td>
-                </tr>
-              ))}
+              {
+                userData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage).map((user) => (
+                  <tr key={user._id}>
+                    <td>{user.userName}</td>
+                    <td>{user.phoneNumber}</td>
+                    <td>{user.userAddress}</td>
+                    <td>{user.userRole}</td>
+                    <td>{user.userId}</td>
+                    <td>{user.password}</td>
+                    <td>
+                      <Button variant="outlined" id="edit-button" onClick={() => handleEditUser(user)}>
+                        Edit
+                      </Button>
+                      &nbsp;
+                      <RemoveButton id={user._id} />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

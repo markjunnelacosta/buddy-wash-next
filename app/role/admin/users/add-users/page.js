@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './addUsers.css';
 
 // AdminPage component that allows adding a new user
@@ -11,6 +11,26 @@ const AdminPage = ({ isOpen, onClose, selectedUser }) => {
   const [userRole, setUserRole] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+
+  // Set form field values when the selectedUser prop changes
+  useEffect(() => {
+    if (selectedUser) {
+      setUserName(selectedUser.userName || "");
+      setPhoneNumber(selectedUser.phoneNumber || "");
+      setUserAddress(selectedUser.userAddress || "");
+      setUserRole(selectedUser.userRole || "");
+      setUserId(selectedUser.userId || "");
+      setPassword(selectedUser.password || "");
+    } else {
+      // Clear form fields when no user is selected
+      setUserName("");
+      setPhoneNumber("");
+      setUserAddress("");
+      setUserRole("");
+      setUserId("");
+      setPassword("");
+    }
+  }, [selectedUser]);
 
   // Handle the onClick event when the "Save" button is clicked
   const onClick = async () => {
@@ -66,21 +86,21 @@ const AdminPage = ({ isOpen, onClose, selectedUser }) => {
               <input
                 type="text"
                 placeholder="User ID"
-                value={selectedUser ? selectedUser.userId : ''}
+                value={userId}
                 onChange={(e) => setUserId(e.currentTarget.value)}
               ></input>
               <p>User Name</p>
               <input
                 type="text"
                 placeholder="User Name"
-                value={selectedUser ? selectedUser.userName : ''}
+                value={userName}
                 onChange={(e) => setUserName(e.currentTarget.value)}
               ></input>
               <p>Address</p>
               <input
                 type="text"
                 placeholder="Address"
-                value={selectedUser ? selectedUser.userAddress : ''}
+                value={userAddress}
                 onChange={(e) => setUserAddress(e.currentTarget.value)}
               ></input>
             </div>
@@ -90,21 +110,21 @@ const AdminPage = ({ isOpen, onClose, selectedUser }) => {
               <input
                 type="text"
                 placeholder="Phone Number"
-                value={selectedUser ? selectedUser.phoneNumber : ''}
+                value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.currentTarget.value)}
               ></input>
               <p>Position</p>
               <input
                 type="text"
                 placeholder="User Role"
-                value={selectedUser ? selectedUser.userRole : ''}
+                value={userRole}
                 onChange={(e) => setUserRole(e.currentTarget.value)}
               ></input>
               <p>Password</p>
               <input
                 type="text"
                 placeholder="Password"
-                value={selectedUser ? selectedUser.userPassword : ''}
+                value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
               ></input>
             </div>

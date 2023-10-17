@@ -37,21 +37,44 @@ export const POST = async (req) => {
   }
 };
 
-// // Update an existing user by ID
-// app.put('/api/user/:id', async (req, res) => {
-//   const userId = req.params.id;
-//   const updatedUserData = req.body; // Updated user data from the frontend
+// export default async function handler(req, res) {
+//   if (req.method === 'PUT') {
+//     const userId = req.query.id; // Access the user ID from the query parameters
 
-//   try {
-//     await connectToDB();
-//     const user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+//     try {
+//       await connectToDB();
+//       const updatedUserData = req.body; // Updated user data from the frontend
+//       const user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
 
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
+//       if (!user) {
+//         return res.status(404).json({ message: 'User not found' });
+//       }
+
+//       return res.status(200).json(user);
+//     } catch (error) {
+//       return res.status(500).json({ message: 'Internal server error', error: error.message });
 //     }
-
-//     return res.status(200).json(user);
-//   } catch (error) {
-//     return res.status(500).json({ message: 'Error updating user' });
+//   } else {
+//     return res.status(405).json({ message: 'Method not allowed' });
 //   }
-// });
+// }
+
+export const PUT = async (req, res) => {
+    const userId = req.query.id; // Access the user ID from the query parameters
+
+    try {
+      await connectToDB();
+      const updatedUserData = req.body; // Updated user data from the frontend
+      const user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      return res.status(200).json(user);
+    } 
+    
+    catch (error) {
+      return res.status(500).json({ message: 'Internal server error', error: error.message });
+    }
+}

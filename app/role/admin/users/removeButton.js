@@ -16,7 +16,7 @@ export default function RemoveButton({ id }) {
 
       if (res.ok) {
         router.refresh();
-      }
+      } 
     }
   };
 
