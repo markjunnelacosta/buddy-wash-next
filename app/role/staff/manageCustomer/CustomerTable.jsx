@@ -77,6 +77,7 @@ import Link from "next/link";
 import Button from "@mui/material/Button";
 import { blue } from "@mui/material/colors";
 import RemoveButton from "./RemoveButton";
+
 const getCustomers = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/customer", {
