@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 
 export default function RemoveButton({ id }) {
   const router = useRouter();
+
   const removeUser = async () => {
     const confirmed = confirm("Are you sure you want to remove this User?");
 
@@ -30,4 +31,4 @@ export default function RemoveButton({ id }) {
       Delete
     </Button>
   );
-}
+  }

@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import User from "@/models/user";
+import { NextResponse } from "next/server";
 
 export const GET = async (req, res) => {
   try {
@@ -11,7 +12,6 @@ export const GET = async (req, res) => {
     return new Response("Failed get users", { status: 500 });
   }
 };
-
 
 export const POST = async (req) => {
   const body = await req.json();
@@ -37,44 +37,35 @@ export const POST = async (req) => {
   }
 };
 
-// export default async function handler(req, res) {
-//   if (req.method === 'PUT') {
-//     const userId = req.query.id; // Access the user ID from the query parameters
+export async function DELETE(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  await connectToDB();
+  await User.findByIdAndDelete(id);
+  return NextResponse.json(
+    { message: "Deleted a customer Record" },
+    { status: 201 }
+  );
+}
 
-//     try {
-//       await connectToDB();
-//       const updatedUserData = req.body; // Updated user data from the frontend
-//       const user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
-
-//       if (!user) {
-//         return res.status(404).json({ message: 'User not found' });
-//       }
-
-//       return res.status(200).json(user);
-//     } catch (error) {
-//       return res.status(500).json({ message: 'Internal server error', error: error.message });
-//     }
-//   } else {
-//     return res.status(405).json({ message: 'Method not allowed' });
-//   }
-// }
-
-export const PUT = async (req, res) => {
-    const userId = req.query.id; // Access the user ID from the query parameters
+export async function handler(req, res) {
+  if (req.method === 'PUT') {
+    const id = req.query.id; // Extract user ID from the URL
+    const updatedUserData = req.body;
 
     try {
       await connectToDB();
-      const updatedUserData = req.body; // Updated user data from the frontend
-      const user = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+      // Find the user by ID and update their details
+      const updatedUser = await User.findByIdAndUpdate(id, updatedUserData, { new: true });
 
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+      if (updatedUser) {
+        return res.status(200).json(updatedUser);
+      } else {
+        return res.status(404).json({ error: 'User not found' });
       }
-
-      return res.status(200).json(user);
-    } 
-    
-    catch (error) {
-      return res.status(500).json({ message: 'Internal server error', error: error.message });
+    } catch (error) {
+      return res.status(500).json({ error: 'Error updating user details' });
     }
+  } else {
+    return res.status(405).end(); // Method Not Allowed
+  }
 }
