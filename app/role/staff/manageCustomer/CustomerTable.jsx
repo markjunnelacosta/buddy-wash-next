@@ -77,6 +77,7 @@ import Link from "next/link";
 import Button from "@mui/material/Button";
 import { blue } from "@mui/material/colors";
 import RemoveButton from "./RemoveButton";
+import UpdateCustomerForm from "../../components/forms/updateCustomer/page";
 
 const getCustomers = async () => {
   try {
@@ -118,42 +119,54 @@ const CustomerTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>
-              Name
-            </TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>
-              Number
-            </TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>
-              Action
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {customers.length > 0 &&
-            customers.map((customer) => (
-              <TableRow
-                key={customer._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center" component="th" scope="row">
-                  {customer.customerName}
-                </TableCell>
-                <TableCell align="center">{customer.customerNumber}</TableCell>
-                <TableCell align="center">
-                  <Button variant="outlined" id="edit-button">
-                    Edit
-                  </Button>
-                  &nbsp;
-                  <RemoveButton id={customer._id} />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+      <Paper style={{ height: 550, width: "100%" }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ minWidth: 650 }}
+          size="small"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>
+                Name
+              </TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>
+                Number
+              </TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>
+                Action
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {customers.length > 0 &&
+              customers.map((customer) => (
+                <TableRow
+                  key={customer._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center" component="th" scope="row">
+                    {customer.customerName}
+                  </TableCell>
+                  <TableCell align="center">
+                    {customer.customerNumber}
+                  </TableCell>
+                  <TableCell className="action-cell" align="center">
+                    <Button
+                      id="edit-button"
+                      variant="outlined"
+                      href={`/editCustomer/${customer._id}`}
+                    >
+                      Edit
+                    </Button>
+                    <RemoveButton id={customer._id} />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </Paper>
     </TableContainer>
   );
 };

@@ -1,0 +1,70 @@
+/* body {
+  background-color: rgba(191, 191, 191, 0.5);
+} */
+p {
+  font-weight: bold;
+}
+/* .__className_e66fe9 {
+    font-family: "__Inter_e66fe9", "__Inter_Fallback_e66fe9";
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  } */
+.update-customer-form {
+  display: flex;
+  flex-flow: column;
+  width: 500px;
+  background-color: whitesmoke;
+  padding: 30px;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 15%;
+}
+.update-customer-text {
+  border-bottom: solid gray 2px;
+}
+.input {
+  display: flex;
+  gap: 30px;
+}
+.text-box {
+  border: solid lightgray;
+  line-height: 30px;
+  width: 200px;
+  border-width: thin;
+  font-weight: bold;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  height: 50px;
+}
+.dialog-button {
+  background-color: #54bcbc;
+  height: 40px;
+  color: white;
+  width: 70px;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  align-self: flex-end;
+}
+.dialog-button:hover {
+  background-color: #bee5e5;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  padding-top: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+.css-ypiqx9-MuiDialogContent-root {
+  padding: 10px;
+}
+
+.title {
+  border-bottom: solid lightgray 2px;
+  font-size: 20px;
+}
