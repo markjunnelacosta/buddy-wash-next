@@ -201,6 +201,15 @@ function NavBar() {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
+
+          <p className="white-space"> &nbsp; </p>
+
+          <ListItemButton className="button" href="/">
+            <ListItemIcon className="button-content">
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
         </React.Fragment>
       </List>
     </div>
