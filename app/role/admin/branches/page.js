@@ -4,6 +4,7 @@ import React from 'react'
 import Layout from '../components/layout';
 import './branches.css'
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddBranch from './add-branch/page';
 
 
 const Branches = () => {
@@ -35,6 +36,9 @@ const Branches = () => {
           </div>
         </div>
       </div>
+      {/* <AddBranch isOpen={showAddBranch}/> */}
+
+      {showAddBranch && <AddBranch closeAddBranch={closeAddBranch} />}
     </>
   )
 }

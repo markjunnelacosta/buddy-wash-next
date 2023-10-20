@@ -1,5 +1,8 @@
 import { Schema, model, models } from "mongoose";
 
+// Initialize the auto-increment plugin
+AutoIncrement.initialize(mongoose.connection);
+
 const BranchSchema = new Schema({
     branchId: {
         type: Number,
@@ -9,11 +12,12 @@ const BranchSchema = new Schema({
     branchAddress: {
         type: String,
         required: [true, "Branch Location is required"]
+    },
+
+    numberogStaff: {
+        type: Number
     }
 })
-
-// Initialize the auto-increment plugin
-AutoIncrement.initialize(mongoose.connection);
 
 // Plug in the auto-increment plugin to your schema
 BranchSchema.plugin(AutoIncrement.plugin, {
@@ -23,10 +27,6 @@ BranchSchema.plugin(AutoIncrement.plugin, {
     incrementBy: 1    // The increment value
 });
 
-
-
-
-
-const Branch = model('Branch', BranchSchema);
+const Branch = model.Branch || model("Branch", BranchSchema)
 
 export default Branch;
