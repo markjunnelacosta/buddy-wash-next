@@ -12,15 +12,17 @@ p {
     align-items: center;
     height: 100vh;
   } */
-.add-supply-form {
+.update-customer-form {
   display: flex;
   flex-flow: column;
   width: 500px;
-  background-color: white;
+  background-color: whitesmoke;
   padding: 30px;
   border-radius: 20px;
+  margin: auto;
+  margin-top: 15%;
 }
-.new-supply-text {
+.update-customer-text {
   border-bottom: solid gray 2px;
 }
 .input {
@@ -48,8 +50,9 @@ p {
   border: none;
   border-radius: 5px;
   margin: 5px;
+  align-self: flex-end;
 }
-.button:hover {
+.dialog-button:hover {
   background-color: #bee5e5;
 }
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
@@ -59,4 +62,9 @@ p {
 }
 .css-ypiqx9-MuiDialogContent-root {
   padding: 10px;
+}
+
+.title {
+  border-bottom: solid lightgray 2px;
+  font-size: 20px;
 }

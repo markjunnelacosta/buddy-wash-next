@@ -5,6 +5,45 @@
     font-size: 14px !important;
   }
 
+  .dropdown-name {
+    font-size: 14px !important;
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 30px;
+  }
+
+  .dropdown-menu {
+    border: none; /* Remove the border from the dropdown container */
+  }
+
+  .dropdown-item {
+    border: none;
+    list-style-type: none;
+    background-color: white;
+    padding: 10px 0;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 50px;
+  }
+
+  .button-content {
+    margin-right: 10px; /* Move the icon to the left of the text */
+    color: black;
+  }
+}
+
+/* .side-nav-bar-container {
+  width: 20%;
+
+  .MuiListItemText-primary {
+    font-size: 14px !important;
+  }
+
   .dropdown name {
     font-size: 14px !important;
   }
@@ -36,4 +75,5 @@
   padding: 0;
   margin-top: 0;
   margin-left: 10px;
-}
+} */
+
