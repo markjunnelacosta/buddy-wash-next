@@ -9,7 +9,7 @@ export const GET = async (req, res) => {
     const responseData = { userData: users }; 
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
-    return new Response("Failed get users", { status: 500 });
+    return new Response(JSON.stringify({ error: "Failed to get users" }), { status: 500 });
   }
 };
 
@@ -49,7 +49,7 @@ export async function DELETE(request) {
 
 export async function handler(req, res) {
   if (req.method === 'PUT') {
-    const id = req.query.id; // Extract user ID from the URL
+    const { id } = req.query; // Extract user ID from the URL
     const updatedUserData = req.body;
 
     try {

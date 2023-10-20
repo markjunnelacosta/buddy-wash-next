@@ -16,7 +16,7 @@ function Branches() {
           </div>
           <div className="button-container">
             <button className="add-button">
-              <AddRoundedIcon /> Add Branch
+              <AddRoundedIcon /> New Branch
             </button>
           </div>
         </div>
