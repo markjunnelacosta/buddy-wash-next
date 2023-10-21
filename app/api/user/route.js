@@ -46,26 +46,3 @@ export async function DELETE(request) {
     { status: 201 }
   );
 }
-
-export async function handler(req, res) {
-  if (req.method === 'PUT') {
-    const { id } = req.query; // Extract user ID from the URL
-    const updatedUserData = req.body;
-
-    try {
-      await connectToDB();
-      // Find the user by ID and update their details
-      const updatedUser = await User.findByIdAndUpdate(id, updatedUserData, { new: true });
-
-      if (updatedUser) {
-        return res.status(200).json(updatedUser);
-      } else {
-        return res.status(404).json({ error: 'User not found' });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: 'Error updating user details' });
-    }
-  } else {
-    return res.status(405).end(); // Method Not Allowed
-  }
-}

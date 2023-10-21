@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import User from "@/models/user";
+import { NextResponse } from "next/server";
 
 export const GET = async (req, res) => {
   try {
@@ -14,3 +15,15 @@ export const GET = async (req, res) => {
     return new Response("Internal Server Error", { status: 500 });
   }
 };
+
+export async function PUT(request, { params }) {
+  const { id } = params;
+  const { newCustomerName: customerName, newCustomerNumber: customerNumber } =
+    await request.json();
+  await connectToDB();
+  await Customer.findByIdAndUpdate(id, { customerName, customerNumber });
+  return NextResponse.json(
+    { message: "Customer Details Updated" },
+    { status: 200 }
+  );
+}
