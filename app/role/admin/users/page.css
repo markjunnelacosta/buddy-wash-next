@@ -21,7 +21,7 @@
     width: 95%;
     overflow-x: auto;
     max-height: 400px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 table {
@@ -30,6 +30,7 @@ table {
     background-color: #fff;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
+    table-layout: auto;
 }
 
 th, td {
@@ -111,6 +112,14 @@ td{
 }
 
 .pagination{
-    background-color: red;
-    float: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 65%;
 }
+
+.b-container{
+    display: inline-block;
+}
+
+

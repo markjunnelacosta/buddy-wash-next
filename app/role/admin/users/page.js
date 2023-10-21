@@ -33,6 +33,7 @@ const Users = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
   // Calculate total number of pages based on the data and entries per page
   const totalPages = Math.ceil(userData.length / entriesPerPage);
@@ -76,6 +77,11 @@ const Users = () => {
     setShowAdminPage(true); // Open the admin page
   };
 
+  // Filter users based on search query
+  const filteredUsers = userData.filter((user) =>
+    user.userName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   // Use an effect to fetch user data when the component mounts
   useEffect(() => {
     const fetchUser = async () => {
@@ -95,6 +101,30 @@ const Users = () => {
     console.log(userData);
   }, [userData]);
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch("/api/user", {
+        cache: "no-store",
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to fetch users");
+      }
+  
+      const response = await res.json();
+      const users = response.userData || [];
+      setUserData(users); // Assuming you want to update the user data in your component state
+    } catch (error) {
+      console.log("Error loading users: ", error);
+    }
+  };
+  
+
+  const handleSaveData = () => {
+    closeAdminPage(); // Close the AdminPage
+    getUsers(); // Fetch user data to refresh
+  };
+
   return (
     <>
       <Layout />
@@ -102,7 +132,13 @@ const Users = () => {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="userName" />
+            <input
+              type="text"
+              id="searchName"
+              name="userName"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAdminPage}>
@@ -124,8 +160,9 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                userData.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage).map((user) => (
+              {filteredUsers
+                .slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage)
+                .map((user) => (
                   <tr key={user._id}>
                     <td>{user.userName}</td>
                     <td>{user.phoneNumber}</td>
@@ -134,11 +171,13 @@ const Users = () => {
                     <td>{user.userId}</td>
                     <td>{user.password}</td>
                     <td>
-                      <Button variant="outlined" id="edit-button" onClick={() => handleEditUser(user)}>
-                        Edit
-                      </Button>
-                      &nbsp;
-                      <RemoveButton id={user._id} />
+                      <div className="b-container">
+                        <Button variant="outlined" id="edit-button" onClick={() => handleEditUser(user)}>
+                          Edit
+                        </Button>
+                        &nbsp;
+                        <RemoveButton id={user._id} />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -149,15 +188,15 @@ const Users = () => {
           <button onClick={handlePreviousPage} disabled={currentPage === 1}>
             <ArrowBackIosRoundedIcon />
           </button>
-          <span>{`Showing entries ${startRange}-${endRange} of ${userData.length}`}</span>
+          <span>{`Showing entries ${startRange}-${endRange} of ${filteredUsers.length}`}</span>
           <button onClick={handleNextPage} disabled={currentPage === totalPages}>
             <ArrowForwardIosRoundedIcon />
           </button>
         </div>
       </div>
-      <AdminPage isOpen={showAdminPage} onClose={closeAdminPage} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+      <AdminPage isOpen={showAdminPage} onClose={handleSaveData} selectedUser={selectedUser} userData={userData} setUserData={setUserData} />
     </>
-  )
-}
+  );
+};
 
 export default Users;
