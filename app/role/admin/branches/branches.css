@@ -1,4 +1,4 @@
-.form-container{
+.container-box {
     margin-top: 10px;
     margin-left: 23%;
     width: 72vw;
@@ -13,34 +13,12 @@
     flex-direction: column;
 }
 
-.searchContainer{
-
-    display:flex;
-    flex-direction: row;
-    margin-left: 30px;
-    justify-content: space-between;
-}
-
-.searchContainer-right{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 400px;
-
-}
-
-#searchName{
-    border-color: white;
-    margin: 10px 35px 10px 10px;
-    width: 200px;
-}
-
 .add-button {
     background-color: white;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 10px;
-    width: 150px;
+    width: 180px;
     height: 45px;
     display: flex;
     align-items: center;
@@ -60,3 +38,25 @@
     margin-right: 30px;
     align-self: flex-end;
 }
+
+.searchContainer{
+
+    display:flex;
+    flex-direction: row;
+    margin-left: 30px;
+    justify-content: space-between;
+}
+
+.searchContainer-right{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 400px;
+
+}
+#searchName{
+    border-color: white;
+    margin: 10px 35px 10px 10px;
+    width: 200px;
+}
+

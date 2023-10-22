@@ -1,8 +1,7 @@
 .form-container {
     background-color: white;
-    width: 50vw;
+    width: 20vw;
     height: auto;
-    display: flex;
     overflow-y: auto;
     padding: 20px;
     justify-content: center;
@@ -17,17 +16,16 @@
 
 input {
     border-radius: 7px;
-    width: 85%;
+    width: 100%;
     height: 25px;
     border: 1px solid;
     border-color: gray;
     font-size: 17px;
+    display: block;
 }
 
 .form-group {
-    display: flex;
     font-size: 20px;
-    flex-direction: column;
 }
 
 .cancel {

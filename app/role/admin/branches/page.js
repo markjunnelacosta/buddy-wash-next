@@ -9,6 +9,7 @@ import AddBranch from './add-branch/page';
 
 const Branches = () => {
   const [showAddBranch, setShowAddBranch] = useState(false);
+  const [branches, setBranches] = useState([]);
 
   // Function to open the admin page
   const openAddBranch = () => {
@@ -20,25 +21,61 @@ const Branches = () => {
     setShowAddBranch(false);
   };
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/branch', {
+        cache: 'no-store',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const data = await res.json();
+      setBranches(data.branch);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+
+  const handleSaveData = () => {
+    closeAddBranch();
+    fetchData();
+  };
+
   return (
     <>
       <Layout />
-      <div className="form-container">
-      <div className="searchContainer">
+      <div className="container-box">
+        <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
             <input type="text" id="searchName" name="branchName" />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAddBranch}>
-              <AddRoundedIcon /> New Branch
+              <AddRoundedIcon /> Add New Branch
             </button>
           </div>
         </div>
+        <div className="branches-list">
+        {branches.map((branch) => (
+          <div key={branch._id}>
+            <p>{branch.branchId}</p>
+            <p>{branch.branchAddress}</p>
+            <p>{branch.numberOfStaff}</p>
+          </div>
+        ))}
       </div>
-      {/* <AddBranch isOpen={showAddBranch}/> */}
-
-      {showAddBranch && <AddBranch closeAddBranch={closeAddBranch} />}
+      
+      </div>
+      <AddBranch isOpen={showAddBranch} onSaveData={handleSaveData} closeAddBranch={closeAddBranch} />
     </>
   )
 }
