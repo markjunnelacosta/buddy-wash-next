@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
-import UpdateUser from "../page";
+import UpdateUser from "@/app/role/admin/users/edit-users/page";
+import mongoose from "mongoose";
 
 // Function to fetch user data from the server
-const getUsers = async () => {
+const getUsers = async (id) => {
   try {
-    const res = await fetch("/api/user", {
+    const res = await fetch(`http://localhost:3000/api/user/${id}`, {
       cache: "no-store",
     });
 
@@ -12,28 +12,40 @@ const getUsers = async () => {
       throw new Error("Failed to fetch users");
     }
 
-    const response = await res.json();
-    return response.userData || [];
+    return res.json();
   } catch (error) {
-    console.log("Error loading users: ", error);
+    console.log(error);
   }
 };
 
-export default async function EditUser() {
-  const router = useRouter();
-  const { id } = router.query;
-  const { user } = await getUsers(id);
-  const { userName, phoneNumber, userAddress, userRole, userId, password } = user;
+export default async function EditUser({ params }) {
+  const { id } = params;
 
-  return (
-    <UpdateUser
-      id={id}
-      userName={userName}
-      phoneNumber={phoneNumber}
-      userAddress={userAddress}
-      userRole={userRole}
-      userId={userId}
-      password={password}
-    />
-  );
+  if (!id) {
+    return <div>Invalid user ID</div>;
+  }
+
+  try {
+    const user = await getUsers(id);
+    if (user) {
+      const { userName, phoneNumber, userAddress, userRole, userId, password } = user;
+      return (
+        <UpdateUser
+          id={id}
+          userName={userName}
+          phoneNumber={phoneNumber}
+          userAddress={userAddress}
+          userRole={userRole}
+          userId={userId}
+          password={password}
+        />
+      );
+    } else {
+      // Handle the case where the user is not found or other error
+      return <div>User not found</div>;
+    }
+  } catch (error) {
+    console.error(error);
+    return <div>Error loading user: {error.message}</div>;
+  }
 }

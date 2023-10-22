@@ -9,6 +9,7 @@ import RemoveButton from './removeButton';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import UpdateUser from './edit-users/page';
+import EditUserPopup from './eButton';
 
 // Function to fetch user data from the server
 const getUsers = async () => {
@@ -35,6 +36,9 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
+
+
 
   // Calculate total number of pages based on the data and entries per page
   const totalPages = Math.ceil(userData.length / entriesPerPage);
@@ -72,11 +76,15 @@ const Users = () => {
     setShowAdminPage(false);
   };
 
-  // Function to handle the "Edit" button click
   const handleEditUser = (user) => {
     setSelectedUser(user);
-    setShowAdminPage(true); // Open the admin page
+    setUpdateUserPopupVisible(true); // Show the popup
   };
+  
+  const handleClose = () => {
+    setUpdateUserPopupVisible(false); // Hide the popup
+  };
+  
 
   // Filter users based on search query
   const filteredUsers = userData.filter((user) =>
@@ -173,7 +181,12 @@ const Users = () => {
                     <td>{user.password}</td>
                     <td>
                       <div className="b-container">
-                        <Button variant="outlined" id="edit-button" href={`/edit-users/${user._id}`}>
+                        <Button 
+                        variant="outlined" 
+                        id="edit-button" 
+                        // href={`/role/admin/users/edit-users/${user._id}`}
+                        onClick={() => handleEditUser(user)}
+                        >
                           Edit
                         </Button>
                         &nbsp;
@@ -196,6 +209,13 @@ const Users = () => {
         </div>
       </div>
       <AdminPage isOpen={showAdminPage} onClose={handleSaveData} onSaveData={handleSaveData}/>
+       {/* Render the EditUserPopup with the selected user */}
+       <EditUserPopup
+        isOpen={isUpdateUserPopupVisible}
+        user={selectedUser}
+        onClose={handleClose}
+        onSave={handleSaveData} // Implement the save function
+      />
     </>
   );
 };

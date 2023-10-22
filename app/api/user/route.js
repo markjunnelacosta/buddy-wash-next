@@ -38,8 +38,6 @@ export const POST = async (req) => {
       userRole,
       userId,
       password,
-      
-      
     });
     console.log(newUser);
     await newUser.save();

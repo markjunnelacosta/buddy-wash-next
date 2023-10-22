@@ -26,6 +26,7 @@ export default function UpdateUser({
     e.preventDefault();
 
     try {
+
       const res = await fetch(`http://localhost:3000/api/user/${id}`, {
         method: "PUT",
         headers: {
@@ -39,80 +40,67 @@ export default function UpdateUser({
       }
 
       router.refresh();
-      router.push("/role/admin/users");
+      router.push("/role/admin/users/page");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
   return (
-    <>
-    <form>
-    <div className="form-container visible">
-          <div>
-            <p>Add User</p>
-            <hr />
-            <div className="form-group">
-              <div id="first">
-                {/* User Name input */}
-                <p>User Name</p>
-                <input
-                  onChange={(e) => setNewUserName(e.target.value)}
-                  value={newUserName}
-                />
-                {/* Address input */}
-                <p>Address</p>
-                <input
-                  value={newUserAddress}
-                  onChange={(e) => setNewUserAddress(e.target.value)}
-                />
-                {/* User ID input */}
-                <p>UserID</p>
-                <input
-                  value={newUserId}
-                  onChange={(e) => setNewUserId(e.target.value)}
-                />
-              </div>
+    <div>
+      <div className="form-container">
+        <div>
+          <p>Add User</p>
+          <hr />
+          <div className="form-group">
+            <div id="first">
+              {/* User Name input */}
+              <p>User Name</p>
+              <input
+                value={newUserName}
+                onChange={(e) => setNewUserName(e.target.value)}
 
-              <div id="second">
-                {/* Phone Number input */}
-                <p>Phone Number</p>
-                <input
-                  value={newPhoneNumber}
-                  onChange={(e) => setNewPhoneNumber(e.target.value)}
-                />
-                {/* User Role input */}
-                <p>Position</p>
-                <input
-                   value={newUserRole}
-                   onChange={(e) => setNewUserRole(e.target.value)}
-                />
-                {/* Password input */}
-                <p>Password</p>
-                <input
-                   value={newPassword}
-                   onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
+              />
+              {/* Address input */}
+              <p>Address</p>
+              <input
+                value={newUserAddress}
+                onChange={(e) => setNewUserAddress(e.target.value)}
+              />
+              {/* User ID input */}
+              <p>UserID</p>
+              <input
+                value={newUserId}
+                onChange={(e) => setNewUserId(e.target.value)}
+              />
             </div>
-            <br />
-            <button className="cancel" onClick={onClose}>Cancel</button>
-            <button className="save" onClick={handleSave}>Save</button>
+
+            <div id="second">
+              {/* Phone Number input */}
+              <p>Phone Number</p>
+              <input
+                value={newPhoneNumber}
+                onChange={(e) => setNewPhoneNumber(e.target.value)}
+              />
+              {/* User Role input */}
+              <p>Position</p>
+              <input
+                value={newUserRole}
+                onChange={(e) => setNewUserRole(e.target.value)}
+              />
+              {/* Password input */}
+              <p>Password</p>
+              <input
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </div>
           </div>
+          <br />
+          <button className="cancel" onClick={onClose}>Cancel</button>
+          <button className="save" onClick={handleSave}>Save</button>
         </div>
-    </form>
-        
-    </>
+      </div>
+    </div>
   );
 };

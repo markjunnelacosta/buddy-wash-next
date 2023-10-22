@@ -1,19 +1,28 @@
-"use client";
-import { useRouter } from 'next/navigation';
-import Button from "@mui/material/Button";
+// EditUserPopup.js
+import React from 'react';
+import UpdateUser from './edit-users/page';
 
-const EditButton = ({ userId }) => {
-  const router = useRouter();
-
-  const handleEditClick = () => {
-    router.push(`/edit-users/${userId}`); // Navigate to the edit page
-  };
+const EditUserPopup = ({ isOpen, user, onClose, onSave }) => {
+  if (!isOpen) {
+    return null; // If not open, don't render anything
+  }
 
   return (
-    <Button variant="outlined" id="edit-button" onClick={handleEditClick}>
-      Edit
-    </Button>
+    <div className="popup-container">
+      <div className="popup">
+        <UpdateUser
+          id={user.id}
+          userName={user.userName}
+          phoneNumber={user.phoneNumber}
+          userAddress={user.userAddress}
+          userRole={user.userRole}
+          userId={user.userId}
+          password={user.password}
+          onClose={onClose}
+        />
+      </div>
+    </div>
   );
 };
 
-export default EditButton;
+export default EditUserPopup;

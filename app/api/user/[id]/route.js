@@ -16,17 +16,26 @@ export const GET = async (req, res) => {
   }
 };
 
-// export const PUT = async (req, res) => {
+// export const GET = async (req, res) => {
 //   try {
-//     const { id } = req.params;
-//     const updatedUserData = req.body;
 //     await connectToDB();
-//     const updatedUser = await User.findByIdAndUpdate(id, updatedUserData);
-//     return new Response(JSON.stringify(updatedUser), { status: 200 });
+//     const { id } = res.params;
+//     const user = await User.findOne({ userId: id }); // Use userId for querying
+//     if (!user) return new Response("User Not Found", { status: 404 });
+
+//     return new Response(JSON.stringify(user), { status: 200 });
 //   } catch (error) {
 //     return new Response("Internal Server Error", { status: 500 });
 //   }
 // };
+
+
+// export async function GET(request, { params }) {
+//   const { id } = params;
+//   await connectToDB();
+//   const user = await User.findOne({ _id: id });
+//   return NextResponse.json({ user}, { status: 200 });
+// }
 
 export async function PUT(request, { params }) {
   const { id } = params;
