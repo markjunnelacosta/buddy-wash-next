@@ -1,5 +1,4 @@
 import UpdateUser from "@/app/role/admin/users/edit-users/page";
-import mongoose from "mongoose";
 
 // Function to fetch user data from the server
 const getUsers = async (id) => {

@@ -57,21 +57,23 @@ export default function UpdateUser({
               {/* User Name input */}
               <p>User Name</p>
               <input
-                value={newUserName}
+                
                 onChange={(e) => setNewUserName(e.target.value)}
-
+                value={newUserName}
               />
               {/* Address input */}
               <p>Address</p>
               <input
-                value={newUserAddress}
+                
                 onChange={(e) => setNewUserAddress(e.target.value)}
+                value={newUserAddress}
               />
               {/* User ID input */}
               <p>UserID</p>
               <input
-                value={newUserId}
+                
                 onChange={(e) => setNewUserId(e.target.value)}
+                value={newUserId}
               />
             </div>
 
@@ -79,20 +81,23 @@ export default function UpdateUser({
               {/* Phone Number input */}
               <p>Phone Number</p>
               <input
-                value={newPhoneNumber}
+                
                 onChange={(e) => setNewPhoneNumber(e.target.value)}
+                value={newPhoneNumber}
               />
               {/* User Role input */}
               <p>Position</p>
               <input
-                value={newUserRole}
+                
                 onChange={(e) => setNewUserRole(e.target.value)}
+                value={newUserRole}
               />
               {/* Password input */}
               <p>Password</p>
               <input
-                value={newPassword}
+                
                 onChange={(e) => setNewPassword(e.target.value)}
+                value={newPassword}
               />
             </div>
           </div>

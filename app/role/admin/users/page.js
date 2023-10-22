@@ -14,7 +14,7 @@ import EditUserPopup from './eButton';
 // Function to fetch user data from the server
 const getUsers = async () => {
   try {
-    const res = await fetch("/api/user", {
+    const res = await fetch("http://localhost:3000/api/user", {
       cache: "no-store",
     });
 
@@ -112,7 +112,7 @@ const Users = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/user", {
+      const res = await fetch("http://localhost:3000/api/user", {
         cache: "no-store",
       });
   

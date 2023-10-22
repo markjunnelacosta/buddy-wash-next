@@ -16,19 +16,6 @@ export const GET = async (req, res) => {
   }
 };
 
-// export const GET = async (req, res) => {
-//   try {
-//     await connectToDB();
-//     const { id } = res.params;
-//     const user = await User.findOne({ userId: id }); // Use userId for querying
-//     if (!user) return new Response("User Not Found", { status: 404 });
-
-//     return new Response(JSON.stringify(user), { status: 200 });
-//   } catch (error) {
-//     return new Response("Internal Server Error", { status: 500 });
-//   }
-// };
-
 
 // export async function GET(request, { params }) {
 //   const { id } = params;
