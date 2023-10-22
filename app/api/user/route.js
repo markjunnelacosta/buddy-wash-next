@@ -2,16 +2,28 @@ import { connectToDB } from "@/utils/database";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
+// export const GET = async (req, res) => {
+//   try {
+//     await connectToDB();
+//     const users = await User.find({}).populate("userName");
+//     const responseData = { userData: users }; 
+//     return new Response(JSON.stringify(responseData), { status: 200 });
+//   } catch (error) {
+//     return new Response(JSON.stringify({ error: "Failed to get users" }), { status: 500 });
+//   }
+// };
+
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-    const users = await User.find({}).populate("userName");
-    const responseData = { userData: users }; 
+    const users = await User.find({});
+    const responseData = { userData: users };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ error: "Failed to get users" }), { status: 500 });
   }
 };
+
 
 export const POST = async (req) => {
   const body = await req.json();

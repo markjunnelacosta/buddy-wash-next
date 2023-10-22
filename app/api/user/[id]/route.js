@@ -16,14 +16,26 @@ export const GET = async (req, res) => {
   }
 };
 
+// export const PUT = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const updatedUserData = req.body;
+//     await connectToDB();
+//     const updatedUser = await User.findByIdAndUpdate(id, updatedUserData);
+//     return new Response(JSON.stringify(updatedUser), { status: 200 });
+//   } catch (error) {
+//     return new Response("Internal Server Error", { status: 500 });
+//   }
+// };
+
 export async function PUT(request, { params }) {
   const { id } = params;
-  const { newCustomerName: customerName, newCustomerNumber: customerNumber } =
+  const { newUserName: userName, newPhoneNumber: phoneNumber, newUserAddress: userAddress, newUserRole: userRole, newUserId: userId, newPassword: password } =
     await request.json();
   await connectToDB();
-  await Customer.findByIdAndUpdate(id, { customerName, customerNumber });
+  await User.findByIdAndUpdate(id, { userName, phoneNumber, userAddress, userRole, userId, password });
   return NextResponse.json(
-    { message: "Customer Details Updated" },
+    { message: "User Details is Updated" },
     { status: 200 }
   );
 }

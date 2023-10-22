@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout';
 import './page.css';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -122,7 +122,7 @@ const Users = () => {
 
   const handleSaveData = () => {
     closeAdminPage(); // Close the AdminPage
-    getUsers(); // Fetch user data to refresh
+    fetchData();
   };
 
   return (
@@ -172,7 +172,7 @@ const Users = () => {
                     <td>{user.password}</td>
                     <td>
                       <div className="b-container">
-                        <Button variant="outlined" id="edit-button" onClick={() => handleEditUser(user)}>
+                        <Button variant="outlined" id="edit-button" href={`/edit-users/${user._id}`}>
                           Edit
                         </Button>
                         &nbsp;
@@ -194,7 +194,7 @@ const Users = () => {
           </button>
         </div>
       </div>
-      <AdminPage isOpen={showAdminPage} onClose={handleSaveData} selectedUser={selectedUser} userData={userData} setUserData={setUserData} />
+      <AdminPage isOpen={showAdminPage} onClose={handleSaveData} onSaveData={handleSaveData}/>
     </>
   );
 };

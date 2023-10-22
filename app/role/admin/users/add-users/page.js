@@ -1,164 +1,103 @@
-import React, { useState, useEffect } from "react";
-import './addUsers.css';
-
-const AdminPage = ({ isOpen, onClose, selectedUser }) => {
-  // State to store form data
-  const [formData, setFormData] = useState({
-    userName: "",
-    phoneNumber: "",
-    userAddress: "",
-    userRole: "",
-    userId: "",
-    password: "",
-  });
+"use client";
+import React, { useState } from "react";
+import './addUsers.css'
 
 
-  // Effect to update form data when selectedUser changes
-  useEffect(() => {
-    if (selectedUser) {
-      // Initialize form data with selectedUser values
-      setFormData({
-        userName: selectedUser.userName || "",
-        phoneNumber: selectedUser.phoneNumber || "",
-        userAddress: selectedUser.userAddress || "",
-        userRole: selectedUser.userRole || "",
-        userId: selectedUser.userId || "",
-        password: selectedUser.password || "",
-      });
-    } else {
-      // Reset form data when there is no selectedUser
-      setFormData({
-        userName: "",
-        phoneNumber: "",
-        userAddress: "",
-        userRole: "",
-        userId: "",
-        password: "",
-      });
-    }
-  }, [selectedUser]);
+const AdminPage = ({ isOpen, onClose, onSaveData }) => {
+  const [userName, setUserName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
-  // Handle form field changes
-  const handleFieldChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+  const onClick = async () => {
+    console.log(userName, phoneNumber, userAddress, userRole, userId, password);
+    const response = await fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify({
+        userName: userName,
+        phoneNumber: phoneNumber,
+        userAddress: userAddress,
+        userRole: userRole,
+        userId: userId,
+        password: password,
+      }),
+    });
+
+    console.log(response);
+
+    onSaveData();
+    onClose();
   };
 
-  const handleSave = async () => {
-    // Define the API endpoint URL
-    const apiUrl = selectedUser ? `/api/user/${selectedUser._id}` : "/api/user";
-  
-    try {
-      // Make an API request to create or update the user
-      const response = await fetch(apiUrl, {
-        method: selectedUser ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData), // Include the updated user data
-      });
-  
-      if (response.status === 200) {
-        // User updated successfully
-        const updatedUser = await response.json();
-        console.log('User updated:', updatedUser);
-  
-        // Update the local state with the updated user
-        const updatedUserData = userData.map(user => {
-          if (user._id === updatedUser._id) {
-            return updatedUser;
-          }
-          return user;
-        });
-  
-        setUserData(updatedUserData);
-  
-        // Close the AdminPage
-        setShowAdminPage(false);
-      } else {
-        console.error('Error updating user:', response.status);
-      }
-    } catch (error) {
-      console.error('API request failed:', error);
-    }
-  };
-  
   return (
     <>
-      {isOpen && (
-        <div className="form-container visible">
+        {isOpen && (
+          <div className="form-container visible">
           <div>
             <p>Add User</p>
             <hr />
             <div className="form-group">
               <div id="first">
-                {/* User Name input */}
-                <p>User Name</p>
-                <input
-                  type="text"
-                  name="userName"
-                  placeholder="User Name"
-                  value={formData.userName}
-                  onChange={handleFieldChange}
-                />
-                {/* Address input */}
-                <p>Address</p>
-                <input
-                  type="text"
-                  name="userAddress"
-                  placeholder="Address"
-                  value={formData.userAddress}
-                  onChange={handleFieldChange}
-                />
-                {/* User ID input */}
                 <p>UserID</p>
                 <input
                   type="text"
-                  name="userId"
                   placeholder="User ID"
-                  value={formData.userId}
-                  onChange={handleFieldChange}
-                />
+                  value={userId}
+                  onChange={(e) => setUserId(e.currentTarget.value)}
+                ></input>
+                <p>User Name</p>
+                <input
+                  type="text"
+                  placeholder="User Name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.currentTarget.value)}
+                ></input>
+                <p>Address</p>
+                <input
+                  type="text"
+                  placeholder="Address"
+                  value={userAddress}
+                  onChange={(e) => setUserAddress(e.currentTarget.value)}
+                ></input>
               </div>
 
               <div id="second">
-                {/* Phone Number input */}
                 <p>Phone Number</p>
                 <input
                   type="text"
-                  name="phoneNumber"
                   placeholder="Phone Number"
-                  value={formData.phoneNumber}
-                  onChange={handleFieldChange}
-                />
-                {/* User Role input */}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                ></input>
                 <p>Position</p>
                 <input
                   type="text"
-                  name="userRole"
                   placeholder="User Role"
-                  value={formData.userRole}
-                  onChange={handleFieldChange}
-                />
-                {/* Password input */}
+                  value={userRole}
+                  onChange={(e) => setUserRole(e.currentTarget.value)}
+                ></input>
                 <p>Password</p>
                 <input
                   type="text"
-                  name="password"
                   placeholder="Password"
-                  value={formData.password}
-                  onChange={handleFieldChange}
-                />
+                  value={password}
+                  onChange={(e) => setPassword(e.currentTarget.value)}
+                ></input>
               </div>
+
             </div>
             <br />
-            {/* Cancel button */}
             <button className="cancel" onClick={onClose}>Cancel</button>
-            {/* Save button */}
-            <button className="save" onClick={handleSave}>Save</button>
+            <button className="save" onClick={onClick}>Save</button>
           </div>
-        </div>
-      )}
+          </div>
+        )}
+
+      
+
     </>
   );
 };
