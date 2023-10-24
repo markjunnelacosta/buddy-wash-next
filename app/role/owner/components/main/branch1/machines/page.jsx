@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
 import './Machines.css';
-import './MachinesTable';
+import './MachineTable';
 import './dryerTable';
-import AddMachines from './MachinesTable';
+import AddMachines from './MachineTable';
 import AddDryer from './dryerTable';
 
 function Machines() {
@@ -16,7 +16,7 @@ function Machines() {
                     <p style={{ fontWeight: "bold", fontSize: "15px" }}>Dryer</p>
                 </div>
                 <div className="tables-container" >
-                    <div className="machinesTable-container">{AddMachines()}</div>
+                    <div className="machineTable-container">{AddMachines()}</div>
 
                     <div className="dryerTable-container">{AddDryer()}</div>
                 </div>

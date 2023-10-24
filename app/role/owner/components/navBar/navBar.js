@@ -53,7 +53,7 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch1/Transactions"
+                  href="/role/owner/components/main/branch1/transactions"
                 >
                   <ListItemIcon className="button-content">
                     <ReceiptLongIcon />
@@ -73,7 +73,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch1/Prices"
+                  href="/role/owner/components/main/branch1/prices"
                 >
                   <ListItemIcon className="button-content">
                     <SellIcon />
@@ -83,7 +83,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch1/Machines"
+                  href="/role/owner/components/main/branch1/machines"
                 >
                   <ListItemIcon className="button-content">
                     <LocalLaundryServiceIcon />
@@ -107,7 +107,7 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Transactions"
+                  href="/role/owner/components/main/branch2/transactions"
                 >
                   <ListItemIcon className="button-content">
                     <ReceiptLongIcon />
@@ -127,7 +127,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Prices"
+                  href="/role/owner/components/main/branch2/prices"
                 >
                   <ListItemIcon className="button-content">
                     <SellIcon />
@@ -137,7 +137,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch2/Machines"
+                  href="/role/owner/components/main/branch2/machines"
                 >
                   <ListItemIcon className="button-content">
                     <LocalLaundryServiceIcon />
@@ -161,7 +161,7 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Transactions"
+                  href="/role/owner/components/main/branch3/transactions"
                 >
                   <ListItemIcon className="button-content">
                     <ReceiptLongIcon />
@@ -181,7 +181,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Prices"
+                  href="/role/owner/components/main/branch3/prices"
                 >
                   <ListItemIcon className="button-content">
                     <SellIcon />
@@ -191,7 +191,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch3/Machines"
+                  href="/role/owner/components/main/branch3/machines"
                 >
                   <ListItemIcon className="button-content">
                     <LocalLaundryServiceIcon />
