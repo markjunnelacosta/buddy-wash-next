@@ -1,6 +1,6 @@
 // EditUserPopup.js
-import React from 'react';
-import UpdateUser from './edit-users/page';
+import React from "react";
+import UpdateUser from "./edit-users/page";
 
 const EditUserPopup = ({ isOpen, user, onClose, onSave }) => {
   if (!isOpen) {
@@ -11,7 +11,7 @@ const EditUserPopup = ({ isOpen, user, onClose, onSave }) => {
     <div className="popup-container">
       <div className="popup">
         <UpdateUser
-          id={user.id}
+          id={user._id}
           userName={user.userName}
           phoneNumber={user.phoneNumber}
           userAddress={user.userAddress}

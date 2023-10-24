@@ -16,7 +16,6 @@ export const GET = async (req, res) => {
   }
 };
 
-
 // export async function GET(request, { params }) {
 //   const { id } = params;
 //   await connectToDB();
@@ -26,10 +25,33 @@ export const GET = async (req, res) => {
 
 export async function PUT(request, { params }) {
   const { id } = params;
-  const { newUserName: userName, newPhoneNumber: phoneNumber, newUserAddress: userAddress, newUserRole: userRole, newUserId: userId, newPassword: password } =
-    await request.json();
+  const {
+    newUserName: userName,
+    newPhoneNumber: phoneNumber,
+    newUserAddress: userAddress,
+    newUserRole: userRole,
+    newUserId: userId,
+    newPassword: password,
+    id: _id,
+  } = await request.json();
+  console.log({
+    _id,
+    userName,
+    phoneNumber,
+    userAddress,
+    userRole,
+    userId,
+    password,
+  });
   await connectToDB();
-  await User.findByIdAndUpdate(id, { userName, phoneNumber, userAddress, userRole, userId, password });
+  await User.findByIdAndUpdate(_id, {
+    userName: userName,
+    phoneNumber: phoneNumber,
+    userAddress: userAddress,
+    userRole: userRole,
+    userId: userId,
+    password: password,
+  });
   return NextResponse.json(
     { message: "User Details is Updated" },
     { status: 200 }
