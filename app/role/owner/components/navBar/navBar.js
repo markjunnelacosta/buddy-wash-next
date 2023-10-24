@@ -63,7 +63,7 @@ function NavBar() {
 
                 <ListItemButton
                   className="button"
-                  href="/role/owner/components/main/branch1/Staff"
+                  href="/role/owner/components/main/branch1/staff"
                 >
                   <ListItemIcon className="button-content">
                     <GroupsIcon />
