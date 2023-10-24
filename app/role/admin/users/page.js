@@ -35,7 +35,7 @@ const Users = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [searchQuery, setSearchQuery] = useState('');
   const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
 
 
@@ -90,6 +90,8 @@ const Users = () => {
   const filteredUsers = userData.filter((user) =>
     user.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+
 
   // Use an effect to fetch user data when the component mounts
   useEffect(() => {
