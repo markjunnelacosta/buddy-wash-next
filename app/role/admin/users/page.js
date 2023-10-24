@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/layout';
-import './page.css';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import AdminPage from './add-users/page';
+import React, { useState, useEffect } from "react";
+import Layout from "../components/layout";
+import "./page.css";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import AdminPage from "./add-users/page";
 import Button from "@mui/material/Button";
-import RemoveButton from './removeButton';
-import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import UpdateUser from './edit-users/page';
-import EditUserPopup from './eButton';
+import RemoveButton from "./removeButton";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import UpdateUser from "./edit-users/page";
+import EditUserPopup from "./eButton";
 
 // Function to fetch user data from the server
 const getUsers = async () => {
@@ -35,10 +35,8 @@ const Users = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
-
-
 
   // Calculate total number of pages based on the data and entries per page
   const totalPages = Math.ceil(userData.length / entriesPerPage);
@@ -80,11 +78,10 @@ const Users = () => {
     setSelectedUser(user);
     setUpdateUserPopupVisible(true); // Show the popup
   };
-  
+
   const handleClose = () => {
     setUpdateUserPopupVisible(false); // Hide the popup
   };
-  
 
   // Filter users based on search query
   const filteredUsers = userData.filter((user) =>
@@ -117,11 +114,11 @@ const Users = () => {
       const res = await fetch("http://localhost:3000/api/user", {
         cache: "no-store",
       });
-  
+
       if (!res.ok) {
         throw new Error("Failed to fetch users");
       }
-  
+
       const response = await res.json();
       const users = response.userData || [];
       setUserData(users); // Assuming you want to update the user data in your component state
@@ -129,7 +126,6 @@ const Users = () => {
       console.log("Error loading users: ", error);
     }
   };
-  
 
   const handleSaveData = () => {
     closeAdminPage(); // Close the AdminPage
@@ -172,7 +168,10 @@ const Users = () => {
             </thead>
             <tbody>
               {filteredUsers
-                .slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage)
+                .slice(
+                  (currentPage - 1) * entriesPerPage,
+                  currentPage * entriesPerPage
+                )
                 .map((user) => (
                   <tr key={user._id}>
                     <td>{user.userName}</td>
@@ -183,11 +182,11 @@ const Users = () => {
                     <td>{user.password}</td>
                     <td>
                       <div className="b-container">
-                        <Button 
-                        variant="outlined" 
-                        id="edit-button" 
-                        // href={`/role/admin/users/edit-users/${user._id}`}
-                        onClick={() => handleEditUser(user)}
+                        <Button
+                          variant="outlined"
+                          id="edit-button"
+                          // href={`/role/admin/users/edit-users/${user._id}`}
+                          onClick={() => handleEditUser(user)}
                         >
                           Edit
                         </Button>
@@ -205,14 +204,21 @@ const Users = () => {
             <ArrowBackIosRoundedIcon />
           </button>
           <span>{`Showing entries ${startRange}-${endRange} of ${filteredUsers.length}`}</span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
             <ArrowForwardIosRoundedIcon />
           </button>
         </div>
       </div>
-      <AdminPage isOpen={showAdminPage} onClose={handleSaveData} onSaveData={handleSaveData}/>
-       {/* Render the EditUserPopup with the selected user */}
-       <EditUserPopup
+      <AdminPage
+        isOpen={showAdminPage}
+        onClose={handleSaveData}
+        onSaveData={handleSaveData}
+      />
+      {/* Render the EditUserPopup with the selected user */}
+      <EditUserPopup
         isOpen={isUpdateUserPopupVisible}
         user={selectedUser}
         onClose={handleClose}
