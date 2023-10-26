@@ -1,63 +1,31 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import React from 'react';
 import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
-// import "./CustomerTable.css";
 
-function Machine(
+function MachineTable() {
+  // Replace this with your actual machine data
+  const machineData = [];
 
-  machineNo,
-  status,
-  timer,
-  queue,
-  useCount,
-
-) {
-  return { machineNo, status, timer, queue, useCount };
-}
-
-// const rows=[];
-
-export default function AddMachine() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Table size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow >
-            <TableCell align="center" style={{ fontWeight: "bold" }}>Machine No. </TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>Status</TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>Timer </TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>Queue</TableCell>
-            <TableCell align="center" style={{ fontWeight: "bold" }}>Use Count </TableCell>
-
-
+          <TableRow>
+            <TableCell align="center" className="table-header">Machine No.</TableCell>
+            <TableCell align="center" className="table-header">Status</TableCell>
+            <TableCell align="center" className="table-header">Timer</TableCell>
+            <TableCell align="center" className="table-header">Queue</TableCell>
+            <TableCell align="center" className="table-header">Use Count</TableCell>
           </TableRow>
         </TableHead>
-        {/* <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.date}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.machineNo}</TableCell>
-              <TableCell align="right">{row.machineAction}</TableCell>
-               <TableCell align="right">{row.machinTimer}</TableCell>
-              <TableCell align="right">{row.dryerNo}</TableCell>
-              <TableCell align="right">{row.dryerAction}</TableCell>
-              <TableCell align="right">{row.dryerTimer}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody> */}
+        {/* Map over machineData to display rows here */}
       </Table>
     </TableContainer>
   );
 }
+
+export default MachineTable;
