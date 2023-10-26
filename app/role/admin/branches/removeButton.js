@@ -8,7 +8,7 @@ export default function RemoveButton({ id }) {
   const router = useRouter();
 
   const removeBranch = async () => {
-    const confirmed = confirm("Are you sure you want to remove this User?");
+    const confirmed = confirm("Are you sure you want to remove this Branch?");
 
     if (confirmed) {
       const res = await fetch(`http://localhost:3000/api/branch?id=${id}`, {

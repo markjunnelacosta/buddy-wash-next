@@ -84,3 +84,8 @@
     border: solid red 0.5px;
     padding: 2px;
 }
+
+#branch-num{
+    font-size: larger;
+    font-weight: 800;
+}

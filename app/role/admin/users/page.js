@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import RemoveButton from "./removeButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import UpdateUser from "./edit-users/page";
 import EditUserPopup from "./eButton";
 
 // Function to fetch user data from the server

@@ -1,12 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Branch from "@/models/branch";
-
-// export async function GET(request, { params }) {
-//   const { id } = params;
-//   await connectToDB();
-//   const branch = await Branch.findOne({ _id: id });
-//   return NextResponse.json({ branch }, { status: 200 });
-// }
+import { NextResponse } from "next/server";
 
 export const GET = async (req, res) => {
   try {
@@ -21,3 +15,15 @@ export const GET = async (req, res) => {
     return new Response("Internal Server Error", { status: 500 });
   }
 };
+
+export async function PUT(request, { params }) {
+  const { id } = params;
+  const { newBranchAddress: branchAddress, newBranchNumber: branchNumber } =
+    await request.json();
+  await connectToDB();
+  await Branch.findByIdAndUpdate(id, { branchAddress, branchNumber });
+  return NextResponse.json(
+    { message: "Branch Details Updated" },
+    { status: 200 }
+  );
+}
