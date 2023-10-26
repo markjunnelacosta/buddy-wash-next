@@ -5,6 +5,8 @@ import Layout from '../components/layout';
 import './branches.css'
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AddBranch from './add-branch/page';
+import Button from "@mui/material/Button";
+import RemoveButton from './removeButton';
 
 
 // Function to fetch user data from the server
@@ -42,6 +44,22 @@ const Branches = () => {
     fetchBranch();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/branch", {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch branch");
+      }
+
+      const response = await res.json();
+    } catch (error) {
+      console.log("Error loading users: ", error);
+    }
+  };
+
   // Log the user data for debugging
   useEffect(() => {
     console.log(branchesData);
@@ -59,7 +77,7 @@ const Branches = () => {
 
   const handleSaveData = () => {
     closeAddBranch();
-    fetchBranch();
+    fetchData();
   };
 
   return (
@@ -77,21 +95,24 @@ const Branches = () => {
             </button>
           </div>
         </div>
-        {/* <div className="branches-list">
-          {branchesData.map((branch) => (
-            <div key={branch._id}>
-              <p>{branch.branchNumber}</p>
-              <p>{branch.branchAddress}</p>
-              <p>{branch.numberOfStaff}</p>
-            </div>
-          ))}
-        </div> */}
         <div className="branches-list">
           {branchesData && branchesData.map((branch) => (
-            <div key={branch._id}>
-              <p>{branch.branchNumber}</p>
-              <p>{branch.branchAddress}</p>
-              <p>{branch.numberOfStaff}</p>
+            <div key={branch._id} className="branch-container">
+
+              <p>Branch {branch.branchNumber}</p>
+              <p>Location: {branch.branchAddress}</p>
+              <p>Number of Staff: {branch.numberOfStaff === null ? 0 : branch.numberOfStaff}</p>
+              <div className="b-container">
+                <Button
+                  variant="outlined"
+                  id="edit-button"
+                  onClick={() => handleEditUser(branch)}
+                >
+                  Edit
+                </Button>
+                &nbsp;
+                <RemoveButton id={branch._id} />
+              </div>
             </div>
           ))}
         </div>

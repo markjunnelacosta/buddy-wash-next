@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import './addBranch.css'
 
 
-const AddBranch = ({ isOpen, closeAddBranch }) => {
+const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
   const [branchAddress, setBranchAddress] = useState("");
   const [branchNumber, setBranchNumber] = useState("");
   const [numberOfStaff, setNumberOfStaff] = useState("");
@@ -22,6 +22,8 @@ const AddBranch = ({ isOpen, closeAddBranch }) => {
     console.log(response);
 
     closeAddBranch();
+
+    onSaveData();
   };
   return (
     <>

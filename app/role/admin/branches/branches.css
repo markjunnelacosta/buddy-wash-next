@@ -60,3 +60,27 @@
     width: 200px;
 }
 
+/* branches.css */
+.branch-container {
+    background-color: white;
+    padding: 10px; /* Adjust the padding to control the spacing between branches */
+    margin: 10px;
+    border: 1px solid #e0e0e0;
+    width: 300px;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    text-align: center; /* Center the content within each branch element */
+    border-radius: 10px;
+  }
+
+  #edit-button {
+    padding: 2px;
+    color: blue;
+}
+
+#delete-button {
+    color: red;
+    border: solid red 0.5px;
+    padding: 2px;
+}

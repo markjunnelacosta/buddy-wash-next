@@ -30,6 +30,7 @@ const getUsers = async () => {
 };
 
 const Users = () => {
+  // State variables
   const [userData, setUserData] = useState([]);
   const [showAdminPage, setShowAdminPage] = useState(false);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -74,11 +75,13 @@ const Users = () => {
     setShowAdminPage(false);
   };
 
+  // Function to handle editing a user
   const handleEditUser = (user) => {
     setSelectedUser(user);
     setUpdateUserPopupVisible(true); // Show the popup
   };
 
+  // Function to close the edit user popup
   const handleClose = () => {
     setUpdateUserPopupVisible(false); // Hide the popup
   };
@@ -87,8 +90,6 @@ const Users = () => {
   const filteredUsers = userData.filter((user) =>
     user.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-
 
   // Use an effect to fetch user data when the component mounts
   useEffect(() => {
@@ -109,6 +110,7 @@ const Users = () => {
     console.log(userData);
   }, [userData]);
 
+  // Function to fetch data from the server
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/user", {
@@ -127,6 +129,7 @@ const Users = () => {
     }
   };
 
+  // Function to handle saving data after adding or editing a user
   const handleSaveData = () => {
     closeAdminPage(); // Close the AdminPage
     fetchData();
