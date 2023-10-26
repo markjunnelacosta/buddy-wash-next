@@ -7,9 +7,45 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AddBranch from './add-branch/page';
 
 
+// Function to fetch user data from the server
+const getBranch = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/branch", {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch branches");
+    }
+
+    const response = await res.json();
+    return response.branchesData;
+  } catch (error) {
+    console.log("Error loading users: ", error);
+  }
+};
+
 const Branches = () => {
   const [showAddBranch, setShowAddBranch] = useState(false);
-  const [branches, setBranches] = useState([]);
+  const [branchesData, setBranchesData] = useState([]);
+
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const branches = await getBranch();
+        setBranchesData(branches);
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+      }
+    };
+
+    fetchBranch();
+  }, []);
+
+  // Log the user data for debugging
+  useEffect(() => {
+    console.log(branchesData);
+  }, [branchesData]);
 
   // Function to open the admin page
   const openAddBranch = () => {
@@ -21,32 +57,9 @@ const Branches = () => {
     setShowAddBranch(false);
   };
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch('http://localhost:3000/api/branch', {
-        cache: 'no-store',
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const data = await res.json();
-      setBranches(data.branch);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-
-
   const handleSaveData = () => {
     closeAddBranch();
-    fetchData();
+    fetchBranch();
   };
 
   return (
@@ -56,7 +69,7 @@ const Branches = () => {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="branchName" />
+            <input type="text" id="searchName" name="branchAddress" />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAddBranch}>
@@ -64,16 +77,25 @@ const Branches = () => {
             </button>
           </div>
         </div>
+        {/* <div className="branches-list">
+          {branchesData.map((branch) => (
+            <div key={branch._id}>
+              <p>{branch.branchNumber}</p>
+              <p>{branch.branchAddress}</p>
+              <p>{branch.numberOfStaff}</p>
+            </div>
+          ))}
+        </div> */}
         <div className="branches-list">
-        {branches.map((branch) => (
-          <div key={branch._id}>
-            <p>{branch.branchId}</p>
-            <p>{branch.branchAddress}</p>
-            <p>{branch.numberOfStaff}</p>
-          </div>
-        ))}
-      </div>
-      
+          {branchesData && branchesData.map((branch) => (
+            <div key={branch._id}>
+              <p>{branch.branchNumber}</p>
+              <p>{branch.branchAddress}</p>
+              <p>{branch.numberOfStaff}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
       <AddBranch isOpen={showAddBranch} onSaveData={handleSaveData} closeAddBranch={closeAddBranch} />
     </>

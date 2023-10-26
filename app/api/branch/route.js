@@ -8,33 +8,18 @@ export async function GET() {
   return NextResponse.json({ branch });
 }
 
-// export const POST = async (req) => {
-//   const body = await req.json();
-//   const { branchName } = body;
-
-//   try {
-//     await connectToDB();
-//     const newBranch = new Branch({
-//       branchName
-//     });
-//     console.log(newBranch);
-//     await newBranch.save();
-//     return new Response(JSON.stringify(newBranch), { status: 201 });
-//   } catch (error) {
-//     return new Response(error, { status: 500 });
-//   }
-// };
-
 export const POST = async (req) => {
   const body = await req.json();
-  const { branchAddress, numberOfStaff } = body;
+  const { branchNumber, branchAddress, numberOfStaff } = body;
 
   try {
     await connectToDB();
-    const newBranch = new Branch({
+    const newBranch = new Branch({ 
+      branchNumber,
       branchAddress,
       numberOfStaff,
     });
+    console.log(newBranch);
     await newBranch.save();
     return new Response(JSON.stringify(newBranch), { status: 201 });
   } catch (error) {

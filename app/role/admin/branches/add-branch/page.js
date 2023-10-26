@@ -4,14 +4,18 @@ import './addBranch.css'
 
 
 const AddBranch = ({ isOpen, closeAddBranch }) => {
-  const [branchName, setBranchName] = useState("");
+  const [branchAddress, setBranchAddress] = useState("");
+  const [branchNumber, setBranchNumber] = useState("");
+  const [numberOfStaff, setNumberOfStaff] = useState("");
 
   const onClick = async () => {
-    console.log(branchName);
+    console.log(branchAddress, branchNumber, numberOfStaff);
     const response = await fetch("/api/branch", {
       method: "POST",
       body: JSON.stringify({
-        branchName: branchName,
+        branchAddress: branchAddress,
+        branchNumber: branchNumber,
+        numberOfStaff: numberOfStaff,
       }),
     });
 
@@ -28,14 +32,20 @@ const AddBranch = ({ isOpen, closeAddBranch }) => {
           <p>Add New Branch</p> <hr />
           <div className='form-group'>
             <p></p>
+            <p>Branch Number</p>
             <input
               type="text"
-              name="userName"
-              placeholder="Branch Name"
-              value={branchName}
-              onChange={(e) => setBranchName(e.currentTarget.value)}
+              name="branchNumber"
+              value={branchNumber}
+              onChange={(e) => setBranchNumber(e.currentTarget.value)}
             />
-            
+            <p>Branch Address</p>
+            <input
+              type="text"
+              name="branchAddress"
+              value={branchAddress}
+              onChange={(e) => setBranchAddress(e.currentTarget.value)}
+            />
 
           </div>
 
