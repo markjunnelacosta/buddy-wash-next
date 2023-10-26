@@ -55,8 +55,12 @@ export default function UpdateUser({
         throw new Error("Failed to update user details");
       }
 
-      router.refresh();
-      router.push("/role/admin/users");
+      onClose();
+      // router.refresh();
+      // router.push("/role/admin/users");
+
+      window.location.reload();
+
     } catch (error) {
       console.log(error);
     }

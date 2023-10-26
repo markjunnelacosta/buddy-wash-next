@@ -5,44 +5,85 @@ import Layout from '../components/layout';
 import './branches.css'
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AddBranch from './add-branch/page';
+import Button from "@mui/material/Button";
+import RemoveButton from './removeButton';
+import EditBranchPopup from './eButton';
 
+
+// Function to fetch user data from the server
+const getBranch = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/branch", {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch branches");
+    }
+
+    const response = await res.json();
+    return response.branchesData;
+  } catch (error) {
+    console.log("Error loading users: ", error);
+  }
+};
 
 const Branches = () => {
   const [showAddBranch, setShowAddBranch] = useState(false);
-  const [branches, setBranches] = useState([]);
+  const [branchesData, setBranchesData] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
 
-  // Function to open the admin page
-  const openAddBranch = () => {
-    setShowAddBranch(true);
-  };
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const branches = await getBranch();
+        setBranchesData(branches);
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+      }
+    };
 
-  // Function to close the admin page
-  const closeAddBranch = () => {
-    setShowAddBranch(false);
-  };
+    fetchBranch();
+  }, []);
 
   const fetchData = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/branch', {
-        cache: 'no-store',
+      const res = await fetch("http://localhost:3000/api/branch", {
+        cache: "no-store",
       });
 
       if (!res.ok) {
-        throw new Error('Failed to fetch data');
+        throw new Error("Failed to fetch branch");
       }
 
-      const data = await res.json();
-      setBranches(data.branch);
+      const response = await res.json();
+      setBranchesData(response.branchesData);
     } catch (error) {
-      console.error(error);
+      console.log("Error loading users: ", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    console.log(branchesData);
+  }, [branchesData]);
 
+  const openAddBranch = () => {
+    setShowAddBranch(true);
+  };
 
+  const closeAddBranch = () => {
+    setShowAddBranch(false);
+  };
+
+  const handleEditBranch = (branch) => {
+    setSelectedBranch(branch);
+    setUpdateBranchPopupVisible(true); // Show the popup
+  };
+  
+  const handleClose = () => {
+    setUpdateBranchPopupVisible(false);
+  }
 
   const handleSaveData = () => {
     closeAddBranch();
@@ -56,7 +97,7 @@ const Branches = () => {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="branchName" />
+            <input type="text" id="searchName" name="branchAddress" />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAddBranch}>
@@ -65,17 +106,43 @@ const Branches = () => {
           </div>
         </div>
         <div className="branches-list">
-        {branches.map((branch) => (
-          <div key={branch._id}>
-            <p>{branch.branchId}</p>
-            <p>{branch.branchAddress}</p>
-            <p>{branch.numberOfStaff}</p>
-          </div>
-        ))}
-      </div>
-      
+          {branchesData && branchesData.map((branch) => (
+            <div key={branch._id} className="branch-container">
+
+              <p id="branch-num">Branch {branch.branchNumber}</p>
+              <p>Location: {branch.branchAddress}</p>
+              <p>Number of Staff: {branch.numberOfStaff === null ? 0 : branch.numberOfStaff}</p>
+              <div className="b-container">
+                <Button
+                  variant="outlined"
+                  id="edit-button"
+                  style={{ borderColor: '#b57b24', color: '#b57b24'}}>See Info</Button>
+                &nbsp;
+                <Button
+                  variant="outlined"
+                  style={{borderColor: 'blue'}}
+                  id="edit-button"
+                  onClick={() => handleEditBranch(branch)}
+                >
+                  Edit
+                </Button>
+                &nbsp;
+
+                <RemoveButton id={branch._id} />
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
       <AddBranch isOpen={showAddBranch} onSaveData={handleSaveData} closeAddBranch={closeAddBranch} />
+
+       <EditBranchPopup
+        isOpen={isUpdateBranchPopupVisible}
+        branch={selectedBranch}
+        onClose={handleClose}
+        onSave={handleSaveData}
+      />
     </>
   )
 }
