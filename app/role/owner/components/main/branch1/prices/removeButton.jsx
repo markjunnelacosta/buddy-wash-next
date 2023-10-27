@@ -1,33 +1,34 @@
-// "use client";
+"use client";
 
-// // import { HiOutlineTrash } from "react-icons/hi";
-// import { useRouter } from "next/navigation";
-// import Button from "@mui/material/Button";
+// import { HiOutlineTrash } from "react-icons/hi";
+import { useRouter } from "next/navigation";
+import Button from "@mui/material/Button";
 
-// export default function removeButton({ id }) {
-//   const router = useRouter();
-//   const removePrices = async () => {
-//     const confirmed = confirm("Are you sure?");
+export default function RemoveButton({ id }) {
+  const router = useRouter();
 
-//     if (confirmed) {
-//       const res = await fetch(`http://localhost:3000/api/prices?id=${id}`, {
-//         method: "DELETE",
-//       });
+  const removeProduct = async () => {
+    const confirmed = confirm("Are you sure you want to remove this Product?");
 
-//       if (res.ok) {
-//         router.refresh();
-//       }
-//     }
-//   };
+    if (confirmed) {
+      const res = await fetch(`http://localhost:3000/api/product?id=${id}`, {
+        method: "DELETE",
+      });
 
-//   return (
-//     <Button
-//       onClick={removePrices}
-//       variant="outlined"
-//       id="delete-button"
-//       href="/role/owner/prices"
-//     >
-//       Delete
-//     </Button>
-//   );
-// }
+      if (res.ok) {
+        router.refresh();
+      } 
+    }
+  };
+
+  return (
+    <Button
+      onClick={removeProduct}
+      variant="outlined"
+      id="delete-button"
+      href="/role/owner/components/main/branch1/prices"
+    >
+      Delete
+    </Button>
+  );
+  }
