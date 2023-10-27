@@ -137,9 +137,9 @@ const SupplyInOutTable = () => {
               <TableCell align="center" style={{ fontWeight: "bold" }}>
                 Type
               </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
+              {/* <TableCell align="center" style={{ fontWeight: "bold" }}>
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           {/* <TableBody>

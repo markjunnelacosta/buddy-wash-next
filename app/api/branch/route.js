@@ -2,12 +2,6 @@ import { connectToDB } from "@/utils/database";
 import Branch from "@/models/branch";
 import { NextResponse } from "next/server";
 
-// export async function GET() {
-//   await connectToDB();
-//   const branch = await Branch.find();
-//   return NextResponse.json({ branch });
-// }
-
 export const GET = async (req, res) => {
 try {
   await connectToDB();

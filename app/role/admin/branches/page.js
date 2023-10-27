@@ -33,6 +33,8 @@ const Branches = () => {
   const [branchesData, setBranchesData] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     const fetchBranch = async () => {
@@ -80,14 +82,22 @@ const Branches = () => {
     setSelectedBranch(branch);
     setUpdateBranchPopupVisible(true); // Show the popup
   };
-  
+
   const handleClose = () => {
     setUpdateBranchPopupVisible(false);
   }
 
+  const filteredBranches = branchesData.filter((branch) =>
+    branch.branchAddress.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleSaveData = () => {
     closeAddBranch();
     fetchData();
+  };
+
+  const handleShowInfo = (location) => {
+    setSelectedLocation(location);
   };
 
   return (
@@ -97,7 +107,12 @@ const Branches = () => {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="branchAddress" />
+            <input
+              type="text"
+              id="searchName"
+              name="branchAddress"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openAddBranch}>
@@ -106,9 +121,8 @@ const Branches = () => {
           </div>
         </div>
         <div className="branches-list">
-          {branchesData && branchesData.map((branch) => (
+          {filteredBranches.map((branch) => (
             <div key={branch._id} className="branch-container">
-
               <p id="branch-num">Branch {branch.branchNumber}</p>
               <p>Location: {branch.branchAddress}</p>
               <p>Number of Staff: {branch.numberOfStaff === null ? 0 : branch.numberOfStaff}</p>
@@ -116,18 +130,21 @@ const Branches = () => {
                 <Button
                   variant="outlined"
                   id="edit-button"
-                  style={{ borderColor: '#b57b24', color: '#b57b24'}}>See Info</Button>
+                  style={{ borderColor: '#b57b24', color: '#b57b24' }}
+                  onClick={() => handleShowInfo(branch.branchAddress)}
+                >
+                  See Info
+                </Button>
                 &nbsp;
                 <Button
                   variant="outlined"
-                  style={{borderColor: 'blue'}}
+                  style={{ borderColor: 'blue' }}
                   id="edit-button"
                   onClick={() => handleEditBranch(branch)}
                 >
                   Edit
                 </Button>
                 &nbsp;
-
                 <RemoveButton id={branch._id} />
               </div>
             </div>
@@ -137,7 +154,7 @@ const Branches = () => {
       </div>
       <AddBranch isOpen={showAddBranch} onSaveData={handleSaveData} closeAddBranch={closeAddBranch} />
 
-       <EditBranchPopup
+      <EditBranchPopup
         isOpen={isUpdateBranchPopupVisible}
         branch={selectedBranch}
         onClose={handleClose}
