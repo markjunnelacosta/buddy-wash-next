@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import "./ManageCustomer.css";
 import {
   Button,
@@ -42,6 +42,7 @@ const getCustomers = async () => {
 
 function ManageCustomer() {
   const [customers, setCustomers] = React.useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   React.useEffect(() => {
     const fetchCustomers = async () => {
@@ -59,6 +60,11 @@ function ManageCustomer() {
   React.useEffect(() => {
     console.log(customers);
   }, [customers]);
+
+  // Filter users based on search query
+  const filteredCustomers = customers.filter((customer) =>
+    customer.customerName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="manageCustomer-container">
@@ -82,7 +88,13 @@ function ManageCustomer() {
           </div>
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchName" name="customerName" />
+            <input
+              type="text"
+              id="searchName"
+              name="customerName"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
         <div className="table-container">
@@ -108,32 +120,31 @@ function ManageCustomer() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {customers.length > 0 &&
-                    customers.map((customer) => (
-                      <TableRow
-                        key={customer._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell align="center" component="th" scope="row">
-                          {customer.customerName}
-                        </TableCell>
-                        <TableCell align="center">
-                          {customer.customerNumber}
-                        </TableCell>
-                        <TableCell className="action-cell" align="center">
-                          <Button
-                            id="edit-button"
-                            variant="outlined"
-                            href={`/editCustomer/${customer._id}`}
-                          >
-                            Edit
-                          </Button>
-                          <RemoveButton id={customer._id} />
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                  {filteredCustomers.map((customer) => (
+                    <TableRow
+                      key={customer._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="center" component="th" scope="row">
+                        {customer.customerName}
+                      </TableCell>
+                      <TableCell align="center">
+                        {customer.customerNumber}
+                      </TableCell>
+                      <TableCell className="action-cell" align="center">
+                        <Button
+                          id="edit-button"
+                          variant="outlined"
+                          href={`/editCustomer/${customer._id}`}
+                        >
+                          Edit
+                        </Button>
+                        <RemoveButton id={customer._id} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Paper>
