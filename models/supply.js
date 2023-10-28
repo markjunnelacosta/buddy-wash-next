@@ -10,12 +10,12 @@ const SupplySchema = new Schema({
   },
   availableStock: {
     type: Number,
-    required: [true, "Quantity of supply is required"],
+    required: [false, "Quantity of supply is not required"],
   },
   productPrice: {
-    type: String,
+    type: Number,
     required: [true, "Price is required"],
-  }
+  },
 });
 
 const Supply = models.Supply || model("Supply", SupplySchema);

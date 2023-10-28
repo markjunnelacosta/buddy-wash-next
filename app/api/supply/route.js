@@ -10,13 +10,14 @@ export async function GET() {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { supplyName, availableStock } = body;
+  const { supplyName, availableStock, productPrice } = body;
 
   try {
     await connectToDB();
     const newSupply = new Supply({
       supplyName,
       availableStock,
+      productPrice,
     });
     console.log(newSupply);
     await newSupply.save();

@@ -15,16 +15,17 @@ import { Add } from "@mui/icons-material";
 
 export default function AddSupply() {
   const [supplyName, setSupplyName] = useState("");
-  const [availableStock, setAvailableStock] = useState("");
+  const [productPrice, setProductPrice] = useState("");
 
   const onClickSave = async () => {
-    console.log(supplyName, availableStock);
+    console.log(supplyName, productPrice);
 
     const response = await fetch("/api/supply", {
       method: "POST",
       body: JSON.stringify({
         supplyName: supplyName,
-        availableStock: availableStock,
+        availableStock: 0,
+        productPrice: productPrice,
       }),
     });
     console.log(response);
@@ -73,12 +74,12 @@ export default function AddSupply() {
                   onChange={(e) => setSupplyName(e.currentTarget.value)}
                 ></input>
               </div>
-              <div className="available-stock">
-                <p>Quantity</p>
+              <div className="product-price">
+                <p>Price</p>
                 <input
                   className="text-box"
-                  value={availableStock}
-                  onChange={(e) => setAvailableStock(e.currentTarget.value)}
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.currentTarget.value)}
                 ></input>
               </div>
             </div>
@@ -86,7 +87,7 @@ export default function AddSupply() {
         </DialogContent>
         <DialogActions>
           <Button
-            href="/role/staff/supplyList"
+            href="/role/owner/components/main/branch1/prices"
             className="dialog-button"
             onClick={() => {
               onClickSave();
