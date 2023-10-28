@@ -20,13 +20,8 @@ const BranchStaffSchema = new Schema({
     type: String,
     required: [true, "Staff Position Number is required"],
   },
-  branch: {
-    type: Schema.Types.ObjectId,
-    ref: "Branch",
-    required: true,
-  }
 });
 
-const BranchesStaff = models.BranchStaff || model('BranchStaff', BranchStaffSchema);
+const BranchesStaff = models.BranchStaff || model('BranchesStaff', BranchStaffSchema);
 
 export default BranchesStaff;

@@ -9,24 +9,6 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import StaffPage from "./add-staff/page";
 import RemoveButton from "./removeButton";
 
-// Function to fetch user data from the server
-const getStaff = async () => {
-    try {
-        const res = await fetch("http://localhost:3000/api/branch-staff", {
-            cache: "no-store",
-        });
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch branch staff");
-        }
-
-        const response = await res.json();
-        return response.branchStaffData || [];
-    } catch (error) {
-        console.log("Error loading Branch Staff: ", error);
-    }
-};
-
 const BranchStaff = () => {
     // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
@@ -34,9 +16,7 @@ const BranchStaff = () => {
     const [entriesPerPage, setEntriesPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
-    const [selectedLocation, setSelectedLocation] = useState(null);
-    const [searchQuery, setSearchQuery] = useState(''); // State for search query
-    //   const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -64,25 +44,27 @@ const BranchStaff = () => {
         setEntriesPerPage(event.target.value);
     };
 
-    // Function to open the admin page
+    // Function to open the staff page for adding/editing staff members
     const openStaffPage = () => {
         setShowStaffPage(true);
     };
 
-    // Function to close the admin page
+    // Function to close the staff page
     const closeStaffPage = () => {
         setShowStaffPage(false);
     };
 
-    // Function to handle editing a user
+    // Function to handle editing a staff member
     const handleEditStaff = (staff) => {
         setSelectedStaff(staff);
-        // setUpdateUserPopupVisible(true); // Show the popup
+        // Call a function to show the edit staff member popup (if implemented)
+        // setUpdateUserPopupVisible(true);
     };
 
-    // Function to close the edit user popup
+    // Function to close the edit staff member popup (if implemented)
     const handleClose = () => {
-        setUpdateUserPopupVisible(false); // Hide the popup
+        // Hide the popup
+        // setUpdateUserPopupVisible(false);
     };
 
     // Filter staff based on search query
@@ -92,36 +74,19 @@ const BranchStaff = () => {
 
     // Use an effect to fetch staff data when the component mounts
     useEffect(() => {
-        const fetchStaff = async () => {
+        const fetchBranchStaff = async () => {
             try {
-                const staff = await getStaff();
+                const staff = await getBranchStaff();
                 setBranchStaffData(staff);
             } catch (error) {
                 console.error("Error fetching Branch Staff:", error);
             }
         };
 
-        fetchStaff();
+        fetchBranchStaff();
     }, []);
 
-    // Modify this function to group staff by location
-    const groupStaffByLocation = () => {
-        const groupedData = {};
-
-        branchStaffData.forEach((staff) => {
-            const location = staff.branch.branchAddress;
-            if (!groupedData[location]) {
-                groupedData[location] = [];
-            }
-            groupedData[location].push(staff);
-        });
-
-        return groupedData;
-    };
-
-    const locationData = groupStaffByLocation();
-
-    // Log the user data for debugging
+    // Log the branch staff data for debugging
     useEffect(() => {
         console.log(branchStaffData);
     }, [branchStaffData]);
@@ -145,61 +110,11 @@ const BranchStaff = () => {
         }
     };
 
-    // Function to handle saving data after adding or editing a user
+    // Function to handle saving data after adding or editing a staff member
     const handleSaveData = () => {
-        closeStaffPage(); // Close the AdminPage
-        fetchData();
+        closeStaffPage(); // Close the StaffPage
+        fetchData(); // Fetch updated data
     };
-
-    const renderTables = () => {
-        return Object.keys(locationData).map((location) => (
-            <div key={location}>
-                {selectedLocation === location && (
-                    <>
-                        <h2>Location: {location}</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Phone Number</th>
-                                    <th>Position</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {locationData[location]
-                                    .slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage)
-                                    .map((staff) => (
-                                        <tr key={staff._id}>
-                                            <td>{staff.staffName}</td>
-                                            <td>{staff.staffAddress}</td>
-                                            <td>{staff.phoneNumber}</td>
-                                            <td>{staff.staffPosition}</td>
-                                            <td>
-                                                <div className="b-container">
-                                                    <Button
-                                                        variant="outlined"
-                                                        id="edit-button"
-                                                        onClick={() => handleEditStaff(staff)}
-                                                    >
-                                                        Edit
-                                                    </Button>
-                                                    &nbsp;
-                                                    <RemoveButton id={staff._id} />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-
-                    </>
-                )}
-            </div>
-        ));
-    };
-
 
     return (
         <>
@@ -207,6 +122,7 @@ const BranchStaff = () => {
             <div className="container-box">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
+                        <p style={{ fontWeight: "bold" }}>Location: </p>
                         <p style={{ fontWeight: "bold" }}>Search</p>
                         <input
                             type="text"
@@ -222,13 +138,56 @@ const BranchStaff = () => {
                         </button>
                     </div>
                 </div>
-                {renderTables()}
+                <div className="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>Position</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredStaff
+                                .slice(
+                                    (currentPage - 1) * entriesPerPage,
+                                    currentPage * entriesPerPage
+                                )
+                                .map((staff) => (
+                                    <tr key={staff._id}>
+                                        <td>{staff.staffName}</td>
+                                        <td>{staff.staffAddress}</td>
+                                        <td>{staff.phoneNumber}</td>
+                                        <td>{staff.staffPosition}</td>
+                                        <td>
+                                            <div className="b-container">
+                                                <Button
+                                                    variant="outlined"
+                                                    id="edit-button"
+                                                    onClick={() => handleEditStaff(staff)}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                &nbsp;
+                                                <RemoveButton id={staff._id} />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
                 <div className="pagination">
                     <button onClick={handlePreviousPage} disabled={currentPage === 1}>
                         <ArrowBackIosRoundedIcon />
                     </button>
                     <span>{`Showing entries ${startRange}-${endRange} of ${filteredStaff.length}`}</span>
-                    <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                    >
                         <ArrowForwardIosRoundedIcon />
                     </button>
                 </div>
@@ -238,13 +197,12 @@ const BranchStaff = () => {
                 onClose={handleSaveData}
                 onSaveData={handleSaveData}
             />
-            {/* Render the EditUserPopup with the selected user */}
             {/* <EditUserPopup
-            isOpen={isUpdateUserPopupVisible}
-            user={selectedUser}
-            onClose={handleClose}
-            onSave={handleSaveData}
-          /> */}
+                isOpen={isUpdateUserPopupVisible}
+                user={selectedUser}
+                onClose={handleClose}
+                onSave={handleSaveData} // Implement the save function
+            /> */}
         </>
     );
 };
