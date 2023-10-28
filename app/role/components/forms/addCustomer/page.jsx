@@ -53,7 +53,6 @@ export default function AddCustomer() {
           alignSelf: "flex-end",
           margin: "30px",
           borderRadius: "10px",
-          marginLeft: "83.5%",
         }}
         variant="contained"
         onClick={handleClickOpen}

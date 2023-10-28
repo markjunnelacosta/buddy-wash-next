@@ -69,23 +69,9 @@ function ManageCustomer() {
   return (
     <div className="manageCustomer-container">
       <div className="blue-container">
-        <AddCustomer />
-
         <div className="searchContainer">
-          <div className="searchContainer-left">
-            <p style={{ fontWeight: "bold" }}>Show</p>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <Select id="dropdown" style={{ backgroundColor: "white" }}>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-              </Select>
-            </FormControl>
-            <p style={{ fontWeight: "bold" }}>Entries</p>
-          </div>
+          <AddCustomer />
+
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
             <input
@@ -99,11 +85,11 @@ function ManageCustomer() {
         </div>
         <div className="table-container">
           <TableContainer component={Paper}>
-            <Paper style={{ height: 550, width: "100%" }}>
+            <Paper style={{ height: 480, width: "100%" }}>
               <Table
                 stickyHeader
                 aria-label="sticky table"
-                sx={{ minWidth: 650 }}
+                sx={{ minWidth: 480 }}
                 size="small"
               >
                 <TableHead>
