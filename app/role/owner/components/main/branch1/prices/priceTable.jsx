@@ -85,8 +85,6 @@ const SupplyTable = () => {
                     <Button variant="outlined" id="edit-button">
                       Rename
                     </Button>
-                    &nbsp;
-                    <RemoveButton id={supply._id} />
                   </TableCell>
                 </TableRow>
               ))}
