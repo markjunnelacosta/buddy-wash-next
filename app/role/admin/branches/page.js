@@ -34,7 +34,6 @@ const Branches = () => {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     const fetchBranch = async () => {
@@ -96,10 +95,6 @@ const Branches = () => {
     fetchData();
   };
 
-  const handleShowInfo = (location) => {
-    setSelectedLocation(location);
-  };
-
   return (
     <>
       <Layout />
@@ -131,7 +126,6 @@ const Branches = () => {
                   variant="outlined"
                   id="edit-button"
                   style={{ borderColor: '#b57b24', color: '#b57b24' }}
-                  onClick={() => handleShowInfo(branch.branchAddress)}
                 >
                   See Info
                 </Button>
