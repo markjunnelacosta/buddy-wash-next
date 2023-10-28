@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import RemoveButton from "./RemoveButton";
 import Button from "@mui/material/Button";
 import "./priceTable.css";
 
@@ -85,8 +84,6 @@ const SupplyTable = () => {
                     <Button variant="outlined" id="edit-button">
                       Rename
                     </Button>
-                    &nbsp;
-                    <RemoveButton id={supply._id} />
                   </TableCell>
                 </TableRow>
               ))}
