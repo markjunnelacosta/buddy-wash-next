@@ -85,11 +85,11 @@ function ManageCustomer() {
         </div>
         <div className="table-container">
           <TableContainer component={Paper}>
-            <Paper style={{ height: 480, width: "100%" }}>
+            <Paper style={{ height: 630, width: "100%" }}>
               <Table
                 stickyHeader
                 aria-label="sticky table"
-                sx={{ minWidth: 480 }}
+                sx={{ minWidth: 600 }}
                 size="small"
               >
                 <TableHead>
