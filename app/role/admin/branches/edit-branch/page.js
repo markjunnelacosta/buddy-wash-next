@@ -41,8 +41,6 @@ export default function UpdateBranch({
             }
 
             onClose();
-            // router.refresh();
-            // router.push("/role/admin/branches");
 
             window.location.reload();
 

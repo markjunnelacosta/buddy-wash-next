@@ -1,4 +1,4 @@
-import UpdateBranch from "@/app/role/admin/users/edit-branch/page";
+import UpdateBranch from "@/app/role/admin/branches/edit-branch/page";
 
 
 const getBranch = async (id) => {

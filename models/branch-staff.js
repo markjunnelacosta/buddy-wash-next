@@ -22,6 +22,6 @@ const BranchStaffSchema = new Schema({
   },
 });
 
-const BranchesStaff = models.BranchStaff || model('BranchesStaff', BranchStaffSchema);
+const BranchesStaff = models.BranchesStaff || model('BranchesStaff', BranchStaffSchema);
 
 export default BranchesStaff;

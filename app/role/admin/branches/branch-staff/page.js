@@ -8,6 +8,7 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import StaffPage from "./add-staff/page";
 import RemoveButton from "./removeButton";
+import EditStaffPopup from "./eButton";
 
 const BranchStaff = () => {
     // State variables
@@ -17,6 +18,7 @@ const BranchStaff = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -58,13 +60,13 @@ const BranchStaff = () => {
     const handleEditStaff = (staff) => {
         setSelectedStaff(staff);
         // Call a function to show the edit staff member popup (if implemented)
-        // setUpdateUserPopupVisible(true);
+        setUpdateStaffPopupVisible(true);
     };
 
     // Function to close the edit staff member popup (if implemented)
     const handleClose = () => {
         // Hide the popup
-        // setUpdateUserPopupVisible(false);
+        setUpdateStaffPopupVisible(false);
     };
 
     // Filter staff based on search query
@@ -197,12 +199,12 @@ const BranchStaff = () => {
                 onClose={handleSaveData}
                 onSaveData={handleSaveData}
             />
-            {/* <EditUserPopup
-                isOpen={isUpdateUserPopupVisible}
-                user={selectedUser}
+            <EditStaffPopup
+                isOpen={isUpdateStaffPopupVisible}
+                user={selectedStaff}
                 onClose={handleClose}
                 onSave={handleSaveData} // Implement the save function
-            /> */}
+            />
         </>
     );
 };
