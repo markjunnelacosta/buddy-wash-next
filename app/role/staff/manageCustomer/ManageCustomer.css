@@ -24,19 +24,24 @@
 .searchContainer {
   display: flex;
   flex-direction: row;
-  margin-left: 30px;
+  /* margin-left: 30px; */
   justify-content: space-between;
+  height: 50px;
+  align-items: baseline;
 }
-.searchContainer-left {
+/* .searchContainer-left {
   display: flex;
-}
+} */
 .searchContainer-right {
   display: flex;
+  line-height: 25px;
 }
 #searchName {
   border-color: white;
   margin: 10px 35px 10px 10px;
   width: 200px;
+  line-height: 30px;
+  height: fit-content;
 }
 #edit-button {
   padding: 2px;
