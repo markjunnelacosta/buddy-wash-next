@@ -62,45 +62,45 @@ export default function UpdateSupply({
 
     return (
         <div className="box-container" style={{ zIndex: 9999 }}>
-                <DialogTitle>Edit Supply</DialogTitle>
-                <hr/>
-                <DialogContent>
-                    <div className="add-supply-form">
-                        <div className="input">
-                            <div className="supply-name">
-                                <p>Supply Name</p>
-                                <input
-                                    className="text-box"
-                                    value={newSupplyName}
-                                    onChange={(e) => setNewSupplyName(e.currentTarget.value)}
-                                ></input>
-                            </div>
-                            <div className="product-price">
-                                <p>Price</p>
-                                <input
-                                    className="text-box"
-                                    value={newProductPrice}
-                                    onChange={(e) => setNewProductPrice(e.currentTarget.value)}
-                                ></input>
-                            </div>
+            <DialogTitle>Edit Supply</DialogTitle>
+            <hr />
+            <DialogContent>
+                <div className="add-supply-form">
+                    <div className="input">
+                        <div className="supply-name">
+                            <p>Supply Name</p>
+                            <input
+                                className="text-box"
+                                value={newSupplyName}
+                                onChange={(e) => setNewSupplyName(e.currentTarget.value)}
+                            ></input>
+                        </div>
+                        <div className="product-price">
+                            <p>Price</p>
+                            <input
+                                className="text-box"
+                                value={newProductPrice}
+                                onChange={(e) => setNewProductPrice(e.currentTarget.value)}
+                            ></input>
                         </div>
                     </div>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        href="/role/owner/components/main/branch1/prices"
-                        className="dialog-button"
-                        onClick={handleSubmit}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        className="dialog-button"
-                        onClick={handleClose}
-                    >
-                        Cancel
-                    </Button>
-                </DialogActions>
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    href="/role/owner/components/main/branch1/prices"
+                    className="dialog-button"
+                    onClick={handleSubmit}
+                >
+                    Save
+                </Button>
+                <Button
+                    className="dialog-button"
+                    onClick={handleClose}
+                >
+                    Cancel
+                </Button>
+            </DialogActions>
         </div>
     );
 }
