@@ -30,7 +30,7 @@ p {
 }
 .text-box {
   border: solid lightgray;
-  line-height: 30px;
+  line-height: 20px;
   width: 400px;
   border-width: thin;
   font-weight: bold;

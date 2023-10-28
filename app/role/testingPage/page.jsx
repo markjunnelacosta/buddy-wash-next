@@ -1,10 +1,10 @@
 import React from "react";
-import AddCustomer from "../staff/manageCustomer/addCustomer/page";
+import ProductSelection from "../components/forms/addCustomer/updateSupplyQuantity/productSelection";
 
 const TestingPage = () => {
   return (
     <div>
-      <AddCustomer />
+      <ProductSelection />
     </div>
   );
 };
