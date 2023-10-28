@@ -6,8 +6,22 @@ import AddIcon from '@mui/icons-material/Add';
 import { Add } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddStaff from './staffTable';
+import { getUsers } from "../staff/usersData";
 
 function Staff() {
+
+    const fetchUser = async () => {
+        try {
+            const users = await getUsers();
+            console.log(users); // Log the fetched user data
+        } catch (error) {
+            console.error("Error fetching user:", error);
+        }
+    };
+
+    // Call the function to fetch user data
+    fetchUser();
+
     return (
         <div className="staff-container">
             <div className="blue-container">

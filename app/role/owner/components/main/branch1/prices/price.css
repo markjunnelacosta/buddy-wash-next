@@ -2,7 +2,7 @@
     background-color: #ececec;
     width: 80%;
     display: flex;
-    height: 90vh;
+    height: auto;
     float: right;
     justify-content: space-between;
 }
@@ -21,7 +21,7 @@
 .table-container {
     background-color: white;
     margin: 10px 30px;
-    height: 100%;
+    height: auto;
 
 }
 

@@ -53,7 +53,7 @@ export default function AddSupply() {
           alignSelf: "flex-end",
           margin: "30px",
           borderRadius: "10px",
-          marginLeft: "83.5%",
+          marginLeft: "109vh",
         }}
         variant="contained"
         onClick={handleClickOpen}

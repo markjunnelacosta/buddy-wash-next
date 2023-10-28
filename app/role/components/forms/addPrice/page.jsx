@@ -52,7 +52,7 @@ export default function addPrice() {
           alignSelf: "flex-end",
           margin: "30px",
           borderRadius: "10px",
-          marginLeft: "83.5%",
+          marginLeft: "30px",
         }}
         variant="contained"
         onClick={handleClickOpen}

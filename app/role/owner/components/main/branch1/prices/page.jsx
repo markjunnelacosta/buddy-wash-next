@@ -23,7 +23,6 @@ function Prices() {
             style={{
               color: "black",
               fontWeight: "bold",
-              alignSelf: "right",
               margin: "30px",
             }}
             variant="contained"
