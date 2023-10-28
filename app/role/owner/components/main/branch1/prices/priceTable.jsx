@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,11 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import "./SupplyTable.css";
-import Link from "next/link";
-import Button from "@mui/material/Button";
-import { blue } from "@mui/material/colors";
 import RemoveButton from "./RemoveButton";
+import Button from "@mui/material/Button";
+import "./priceTable.css";
 
 const getSupplies = async () => {
   try {
@@ -28,7 +24,7 @@ const getSupplies = async () => {
     const response = await res.json();
     return response.supplies;
   } catch (error) {
-    console.log("Error loading customers: ", error);
+    console.log("Error loading supplies: ", error);
   }
 };
 
@@ -58,19 +54,19 @@ const SupplyTable = () => {
         <Table
           stickyHeader
           aria-label="sticky table"
-          sx={{ minWidth: 650 }}
+          // sx={{ minWidth: 750 }}
           size="small"
         >
           <TableHead>
             <TableRow>
               <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Name
+                Product Name
               </TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Available Stock
+                Price
               </TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Status
+                Action
               </TableCell>
             </TableRow>
           </TableHead>
@@ -84,8 +80,14 @@ const SupplyTable = () => {
                   <TableCell align="center" component="th" scope="row">
                     {supply.supplyName}
                   </TableCell>
-                  <TableCell align="center">{supply.availableStock}</TableCell>
-                  <TableCell align="center"> </TableCell>
+                  <TableCell align="center">{supply.productPrice}</TableCell>
+                  <TableCell align="center">
+                    <Button variant="outlined" id="edit-button">
+                      Rename
+                    </Button>
+                    &nbsp;
+                    <RemoveButton id={supply._id} />
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -96,3 +98,50 @@ const SupplyTable = () => {
 };
 
 export default SupplyTable;
+
+// function priceTable(
+
+//   supplyName,
+//   productPrice
+
+// ) {
+//   return { supplyName, productPrice };
+// }
+
+// export default function editPrices() {
+//   return (
+//     <TableContainer component={Paper}>
+//       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+//         <TableHead>
+//           <TableRow >
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>Product</TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>Price </TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>Action </TableCell>
+//           </TableRow>
+//         </TableHead>
+//         {/* <TableBody>
+//             {prices.length > 0 &&
+//               prices.map((prices) => (
+//                 <TableRow
+//                   key={prices._id}
+//                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+//                 >
+//                   <TableCell align="center" component="th" scope="row">
+//                     {prices.productName}
+//                   </TableCell>
+//                   <TableCell align="center">{prices.availableStock}</TableCell>
+//                   <TableCell align="center"> </TableCell>
+//                   <TableCell align="center">
+//                     <Button variant="outlined" id="edit-button">
+//                       Edit
+//                     </Button>
+//                     &nbsp;
+//                     <RemoveButton id={prices._id} />
+//                   </TableCell>
+//                 </TableRow>
+//               ))}
+//           </TableBody> */}
+//       </Table>
+//     </TableContainer>
+//   );
+// }

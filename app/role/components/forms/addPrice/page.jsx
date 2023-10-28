@@ -1,31 +1,30 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import "./AddSupply.css";
+import "./addPrice.css";
 import { Button } from "@mui/material";
 // import * as React from "react";
 // import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
+import DialogActions from "@mui/material/DialogAction s";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Add } from "@mui/icons-material";
 
-export default function AddSupply() {
+export default function addPrice() {
   const [supplyName, setSupplyName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
+  const [availableStock, setAvailableStock] = useState("");
 
   const onClickSave = async () => {
-    console.log(supplyName, productPrice);
+    console.log(supplyName, availableStock);
 
     const response = await fetch("/api/supply", {
       method: "POST",
       body: JSON.stringify({
         supplyName: supplyName,
-        availableStock: 0,
-        productPrice: productPrice,
+        availableStock: availableStock,
       }),
     });
     console.log(response);
@@ -59,27 +58,27 @@ export default function AddSupply() {
         onClick={handleClickOpen}
         startIcon={<Add />}
       >
-        New Supply
+        New Product
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Supply</DialogTitle>
+        <DialogTitle>New Product</DialogTitle>
         <DialogContent>
           <div className="add-supply-form">
             <div className="input">
               <div className="supply-name">
-                <p>Supply Name</p>
+                <p>Name</p>
                 <input
                   className="text-box"
                   value={supplyName}
                   onChange={(e) => setSupplyName(e.currentTarget.value)}
                 ></input>
               </div>
-              <div className="product-price">
+              <div className="available-stock">
                 <p>Price</p>
                 <input
                   className="text-box"
-                  value={productPrice}
-                  onChange={(e) => setProductPrice(e.currentTarget.value)}
+                  value={changePrice}
+                  onChange={(e) => setPrice(e.currentTarget.value)}
                 ></input>
               </div>
             </div>
@@ -87,7 +86,7 @@ export default function AddSupply() {
         </DialogContent>
         <DialogActions>
           <Button
-            href="/role/owner/components/main/branch1/prices"
+            href="/role/owner/commponents/main/branch1/prices"
             className="dialog-button"
             onClick={() => {
               onClickSave();
