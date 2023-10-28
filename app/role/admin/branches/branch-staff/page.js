@@ -201,7 +201,7 @@ const BranchStaff = () => {
             />
             <EditStaffPopup
                 isOpen={isUpdateStaffPopupVisible}
-                user={selectedStaff}
+                staff={selectedStaff}
                 onClose={handleClose}
                 onSave={handleSaveData} // Implement the save function
             />

@@ -24,7 +24,7 @@ export async function PUT(request, { params }) {
             newStaffPosition: staffPosition } =
         await request.json();
     await connectToDB();
-    await Branch.findByIdAndUpdate(id, { staffName, staffAddress, phoneNumber, staffPosition });
+    await BranchesStaff.findByIdAndUpdate(id, { staffName, staffAddress, phoneNumber, staffPosition });
     return NextResponse.json(
         { message: "Branch Staff Details Updated" },
         { status: 200 }

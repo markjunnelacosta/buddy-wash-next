@@ -60,7 +60,6 @@ export default function UpdateStaff({
 
     return (
         <>
-            {isOpen && (
                 <div className="form-container visible">
                     <div>
                         <p>New Staff</p>
@@ -99,10 +98,6 @@ export default function UpdateStaff({
                         <button className="save" onClick={handleSave}>Save</button>
                     </div>
                 </div>
-            )}
-
-
-
         </>
     );
 };
