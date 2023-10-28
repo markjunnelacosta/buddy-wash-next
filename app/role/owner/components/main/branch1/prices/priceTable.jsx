@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import "./priceTable.css";
+import EditSupplyPopup from "./editButton";
 
 const getSupplies = async () => {
   try {
@@ -29,6 +31,18 @@ const getSupplies = async () => {
 
 const SupplyTable = () => {
   const [supplies, setSupplies] = React.useState([]);
+  const [selectedSupply, setSelectedSupply] = useState(null);
+  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] = useState(false);
+
+  const handleEditSupply = (supply) => {
+    setSelectedSupply(supply);
+    setUpdateSupplyPopupVisible(true);
+  };
+
+  const handleClose = () => {
+    setUpdateSupplyPopupVisible(false); // Hide the popup
+  };
+
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -47,7 +61,31 @@ const SupplyTable = () => {
     console.log(supplies);
   }, [supplies]);
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/supply", {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch supply");
+      }
+
+      const response = await res.json();
+      const supplies = response.userData || [];
+      setSupplies(supplies); // Assuming you want to update the supply data in your component state
+    } catch (error) {
+      console.log("Error loading supplies: ", error);
+    }
+  };
+
+  const handleSaveData = () => {
+    fetchData();
+  };
+
+
   return (
+    <>
     <TableContainer component={Paper}>
       <Paper style={{ height: 650, width: "100%" }}>
         <Table
@@ -81,7 +119,7 @@ const SupplyTable = () => {
                   </TableCell>
                   <TableCell align="center">{supply.productPrice}</TableCell>
                   <TableCell align="center">
-                    <Button variant="outlined" id="edit-button">
+                    <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
                       Rename
                     </Button>
                   </TableCell>
@@ -91,6 +129,13 @@ const SupplyTable = () => {
         </Table>
       </Paper>
     </TableContainer>
+    <EditSupplyPopup
+        isOpen={isUpdateSupplyPopupVisible}
+        supply={selectedSupply}
+        onClose={handleClose}
+        onSave={handleSaveData} // Implement the save function
+      />
+    </>
   );
 };
 
