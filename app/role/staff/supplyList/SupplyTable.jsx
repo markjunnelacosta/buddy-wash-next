@@ -54,7 +54,7 @@ const SupplyTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Paper style={{ height: 550, width: "100%" }}>
+      <Paper style={{ height: 650, width: "100%" }}>
         <Table
           stickyHeader
           aria-label="sticky table"
@@ -72,9 +72,6 @@ const SupplyTable = () => {
               <TableCell align="center" style={{ fontWeight: "bold" }}>
                 Status
               </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Action
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,13 +86,6 @@ const SupplyTable = () => {
                   </TableCell>
                   <TableCell align="center">{supply.availableStock}</TableCell>
                   <TableCell align="center"> </TableCell>
-                  <TableCell align="center">
-                    <Button variant="outlined" id="edit-button">
-                      Rename
-                    </Button>
-                    &nbsp;
-                    <RemoveButton id={supply._id} />
-                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

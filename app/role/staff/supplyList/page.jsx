@@ -21,7 +21,7 @@ function SupplyList() {
         {/* <Button style={{backgroundColor:"white", color:"black", width:"200px", height:"50px",fontWeight:"bold", alignSelf:"flex-end", margin:"30px", borderRadius:"10px"}} variant="contained" startIcon={<Add />}>
                   New Supply
                 </Button> */}
-        <AddSupply />
+        {/* <AddSupply /> */}
         <div className="searchContainer">
           <div className="searchContainer-left">
             <p style={{ fontWeight: "bold" }}>Show</p>
