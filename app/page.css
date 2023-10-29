@@ -29,76 +29,89 @@
 #main-container {
   display: grid;
   grid-template-columns: 3fr 1fr;
+  overflow: hidden;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
 
-  .machines {
-    height: 100vh;
-    width: 100%;
-  }
-  #right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  #signin {
-    display: flex;
-    align-items: center;
-    height: 100vh;
-  }
-  .logo {
-    height: 300px;
-    width: 300px;
-  }
-  #login-button {
-    background-color: #4b9ae3;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    letter-spacing: 2px;
-    width: 200px;
-    margin-left: 25%;
-  }
-  .input-field {
-    border: none;
-    border-bottom: solid gray;
-    border-width: thin;
-    font-weight: bold;
-  }
-  .input #userID,
-  #password {
-    border: none;
-    border-bottom: solid gray;
-    border-width: thin;
-    font-weight: bold;
-  }
+.machines {
+  height: 100vh;
+  width: 100%;
+}
 
-  .userOptions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .userOptions #staff,
-  #owner,
-  #admin {
-    background-color: #4b9ae3;
-    color: black;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    letter-spacing: 2px;
-    width: 300px;
-  }
-  #textBelow {
-    text-align: center;
-    font-size: small;
-    padding: 30px;
-    font-weight: bold;
-  }
-  .greetings {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+#right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#signin {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.logo {
+  height: 300px;
+  width: 300px;
+}
+
+#login-button {
+  background-color: #4b9ae3;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  width: 200px;
+  margin-left: 25%;
+}
+
+.input-field {
+  border: none;
+  border-bottom: solid gray;
+  border-width: thin;
+  font-weight: bold;
+}
+
+.input #userID,
+#password {
+  border: none;
+  border-bottom: solid gray;
+  border-width: thin;
+  font-weight: bold;
+}
+
+.userOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.userOptions #staff,
+#owner,
+#admin {
+  background-color: #4b9ae3;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  letter-spacing: 2px;
+  width: 300px;
+}
+
+#textBelow {
+  text-align: center;
+  font-size: small;
+  padding: 30px;
+  font-weight: bold;
+}
+
+.greetings {
+  text-align: center;
+  margin-bottom: 20px;
 }

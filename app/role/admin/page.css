@@ -36,21 +36,25 @@ body {
 .side-nav-bar-container {
   width: 20%;
   background-color: white;
-  height: 92.5vh;
+  /* height: 100%; */
   display: flex;
   float: left;
+  flex-direction: column;
   padding: 0;
   margin: 0;
   overflow-y: auto;
+  height: calc(100vh - 65px);
 
-  .MuiListItemText-primary {
-    font-size: 14px !important;
-  }
-
-  .MuiListItemIcon-root {
-    min-width: 30px;
-  }
 }
+
+.MuiListItemText-primary {
+  font-size: 14px !important;
+}
+
+.MuiListItemIcon-root {
+  min-width: 30px;
+}
+
 .nav-section-text {
   
   padding-left: 16px;
@@ -59,8 +63,16 @@ body {
 .button{
   height:50px;
   padding-left: 50px;
+  display: flex; /* To center items vertically within the button */
+  align-items: center;
 }
 .button-content{
   margin-left: 10px;
   color: black;
+}
+
+.side-nav-bar-container ul,
+.side-nav-bar-container li {
+  margin: 0;
+  padding: 0;
 }
