@@ -67,13 +67,13 @@ export default function UpdateCustomerForm({
   //   };
 
   return (
-    <div>
+    <div >
       {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openBackDrop}
         onClick={handleCloseBackDrop}
       > */}
-      <form onSubmit={handleSubmit} className="update-customer-form">
+      <form onSubmit={handleSubmit} className="update-customer-form" style={{ zIndex: 9999 }}>
         <div className="title">
           <p>Update Customer Details</p>
         </div>

@@ -16,11 +16,10 @@ p {
   display: flex;
   flex-flow: column;
   width: 500px;
-  background-color: whitesmoke;
+  background-color: white;
   padding: 30px;
   border-radius: 20px;
   margin: auto;
-  margin-top: 15%;
   overflow-y: auto;
   justify-content: center;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);

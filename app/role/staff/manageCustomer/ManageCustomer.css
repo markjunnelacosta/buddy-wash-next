@@ -18,9 +18,12 @@
 
 .table-container {
   background-color: white;
-  margin: 30px 30px;
-  height: 100%;
+  margin: 30px;
+  padding: 10px;
+  flex-grow: 1; /* Allow the table container to expand to fill available space */
+  overflow: auto; /* Enable scrolling when the content overflows */
 }
+
 .searchContainer {
   display: flex;
   flex-direction: row;
@@ -52,4 +55,11 @@
   color: red;
   border: solid red 0.5px;
   padding: 2px;
+}
+
+/* Add this CSS to make the table header sticky */
+.MuiTableHead-root {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Set the background color of the sticky header */
 }

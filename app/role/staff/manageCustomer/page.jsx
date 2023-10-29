@@ -98,7 +98,7 @@ function ManageCustomer() {
           </div>
           <div className="table-container">
             <TableContainer component={Paper}>
-              <Paper style={{ height: 630, width: "100%" }}>
+              {/* <Paper style={{ height: 630, width: "100%" }}> */}
                 <Table
                   stickyHeader
                   aria-label="sticky table"
@@ -146,7 +146,7 @@ function ManageCustomer() {
                     ))}
                   </TableBody>
                 </Table>
-              </Paper>
+              {/* </Paper> */}
             </TableContainer>
           </div>
         </div>
