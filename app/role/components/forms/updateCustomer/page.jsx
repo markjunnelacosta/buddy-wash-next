@@ -42,6 +42,7 @@ export default function UpdateCustomerForm({
 
       router.refresh();
       router.push("/role/staff/manageCustomer");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
