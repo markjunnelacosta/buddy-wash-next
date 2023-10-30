@@ -54,43 +54,43 @@ const SupplyTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Paper style={{ height: 480, width: "100%" }}>
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{ minWidth: 480 }}
-          size="small"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Name
-              </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Available Stock
-              </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Status
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {supplies.length > 0 &&
-              supplies.map((supply) => (
-                <TableRow
-                  key={supply._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="center" component="th" scope="row">
-                    {supply.supplyName}
-                  </TableCell>
-                  <TableCell align="center">{supply.availableStock}</TableCell>
-                  <TableCell align="center"> </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </Paper>
+      {/* <Paper style={{ height: 480, width: "100%" }}> */}
+      <Table
+        stickyHeader
+        aria-label="sticky table"
+        sx={{ minWidth: 600 }}
+        size="small"
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Name
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Available Stock
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Status
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {supplies.length > 0 &&
+            supplies.map((supply) => (
+              <TableRow
+                key={supply._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center" component="th" scope="row">
+                  {supply.supplyName}
+                </TableCell>
+                <TableCell align="center">{supply.availableStock}</TableCell>
+                <TableCell align="center"> </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+      {/* </Paper> */}
     </TableContainer>
   );
 };
