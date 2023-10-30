@@ -33,21 +33,10 @@ function SupplyInOut() {
         >
           Update Supply
         </Button> */}
-        <UpdateSupply />
+
         <div className="searchContainer">
           <div className="searchContainer-left">
-            <p style={{ fontWeight: "bold" }}>Show</p>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <Select id="dropdown" style={{ backgroundColor: "white" }}>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-              </Select>
-            </FormControl>
-            <p style={{ fontWeight: "bold" }}>Entries</p>
+            <UpdateSupply />
           </div>
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>

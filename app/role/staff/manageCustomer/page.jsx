@@ -44,7 +44,8 @@ const getCustomers = async () => {
 function ManageCustomer() {
   const [customers, setCustomers] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] = useState(false);
+  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] =
+    useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const handleEditCustomer = (customer) => {
@@ -99,53 +100,53 @@ function ManageCustomer() {
           <div className="table-container">
             <TableContainer component={Paper}>
               {/* <Paper style={{ height: 630, width: "100%" }}> */}
-                <Table
-                  stickyHeader
-                  aria-label="sticky table"
-                  sx={{ minWidth: 600 }}
-                  size="small"
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" style={{ fontWeight: "bold" }}>
-                        Name
+              <Table
+                stickyHeader
+                aria-label="sticky table"
+                sx={{ minWidth: 600 }}
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                      Name
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                      Number
+                    </TableCell>
+                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                      Action
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredCustomers.map((customer) => (
+                    <TableRow
+                      key={customer._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell align="center" component="th" scope="row">
+                        {customer.customerName}
                       </TableCell>
-                      <TableCell align="center" style={{ fontWeight: "bold" }}>
-                        Number
+                      <TableCell align="center">
+                        {customer.customerNumber}
                       </TableCell>
-                      <TableCell align="center" style={{ fontWeight: "bold" }}>
-                        Action
+                      <TableCell className="action-cell" align="center">
+                        <Button
+                          id="edit-button"
+                          variant="outlined"
+                          onClick={() => handleEditCustomer(customer)}
+                        >
+                          Edit
+                        </Button>
+                        <RemoveButton id={customer._id} />
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {filteredCustomers.map((customer) => (
-                      <TableRow
-                        key={customer._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell align="center" component="th" scope="row">
-                          {customer.customerName}
-                        </TableCell>
-                        <TableCell align="center">
-                          {customer.customerNumber}
-                        </TableCell>
-                        <TableCell className="action-cell" align="center">
-                          <Button
-                            id="edit-button"
-                            variant="outlined"
-                            onClick={() => handleEditCustomer(customer)}
-                          >
-                            Edit
-                          </Button>
-                          <RemoveButton id={customer._id} />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                  ))}
+                </TableBody>
+              </Table>
               {/* </Paper> */}
             </TableContainer>
           </div>
@@ -157,7 +158,6 @@ function ManageCustomer() {
         onClose={handleClose}
       />
     </>
-
   );
 }
 export default ManageCustomer;

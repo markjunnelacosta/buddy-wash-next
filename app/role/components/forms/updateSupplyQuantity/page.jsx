@@ -87,7 +87,7 @@ export default function UpdateSupply() {
           alignSelf: "flex-end",
           margin: "30px",
           borderRadius: "10px",
-          marginLeft: "83.5%",
+          // marginLeft: "83.5%",
         }}
         variant="contained"
         onClick={handleClickOpen}
