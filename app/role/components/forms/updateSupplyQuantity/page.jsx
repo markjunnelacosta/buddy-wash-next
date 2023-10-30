@@ -110,7 +110,7 @@ export default function UpdateSupply() {
         Update Supplies
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Update Supply</DialogTitle>
+        <DialogTitle className="title">Update Supply</DialogTitle>
         <DialogContent>
           <div className="update-supply-form">
             <div className="input">
@@ -118,7 +118,7 @@ export default function UpdateSupply() {
               <div className="supply-name">
                 <p>Supply Name</p>
                 <select
-                  className="text-box"
+                  className="dropdown"
                   onChange={(e) => setName(e.target.value)}
                 >
                   <option>Select Supply Name</option>
@@ -141,7 +141,7 @@ export default function UpdateSupply() {
                 <p>Type</p>
 
                 <select
-                  className="text-box"
+                  className="dropdown"
                   onChange={(e) => setType(e.target.value)}
                 >
                   <option>Select Type</option>

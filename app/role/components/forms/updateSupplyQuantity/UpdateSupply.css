@@ -15,9 +15,7 @@ p {
 .update-supply-form {
   display: flex;
   flex-flow: column;
-  width: 400px;
   background-color: white;
-  padding: 30px;
   border-radius: 20px;
 }
 .update-supply-text {
@@ -27,13 +25,15 @@ p {
   display: flex;
   flex-direction: column;
   gap: 0px;
+  margin: bottom 10px;
 }
 .text-box {
   border: solid lightgray;
-  line-height: 20px;
+  line-height: 25px;
   width: 400px;
   border-width: thin;
   font-weight: bold;
+  padding: 0px;
 }
 .buttons {
   display: flex;
@@ -54,10 +54,30 @@ p {
   background-color: #bee5e5;
 }
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
-  padding-top: 20px;
-  padding-left: 20px;
+  padding: 0px;
   font-weight: bold;
 }
-.css-ypiqx9-MuiDialogContent-root {
+/* .css-ypiqx9-MuiDialogContent-root {
   padding: 10px;
+} */
+.title {
+  border-bottom: solid lightgray 2px;
+  font-size: 20px;
+  width: inherit;
+  padding: 10px 0px;
+}
+select {
+  border: solid lightgray;
+  line-height: 20px;
+  width: 400px;
+  height: 30px;
+  border-width: thin;
+  font-weight: bold;
+}
+
+.MuiDialogTitle-root + .css-ypiqx9-MuiDialogContent-root {
+  padding: 0px;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  padding: 10px 30px;
 }
