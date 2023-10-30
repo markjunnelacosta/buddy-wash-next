@@ -34,10 +34,16 @@ const getSupplies = async () => {
 
 export default function UpdateSupply() {
   const [supplies, setSupplies] = React.useState([]);
-  const [date, setDate] = useState("");
-  const [supplyName, setSupplyName] = useState("");
+  const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [type, setType] = useState("");
+
+  var today = new Date();
+  var date =
+    today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
+  var time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date + "  " + time;
 
   //gets supplies list
   React.useEffect(() => {
@@ -58,7 +64,17 @@ export default function UpdateSupply() {
   console.log({ supplies });
 
   const onClickSave = async () => {
-    console.log(date, supplyName, quantity, type);
+    console.log(dateTime, name, quantity, type);
+    const response = await fetch("/api/inventory", {
+      method: "POST",
+      body: JSON.stringify({
+        date: date,
+        supplyName: name,
+        quantity: quantity,
+        type: type,
+      }),
+    });
+    console.log(response);
 
     // const response = await fetch(`/api/supply/${supplyName}/`);
     // const data = await response.json();
@@ -104,17 +120,13 @@ export default function UpdateSupply() {
                 <p>Supply Name</p>
                 <select
                   className="text-box"
-                  onChange={(e) => setSupplyName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 >
+                  <option>Select Supply Name</option>
                   {supplies.map((supply, i) => (
                     <option key={i}>{supply.supplyName}</option>
                   ))}
                 </select>
-                {/* <input
-                  className="text-box"
-                  value={supplyName}
-                  onChange={(e) => setSupplyName(e.currentTarget.value)}
-                ></input> */}
               </div>
 
               <div className="quantity">
@@ -128,18 +140,22 @@ export default function UpdateSupply() {
 
               <div className="Type">
                 <p>Type</p>
-                <input
+
+                <select
                   className="text-box"
-                  value={quantity}
-                  onChange={(e) => setType(e.currentTarget.value)}
-                ></input>
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <option>Select Type</option>
+                  <option value="In">IN</option>
+                  <option value="Out">OUT</option>
+                </select>
               </div>
             </div>
           </div>
         </DialogContent>
         <DialogActions>
           <Button
-            href="/role/staff/supplyList"
+            // href="/role/staff/supplyInOut"
             className="dialog-button"
             onClick={() => {
               onClickSave();
