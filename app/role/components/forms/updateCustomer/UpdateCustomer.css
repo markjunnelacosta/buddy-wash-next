@@ -28,6 +28,7 @@ p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding-top: 10px;
 }
 .update-customer-text {
   border-bottom: solid gray 2px;
@@ -74,4 +75,14 @@ p {
 .title {
   border-bottom: solid lightgray 2px;
   font-size: 20px;
+  width: inherit;
+}
+h2 {
+  padding: 0px;
+}
+
+.btns {
+  display: flex;
+  align-self: flex-end;
+  margin-top: 10px;
 }

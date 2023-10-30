@@ -61,7 +61,7 @@ export default function AddCustomer() {
         New Customer
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Customer</DialogTitle>
+        <DialogTitle className="title">New Customer</DialogTitle>
         <DialogContent>
           <div className="add-customer-form">
             <div className="input">
