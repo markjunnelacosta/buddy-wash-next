@@ -41,9 +41,8 @@ export default function UpdateSupply() {
   var today = new Date();
   var date =
     today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
-  var time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  var dateTime = date + "  " + time;
+  var time = today.getHours() + ":" + today.getMinutes();
+  var dateTime = date + "   (" + time + ")";
 
   //gets supplies list
   React.useEffect(() => {
@@ -64,11 +63,11 @@ export default function UpdateSupply() {
   console.log({ supplies });
 
   const onClickSave = async () => {
-    console.log(dateTime, name, quantity, type);
+    console.log(time, name, quantity, type);
     const response = await fetch("/api/inventory", {
       method: "POST",
       body: JSON.stringify({
-        date: date,
+        date: dateTime,
         supplyName: name,
         quantity: quantity,
         type: type,
@@ -155,7 +154,7 @@ export default function UpdateSupply() {
         </DialogContent>
         <DialogActions>
           <Button
-            // href="/role/staff/supplyInOut"
+            href="/role/staff/supplyInOut"
             className="dialog-button"
             onClick={() => {
               onClickSave();
