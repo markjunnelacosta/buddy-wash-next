@@ -1,5 +1,5 @@
 import React from "react";
-import ProductSelection from "../components/forms/addCustomer/updateSupplyQuantity/productSelection";
+import ProductSelection from "../components/forms/updateSupplyQuantity/productSelection";
 
 const TestingPage = () => {
   return (

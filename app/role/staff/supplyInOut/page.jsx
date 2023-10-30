@@ -12,7 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
 import SupplyInOutTable from "./SupplyInOutTable";
 // import AddSupplyInOut from "./SupplyInOutTable";
-import UpdateSupply from "../../components/forms/addCustomer/updateSupplyQuantity/page";
+import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
 
 function SupplyInOut() {
   return (
