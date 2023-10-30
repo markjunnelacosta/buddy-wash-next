@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import "./SupplyList.css";
 import {
   Button,
@@ -41,6 +41,7 @@ const getSupplies = async () => {
 
 function SupplyList() {
   const [supplies, setSupplies] = React.useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -59,6 +60,9 @@ function SupplyList() {
     console.log(supplies);
   }, [supplies]);
 
+  const filteredSupplies = supplies.filter((supply) =>
+    supply.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <div className="supplyList-container">
       <div className="blue-container">
@@ -69,7 +73,13 @@ function SupplyList() {
         <div className="searchContainer">
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchSupply" name="customerName" />
+            <input
+              type="text"
+              id="searchSupply"
+              name="supplyName"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
         <div className="table-container">
@@ -95,21 +105,20 @@ function SupplyList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {supplies.length > 0 &&
-                  supplies.map((supply) => (
-                    <TableRow
-                      key={supply._id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center" component="th" scope="row">
-                        {supply.supplyName}
-                      </TableCell>
-                      <TableCell align="center">
-                        {supply.availableStock}
-                      </TableCell>
-                      <TableCell align="center"> </TableCell>
-                    </TableRow>
-                  ))}
+                {filteredSupplies.map((supply) => (
+                  <TableRow
+                    key={supply._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {supply.supplyName}
+                    </TableCell>
+                    <TableCell align="center">
+                      {supply.availableStock}
+                    </TableCell>
+                    <TableCell align="center"> </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
             {/* </Paper> */}
