@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -40,6 +40,7 @@ const getInventory = async () => {
 
 function SupplyInOut() {
   const [inventory, setInventory] = React.useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   React.useEffect(() => {
     const fetchInventory = async () => {
@@ -57,7 +58,9 @@ function SupplyInOut() {
   React.useEffect(() => {
     console.log(inventory);
   }, [inventory]);
-
+  const filteredInventory = inventory.filter((inventory) =>
+    inventory.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <div className="supplyInOut-container">
       <div className="blue-container">
@@ -67,7 +70,13 @@ function SupplyInOut() {
           </div>
           <div className="searchContainer-right">
             <p style={{ fontWeight: "bold" }}>Search</p>
-            <input type="text" id="searchSupply" name="customerName" />
+            <input
+              type="text"
+              id="searchSupply"
+              name="supplyName"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
         <div className="table-container">
@@ -96,25 +105,19 @@ function SupplyInOut() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {inventory.length > 0 &&
-                  inventory.map((inventory) => (
-                    <TableRow
-                      key={inventory._id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center" component="th" scope="row">
-                        {inventory.date}
-                      </TableCell>
-                      <TableCell align="center">
-                        {inventory.supplyName}
-                      </TableCell>
-                      <TableCell align="center">
-                        {" "}
-                        {inventory.quantity}
-                      </TableCell>
-                      <TableCell align="center"> {inventory.type}</TableCell>
-                    </TableRow>
-                  ))}
+                {filteredInventory.map((inventory) => (
+                  <TableRow
+                    key={inventory._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {inventory.date}
+                    </TableCell>
+                    <TableCell align="center">{inventory.supplyName}</TableCell>
+                    <TableCell align="center"> {inventory.quantity}</TableCell>
+                    <TableCell align="center"> {inventory.type}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
             {/* </Paper> */}
