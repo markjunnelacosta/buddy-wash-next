@@ -8,6 +8,7 @@ import AddBranch from './add-branch/page';
 import Button from "@mui/material/Button";
 import RemoveButton from './removeButton';
 import EditBranchPopup from './eButton';
+import { useRouter } from 'next/navigation';
 
 
 // Function to fetch user data from the server
@@ -34,6 +35,7 @@ const Branches = () => {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBranch = async () => {
@@ -95,6 +97,8 @@ const Branches = () => {
     fetchData();
   };
 
+
+
   return (
     <>
       <Layout />
@@ -126,6 +130,12 @@ const Branches = () => {
                   variant="outlined"
                   id="edit-button"
                   style={{ borderColor: '#b57b24', color: '#b57b24' }}
+                  onClick={() => {
+                    router.push({
+                      pathname: '/role/admin/branches/branch-staff',
+                      query: { location: encodeURIComponent(branch.branchAddress) },
+                    });
+                  }}
                 >
                   See Info
                 </Button>

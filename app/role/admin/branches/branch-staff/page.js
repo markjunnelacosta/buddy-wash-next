@@ -9,16 +9,54 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import StaffPage from "./add-staff/page";
 import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
+import { useRouter } from "next/navigation";
+
+const getBranchStaff = async () => {
+    try {
+        const res = await fetch("http://localhost:3000/api/branch-staff", {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch branch staff");
+        }
+
+        const response = await res.json();
+        return response.branchStaffData || [];
+    } catch (error) {
+        console.log("Error loading branch staff: ", error);
+    }
+};
+
+const getBranchId = async (id) => {
+    try {
+        const res = await fetch("http://localhost:3000/api/branch", {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch branch");
+        }
+
+        const response = await res.json();
+        return response.branchData || [];
+    } catch (error) {
+        console.log("Error loading branch: ", error);
+    }
+};
 
 const BranchStaff = () => {
     // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
+    const [branchData, setBranchData] = useState(null);
     const [showStaffPage, setShowStaffPage] = useState(false);
     const [entriesPerPage, setEntriesPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
+    const router = useRouter();
+    const { location } = router.query;
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -88,6 +126,21 @@ const BranchStaff = () => {
         fetchBranchStaff();
     }, []);
 
+    //BRANCHID
+    useEffect(() => {
+        const fetchBranchId = async () => {
+            try {
+                const branchData = await getBranchId();
+                setBranchData(branchData);
+            } catch (error) {
+                console.error("Error fetching Branch:", error);
+            }
+        };
+
+        fetchBranchId();
+    }, []);
+
+
     // Log the branch staff data for debugging
     useEffect(() => {
         console.log(branchStaffData);
@@ -124,7 +177,7 @@ const BranchStaff = () => {
             <div className="container-box">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
-                        <p style={{ fontWeight: "bold" }}>Location: </p>
+                        <p style={{ fontWeight: "bold" }}>Location: {location?.toString()}</p>
                         <p style={{ fontWeight: "bold" }}>Search</p>
                         <input
                             type="text"
