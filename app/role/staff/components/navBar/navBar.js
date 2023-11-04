@@ -39,6 +39,13 @@ function NavBar() {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
 
+          <ListItemButton className="button" href="/role/staff/reports">
+            <ListItemIcon className="button-content">
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reports" />
+          </ListItemButton>
+
           <p className="white-space"> </p>
           <span className="nav-section-text">Laundry Service</span>
           <ListItemButton className="button" href="/role/staff/laundryBin">
@@ -69,7 +76,7 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                  // href="/role/staff/components/main-content/manageCustomer"
+                // href="/role/staff/components/main-content/manageCustomer"
                 >
                   <ListItemText primary="Manage Customer" />
                 </ListItemButton>
@@ -82,8 +89,9 @@ function NavBar() {
             </ListItemIcon>
             <ListItemText primary="Machine" />
           </ListItemButton>
+          <br/>
 
-          <p className="white-space"> &nbsp; </p>
+          {/* <p className="white-space"> &nbsp; </p> */}
 
           <span className="nav-section-text">Inventory Management</span>
           <ListItemButton className="button" href="/role/staff/supplyList">
@@ -100,14 +108,7 @@ function NavBar() {
             <ListItemText primary="Supply In/Out" />
           </ListItemButton>
 
-          <p className="white-space"> &nbsp; </p>
-
-          <ListItemButton className="button" href="/role/staff/reports">
-            <ListItemIcon className="button-content">
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItemButton>
+          {/* <p className="white-space"> &nbsp; </p> */}
 
           <p className="white-space"> &nbsp; </p>
 

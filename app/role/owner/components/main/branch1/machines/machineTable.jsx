@@ -46,7 +46,7 @@ function MachineTable() {
         if (machine.id === id) {
           const updatedMachine = { ...machine, status: 'On', queue: 0 };
           const startTime = Date.now();
-          const endTime = startTime + 37 * 60 * 1000; // Set the timer to 37 minutes
+          const endTime = startTime + 1 * 60 * 1000; // Set the timer to 37 minutes
           const updateTimer = () => {
             const currentTime = Date.now();
             if (updatedMachine.status === 'On' && currentTime < endTime) {

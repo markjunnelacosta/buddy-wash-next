@@ -21,6 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import RemoveButton from "./RemoveButton";
 import AddCustomer from "../../components/forms/addCustomer/page";
+import EditCustomerPopup from "./editButton";
 
 const getCustomers = async () => {
   try {
@@ -43,6 +44,18 @@ const getCustomers = async () => {
 function ManageCustomer() {
   const [customers, setCustomers] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] =
+    useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const handleEditCustomer = (customer) => {
+    setSelectedCustomer(customer);
+    setUpdateCustomerPopupVisible(true); // Show the popup
+  };
+
+  const handleClose = () => {
+    setUpdateCustomerPopupVisible(false); // Hide the popup
+  };
 
   React.useEffect(() => {
     const fetchCustomers = async () => {
@@ -67,43 +80,30 @@ function ManageCustomer() {
   );
 
   return (
-    <div className="manageCustomer-container">
-      <div className="blue-container">
-        <AddCustomer />
+    <>
+      <div className="manageCustomer-container">
+        <div className="blue-container">
+          <div className="searchContainer">
+            <AddCustomer />
 
-        <div className="searchContainer">
-          <div className="searchContainer-left">
-            <p style={{ fontWeight: "bold" }}>Show</p>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <Select id="dropdown" style={{ backgroundColor: "white" }}>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-                <MenuItem></MenuItem>
-              </Select>
-            </FormControl>
-            <p style={{ fontWeight: "bold" }}>Entries</p>
+            <div className="searchContainer-right">
+              <p style={{ fontWeight: "bold" }}>Search</p>
+              <input
+                type="text"
+                id="searchName"
+                name="customerName"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="searchContainer-right">
-            <p style={{ fontWeight: "bold" }}>Search</p>
-            <input
-              type="text"
-              id="searchName"
-              name="customerName"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="table-container">
-          <TableContainer component={Paper}>
-            <Paper style={{ height: 550, width: "100%" }}>
+          <div className="table-container">
+            <TableContainer component={Paper}>
+              {/* <Paper style={{ height: 630, width: "100%" }}> */}
               <Table
                 stickyHeader
                 aria-label="sticky table"
-                sx={{ minWidth: 650 }}
+                sx={{ minWidth: 600 }}
                 size="small"
               >
                 <TableHead>
@@ -137,7 +137,7 @@ function ManageCustomer() {
                         <Button
                           id="edit-button"
                           variant="outlined"
-                          href={`/editCustomer/${customer._id}`}
+                          onClick={() => handleEditCustomer(customer)}
                         >
                           Edit
                         </Button>
@@ -147,11 +147,17 @@ function ManageCustomer() {
                   ))}
                 </TableBody>
               </Table>
-            </Paper>
-          </TableContainer>
+              {/* </Paper> */}
+            </TableContainer>
+          </div>
         </div>
       </div>
-    </div>
+      <EditCustomerPopup
+        isOpen={isUpdateCustomerPopupVisible}
+        customer={selectedCustomer}
+        onClose={handleClose}
+      />
+    </>
   );
 }
 export default ManageCustomer;

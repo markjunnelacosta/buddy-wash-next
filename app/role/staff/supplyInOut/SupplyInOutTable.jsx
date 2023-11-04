@@ -116,33 +116,33 @@ const SupplyInOutTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Paper style={{ height: 550, width: "100%" }}>
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{ minWidth: 650 }}
-          size="small"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Date
-              </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Name
-              </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Quantity
-              </TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                Type
-              </TableCell>
-              {/* <TableCell align="center" style={{ fontWeight: "bold" }}>
+      {/* <Paper style={{ height: 550, width: "100%" }}> */}
+      <Table
+        stickyHeader
+        aria-label="sticky table"
+        sx={{ minWidth: 600 }}
+        size="small"
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Date
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Name
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Quantity
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              Type
+            </TableCell>
+            {/* <TableCell align="center" style={{ fontWeight: "bold" }}>
                 Action
               </TableCell> */}
-            </TableRow>
-          </TableHead>
-          {/* <TableBody>
+          </TableRow>
+        </TableHead>
+        {/* <TableBody>
             {supplies.length > 0 &&
               supplies.map((supply) => (
                 <TableRow
@@ -164,8 +164,8 @@ const SupplyInOutTable = () => {
                 </TableRow>
               ))}
           </TableBody> */}
-        </Table>
-      </Paper>
+      </Table>
+      {/* </Paper> */}
     </TableContainer>
   );
 };

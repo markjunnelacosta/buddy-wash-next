@@ -13,14 +13,13 @@
   opacity: 80%;
   width: 100%;
   margin: 20px;
-  gap: 10px;
   padding-top: 20px;
   border-radius: 10px;
 }
 
 .table-container {
   background-color: white;
-  margin: 30px 30px;
+  margin: 10px 30px;
   height: 100%;
 }
 .searchContainer {

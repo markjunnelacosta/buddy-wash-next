@@ -42,6 +42,7 @@ export default function UpdateCustomerForm({
 
       router.refresh();
       router.push("/role/staff/manageCustomer");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -57,22 +58,18 @@ export default function UpdateCustomerForm({
     setOpen(false);
   };
 
-  //   const [openBackDrop, setOpenBackDrop] = React.useState(false);
-  //   const handleCloseBackDrop = () => {
-  //     setOpenBackDrop(false);
-  //   };
-  //   const handleOpenBackDrop = () => {
-  //     setOpenBackDrop(true);
-  //   };
-
   return (
     <div>
       {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openBackDrop}
-        onClick={handleCloseBackDrop}
+        open={open}
+        onClick={handleClose}
       > */}
-      <form onSubmit={handleSubmit} className="update-customer-form">
+      <form
+        onSubmit={handleSubmit}
+        className="update-customer-form"
+        style={{ zIndex: 9999 }}
+      >
         <div className="title">
           <p>Update Customer Details</p>
         </div>
@@ -94,8 +91,12 @@ export default function UpdateCustomerForm({
             ></input>
           </div>
         </div>
-
-        <button className="dialog-button">Save</button>
+        <div className="btns">
+          <button className="dialog-button">Save</button>
+          <button className="dialog-button" href="/role/staff/manageCustomer">
+            Cancel
+          </button>
+        </div>
       </form>
       {/* </Backdrop> */}
     </div>

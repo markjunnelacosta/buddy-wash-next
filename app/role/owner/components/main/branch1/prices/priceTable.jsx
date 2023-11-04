@@ -120,7 +120,7 @@ const SupplyTable = () => {
                   <TableCell align="center">{supply.productPrice}</TableCell>
                   <TableCell align="center">
                     <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
-                      Rename
+                      Edit
                     </Button>
                   </TableCell>
                 </TableRow>

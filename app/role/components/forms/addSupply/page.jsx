@@ -50,10 +50,10 @@ export default function AddSupply() {
           width: "200px",
           height: "50px",
           fontWeight: "bold",
-          alignSelf: "flex-end",
-          margin: "30px",
+          alignSelf: "flex-start",
+          // margin: "30px",
           borderRadius: "10px",
-          marginLeft: "109vh",
+          // marginLeft: "109vh",
         }}
         variant="contained"
         onClick={handleClickOpen}
