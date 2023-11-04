@@ -61,7 +61,7 @@ const Branches = () => {
       const response = await res.json();
       setBranchesData(response.branchesData);
     } catch (error) {
-      console.log("Error loading users: ", error);
+      console.log("Error loading branches: ", error);
     }
   };
 

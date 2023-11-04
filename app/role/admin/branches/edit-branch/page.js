@@ -52,7 +52,7 @@ export default function UpdateBranch({
     return (
         <>
                 <div className="form-container visible">
-                    <p>Add New Branch</p> <hr />
+                    <p>Edit Branch</p> <hr />
                     <div className='form-group'>
                         <p></p>
                         <p>Branch Number</p>

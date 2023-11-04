@@ -70,7 +70,7 @@ export default function UpdateUser({
     <div>
       <div className="form-container">
         <div>
-          <p>Add User</p>
+          <p>Edit User</p>
           <hr />
           <div className="form-group">
             <div id="first">
