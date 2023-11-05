@@ -50,7 +50,7 @@ function MachineTable() {
     <div>
       <div className="add-machine-form">
         <TextField
-          label="Machine Number"
+          label="Washer Number"
           value={newMachine.number}
           onChange={(e) => setNewMachine({ ...newMachine, number: e.target.value })}
           variant="outlined"
@@ -73,7 +73,7 @@ function MachineTable() {
           <TableHead>
             <TableRow>
               <TableCell align="center" className="table-header">
-                Machine No.
+                Washer No.
               </TableCell>
               <TableCell align="center" className="table-header">
                 Status
