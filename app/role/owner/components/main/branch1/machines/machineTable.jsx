@@ -5,135 +5,107 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
+  const [newMachine, setNewMachine] = useState({ number: '', minutes: 0 });
+
+  const addNewMachine = () => {
+    setMachineData((prevData) => {
+      const newMachineData = [
+        ...prevData,
+        {
+          id: prevData.length + 1, // Generate a unique ID
+          status: 'Off',
+          timer: '0:00',
+          queue: 0,
+          useCount: 0,
+          number: newMachine.number,
+        },
+      ];
+
+      return newMachineData;
+    });
+
+    // Reset the newMachine input fields
+    setNewMachine({ number: '', minutes: 0 });
+  };
 
   useEffect(() => {
-    // Simulate machine data (replace with actual data from your database)
-    const initialMachineData = [
-      { id: 1, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 2, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 3, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 4, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 5, status: 'Off', timer: 0, queue: 0, useCount: 0 }
-      // Add more machines as needed
-    ];
-    setMachineData(initialMachineData);
+    // You can load machine data from your database here or use an empty array initially
+    // const initialMachineData = [
+    //   { id: 1, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
+    //   { id: 2, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
+    //   { id: 3, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
+    //   { id: 4, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
+    //   { id: 5, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
+    //   // Add more machines as needed
+    // ];
+    // setMachineData(initialMachineData);
   }, []);
 
-  const toggleTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id) {
-          if (machine.status === 'Off') {
-            startTimer(id); // Start the countdown timer
-            return { ...machine, status: 'On' };
-          } else {
-            stopTimer(id); // Stop the timer
-            return { ...machine, status: 'Off' };
-          }
-        }
-        return machine;
-      });
-    });
-  };
-
-  const startTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id) {
-          const updatedMachine = { ...machine, status: 'On', queue: 0 };
-          const startTime = Date.now();
-          const endTime = startTime + 1 * 60 * 1000; // Set the timer to 37 minutes
-          const updateTimer = () => {
-            const currentTime = Date.now();
-            if (updatedMachine.status === 'On' && currentTime < endTime) {
-              const remainingTime = new Date(endTime - currentTime);
-              const timer = `${remainingTime.getMinutes()}:${remainingTime.getSeconds()}`;
-              updatedMachine.timer = timer;
-              setMachineData((prevData) =>
-                prevData.map((m) => (m.id === id ? updatedMachine : m))
-              );
-              requestAnimationFrame(updateTimer);
-            } else if (updatedMachine.status === 'On' && currentTime >= endTime) {
-              // The timer has ended, increment useCount
-              updatedMachine.status = 'Off';
-              updatedMachine.useCount += 1;
-              setMachineData((prevData) =>
-                prevData.map((m) => (m.id === id ? updatedMachine : m))
-              );
-            }
-          };
-          updateTimer();
-          return updatedMachine;
-        }
-        return machine;
-      });
-    });
-  };
-
-  const stopTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id && machine.status === 'On') {
-          const updatedMachine = { ...machine, status: 'Off' };
-          setMachineData((prevData) =>
-            prevData.map((m) => (m.id === id ? updatedMachine : m))
-          );
-        }
-        return machine;
-      });
-    });
-  };
-
   return (
-    <TableContainer component={Paper}>
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" className="table-header">
-              Machine No.
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Status
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Timer
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Queue
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Use Count
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <tbody>
-          {machineData.map((machine) => (
-            <TableRow key={machine.id}>
-              <TableCell align="center">{machine.id}</TableCell>
-              <TableCell align="center">
-                {machine.status === 'On' ? 'Running' : 'Off'}
-                <Button
-                  variant="contained"
-                  onClick={() => toggleTimer(machine.id)}
-                  style={{ borderRadius: '50%' }}
-                >
-                  {machine.status === 'On' ? 'Stop' : 'Start'}
-                </Button>
+    <div>
+      <div className="add-machine-form">
+        <TextField
+          label="Machine Number"
+          value={newMachine.number}
+          onChange={(e) => setNewMachine({ ...newMachine, number: e.target.value })}
+          variant="outlined"
+          id="machineNumberInput"
+        />
+        <TextField
+          label="Minutes"
+          type="number"
+          value={newMachine.minutes}
+          onChange={(e) => setNewMachine({ ...newMachine, minutes: e.target.value })}
+          variant="outlined"
+          id="machineMinutesInput"
+        />
+        <Button variant="contained" color="primary" onClick={addNewMachine}>
+          Add
+        </Button>
+      </div>
+      <TableContainer component={Paper}>
+        <Table size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" className="table-header">
+                Machine No.
               </TableCell>
-              <TableCell align="center">{machine.timer}</TableCell>
-              <TableCell align="center">{machine.queue}</TableCell>
-              <TableCell align="center">{machine.useCount}</TableCell>
+              <TableCell align="center" className="table-header">
+                Status
+              </TableCell>
+              <TableCell align="center" className="table-header">
+                Timer
+              </TableCell>
+              <TableCell align="center" className="table-header">
+                Queue
+              </TableCell>
+              <TableCell align="center" className="table-header">
+                Use Count
+              </TableCell>
             </TableRow>
-          ))}
-        </tbody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <tbody>
+            {machineData.map((machine) => (
+              <TableRow key={machine.id}>
+                <TableCell align="center">{machine.number}</TableCell>
+                <TableCell align="center">
+                  {machine.status === 'On' ? 'Running' : 'Off'}
+                </TableCell>
+                <TableCell align="center">{machine.timer}</TableCell>
+                <TableCell align="center">{machine.queue}</TableCell>
+                <TableCell align="center">{machine.useCount}</TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
 
 export default MachineTable;
-

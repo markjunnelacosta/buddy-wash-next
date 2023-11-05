@@ -94,10 +94,7 @@ export default function UpdateSupply({
                 >
                     Save
                 </Button>
-                <Button
-                    className="dialog-button"
-                    onClick={handleClose}
-                >
+                <Button className="dialog-button" onClick={handleClose}>
                     Cancel
                 </Button>
             </DialogActions>
