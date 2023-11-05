@@ -51,7 +51,7 @@ export default function AddSupply() {
           height: "50px",
           fontWeight: "bold",
           alignSelf: "flex-start",
-          // margin: "30px",
+          margin: "30px",
           borderRadius: "10px",
           // marginLeft: "109vh",
         }}
