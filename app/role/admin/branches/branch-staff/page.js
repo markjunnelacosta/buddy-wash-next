@@ -28,7 +28,7 @@ const getBranchStaff = async () => {
     }
 };
 
-const getBranchId = async (id) => {
+const getBranchId = async () => {
     try {
         const res = await fetch("http://localhost:3000/api/branch", {
             cache: "no-store",
@@ -56,7 +56,6 @@ const BranchStaff = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
     const router = useRouter();
-    const { location } = router.query;
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -177,7 +176,7 @@ const BranchStaff = () => {
             <div className="container-box">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
-                        <p style={{ fontWeight: "bold" }}>Location: {location?.toString()}</p>
+                        <p style={{ fontWeight: "bold" }}>Location:</p>
                         <p style={{ fontWeight: "bold" }}>Search</p>
                         <input
                             type="text"

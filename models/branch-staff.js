@@ -20,6 +20,10 @@ const BranchStaffSchema = new Schema({
     type: String,
     required: [true, "Staff Position Number is required"],
   },
+  staffBranchId:{
+    type: Schema.Types.ObjectId,
+    ref: "Branch",
+  }
 });
 
 const BranchesStaff = models.BranchesStaff || model('BranchesStaff', BranchStaffSchema);

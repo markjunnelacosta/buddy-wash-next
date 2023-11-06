@@ -96,9 +96,6 @@ const Branches = () => {
     closeAddBranch();
     fetchData();
   };
-
-
-
   return (
     <>
       <Layout />
@@ -130,12 +127,6 @@ const Branches = () => {
                   variant="outlined"
                   id="edit-button"
                   style={{ borderColor: '#b57b24', color: '#b57b24' }}
-                  onClick={() => {
-                    router.push({
-                      pathname: '/role/admin/branches/branch-staff',
-                      query: { location: encodeURIComponent(branch.branchAddress) },
-                    });
-                  }}
                 >
                   See Info
                 </Button>

@@ -28,7 +28,6 @@ export const GET = async (req, res) => {
 export const POST = async (req) => {
   const body = await req.json();
   const { userName, phoneNumber, userAddress, userRole, userId, password } = body;
-  console.log("eto baban", body);
   try {
     await connectToDB();
     const newUser = new User({
