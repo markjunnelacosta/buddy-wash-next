@@ -83,9 +83,8 @@ const addLaundry = ({ isOpen, onClose }) => {
                                 <p>Weight</p>
                                 <select>
                                     <option value=""></option>
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                    <option value="option3">Option 3</option>
+                                    <option value="option1">Light Clothes - 7.5kilos</option>
+                                    <option value="option2">Light Clothes - 8 to 9 kilos</option>
                                 </select>
                                 <p>Fold</p>
                                 <select>
@@ -151,9 +150,9 @@ const addLaundry = ({ isOpen, onClose }) => {
                                 <p>Dry Mode</p>
                                 <select>
                                     <option value=""></option>
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                    <option value="option3">Option 3</option>
+                                    <option value="option1">30mins.</option>
+                                    <option value="option2">40mins.</option>
+                                    <option value="option3">50mins.</option>
                                 </select>
                                 <p>Pay by:</p>
                                 <div className="radio-label">
