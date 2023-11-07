@@ -11,7 +11,7 @@ const LaundryBinSchema = new Schema({
         type: Date,
         required: [true, "Date is required"]
     },
-    orderWeight: {
+    weight: {
         type: String,
         required: [true, "Weight is required"]
     },

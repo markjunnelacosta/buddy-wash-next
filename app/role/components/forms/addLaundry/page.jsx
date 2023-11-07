@@ -7,9 +7,17 @@ import { Autocomplete, TextField } from "@mui/material";
 const addLaundry = ({ isOpen, onClose }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
     const [supplyData, setSupplyData] = useState([]); // State for supplies
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+    const [customerName, setCustomerName] = useState(null);
+    const [orderDate, setOrderDate] = useState("");
+    const [weight, setWeight] = useState("");
+    const [washMode, setWashMode] = useState("");
+    const [dryMode, setDryMode] = useState("");
+    const [fold, setFold] = useState("");
+    const [colored, setColored] = useState("");
     const [selectedDetergent, setSelectedDetergent] = useState("");
     const [selectedFabCon, setSelectedFabCon] = useState("");
+    
 
     useEffect(() => {
         const fetchCustomer = async () => {
@@ -65,16 +73,16 @@ const addLaundry = ({ isOpen, onClose }) => {
                             <p>Customer Name</p>
                             <Autocomplete
                                 className="select-name"
-                                value={selectedCustomer}
-                                onChange={(event, newValue) => setSelectedCustomer(newValue)}
+                                value={customerName}
+                                onChange={(event, newValue) => setCustomerName(newValue)}
                                 options={customerData.map((customer) => customer.customerName)}
                                 renderInput={(params) => <TextField {...params} variant="outlined" />}
                             />
                             <p>Date</p>
                             <input
                                 type="date"
-                            //   value={phoneNumber}
-                            //   onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                               value={orderDate}
+                               onChange={(e) => setOrderDate(e.currentTarget.value)}
                             ></input>
                         </div>
                         <hr />
