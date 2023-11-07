@@ -28,7 +28,7 @@ const getSupplies = async () => {
     const response = await res.json();
     return response.supplies;
   } catch (error) {
-    console.log("Error loading customers: ", error);
+    console.log("Error loading supplies: ", error);
   }
 };
 
