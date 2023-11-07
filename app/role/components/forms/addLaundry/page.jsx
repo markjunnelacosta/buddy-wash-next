@@ -1,7 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './addLaundry.css'
 
+const getCustomer = async () => {
+    try {
+        const res = await fetch("http://localhost:3000/api/customer", {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch customer");
+        }
+
+        // console.log(await res.json());
+        const response = await res.json();
+        return response.customers;
+    } catch (error) {
+        console.log("Error loading customers: ", error);
+    }
+};
 
 const addLaundry = () => {
     //   const [userName, setUserName] = useState("");
@@ -32,6 +49,24 @@ const addLaundry = () => {
     //     onClose();
     //   };
 
+    const [order, setOrder] = useState([]);
+    const [name, setName] = useState("");
+
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      try {
+        const customerData = await getCustomer();
+        setOrder(customerData);
+      } catch (error) {
+        console.error("Error fetching customer:", error);
+      }
+    };
+
+    fetchCustomer();
+  }, []);
+
+  useEffect(() => {}, [order]);
+
     return (
         <>
             {/* {isOpen && ( */}
@@ -41,11 +76,15 @@ const addLaundry = () => {
                     <hr />
                     <div className="customer-info">
                         <p>Customer Name</p>
-                        <input
-                            type="text"
-                        //   value={userName}
-                        //   onChange={(e) => setUserName(e.currentTarget.value)}
-                        ></input>
+                        <select
+                            className="dropdown"
+                            onChange={(e) => setName(e.target.value)}
+                        >
+                            <option value=""></option>
+                            {order.map((customer, i) => (
+                                <option key={i}>{customer.customerName}</option>
+                            ))}
+                        </select>
 
                         <p>Date</p>
                         <input
