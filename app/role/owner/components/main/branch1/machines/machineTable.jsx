@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
-  const [newMachine, setNewMachine] = useState({ number: '', minutes: 0 });
+  const [newMachine, setNewMachine] = useState({ number: '' });
 
   const addNewMachine = () => {
     setMachineData((prevData) => {
@@ -18,7 +18,7 @@ function MachineTable() {
         ...prevData,
         {
           id: prevData.length + 1, // Generate a unique ID
-          status: 'Off',
+          action: 'Off',
           timer: '0:00',
           queue: 0,
           useCount: 0,
@@ -30,20 +30,20 @@ function MachineTable() {
     });
 
     // Reset the newMachine input fields
-    setNewMachine({ number: '', minutes: 0 });
+    setNewMachine({ number: '' });
   };
 
   useEffect(() => {
     // You can load machine data from your database here or use an empty array initially
-    // const initialMachineData = [
-    //   { id: 1, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
-    //   { id: 2, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
-    //   { id: 3, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
-    //   { id: 4, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
-    //   { id: 5, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
-    //   // Add more machines as needed
-    // ];
-    // setMachineData(initialMachineData);
+    const initialMachineData = [
+      { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
+      { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
+      { id: 3, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
+      { id: 4, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
+      { id: 5, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
+      // Add more machines as needed
+    ];
+    setMachineData(initialMachineData);
   }, []);
 
   return (
@@ -55,14 +55,6 @@ function MachineTable() {
           onChange={(e) => setNewMachine({ ...newMachine, number: e.target.value })}
           variant="outlined"
           id="machineNumberInput"
-        />
-        <TextField
-          label="Minutes"
-          type="number"
-          value={newMachine.minutes}
-          onChange={(e) => setNewMachine({ ...newMachine, minutes: e.target.value })}
-          variant="outlined"
-          id="machineMinutesInput"
         />
         <Button variant="contained" color="primary" onClick={addNewMachine}>
           Add
@@ -76,7 +68,7 @@ function MachineTable() {
                 Washer No.
               </TableCell>
               <TableCell align="center" className="table-header">
-                Status
+                Action
               </TableCell>
               <TableCell align="center" className="table-header">
                 Timer
@@ -87,6 +79,9 @@ function MachineTable() {
               <TableCell align="center" className="table-header">
                 Use Count
               </TableCell>
+              <TableCell align="center" className="table-header">
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <tbody>
@@ -94,11 +89,14 @@ function MachineTable() {
               <TableRow key={machine.id}>
                 <TableCell align="center">{machine.number}</TableCell>
                 <TableCell align="center">
-                  {machine.status === 'On' ? 'Running' : 'Off'}
+                  {machine.action === 'On' ? 'Running' : 'Off'}
                 </TableCell>
                 <TableCell align="center">{machine.timer}</TableCell>
                 <TableCell align="center">{machine.queue}</TableCell>
                 <TableCell align="center">{machine.useCount}</TableCell>
+                <TableCell align="center">
+                  {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                </TableCell>
               </TableRow>
             ))}
           </tbody>

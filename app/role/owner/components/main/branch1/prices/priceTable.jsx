@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import "./priceTable.css";
 import EditSupplyPopup from "./editButton";
+import RemoveButton from "./removeButton";
 
 const getSupplies = async () => {
   try {
@@ -122,6 +123,7 @@ const SupplyTable = () => {
                     <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
                       Edit
                     </Button>
+                    <RemoveButton id={supply._id} />
                   </TableCell>
                 </TableRow>
               ))}

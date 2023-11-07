@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
-  const [newDryer, setNewDryer] = useState({ number: '', minutes: 0 });
+  const [newDryer, setNewDryer] = useState({ number: '' });
 
   const addNewDryer = () => {
     setDryerData((prevData) => {
@@ -18,7 +18,7 @@ function DryerTable() {
         ...prevData,
         {
           id: prevData.length + 1, // Generate a unique ID
-          status: 'Off',
+          action: 'Off',
           timer: '0:00',
           queue: 0,
           useCount: 0,
@@ -30,20 +30,20 @@ function DryerTable() {
     });
 
     // Reset the newDryer input fields
-    setNewDryer({ number: '', minutes: 0 });
+    setNewDryer({ number: '' });
   };
 
   useEffect(() => {
     // You can load dryer data from your database here or use an empty array initially
-    // const initialDryerData = [
-    //   { id: 1, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
-    //   { id: 2, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
-    //   { id: 3, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
-    //   { id: 4, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
-    //   { id: 5, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
-    //   // Add more dryers as needed
-    // ];
-    // setDryerData(initialDryerData);
+    const initialDryerData = [
+      { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
+      { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
+      { id: 3, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
+      { id: 4, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
+      { id: 5, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
+      // Add more dryers as needed
+    ];
+    setDryerData(initialDryerData);
   }, []);
 
   return (
@@ -55,14 +55,6 @@ function DryerTable() {
           onChange={(e) => setNewDryer({ ...newDryer, number: e.target.value })}
           variant="outlined"
           id="dryerNumberInput"
-        />
-        <TextField
-          label="Minutes"
-          type="number"
-          value={newDryer.minutes}
-          onChange={(e) => setNewDryer({ ...newDryer, minutes: e.target.value })}
-          variant="outlined"
-          id="dryerMinutesInput"
         />
         <Button variant="contained" color="primary" onClick={addNewDryer}>
           Add
@@ -76,7 +68,7 @@ function DryerTable() {
                 Dryer No.
               </TableCell>
               <TableCell align="center" className="table-header">
-                Status
+                Action
               </TableCell>
               <TableCell align="center" className="table-header">
                 Timer
@@ -87,6 +79,9 @@ function DryerTable() {
               <TableCell align="center" className="table-header">
                 Use Count
               </TableCell>
+              <TableCell align="center" className="table-header">
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <tbody>
@@ -94,11 +89,14 @@ function DryerTable() {
               <TableRow key={dryer.id}>
                 <TableCell align="center">{dryer.number}</TableCell>
                 <TableCell align="center">
-                  {dryer.status === 'On' ? 'Running' : 'Off'}
+                  {dryer.action === 'On' ? 'Running' : 'Off'}
                 </TableCell>
                 <TableCell align="center">{dryer.timer}</TableCell>
                 <TableCell align="center">{dryer.queue}</TableCell>
                 <TableCell align="center">{dryer.useCount}</TableCell>
+                <TableCell align="center">
+                  {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                </TableCell>
               </TableRow>
             ))}
           </tbody>
