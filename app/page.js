@@ -11,6 +11,7 @@ import favicon from "../public/favicon.png";
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const onClick = async () => {
@@ -37,10 +38,17 @@ export default function Home() {
           }
         } else {
           // show error Invalid Password
-          console.log("Invalid Password");
+          setError("Invalid Password");
+          setTimeout(() => {
+            setError("");
+          }, 1500);
         }
       } else {
         //show error cannot find username
+        setError("Username not found");
+        setTimeout(() => {
+          setError("");
+        }, 1500);
       }
     } catch (error) {
       console.log(error);
@@ -118,34 +126,11 @@ export default function Home() {
               >
                 Login
               </Button>
+              {error && <div className="error-message">{error}</div>}
             </Box>
           </Box>
         </Grid>
       </div>
     </div>
   );
-
-  //
-  // return (
-  //   <div className={styles.main}>
-  //     <div className={styles.image}>Washing Machine image here</div>
-  //     <div className={styles.login}>
-  //       <div className={styles.icon}>Icon Here</div>
-  //       <div className={styles.login_wrapper}>
-  //         <TextField
-  //           label="Enter your user ID"
-  //           onChange={(e) => setUsername(e.currentTarget.value)}
-  //         />
-  //         <TextField
-  //           type="password"
-  //           label="Enter your password"
-  //           onChange={(e) => setPassword(e.currentTarget.value)}
-  //         />
-  //         <Button variant="contained" color="primary" onClick={onClick}>
-  //           Login
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 }
