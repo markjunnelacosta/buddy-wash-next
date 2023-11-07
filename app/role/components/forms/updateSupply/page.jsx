@@ -94,7 +94,8 @@ export default function UpdateSupply({
                 >
                     Save
                 </Button>
-                <Button className="dialog-button" onClick={handleClose}>
+                <Button className="dialog-button" onClick={handleClose}
+                    href="/role/owner/components/main/branch1/prices">
                     Cancel
                 </Button>
             </DialogActions>
