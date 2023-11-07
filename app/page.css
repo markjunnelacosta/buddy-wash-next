@@ -115,3 +115,18 @@
   text-align: center;
   margin-bottom: 20px;
 }
+
+.error-message{
+  width: 20vw;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  padding: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(115%, -27%);
+  background-color: #e86464;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+}

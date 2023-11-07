@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import "./page.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Grid, Paper, Box, TextField, Button } from "@mui/material";
 import washing_machines from "../public/washing_machines.png";
@@ -11,16 +11,53 @@ import favicon from "../public/favicon.png";
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [failedAttempts, setFailedAttempts] = useState(0);
   const router = useRouter();
+
+  useEffect(() => {
+    // Check if the user has exceeded 3 failed attempts, and if so, set a timer
+    if (failedAttempts >= 3) {
+      const lockoutDuration = 120000; // 2mins
+      const lastFailedAttemptTime = parseInt(localStorage.getItem("lastFailedAttemptTime"), 10);
+
+      if (lastFailedAttemptTime && Date.now() - lastFailedAttemptTime < lockoutDuration) {
+        // The user is locked out, set an error message
+        setError("Too many failed attempts. Try again later.");
+      } else {
+        // Reset failed attempts if the lockout duration has passed
+        setFailedAttempts(0);
+      }
+    }
+  }, [failedAttempts]);
 
   const onClick = async () => {
     try {
+      if (!username || !password) {
+        // Check if either username or password is empty
+        setError("Please enter both username and password.");
+        setTimeout(() => {
+          setError("");
+        }, 1500);
+        return; // Exit the function early
+      }
+
+      if (failedAttempts >= 3) {
+        // The user is locked out
+        return;
+      }
+
       console.log("username", username);
       const response = await fetch(`/api/user/${username}/`);
       const data = await response.json();
       console.log(data);
+
       if (data) {
         if (data.password == password) {
+          // Successful login, reset failed attempts
+          setFailedAttempts(0);
+          localStorage.removeItem("lastFailedAttemptTime");
+
           switch (data.userRole) {
             case "admin":
               router.push("role/admin/users");
@@ -36,17 +73,32 @@ export default function Home() {
               break;
           }
         } else {
-          // show error Invalid Password
-          console.log("Invalid Password");
+          // Show error Invalid Password
+          setError("Invalid Password");
+          setTimeout(() => {
+            setError("");
+          }, 1500);
+          // Increment failed login attempts
+          setFailedAttempts(failedAttempts + 1);
+          // Update the timestamp of the last failed login attempt in localStorage
+          localStorage.setItem("lastFailedAttemptTime", Date.now());
         }
       } else {
-        //show error cannot find username
+        // Show error cannot find username
+        setError("Username not found");
+        setTimeout(() => {
+          setError("");
+        }, 1500);
+        // Increment failed login attempts
+        setFailedAttempts(failedAttempts + 1);
+        // Update the timestamp of the last failed login attempt in localStorage
+        localStorage.setItem("lastFailedAttemptTime", Date.now());
       }
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   return (
     <div id="main-container">
       <div id="left">
@@ -118,34 +170,11 @@ export default function Home() {
               >
                 Login
               </Button>
+              {error && <div className="error-message">{error}</div>}
             </Box>
           </Box>
         </Grid>
       </div>
     </div>
   );
-
-  //
-  // return (
-  //   <div className={styles.main}>
-  //     <div className={styles.image}>Washing Machine image here</div>
-  //     <div className={styles.login}>
-  //       <div className={styles.icon}>Icon Here</div>
-  //       <div className={styles.login_wrapper}>
-  //         <TextField
-  //           label="Enter your user ID"
-  //           onChange={(e) => setUsername(e.currentTarget.value)}
-  //         />
-  //         <TextField
-  //           type="password"
-  //           label="Enter your password"
-  //           onChange={(e) => setPassword(e.currentTarget.value)}
-  //         />
-  //         <Button variant="contained" color="primary" onClick={onClick}>
-  //           Login
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 }

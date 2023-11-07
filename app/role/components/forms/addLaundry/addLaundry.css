@@ -23,6 +23,13 @@ input {
   font-size: 17px;
 }
 
+.select-name{
+  width: 87%;
+  border-color: gray;
+  font-size: 17px;
+  border-radius: none;
+}
+
 #radiob{
   height: 15px;
   border-color: gray;
@@ -41,19 +48,19 @@ select {
 }
 
 #first {
-  width: 26vw;
-  flex: 33%;
+  width: 20vw;
+  flex: 20%;
   float: left;
   font-weight: 400;
 }
 
 #second {
-  flex: 33%;
+  flex: 20%;
   font-weight: 400;
 }
 
 #third{
-  flex: 33%;
+  flex: 20%;
   font-weight: 400;
 }
 
@@ -79,6 +86,8 @@ select {
   margin-left: 5px;
   background-color: #D9D9D9;
   font-weight: 600;
+  height: 40px;
+  width: 80px;
   cursor: pointer;
 }
 
@@ -87,14 +96,26 @@ select {
   padding: 5px 10px;
   font-size: 18px;
   border-radius: 5px;
-  border: 2px solid;
-  border-color: #54BCBC;
+  border: none;
   background-color: #54BCBC;
   font-weight: 600;
   cursor: pointer;
+  height: 40px;
+  width: 70px;
+  color: white;
 }
 
 #header{
   font-weight: 700;
   font-size: 20px;
+}
+
+/* addLaundry.css */
+.MuiAutocomplete-input {
+  height: 2px;
+  font-size: 17px;
+}
+
+.save:hover {
+  background-color: #bee5e5;
 }
