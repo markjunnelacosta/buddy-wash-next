@@ -96,7 +96,6 @@ export default function AddCustomer() {
             Save
           </Button>
           <Button
-            // href="/role/staff/components/main-content/manageCustomer"
             className="dialog-button"
             onClick={handleClose}
           >
