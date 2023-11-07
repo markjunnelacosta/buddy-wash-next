@@ -23,6 +23,13 @@ input {
   font-size: 17px;
 }
 
+.select-name{
+  width: 87%;
+  border-color: gray;
+  font-size: 17px;
+  border-radius: none;
+}
+
 #radiob{
   height: 15px;
   border-color: gray;
@@ -97,4 +104,10 @@ select {
 #header{
   font-weight: 700;
   font-size: 20px;
+}
+
+/* addLaundry.css */
+.MuiAutocomplete-input {
+  height: 2px;
+  font-size: 17px;
 }
