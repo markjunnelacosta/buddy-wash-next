@@ -36,6 +36,10 @@
 .tables-container {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    margin: 5px;
     height: auto;
 }
+
+.table-header-bold {
+    font-weight: bold;
+  }

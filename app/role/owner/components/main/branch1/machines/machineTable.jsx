@@ -11,30 +11,47 @@ import Button from '@mui/material/Button';
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [newMachine, setNewMachine] = useState({ number: '' });
+  const [inputError, setInputError] = useState('');
 
   const addNewMachine = () => {
-    setMachineData((prevData) => {
-      const newMachineData = [
-        ...prevData,
-        {
-          id: prevData.length + 1, // Generate a unique ID
-          action: 'Off',
-          timer: '0:00',
-          queue: 0,
-          useCount: 0,
-          number: newMachine.number,
-        },
-      ];
+    if (isValidInput(newMachine.number)) {
+      if (!isNumberRepeated(newMachine.number)) {
+        setMachineData((prevData) => {
+          const newMachineData = [
+            ...prevData,
+            {
+              id: prevData.length + 1,
+              action: 'Off',
+              timer: '0:00',
+              queue: 0,
+              useCount: 0,
+              number: newMachine.number,
+            },
+          ];
 
-      return newMachineData;
-    });
+          return newMachineData;
+        });
 
-    // Reset the newMachine input fields
-    setNewMachine({ number: '' });
-  };
+        setNewMachine({ number: '' });
+        setInputError('');
+      } else {
+        setInputError('The number already exists');
+      }
+    } else {
+      setInputError('Please enter a valid integer between 1 and 25');
+    }
+  }
+
+  const isValidInput = (input) => {
+    const number = parseInt(input);
+    return !isNaN(number) && number >= 1 && number <= 25;
+  }
+
+  const isNumberRepeated = (number) => {
+    return machineData.some((machine) => machine.number === number);
+  }
 
   useEffect(() => {
-    // You can load machine data from your database here or use an empty array initially
     const initialMachineData = [
       { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
       { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
@@ -48,59 +65,74 @@ function MachineTable() {
 
   return (
     <div>
-      <div className="add-machine-form">
+      <div className="add-machine-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <TextField
           label="Washer Number"
           value={newMachine.number}
           onChange={(e) => setNewMachine({ ...newMachine, number: e.target.value })}
           variant="outlined"
           id="machineNumberInput"
+          style={{ marginLeft: '10px' }}
+          error={inputError !== ''}
+          helperText={inputError}
+          onInput={(e) => {
+            const inputValue = e.target.value;
+            if (!/^\d*$/.test(inputValue)) {
+              e.preventDefault();
+            }
+          }}
         />
-        <Button variant="contained" color="primary" onClick={addNewMachine}>
+        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
           Add
         </Button>
       </div>
       <TableContainer component={Paper}>
-        <Table size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" className="table-header">
-                Washer No.
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Action
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Timer
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Queue
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Use Count
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Status
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <tbody>
-            {machineData.map((machine) => (
-              <TableRow key={machine.id}>
-                <TableCell align="center">{machine.number}</TableCell>
-                <TableCell align="center">
-                  {machine.action === 'On' ? 'Running' : 'Off'}
+        <Paper style={{ height: 450, width: "100%" }}>
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            size="small"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" className="table-header-bold">
+                  Washer No.
                 </TableCell>
-                <TableCell align="center">{machine.timer}</TableCell>
-                <TableCell align="center">{machine.queue}</TableCell>
-                <TableCell align="center">{machine.useCount}</TableCell>
-                <TableCell align="center">
-                  {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                <TableCell align="center" className="table-header-bold">
+                  Action
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Timer
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Queue
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Use Count
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Status
                 </TableCell>
               </TableRow>
-            ))}
-          </tbody>
-        </Table>
+            </TableHead>
+            <tbody>
+              {machineData.map((machine) => (
+                <TableRow key={machine.id}>
+                  <TableCell align="center">{machine.number}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Running' : 'Off'}
+                  </TableCell>
+                  <TableCell align="center">{machine.timer}</TableCell>
+                  <TableCell align="center">{machine.queue}</TableCell>
+                  <TableCell align="center">{machine.useCount}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </Paper>
       </TableContainer>
     </div>
   );

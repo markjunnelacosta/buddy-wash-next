@@ -1,6 +1,10 @@
-.table-header {
+/* .table-header {
   background-color: #54BCBC;
   color: white;
+  font-weight: bold;
+}
+
+.table-header-bold {
   font-weight: bold;
 }
 
@@ -9,14 +13,14 @@
 }
 
 .add-machine-button {
-  margin: 10px 0;
+  margin-right: 5px;
 }
 
 .add-machine-button .MuiButton-root {
   background-color: #54BCBC;
   color: white;
   font-weight: bold;
-  /* padding: 8px 16px; */
+
 }
 
 .add-machine-button .MuiButton-root:hover {
@@ -27,4 +31,4 @@
   display: flex;
   align-items: center;
   margin: 10px 0;
-}
+} */
