@@ -20,7 +20,13 @@ function transactionsTable(
 export default function AddTransactions() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Paper style={{ height: 455, width: "100%" }}>
+      <Table
+          stickyHeader
+          aria-label="sticky table"
+          // sx={{ minWidth: 650 }}
+          size="small"
+        >
         <TableHead>
           <TableRow >
             <TableCell align="center" style={{ fontWeight: "bold" }}>Date </TableCell>
@@ -29,6 +35,7 @@ export default function AddTransactions() {
           </TableRow>
         </TableHead>
       </Table>
+      </Paper>
     </TableContainer>
   );
 }

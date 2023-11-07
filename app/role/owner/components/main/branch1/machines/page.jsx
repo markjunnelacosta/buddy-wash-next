@@ -19,12 +19,12 @@ function Machines() {
     <div className="machines-container">
       <div className="blue-container">
         <div className="top">
-        <p className="table-header" style={{ flex: 1, textAlign: 'center' }}>Washer</p>
-          <p className="table-header" style={{ flex: 1, textAlign: 'center' }}>Dryer</p>
+        <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Washing Machines</p>
+          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Machines</p>
         </div>
         <div className="tables-container">
           <div className="machineTable-container">
-            <AddMachine onAddMachine={handleAddMachine} />
+            <AddMachine onAddMachine={handleAddMachine} /> 
             <MachineTable machines={machines} />
           </div>
           <div className="dryerTable-container">

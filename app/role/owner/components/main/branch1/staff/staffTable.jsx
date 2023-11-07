@@ -21,7 +21,13 @@ function staffTable(
 export default function AddStaff() {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Paper style={{ height: 500, width: "100%" }}>
+            <Table
+                stickyHeader
+                aria-label="sticky table"
+                // sx={{ minWidth: 650 }}
+                size="small"
+            >
                 <TableHead>
                     <TableRow >
                         <TableCell align="center" style={{ fontWeight: "bold" }}>Name</TableCell>
@@ -31,6 +37,7 @@ export default function AddStaff() {
                     </TableRow>
                 </TableHead>
             </Table>
-        </TableContainer>
+        </Paper>
+        </TableContainer >
     );
 }
