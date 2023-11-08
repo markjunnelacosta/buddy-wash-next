@@ -26,7 +26,7 @@ export default function RemoveButton({ id }) {
       onClick={removeStaff}
       variant="outlined"
       id="delete-button"
-      href="/role/admin/branches/branch-staff"
+      href="/role/admin/branches/"
     >
       Delete
     </Button>

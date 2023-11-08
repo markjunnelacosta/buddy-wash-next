@@ -9,6 +9,13 @@ import RemoveButton from "./removeButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import EditUserPopup from "./eButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 // Function to fetch user data from the server
 const getUsers = async () => {
@@ -32,7 +39,7 @@ const Users = () => {
   // State variables
   const [userData, setUserData] = useState([]);
   const [showAdminPage, setShowAdminPage] = useState(false);
-  const [entriesPerPage, setEntriesPerPage] = useState(5);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
@@ -156,49 +163,62 @@ const Users = () => {
           </div>
         </div>
         <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>User Name</th>
-                <th>Phone Number</th>
-                <th>User Address</th>
-                <th>User Role</th>
-                <th>User ID</th>
-                <th>Password</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers
-                .slice(
-                  (currentPage - 1) * entriesPerPage,
-                  currentPage * entriesPerPage
-                )
-                .map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.userName}</td>
-                    <td>{user.phoneNumber}</td>
-                    <td>{user.userAddress}</td>
-                    <td>{user.userRole}</td>
-                    <td>{user.userId}</td>
-                    <td>{user.password}</td>
-                    <td>
-                      <div className="b-container">
-                        <Button
-                          variant="outlined"
-                          id="edit-button"
-                          onClick={() => handleEditUser(user)}
-                        >
-                          Edit
-                        </Button>
-                        &nbsp;
-                        <RemoveButton id={user._id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <TableContainer component={Paper}>
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              sx={{ minWidth: 600 }}
+              size="small"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell className="table-header">User Name</TableCell>
+                  <TableCell className="table-header">Phone Number</TableCell>
+                  <TableCell className="table-header">User Address</TableCell>
+                  <TableCell className="table-header">User Role</TableCell>
+                  <TableCell className="table-header">User ID</TableCell>
+                  <TableCell className="table-header">Password</TableCell>
+                  <TableCell className="table-header">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredUsers
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  )
+                  .map((user) => (
+                    <TableRow
+                      key={user._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell>{user.userName}</TableCell>
+                      <TableCell>{user.phoneNumber}</TableCell>
+                      <TableCell>{user.userAddress}</TableCell>
+                      <TableCell>{user.userRole}</TableCell>
+                      <TableCell>{user.userId}</TableCell>
+                      <TableCell>{user.password}</TableCell>
+                      <TableCell>
+                        <div className="b-container">
+                          <Button
+                            variant="outlined"
+                            id="edit-button"
+                            onClick={() => handleEditUser(user)}
+                          >
+                            Edit
+                          </Button>
+                          &nbsp;
+                          <RemoveButton id={user._id} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                  }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <div className="pagination">
           <button onClick={handlePreviousPage} disabled={currentPage === 1}>

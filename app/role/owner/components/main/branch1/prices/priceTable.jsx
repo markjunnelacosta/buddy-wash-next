@@ -88,7 +88,7 @@ const SupplyTable = () => {
   return (
     <>
     <TableContainer component={Paper}>
-      <Paper style={{ height: 455, width: "100%" }}>
+      <Paper style={{ height: 500, width: "100%" }}>
         <Table
           stickyHeader
           aria-label="sticky table"

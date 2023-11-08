@@ -2,7 +2,7 @@
     margin-top: 10px;
     margin-left: 23%;
     width: 72vw;
-    height: 78vh;
+    height: 100%;
     align-items: center;
     text-align: center;
     background: #54BCBC;
@@ -18,35 +18,17 @@
     gap: 10px;
     padding: 2rem;
     height: 100%;
-    width: 95%;
-    overflow-x: auto;
-    max-height: 400px;
-    /* overflow-y: scroll; */
-}
-
-table {
-    border-collapse: collapse;
-    border: 1px solid #fff;
-    background-color: #fff;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    table-layout: auto;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-th, td {
-    border: 1px solid gray;
+.table-header{
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
     text-align: center;
-    padding: 5px;
-    font-size: 15px;
-    background-color: white;
-
 }
-
-td{
-    /* width: 150px; */
-    height: 40px;
-}
-
 .add-button {
     background-color: white;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
