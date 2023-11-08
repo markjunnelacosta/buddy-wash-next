@@ -34,8 +34,8 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
 
   return (
     <>
-        {isOpen && (
-          <div className="form-container visible">
+      {isOpen && (
+        <div className="form-container visible">
           <div>
             <p>Add User</p>
             <hr />
@@ -87,11 +87,8 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
             <button className="cancel" onClick={onClose}>Cancel</button>
             <button className="save" onClick={onClick}>Save</button>
           </div>
-          </div>
-        )}
-
-      
-
+        </div>
+      )}
     </>
   );
 };

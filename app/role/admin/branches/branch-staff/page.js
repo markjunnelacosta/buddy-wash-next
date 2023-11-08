@@ -11,9 +11,9 @@ import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
 import { useRouter } from "next/navigation";
 
-const getBranchStaff = async () => {
+const getBranchStaff = async (branchId) => {
     try {
-        const res = await fetch("http://localhost:3000/api/branch-staff", {
+        const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
             cache: "no-store",
         });
 
@@ -45,7 +45,7 @@ const getBranchId = async () => {
     }
 };
 
-const BranchStaff = () => {
+const BranchStaff = ({branchId}) => {
     // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
     const [branchData, setBranchData] = useState(null);
@@ -54,8 +54,13 @@ const BranchStaff = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedBranchId, setSelectedBranchId] = useState(null);
     const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
-    const router = useRouter();
+    const [isBranchStaffVisible, setBranchStaffVisible] = useState(true);
+
+    const closeBranchStaff = () => {
+        setBranchStaffVisible(false);
+    };
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -125,6 +130,36 @@ const BranchStaff = () => {
         fetchBranchStaff();
     }, []);
 
+    // Fetch staff data specific to the selected branch (branchId)
+    useEffect(() => {
+        const fetchBranchStaffData = async () => {
+            try {
+                const staff = await getBranchStaff(branchId);
+                setBranchStaffData(staff);
+            } catch (error) {
+                console.error("Error fetching Branch Staff:", error);
+            }
+        };
+
+        fetchBranchStaffData();
+    }, [branchId]);
+
+    // Use the selectedBranchId to filter staff data
+    useEffect(() => {
+        if (selectedBranchId) {
+            const fetchStaffForSelectedBranch = async () => {
+                try {
+                    const staff = await getBranchStaff(selectedBranchId);
+                    setBranchStaffData(staff);
+                } catch (error) {
+                    console.error("Error fetching Branch Staff:", error);
+                }
+            };
+
+            fetchStaffForSelectedBranch();
+        }
+    }, [selectedBranchId]);
+
     //BRANCHID
     useEffect(() => {
         const fetchBranchId = async () => {
@@ -172,8 +207,8 @@ const BranchStaff = () => {
 
     return (
         <>
-            <Layout />
-            <div className="container-box">
+         {isBranchStaffVisible && (
+            <div className="container-box-staff">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
                         <p style={{ fontWeight: "bold" }}>Location:</p>
@@ -245,7 +280,11 @@ const BranchStaff = () => {
                         <ArrowForwardIosRoundedIcon />
                     </button>
                 </div>
+                
+                <button onClick={closeBranchStaff}>cancel</button>
+                
             </div>
+            )}
             <StaffPage
                 isOpen={showStaffPage}
                 onClose={handleSaveData}
@@ -257,6 +296,7 @@ const BranchStaff = () => {
                 onClose={handleClose}
                 onSave={handleSaveData} // Implement the save function
             />
+            
         </>
     );
 };
