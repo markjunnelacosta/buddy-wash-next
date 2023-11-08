@@ -155,12 +155,12 @@ const MachineTable = () => {
               <TableBody>
                 {machineData.map((machine) => (
                   <TableRow key={machine.id}>
-                    <TableCell align="center">{machine.number}</TableCell>
+                    <TableCell align="center">{machine.machineNumber}</TableCell>
                     <TableCell align="center">
                       {machine.action === 'On' ? 'Running' : 'Off'}
                     </TableCell>
-                    <TableCell align="center">{machine.timer}</TableCell>
-                    <TableCell align="center">{machine.queue}</TableCell>
+                    <TableCell align="center">00:00</TableCell>
+                    <TableCell align="center">0</TableCell>
                     <TableCell align="center">{machine.useCount}</TableCell>
                     <TableCell align="center">
                       {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}

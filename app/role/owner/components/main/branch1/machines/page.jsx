@@ -17,6 +17,7 @@ function Machines() {
         <div className="tables-container">
           <div className="machineTable-container">
             <MachineTable machines={machines} />
+            
           </div>
           <div className="dryerTable-container">
             <DryerTable />
