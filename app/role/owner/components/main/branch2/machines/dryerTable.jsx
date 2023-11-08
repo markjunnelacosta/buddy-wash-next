@@ -10,30 +10,43 @@ import Button from '@mui/material/Button';
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
-  const [newDryer, setNewDryer] = useState({ number: '' });
+  const [newDryer, setNewDryer] = useState('');
   const [inputError, setInputError] = useState('');
 
   const addNewDryer = () => {
-    if (isValidInput(newDryer.number)) {
-      if (!isNumberRepeated(newDryer.number)) {
-        setDryerData((prevData) => {
-          const newDryerData = [
-            ...prevData,
-            {
-              id: prevData.length + 1, // Generate a unique ID
-              action: 'Off',
-              timer: '0:00',
-              queue: 0,
-              useCount: 0,
-              number: newDryer.number,
-            },
-          ];
-  
-          return newDryerData;
-        });
-  
-        setNewDryer({ number: '' });
-        setInputError(''); // Reset the error message
+    if (isValidInput(newDryer)) {
+      if (!isNumberRepeated(newDryer)) {
+        const newDryerObject = {
+          dryerNumber: parseInt(newDryer),
+          action: 'Off',
+          timer: '0:00',
+          queue: 0,
+          useCount: 0,
+        };
+
+        fetch('http://localhost:3000/api/dryer', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newDryerObject),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to add a new dryer');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            fetchData();
+          })
+          .catch((error) => {
+            console.error('Error adding a new dryer:', error);
+          });
+
+        setDryerData((prevData) => [...prevData, newDryerObject]);
+        setNewDryer('');
+        setInputError('');
       } else {
         setInputError('The number already exists');
       }
@@ -48,20 +61,29 @@ function DryerTable() {
   };
 
   const isNumberRepeated = (number) => {
-    return dryerData.some((dryer) => dryer.number === number);
+    return dryerData.some((dryer) => dryer.dryerNumber === parseInt(number));
+  };
+
+  const fetchData = () => {
+    fetch('http://localhost:3000/api/dryer', {
+      cache: 'no-store',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch dryer data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDryerData(data.dryerData || []);
+      })
+      .catch((error) => {
+        console.error('Error fetching dryer data:', error);
+      });
   };
 
   useEffect(() => {
-    // You can load dryer data from your database here or use an empty array initially
-    const initialDryerData = [
-      { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
-      { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
-      { id: 3, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
-      { id: 4, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
-      { id: 5, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
-      // Add more dryers as needed
-    ];
-    setDryerData(initialDryerData);
+    fetchData();
   }, []);
 
   return (
@@ -69,18 +91,21 @@ function DryerTable() {
       <div className="add-dryer-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <TextField
           label="Dryer Number"
-          value={newDryer.number}
-          onChange={(e) => setNewDryer({ ...newDryer, number: e.target.value })}
+          value={newDryer}
+          onChange={(e) => setNewDryer(e.target.value)}
           variant="outlined"
           id="dryerNumberInput"
+          style={{ marginLeft: '10px' }}
           error={inputError !== ''}
           helperText={inputError}
-          style={{ marginLeft: '10px' }}
           onInput={(e) => {
             const inputValue = e.target.value;
-            if (!/^\d*$/.test(inputValue)) {
+            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
               e.preventDefault();
             }
+          }}
+          inputProps={{
+            maxLength: 2,
           }}
         />
         <Button variant="contained" color="primary" onClick={addNewDryer} style={{ marginRight: '10px' }}>
@@ -88,8 +113,7 @@ function DryerTable() {
         </Button>
       </div>
       <div style={{ height: '400px', overflow: 'auto' }}>
-      <TableContainer component={Paper} >
-        <Paper style={{ width: "100%" }}>
+        <TableContainer component={Paper}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -118,9 +142,9 @@ function DryerTable() {
               </TableRow>
             </TableHead>
             <tbody>
-              {dryerData.map((dryer) => (
-                <TableRow key={dryer.id}>
-                  <TableCell align="center">{dryer.number}</TableCell>
+              {dryerData.map((dryer, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
                     {dryer.action === 'On' ? 'Running' : 'Off'}
                   </TableCell>
@@ -134,8 +158,7 @@ function DryerTable() {
               ))}
             </tbody>
           </Table>
-        </Paper>
-      </TableContainer>
+        </TableContainer>
       </div>
     </div>
   );
