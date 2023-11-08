@@ -5,135 +5,163 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
+  const [newMachine, setNewMachine] = useState('');
+  const [inputError, setInputError] = useState('');
+
+  const addNewMachine = () => {
+    if (isValidInput(newMachine)) {
+      if (!isNumberRepeated(newMachine)) {
+        const newMachineObject = {
+          machineNumber: parseInt(newMachine), // Ensure it's an integer
+          action: 'Off',
+          timer: '00:00',
+          queue: 0,
+          useCount: 0,
+        };
+
+        fetch('http://localhost:3000/api/machine', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newMachineObject),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to add a new machine');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            fetchData();
+          })
+          .catch((error) => {
+            console.error('Error adding a new machine:', error);
+          });
+
+        setMachineData((prevData) => [...prevData, newMachineObject]);
+        setNewMachine('');
+        setInputError('');
+      } else {
+        setInputError('The number already exists');
+      }
+    } else {
+      setInputError('Please enter a valid integer between 1 and 25');
+    }
+  };
+
+  const isValidInput = (input) => {
+    const number = parseInt(input);
+    return !isNaN(number) && number >= 1 && number <= 25;
+  };
+
+  const isNumberRepeated = (number) => {
+    return machineData.some((machine) => machine.machineNumber === parseInt(number));
+  };
+
+  const fetchData = () => {
+    fetch('http://localhost:3000/api/machine', {
+      cache: 'no-store',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch machine data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMachineData(data.machineData || []); // Update machineData state
+      })
+      .catch((error) => {
+        console.error('Error fetching machine data:', error);
+      });
+  };
 
   useEffect(() => {
-    // Simulate machine data (replace with actual data from your database)
-    const initialMachineData = [
-      { id: 1, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 2, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 3, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 4, status: 'Off', timer: 0, queue: 0, useCount: 0 },
-      { id: 5, status: 'Off', timer: 0, queue: 0, useCount: 0 }
-      // Add more machines as needed
-    ];
-    setMachineData(initialMachineData);
+    fetchData();
   }, []);
 
-  const toggleTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id) {
-          if (machine.status === 'Off') {
-            startTimer(id); // Start the countdown timer
-            return { ...machine, status: 'On' };
-          } else {
-            stopTimer(id); // Stop the timer
-            return { ...machine, status: 'Off' };
-          }
-        }
-        return machine;
-      });
-    });
-  };
-
-  const startTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id) {
-          const updatedMachine = { ...machine, status: 'On', queue: 0 };
-          const startTime = Date.now();
-          const endTime = startTime + 37 * 60 * 1000; // Set the timer to 37 minutes
-          const updateTimer = () => {
-            const currentTime = Date.now();
-            if (updatedMachine.status === 'On' && currentTime < endTime) {
-              const remainingTime = new Date(endTime - currentTime);
-              const timer = `${remainingTime.getMinutes()}:${remainingTime.getSeconds()}`;
-              updatedMachine.timer = timer;
-              setMachineData((prevData) =>
-                prevData.map((m) => (m.id === id ? updatedMachine : m))
-              );
-              requestAnimationFrame(updateTimer);
-            } else if (updatedMachine.status === 'On' && currentTime >= endTime) {
-              // The timer has ended, increment useCount
-              updatedMachine.status = 'Off';
-              updatedMachine.useCount += 1;
-              setMachineData((prevData) =>
-                prevData.map((m) => (m.id === id ? updatedMachine : m))
-              );
-            }
-          };
-          updateTimer();
-          return updatedMachine;
-        }
-        return machine;
-      });
-    });
-  };
-
-  const stopTimer = (id) => {
-    setMachineData((prevData) => {
-      return prevData.map((machine) => {
-        if (machine.id === id && machine.status === 'On') {
-          const updatedMachine = { ...machine, status: 'Off' };
-          setMachineData((prevData) =>
-            prevData.map((m) => (m.id === id ? updatedMachine : m))
-          );
-        }
-        return machine;
-      });
-    });
-  };
-
   return (
-    <TableContainer component={Paper}>
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" className="table-header">
-              Machine No.
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Status
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Timer
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Queue
-            </TableCell>
-            <TableCell align="center" className="table-header">
-              Use Count
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <tbody>
-          {machineData.map((machine) => (
-            <TableRow key={machine.id}>
-              <TableCell align="center">{machine.id}</TableCell>
-              <TableCell align="center">
-                {machine.status === 'On' ? 'Running' : 'Off'}
-                <Button
-                  variant="contained"
-                  onClick={() => toggleTimer(machine.id)}
-                  style={{ borderRadius: '50%' }}
-                >
-                  {machine.status === 'On' ? 'Stop' : 'Start'}
-                </Button>
-              </TableCell>
-              <TableCell align="center">{machine.timer}</TableCell>
-              <TableCell align="center">{machine.queue}</TableCell>
-              <TableCell align="center">{machine.useCount}</TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </Table>
-    </TableContainer>
+    <div>
+      <div className="add-machine-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <TextField
+          label="Washer Number"
+          value={newMachine}
+          onChange={(e) => setNewMachine(e.target.value)}
+          variant="outlined"
+          id="machineNumberInput"
+          style={{ marginLeft: '10px' }}
+          error={inputError !== ''}
+          helperText={inputError}
+          onInput={(e) => {
+            const inputValue = e.target.value;
+            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
+              e.preventDefault();
+            }
+          }}
+          inputProps={{
+            maxLength: 2, // Maximum 2 digits
+          }}
+        />
+        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
+          Add
+        </Button>
+      </div>
+      <div style={{ height: '400px', overflow: 'auto' }}>
+        <TableContainer component={Paper}>
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            size="small"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" className="table-header-bold">
+                  Washer No.
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Action
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Timer
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Queue
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Use Count
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Status
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {machineData.map((machine, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{machine.machineNumber}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Running' : 'Off'}
+                  </TableCell>
+                  <TableCell align="center">{machine.timer}</TableCell>
+                  <TableCell align="center">{machine.queue}</TableCell>
+                  <TableCell align="center">{machine.useCount}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
   );
 }
 
 export default MachineTable;
-
