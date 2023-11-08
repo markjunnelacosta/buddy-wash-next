@@ -18,12 +18,12 @@ export default function Home() {
   useEffect(() => {
     // Check if the user has exceeded 3 failed attempts, and if so, set a timer
     if (failedAttempts >= 3) {
-      const lockoutDuration = 120000; // 2mins
+      const lockoutDuration = 10000; // 2mins
       const lastFailedAttemptTime = parseInt(localStorage.getItem("lastFailedAttemptTime"), 10);
 
       if (lastFailedAttemptTime && Date.now() - lastFailedAttemptTime < lockoutDuration) {
         // The user is locked out, set an error message
-        setError("Too many failed attempts. Try again later.");
+        setError("You have three failed attempts. Try again 2 minutes later.");
       } else {
         // Reset failed attempts if the lockout duration has passed
         setFailedAttempts(0);
@@ -38,7 +38,7 @@ export default function Home() {
         setError("Please enter both username and password.");
         setTimeout(() => {
           setError("");
-        }, 1500);
+        }, 3500);
         return; // Exit the function early
       }
 
@@ -77,7 +77,7 @@ export default function Home() {
           setError("Invalid Password");
           setTimeout(() => {
             setError("");
-          }, 1500);
+          }, 3500);
           // Increment failed login attempts
           setFailedAttempts(failedAttempts + 1);
           // Update the timestamp of the last failed login attempt in localStorage
@@ -88,7 +88,7 @@ export default function Home() {
         setError("Username not found");
         setTimeout(() => {
           setError("");
-        }, 1500);
+        }, 3500);
         // Increment failed login attempts
         setFailedAttempts(failedAttempts + 1);
         // Update the timestamp of the last failed login attempt in localStorage
