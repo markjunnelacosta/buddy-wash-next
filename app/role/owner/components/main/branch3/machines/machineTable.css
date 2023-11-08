@@ -1,47 +1,34 @@
-.table-header {
-    background-color: #54BCBC;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .table-cell {
-    text-align: center;
-  }
-  
-  .add-machine-button {
-    margin: 10px 0;
-  }
-  
-  .add-machine-button .MuiButton-root {
-    background-color: #54BCBC;
-    color: white;
-    font-weight: bold;
-    padding: 8px 16px;
-  }
-  
-  .add-machine-button .MuiButton-root:hover {
-    background-color: #3e9393;
-  }
-  
-  .add-machine-form {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  
-  .add-machine-form .MuiFormControl-root {
-    margin-right: 20px;
-    width: 150px;
-  }
-  
-  .add-machine-form .MuiButton-root {
-    background-color: #54BCBC;
-    color: white;
-    font-weight: bold;
-    padding: 8px 16px;
-  }
-  
-  .add-machine-form .MuiButton-root:hover {
-    background-color: #3e9393;
-  }
-  
+/* .table-header {
+  background-color: #54BCBC;
+  color: white;
+  font-weight: bold;
+}
+
+.table-header-bold {
+  font-weight: bold;
+}
+
+.table-cell {
+  text-align: center;
+}
+
+.add-machine-button {
+  margin-right: 5px;
+}
+
+.add-machine-button .MuiButton-root {
+  background-color: #54BCBC;
+  color: white;
+  font-weight: bold;
+
+}
+
+.add-machine-button .MuiButton-root:hover {
+  background-color: #3e9393;
+}
+
+.add-machine-form {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+} */
