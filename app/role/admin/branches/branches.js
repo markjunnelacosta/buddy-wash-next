@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BranchStaff from './branch-staff/page';
 import Button from "@mui/material/Button";
 import RemoveButton from './removeButton';
+import './branches.css'
 
 const Branch = ({ branch }) => {
     const [isBranchStaffPopupVisible, setBranchStaffPopupVisible] = useState(false);
