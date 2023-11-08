@@ -1,24 +1,45 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import "./AddSupply.css";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
-// import * as React from "react";
-// import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Add } from "@mui/icons-material";
 
 export default function AddSupply() {
   const [supplyName, setSupplyName] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [supplyNameError, setSupplyNameError] = useState('');
+  const [productPriceError, setProductPriceError] = useState('');
+
+  const handleSupplyNameChange = (e) => {
+    const newValue = e.target.value;
+    setSupplyName(newValue);
+    
+    if (!/^[a-zA-Z\s]*$/.test(newValue)) {
+      setSupplyNameError('Please enter valid characters (letters and spaces)');
+    } else {
+      setSupplyNameError('');
+    }
+  };
+
+  const handleProductPriceChange = (e) => {
+    const newValue = e.target.value;
+    setProductPrice(newValue);
+    
+    if (!/^\d*\.?\d*$/.test(newValue)) {
+      setProductPriceError('Please enter valid numbers');
+    } else {
+      setProductPriceError('');
+    }
+  };
 
   const onClickSave = async () => {
-    console.log(supplyName, productPrice);
+    if (supplyNameError || productPriceError) {
+      return; // Don't submit if there are input errors
+    }
 
     const response = await fetch("/api/supply", {
       method: "POST",
@@ -28,10 +49,14 @@ export default function AddSupply() {
         productPrice: productPrice,
       }),
     });
-    console.log(response);
+    if (response.ok) {
+      handleClose();
+    } else {
+      console.log("Failed to add supply");
+    }
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -39,6 +64,10 @@ export default function AddSupply() {
 
   const handleClose = () => {
     setOpen(false);
+    setSupplyName("");
+    setProductPrice("");
+    setSupplyNameError('');
+    setProductPriceError('');
   };
 
   return (
@@ -53,7 +82,6 @@ export default function AddSupply() {
           alignSelf: "flex-start",
           margin: "30px",
           borderRadius: "10px",
-          // marginLeft: "109vh",
         }}
         variant="contained"
         onClick={handleClickOpen}
@@ -68,19 +96,23 @@ export default function AddSupply() {
             <div className="input">
               <div className="supply-name">
                 <p>Supply Name</p>
-                <input
+                <TextField
                   className="text-box"
                   value={supplyName}
-                  onChange={(e) => setSupplyName(e.currentTarget.value)}
-                ></input>
+                  onChange={handleSupplyNameChange}
+                  error={!!supplyNameError}
+                  helperText={supplyNameError}
+                />
               </div>
               <div className="product-price">
                 <p>Price</p>
-                <input
+                <TextField
                   className="text-box"
                   value={productPrice}
-                  onChange={(e) => setProductPrice(e.currentTarget.value)}
-                ></input>
+                  onChange={handleProductPriceChange}
+                  error={!!productPriceError}
+                  helperText={productPriceError}
+                />
               </div>
             </div>
           </div>
@@ -89,15 +121,11 @@ export default function AddSupply() {
           <Button
             href="/role/owner/components/main/branch1/prices"
             className="dialog-button"
-            onClick={() => {
-              onClickSave();
-              handleClose();
-            }}
+            onClick={onClickSave}
           >
             Save
           </Button>
           <Button
-            // href="/role/staff/components/main-content/manageCustomer"
             className="dialog-button"
             onClick={handleClose}
           >

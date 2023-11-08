@@ -1,104 +1,130 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./editSupply.css";
 import { Button } from "@mui/material";
-// import * as React from "react";
-// import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Add } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 
 export default function UpdateSupply({
-    id,
-    supplyName,
-    productPrice,
+  id,
+  supplyName,
+  productPrice,
 }) {
-    const [newSupplyName, setNewSupplyName] = useState(supplyName);
-    const [newProductPrice, setNewProductPrice] = useState(productPrice);
+  const [newSupplyName, setNewSupplyName] = useState(supplyName);
+  const [newProductPrice, setNewProductPrice] = useState(productPrice);
+  const [supplyNameError, setSupplyNameError] = useState('');
+  const [productPriceError, setProductPriceError] = useState('');
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSupplyNameChange = (e) => {
+    const newValue = e.target.value;
+    setNewSupplyName(newValue);
+    
+    if (!/^[a-zA-Z\s]*$/.test(newValue)) {
+      setSupplyNameError('Please enter valid characters (letters and spaces)');
+    } else {
+      setSupplyNameError('');
+    }
+  };
 
-        try {
-            const res = await fetch(`http://localhost:3000/api/supply/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({ id, newSupplyName, newProductPrice }),
-            });
+  const handleProductPriceChange = (e) => {
+    const newValue = e.target.value;
+    setNewProductPrice(newValue);
+    
+    if (!/^\d*\.?\d*$/.test(newValue)) {
+      setProductPriceError('Please enter valid numbers');
+    } else {
+      setProductPriceError('');
+    }
+  };
 
-            if (!res.ok) {
-                throw new Error("Failed to update supply details");
-            }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-            router.refresh();
-            router.push("/role/owner/components/main/branch1/prices");
+    if (supplyNameError || productPriceError) {
+      return; // Don't submit if there are input errors
+    }
 
-            window.location.reload();
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    try {
+      const res = await fetch(`http://localhost:3000/api/supply/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ id, newSupplyName, newProductPrice }),
+      });
 
-    const [open, setOpen] = React.useState(false);
+      if (!res.ok) {
+        throw new Error("Failed to update supply details");
+      }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+      router.refresh();
+      router.push("/role/owner/components/main/branch1/prices");
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const [open, setOpen] = React.useState(false);
 
-    return (
-        <div className="box-container" style={{ zIndex: 9999 }}>
-            <DialogTitle>Edit Supply</DialogTitle>
-            <hr />
-            <DialogContent>
-                <div className="add-supply-form">
-                    <div className="input">
-                        <div className="supply-name">
-                            <p>Supply Name</p>
-                            <input
-                                className="text-box"
-                                value={newSupplyName}
-                                onChange={(e) => setNewSupplyName(e.currentTarget.value)}
-                            ></input>
-                        </div>
-                        <div className="product-price">
-                            <p>Price</p>
-                            <input
-                                className="text-box"
-                                value={newProductPrice}
-                                onChange={(e) => setNewProductPrice(e.currentTarget.value)}
-                            ></input>
-                        </div>
-                    </div>
-                </div>
-            </DialogContent>
-            <DialogActions>
-                <Button
-                    href="/role/owner/components/main/branch1/prices"
-                    className="dialog-button"
-                    onClick={handleSubmit}
-                >
-                    Save
-                </Button>
-                <Button className="dialog-button" onClick={handleClose}
-                    href="/role/owner/components/main/branch1/prices">
-                    Cancel
-                </Button>
-            </DialogActions>
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div className="box-container" style={{ zIndex: 9999 }}>
+      <DialogTitle>Edit Supply</DialogTitle>
+      <hr />
+      <DialogContent>
+        <div className="add-supply-form">
+          <div className="input">
+            <div className="supply-name">
+              <p>Supply Name</p>
+              <TextField
+                className="text-box"
+                value={newSupplyName}
+                onChange={handleSupplyNameChange}
+                error={!!supplyNameError}
+                helperText={supplyNameError}
+              />
+            </div>
+            <div className="product-price">
+              <p>Price</p>
+              <TextField
+                className="text-box"
+                value={newProductPrice}
+                onChange={handleProductPriceChange}
+                error={!!productPriceError}
+                helperText={productPriceError}
+              />
+            </div>
+          </div>
         </div>
-    );
+      </DialogContent>
+      <DialogActions>
+        <Button
+          href="/role/owner/components/main/branch1/prices"
+          className="dialog-button"
+          onClick={handleSubmit}
+        >
+          Save
+        </Button>
+        <Button className="dialog-button" onClick={handleClose} href="/role/owner/components/main/branch1/prices">
+          Cancel
+        </Button>
+      </DialogActions>
+    </div>
+  );
 }
