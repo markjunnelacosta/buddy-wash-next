@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import './addLaundry.css'
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
+import moment from "moment-timezone";
 
-const addLaundry = ({ isOpen, onClose, onSave }) => {
+const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
     const [supplyData, setSupplyData] = useState([]); // State for supplies
 
@@ -23,37 +24,39 @@ const addLaundry = ({ isOpen, onClose, onSave }) => {
     const [refNum, setRefNum] = useState("");
 
     const onClick = async () => {
+        const philippineTime = moment(orderDate).tz("Asia/Manila").toDate();
+
         console.log(
-            customerName, 
-            orderDate, weight, washMode, 
-            dryMode, fold, colored, 
+            customerName,
+            orderDate, weight, washMode,
+            dryMode, fold, colored,
             detergent, fabCon, detergentQty,
             fabConQty, paymentMethod, refNum);
         const response = await fetch("/api/laundrybin", {
-          method: "POST",
-          body: JSON.stringify({
-            customerName: customerName,
-            orderDate: orderDate,
-            weight: weight,
-            washMode: washMode,
-            dryMode: dryMode,
-            fold: fold,
-            colored: colored,
-            detergent: detergent,
-            fabcon: fabCon,
-            detergentQty: detergentQty,
-            fabconQty: fabConQty,
-            paymentMethod: paymentMethod,
-            refNum: refNum
-          }),
+            method: "POST",
+            body: JSON.stringify({
+                customerName: customerName,
+                orderDate: orderDate,
+                weight: weight,
+                washMode: washMode,
+                dryMode: dryMode,
+                fold: fold,
+                colored: colored,
+                detergent: detergent,
+                fabcon: fabCon,
+                detergentQty: detergentQty,
+                fabconQty: fabConQty,
+                paymentMethod: paymentMethod,
+                refNum: refNum
+            }),
         });
-    
+
         console.log(response);
-    
+
         onSaveData();
         onClose();
-      };
-    
+    };
+
 
     useEffect(() => {
         const fetchCustomer = async () => {
@@ -117,24 +120,30 @@ const addLaundry = ({ isOpen, onClose, onSave }) => {
                             <p>Date</p>
                             <input
                                 type="date"
-                               value={orderDate}
-                               onChange={(e) => setOrderDate(e.currentTarget.value)}
+                                value={orderDate}
+                                onChange={(e) => setOrderDate(e.currentTarget.value)}
                             ></input>
                         </div>
                         <hr />
                         <div className="form-group">
                             <div id="first">
                                 <p>Weight</p>
-                                <select>
+                                <select
+                                value={weight}
+                                onChange={(e) => setWeight(e.currentTarget.value)}
+                                >
                                     <option value=""></option>
-                                    <option value="option1">Light Clothes - 7.5kilos</option>
-                                    <option value="option2">Light Clothes - 8 to 9 kilos</option>
+                                    <option value="7.5Kg">Light Clothes - 7.5kilos</option>
+                                    <option value="8-9Kg">Light Clothes - 8 to 9 kilos</option>
                                 </select>
                                 <p>Fold</p>
-                                <select>
+                                <select
+                                value={fold}
+                                onChange={(e) => setFold(e.currentTarget.value)}
+                                >
                                     <option value=""></option>
-                                    <option value="option1">Yes</option>
-                                    <option value="option2">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
                                 </select>
                                 <p>Detergent</p>
                                 <select
@@ -150,25 +159,31 @@ const addLaundry = ({ isOpen, onClose, onSave }) => {
                                 <p>Detergent Qty.</p>
                                 <input
                                     type="number"
-                                //   value={userRole}
-                                //   onChange={(e) => setUserRole(e.currentTarget.value)}
+                                    value={detergentQty}
+                                    onChange={(e) => setDetergentQty(e.currentTarget.value)}
                                 ></input>
                             </div>
 
                             <div id="second">
                                 <p>Wash Mode</p>
-                                <select>
+                                <select
+                                value={washMode}
+                                onChange={(e) => setWashMode(e.currentTarget.value)}
+                                >
                                     <option value=""></option>
-                                    <option value="option1">Spin - 9mins.</option>
-                                    <option value="option2">Rinse & Spin - 24mins.</option>
-                                    <option value="option3">Regular Wash – 37mins.</option>
-                                    <option value="option3">Super/Premium Wash – 45mins.</option>
+                                    <option value="Spin">Spin - 9mins.</option>
+                                    <option value="Rinse & Spin">Rinse & Spin - 24mins.</option>
+                                    <option value="Regular Wash">Regular Wash – 37mins.</option>
+                                    <option value="Premium">Super/Premium Wash – 45mins.</option>
                                 </select>
                                 <p>Colored</p>
-                                <select>
+                                <select
+                                value={colored}
+                                onChange={(e) => setColored(e.currentTarget.value)}
+                                >
                                     <option value=""></option>
-                                    <option value="option1">Yes</option>
-                                    <option value="option2">No</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
                                 </select>
                                 <p>Fabric Conditioner</p>
                                 <select
@@ -184,53 +199,56 @@ const addLaundry = ({ isOpen, onClose, onSave }) => {
                                 <p>Fabric Conditioner Qty.</p>
                                 <input
                                     type="number"
-                                //   value={userRole}
-                                //   onChange={(e) => setUserRole(e.currentTarget.value)}
+                                    value={fabConQty}
+                                    onChange={(e) => setFabConQty(e.currentTarget.value)}
                                 ></input>
                             </div>
 
                             <div id="third">
                                 <p>Dry Mode</p>
-                                <select>
+                                <select
+                                value={dryMode}
+                                onChange={(e) => setDryMode(e.currentTarget.value)}
+                                >
                                     <option value=""></option>
-                                    <option value="option1">30mins.</option>
-                                    <option value="option2">40mins.</option>
-                                    <option value="option3">50mins.</option>
+                                    <option value="30mins.">30mins.</option>
+                                    <option value="40mins.">40mins.</option>
+                                    <option value="50mins.">50mins.</option>
                                 </select>
                                 <p>Pay by:</p>
                                 <div className="radio-label">
                                     <input
                                         id="radiob"
                                         type="radio"
-                                        value="cash"
                                         name="paymentMethod"
-                                    //   value={userRole}
-                                    //   onChange={(e) => setUserRole(e.currentTarget.value)}
+                                        value="Cash"
+                                        checked={paymentMethod === "GCash"}
+                                        onChange={(e) => setPaymentMethod(e.currentTarget.value)}
                                     /> Cash
                                     <input
                                         id="radiob"
                                         type="radio"
-                                        value="gcash"
                                         name="paymentMethod"
-                                    //   value={userRole}
-                                    //   onChange={(e) => setUserRole(e.currentTarget.value)}
+                                        value="GCash"
+                                        checked={paymentMethod === "GCash"}
+                                        onChange={(e) => setPaymentMethod(e.currentTarget.value)}
                                     />Gcash
                                 </div>
                                 <p>Ref. No. for Gcash</p>
                                 <input
                                     type="text"
-                                //   value={userRole}
-                                //   onChange={(e) => setUserRole(e.currentTarget.value)}
+                                    value={refNum}
+                                    onChange={(e) => setRefNum(e.currentTarget.value)}
                                 ></input>
                             </div>
 
                         </div>
                         <br />
                         <button className="cancel"
-                        onClick={onClose}
+                            onClick={onClose}
                         >Cancel</button>
                         <button className="save"
-                        onClick={onClick}
+                            onClick={onClick}
                         >Save</button>
                     </div>
                 </div>

@@ -52,4 +52,4 @@ const LaundryBinSchema = new Schema({
 
 const LaundryBin = models.LaundryBin || model('LaundryBin', LaundryBinSchema);
 
-export default LaundryBin;
+export default LaundryBin; 

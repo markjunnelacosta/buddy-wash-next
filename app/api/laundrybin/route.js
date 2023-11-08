@@ -48,7 +48,7 @@ export const POST = async (req) => {
             refNum
         });
         console.log(newOrder);
-        await newUser.save();
+        await newOrder.save();
         return new Response(JSON.stringify(newOrder), { status: 201 });
     } catch (error) {
         return new Response(error, { status: 500 });

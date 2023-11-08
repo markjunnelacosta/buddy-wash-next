@@ -25,3 +25,8 @@
     overflow: auto; /* Enable scrolling when the content overflows */
   }
 
+.table-header{
+    font-weight: bold;
+    align-items: center;
+
+}
