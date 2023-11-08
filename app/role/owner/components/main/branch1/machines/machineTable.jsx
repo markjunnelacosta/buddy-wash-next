@@ -87,7 +87,7 @@ function MachineTable() {
         return response.json();
       })
       .then((data) => {
-        setMachineData(machines); // Assuming the API returns an array of machines
+        setMachineData(data.machines); // Assuming the API returns an array of machines
       })
       .catch((error) => {
         console.error('Error fetching machine data:', error);
