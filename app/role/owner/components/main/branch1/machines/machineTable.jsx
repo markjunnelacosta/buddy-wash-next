@@ -32,7 +32,7 @@ const MachineTable = () => {
   const [inputError, setInputError] = useState('');
 
   const [machineNumber, setMachineNumber] = useState("");
-  const [useCount, setUseCount] = useState("");
+  const [useCount, setUseCount] = useState(0);
 
   const onClickSave = async () => {
     console.log(machineNumber, useCount);

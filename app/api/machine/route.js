@@ -18,7 +18,7 @@ export const GET = async (req, res) => {
     return new Response(JSON.stringify({ error: "Failed to get Machines" }), { status: 500 });
   }
   };
-  
+
 
 export const POST = async (req) => {
   const body = await req.json();
