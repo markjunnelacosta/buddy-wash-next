@@ -38,7 +38,7 @@ export default function UpdateSupply() {
   const [supplyId, setSupplyId] = useState("");
   const [quantity, setQuantity] = useState("");
   const [type, setType] = useState("");
-  const stock = 0;
+  let stock = 0;
   const [selectedSupply, setSelectedSupply] = useState([]);
 
   var today = new Date();
@@ -86,14 +86,33 @@ export default function UpdateSupply() {
     console.log(selectedSupply.supplyName);
     console.log(name);
     console.log(supplyId);
+    console.log(typeof selectedSupply.availableStock);
+    console.log(typeof +quantity);
+    if (type === "In") {
+      stock = parseInt(selectedSupply.availableStock, 10) + +quantity;
+    } else if (type === "Out") {
+      stock = parseInt(selectedSupply.availableStock, 10) - +quantity;
+    } else {
+      // Handle an invalid type
+      console.error("Invalid type");
+      return;
+    }
+    console.log(stock);
 
-    // if (type==="In"){
-    //   stock=
-    // }
-    // else{
-    //   stock=
-    // }
-    //dapat madeclare muna ang id. ang id ay yung id ng selected supply
+    const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ availableStock: stock }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Supply record updated successfully");
+    } else {
+      console.error("Failed to update supply record");
+    }
+
     // const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
     //   method: "PATCH",
     //   body: JSON.stringify({
@@ -190,7 +209,7 @@ export default function UpdateSupply() {
         </DialogContent>
         <DialogActions>
           <Button
-            href="/role/staff/supplyInOut"
+            // href="/role/staff/supplyInOut"
             className="dialog-button"
             onClick={() => {
               onClickSave();

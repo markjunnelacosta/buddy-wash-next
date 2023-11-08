@@ -37,28 +37,16 @@ export async function DELETE(request) {
   );
 }
 
-// export async function PATCH(request) {
-//   const id = request.nextUrl.searchParams.get("id");
-//   await connectToDB();
-//   await Supply.findByIdAndUpdate(id, { availableStocks: quantity });
-//   console.log(id);
-//   return NextResponse.json(
-//     { message: "Updated  Supply Record" },
-//     { status: 201 }
-//   );
-// }
-
 export async function PATCH(request) {
   const id = request.nextUrl.searchParams.get("id");
   const body = await request.json();
-  const { availableStocks } = body; // Assuming availableStocks is the field you want to update
-
+  const { availableStock } = body;
   try {
     await connectToDB();
-    await Supply.findByIdAndUpdate(id, { availableStocks }); // Use the correct field name
+    await Supply.findByIdAndUpdate(id, { availableStock });
     console.log(id);
     return NextResponse.json(
-      { message: "Updated Supply Record" },
+      { message: "Updated  Supply Record" },
       { status: 201 }
     );
   } catch (error) {
