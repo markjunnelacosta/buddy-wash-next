@@ -10,7 +10,11 @@ const InventorySchema = new Schema({
   },
   supplyName: {
     type: String,
-    required: [false, "Name is not required"],
+    required: [true, "Name is  required"],
+  },
+  supplyId: {
+    type: String,
+    required: [true, "Supply Id is required"],
   },
   quantity: {
     type: Number,

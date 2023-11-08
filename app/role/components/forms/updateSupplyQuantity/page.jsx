@@ -35,8 +35,11 @@ const getSupplies = async () => {
 export default function UpdateSupply() {
   const [supplies, setSupplies] = React.useState([]);
   const [name, setName] = useState("");
+  const [supplyId, setSupplyId] = useState("");
   const [quantity, setQuantity] = useState("");
   const [type, setType] = useState("");
+  const stock = 0;
+  const [selectedSupply, setSelectedSupply] = useState([]);
 
   var today = new Date();
   var date =
@@ -61,20 +64,46 @@ export default function UpdateSupply() {
   React.useEffect(() => {}, [supplies]);
 
   console.log({ supplies });
+  useEffect(() => {
+    setName(selectedSupply.supplyName);
+  }, [selectedSupply]);
 
   const onClickSave = async () => {
+    console.log(selectedSupply);
     console.log(time, name, quantity, type);
     const response = await fetch("/api/inventory", {
       method: "POST",
       body: JSON.stringify({
         date: dateTime,
         supplyName: name,
+        supplyId: supplyId,
         quantity: quantity,
         type: type,
       }),
     });
-    console.log(response);
 
+    console.log(response);
+    console.log(selectedSupply.supplyName);
+    console.log(name);
+    console.log(supplyId);
+
+    // if (type==="In"){
+    //   stock=
+    // }
+    // else{
+    //   stock=
+    // }
+    //dapat madeclare muna ang id. ang id ay yung id ng selected supply
+    // const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
+    //   method: "PATCH",
+    //   body: JSON.stringify({
+    //     availableStock: quantity, // if IN, iadd sa available stocks, if out isubtract
+    //   }),
+    // });
+
+    // if (res.ok) {
+    //   router.refresh();
+    // }
     // const response = await fetch(`/api/supply/${supplyName}/`);
     // const data = await response.json();
     // console.log(data);
@@ -119,15 +148,22 @@ export default function UpdateSupply() {
                 <p>Supply Name</p>
                 <select
                   className="dropdown"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setSupplyId(e.target.value);
+                    setSelectedSupply(
+                      supplies.find((supply) => supply._id === e.target.value)
+                    );
+                    // setName(selectedSupply.supplyName);
+                  }}
                 >
                   <option>Select Supply Name</option>
                   {supplies.map((supply, i) => (
-                    <option key={i}>{supply.supplyName}</option>
+                    <option key={i} value={supply._id}>
+                      {supply.supplyName}
+                    </option>
                   ))}
                 </select>
               </div>
-
               <div className="quantity">
                 <p>Quantity</p>
                 <input

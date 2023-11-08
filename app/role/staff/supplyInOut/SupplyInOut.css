@@ -20,7 +20,9 @@
 .table-container {
   background-color: white;
   margin: 30px 30px;
-  height: 100%;
+  padding: 10px;
+  flex-grow: 1; /* Allow the table container to expand to fill available space */
+  overflow: auto; /* Enable scrolling when the content overflows */
 }
 .searchContainer {
   display: flex;
