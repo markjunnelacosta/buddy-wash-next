@@ -20,7 +20,7 @@ import "rc-dropdown/assets/index.css";
 
 function NavBar() {
   const overlayStyle = {
-    position: "right",
+    position: "center",
     zIndex: 1,
     backgroundColor: "white",
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
@@ -36,7 +36,7 @@ function NavBar() {
           <ListItemText primary="Dashboard" />
         </ListItemButton>
 
-        <Dropdown overlay={renderBranchDropdown("Branch 1")} animation="slide-up" trigger={["click"]}>
+        <Dropdown overlay={renderBranchDropdown("branch1")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
               <LocationOnIcon />
@@ -45,7 +45,7 @@ function NavBar() {
           </ListItemButton>
         </Dropdown>
 
-        <Dropdown overlay={renderBranchDropdown("Branch 2")} animation="slide-up" trigger={["click"]}>
+        <Dropdown overlay={renderBranchDropdown("branch2")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
               <LocationOnIcon />
@@ -54,7 +54,7 @@ function NavBar() {
           </ListItemButton>
         </Dropdown>
 
-        <Dropdown overlay={renderBranchDropdown("Branch 3")} animation="slide-up" trigger={["click"]}>
+        <Dropdown overlay={renderBranchDropdown("branch3")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
               <LocationOnIcon />
@@ -79,28 +79,28 @@ function NavBar() {
     return (
       <div style={overlayStyle}>
         <List>
-          <ListItemButton className="button" href={`/role/owner/components/main/${branchName.toLowerCase()}/transactions`}>
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/transactions`}>
             <ListItemIcon className="button-content">
               <ReceiptLongIcon />
             </ListItemIcon>
             <ListItemText primary="Transactions" />
           </ListItemButton>
 
-          <ListItemButton className="button" href={`/role/owner/components/main/${branchName.toLowerCase()}/staff`}>
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/staff`}>
             <ListItemIcon className="button-content">
               <GroupsIcon />
             </ListItemIcon>
             <ListItemText primary="Staff" />
           </ListItemButton>
 
-          <ListItemButton className="button" href={`/role/owner/components/main/${branchName.toLowerCase()}/prices`}>
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/prices`}>
             <ListItemIcon className="button-content">
               <SellIcon />
             </ListItemIcon>
             <ListItemText primary="Prices" />
           </ListItemButton>
 
-          <ListItemButton className="button" href={`/role/owner/components/main/${branchName.toLowerCase()}/machines`}>
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/machines`}>
             <ListItemIcon className="button-content">
               <LocalLaundryServiceIcon />
             </ListItemIcon>
