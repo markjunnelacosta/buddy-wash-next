@@ -7,169 +7,157 @@ import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import TableBody from "@mui/material/TableBody";
 
-const getMachine = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/machine", {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch machines");
-    }
-
-    const response = await res.json();
-    return response.machineData;
-  } catch (error) {
-    console.log("Error loading machines: ", error);
-  }
-};
-
-const MachineTable = () => {
+function MachineTable() {
   const [machineData, setMachineData] = useState([]);
-  const [newMachine, setNewMachine] = useState({ number: '' });
+  const [newMachine, setNewMachine] = useState('');
   const [inputError, setInputError] = useState('');
 
-  const [machineNumber, setMachineNumber] = useState("");
-  const [useCount, setUseCount] = useState(0);
+  const addNewMachine = () => {
+    if (isValidInput(newMachine)) {
+      if (!isNumberRepeated(newMachine)) {
+        const newMachineObject = {
+          machineNumber: parseInt(newMachine), // Ensure it's an integer
+          action: 'Off',
+          timer: '00:00',
+          queue: 0,
+          useCount: 0,
+        };
 
-  const onClickSave = async () => {
-    console.log(machineNumber, useCount);
-    try {
-      const response = await fetch("http://localhost:3000/api/machine", {
-        method: "POST",
-        body: JSON.stringify({
-          machineNumber: machineNumber,
-          useCount: useCount,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (response.ok) {
-        console.log("Machine data saved successfully.");
-        fetchData(); // Refresh the data in the table
+        fetch('http://localhost:3000/api/machine', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newMachineObject),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to add a new machine');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            fetchData();
+          })
+          .catch((error) => {
+            console.error('Error adding a new machine:', error);
+          });
+
+        setMachineData((prevData) => [...prevData, newMachineObject]);
+        setNewMachine('');
+        setInputError('');
       } else {
-        console.error("Failed to save machine data.");
+        setInputError('The number already exists');
       }
-    } catch (error) {
-      console.error("Error saving machine data: ", error);
+    } else {
+      setInputError('Please enter a valid integer between 1 and 25');
     }
   };
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/machine", {
-        cache: "no-store",
+  const isValidInput = (input) => {
+    const number = parseInt(input);
+    return !isNaN(number) && number >= 1 && number <= 25;
+  };
+
+  const isNumberRepeated = (number) => {
+    return machineData.some((machine) => machine.machineNumber === parseInt(number));
+  };
+
+  const fetchData = () => {
+    fetch('http://localhost:3000/api/machine', {
+      cache: 'no-store',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch machine data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMachineData(data.machineData || []); // Update machineData state
+      })
+      .catch((error) => {
+        console.error('Error fetching machine data:', error);
       });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch machine");
-      }
-
-      const response = await res.json();
-      const machine = response.machineData || [];
-      setMachineData(machine);
-    } catch (error) {
-      console.log("Error loading machine: ", error);
-    }
   };
 
   useEffect(() => {
-    const fetchMachine = async () => {
-      try {
-        const machineData = await getMachine();
-        setMachineData(machineData);
-      } catch (error) {
-        console.error("Error fetching machine:", error);
-      }
-    };
-
-    fetchMachine();
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(machineData);
-  }, [machineData]);
-
-
 
   return (
     <div>
       <div className="add-machine-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <input type="text"
-          // label="Washer Number"
-          value={machineNumber}
-          onChange={(e) => setMachineNumber(e.currentTarget.value)}
-          // variant="outlined"
+        <TextField
+          label="Washer Number"
+          value={newMachine}
+          onChange={(e) => setNewMachine(e.target.value)}
+          variant="outlined"
           id="machineNumberInput"
           style={{ marginLeft: '10px' }}
-        // error={inputError !== ''}
-        // helperText={inputError}
-        // onInput={(e) => {
-        //   const inputValue = e.target.value;
-        //   if (!/^\d*$/.test(inputValue)) {
-        //     e.preventDefault();
-        //   }
-        // }}
+          error={inputError !== ''}
+          helperText={inputError}
+          onInput={(e) => {
+            const inputValue = e.target.value;
+            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
+              e.preventDefault();
+            }
+          }}
+          inputProps={{
+            maxLength: 2, // Maximum 2 digits
+          }}
         />
-        <Button variant="contained" color="primary" onClick={onClickSave} style={{ marginRight: '10px' }}>
+        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
           Add
         </Button>
       </div>
-
-
-      
       <div style={{ height: '400px', overflow: 'auto' }}>
-        <TableContainer component={Paper} >
-          <Paper style={{ width: "100%" }}>
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              size="small"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" className="table-header-bold">
-                    Washer No.
+        <TableContainer component={Paper}>
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            size="small"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" className="table-header-bold">
+                  Washer No.
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Action
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Timer
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Queue
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Use Count
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Status
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {machineData.map((machine, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{machine.machineNumber}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Running' : 'Off'}
                   </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Action
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Timer
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Queue
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Use Count
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Status
+                  <TableCell align="center">{machine.timer}</TableCell>
+                  <TableCell align="center">{machine.queue}</TableCell>
+                  <TableCell align="center">{machine.useCount}</TableCell>
+                  <TableCell align="center">
+                    {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {machineData.map((machine) => (
-                  <TableRow key={machine.id}>
-                    <TableCell align="center">{machine.machineNumber}</TableCell>
-                    <TableCell align="center">
-                      {machine.action === 'On' ? 'Running' : 'Off'}
-                    </TableCell>
-                    <TableCell align="center">00:00</TableCell>
-                    <TableCell align="center">0</TableCell>
-                    <TableCell align="center">{machine.useCount}</TableCell>
-                    <TableCell align="center">
-                      {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
+              ))}
+            </tbody>
+          </Table>
         </TableContainer>
       </div>
     </div>
