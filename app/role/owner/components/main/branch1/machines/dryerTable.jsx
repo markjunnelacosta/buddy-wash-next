@@ -87,12 +87,12 @@ function DryerTable() {
           Add
         </Button>
       </div>
-      <TableContainer component={Paper}>
-        <Paper style={{ height: 450, width: "100%" }}>
+      <div style={{ height: '400px', overflow: 'auto' }}>
+      <TableContainer component={Paper} >
+        <Paper style={{ width: "100%" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
-            // sx={{ minWidth: 650 }}
             size="small"
           >
             <TableHead>
@@ -136,6 +136,7 @@ function DryerTable() {
           </Table>
         </Paper>
       </TableContainer>
+      </div>
     </div>
   );
 }

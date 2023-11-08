@@ -20,7 +20,7 @@ function transactionsTable(
 export default function AddTransactions() {
   return (
     <TableContainer component={Paper}>
-      <Paper style={{ height: 455, width: "100%" }}>
+      <Paper style={{ height: 450, width: "100%" }}>
       <Table
           stickyHeader
           aria-label="sticky table"

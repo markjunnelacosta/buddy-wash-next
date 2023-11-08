@@ -16,22 +16,46 @@ function MachineTable() {
   const addNewMachine = () => {
     if (isValidInput(newMachine.number)) {
       if (!isNumberRepeated(newMachine.number)) {
-        setMachineData((prevData) => {
-          const newMachineData = [
-            ...prevData,
-            {
-              id: prevData.length + 1,
-              action: 'Off',
-              timer: '0:00',
-              queue: 0,
-              useCount: 0,
-              number: newMachine.number,
-            },
-          ];
-
-          return newMachineData;
-        });
-
+        // Create a new machine object with the data of the new machine
+        const newMachineObject = {
+          number: newMachine.number,
+          action: 'Off',
+          timer: '0:00',
+          queue: 0,
+          useCount: 0,
+        };
+  
+        // Make a POST request to the API to add the new machine
+        fetch('http://localhost:3000/api/machine', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newMachineObject),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to add a new machine');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Handle the response data if needed
+            // Refresh the machine data from the API
+            fetchData();
+          })
+          .catch((error) => {
+            console.error('Error adding a new machine:', error);
+          });
+  
+        // Update the state and reset input fields
+        setMachineData((prevData) => [
+          ...prevData,
+          {
+            id: prevData.length + 1,
+            ...newMachineObject,
+          },
+        ]);
         setNewMachine({ number: '' });
         setInputError('');
       } else {
@@ -40,7 +64,7 @@ function MachineTable() {
     } else {
       setInputError('Please enter a valid integer between 1 and 25');
     }
-  }
+  };  
 
   const isValidInput = (input) => {
     const number = parseInt(input);
@@ -50,6 +74,25 @@ function MachineTable() {
   const isNumberRepeated = (number) => {
     return machineData.some((machine) => machine.number === number);
   }
+
+  const fetchData = () => {
+    // Fetch machine data from the API and update machineData state
+    fetch('http://localhost:3000/api/machine', {
+      cache: 'no-store',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch machine data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMachineData(machines); // Assuming the API returns an array of machines
+      })
+      .catch((error) => {
+        console.error('Error fetching machine data:', error);
+      });
+  };
 
   useEffect(() => {
     const initialMachineData = [
@@ -86,12 +129,13 @@ function MachineTable() {
           Add
         </Button>
       </div>
-      <TableContainer component={Paper}>
-        <Paper style={{ height: 450, width: "100%" }}>
+      <div style={{ height: '400px', overflow: 'auto' }}>
+      <TableContainer component={Paper} >
+        <Paper style={{ width: "100%" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
-            size="small"
+            size="small" 
           >
             <TableHead>
               <TableRow>
@@ -134,6 +178,7 @@ function MachineTable() {
           </Table>
         </Paper>
       </TableContainer>
+      </div>
     </div>
   );
 }

@@ -20,8 +20,10 @@
 
 .table-container {
     background-color: white;
-    margin: 10px 30px;
-    height: auto;
+    margin: 0px 30px 30px;
+    padding: 10px;
+    flex-grow: 1;
+    overflow: auto;
 
 }
 
