@@ -30,12 +30,13 @@ const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
 
       {isOpen && (
 
-        <div className="form-container visible">
+        <div className="form-container-add visible">
           <p>Add New Branch</p> <hr />
-          <div className='form-group'>
+          <div className='form-group-add'>
             <p></p>
             <p>Branch Number</p>
             <input
+            id='add-input'
               type="text"
               name="branchNumber"
               value={branchNumber}
@@ -43,6 +44,7 @@ const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
             />
             <p>Branch Address</p>
             <input
+            id='add-input'
               type="text"
               name="branchAddress"
               value={branchAddress}

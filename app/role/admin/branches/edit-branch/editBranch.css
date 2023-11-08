@@ -1,4 +1,4 @@
-.form-container {
+.form-container-edit {
     background-color: white;
     width: 20vw;
     height: auto;
@@ -14,7 +14,7 @@
     transform: translate(-50%, -50%);
 }
 
-input {
+#edit-input {
     border-radius: 7px;
     width: 100%;
     height: 25px;
@@ -24,7 +24,7 @@ input {
     display: block;
 }
 
-.form-group {
+.form-group-edit {
     font-size: 20px;
 }
 
