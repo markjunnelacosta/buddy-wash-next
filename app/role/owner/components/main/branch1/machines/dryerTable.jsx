@@ -10,22 +10,20 @@ import Button from '@mui/material/Button';
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
-  const [newDryer, setNewDryer] = useState({ number: '' });
+  const [newDryer, setNewDryer] = useState('');
   const [inputError, setInputError] = useState('');
 
   const addNewDryer = () => {
-    if (isValidInput(newDryer.number)) {
-      if (!isNumberRepeated(newDryer.number)) {
-        // Create a new dryer object with the data of the new dryer
+    if (isValidInput(newDryer)) {
+      if (!isNumberRepeated(newDryer)) {
         const newDryerObject = {
-          number: newDryer.number,
+          dryerNumber: parseInt(newDryer),
           action: 'Off',
           timer: '0:00',
           queue: 0,
           useCount: 0,
         };
 
-        // Make a POST request to the API to add the new dryer
         fetch('http://localhost:3000/api/dryer', {
           method: 'POST',
           headers: {
@@ -40,23 +38,14 @@ function DryerTable() {
             return response.json();
           })
           .then((data) => {
-            // Handle the response data if needed
-            // Refresh the dryer data from the API
             fetchData();
           })
           .catch((error) => {
             console.error('Error adding a new dryer:', error);
           });
 
-        // Update the state and reset input fields
-        setDryerData((prevData) => [
-          ...prevData,
-          {
-            id: prevData.length + 1,
-            ...newDryerObject,
-          },
-        ]);
-        setNewDryer({ number: '' });
+        setDryerData((prevData) => [...prevData, newDryerObject]);
+        setNewDryer('');
         setInputError('');
       } else {
         setInputError('The number already exists');
@@ -72,11 +61,10 @@ function DryerTable() {
   };
 
   const isNumberRepeated = (number) => {
-    return dryerData.some((dryer) => dryer.number === number);
+    return dryerData.some((dryer) => dryer.dryerNumber === parseInt(number));
   };
 
   const fetchData = () => {
-    // Fetch dryer data from the API and update dryerData state
     fetch('http://localhost:3000/api/dryer', {
       cache: 'no-store',
     })
@@ -87,7 +75,7 @@ function DryerTable() {
         return response.json();
       })
       .then((data) => {
-        setDryerData(data.dryers); // Assuming the API returns an array of dryers
+        setDryerData(data.dryerData || []);
       })
       .catch((error) => {
         console.error('Error fetching dryer data:', error);
@@ -95,16 +83,7 @@ function DryerTable() {
   };
 
   useEffect(() => {
-    // Load dryer data from your database or use an empty array initially
-    const initialDryerData = [
-      { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
-      { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
-      { id: 3, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
-      { id: 4, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
-      { id: 5, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
-      // Add more dryers as needed
-    ];
-    setDryerData(initialDryerData);
+    fetchData();
   }, []);
 
   return (
@@ -112,18 +91,21 @@ function DryerTable() {
       <div className="add-dryer-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <TextField
           label="Dryer Number"
-          value={newDryer.number}
-          onChange={(e) => setNewDryer({ ...newDryer, number: e.target.value })}
+          value={newDryer}
+          onChange={(e) => setNewDryer(e.target.value)}
           variant="outlined"
           id="dryerNumberInput"
+          style={{ marginLeft: '10px' }}
           error={inputError !== ''}
           helperText={inputError}
-          style={{ marginLeft: '10px' }}
           onInput={(e) => {
             const inputValue = e.target.value;
-            if (!/^\d*$/.test(inputValue)) {
+            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
               e.preventDefault();
             }
+          }}
+          inputProps={{
+            maxLength: 2,
           }}
         />
         <Button variant="contained" color="primary" onClick={addNewDryer} style={{ marginRight: '10px' }}>
@@ -132,52 +114,50 @@ function DryerTable() {
       </div>
       <div style={{ height: '400px', overflow: 'auto' }}>
         <TableContainer component={Paper}>
-          <Paper style={{ width: "100%" }}>
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              size="small"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" className="table-header-bold">
-                    Dryer No.
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            size="small"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" className="table-header-bold">
+                  Dryer No.
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Action
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Timer
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Queue
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Use Count
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Status
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {dryerData.map((dryer, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{dryer.dryerNumber}</TableCell>
+                  <TableCell align="center">
+                    {dryer.action === 'On' ? 'Running' : 'Off'}
                   </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Action
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Timer
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Queue
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Use Count
-                  </TableCell>
-                  <TableCell align="center" className="table-header-bold">
-                    Status
+                  <TableCell align="center">{dryer.timer}</TableCell>
+                  <TableCell align="center">{dryer.queue}</TableCell>
+                  <TableCell align="center">{dryer.useCount}</TableCell>
+                  <TableCell align="center">
+                    {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <tbody>
-                {dryerData.map((dryer) => (
-                  <TableRow key={dryer.id}>
-                    <TableCell align="center">{dryer.number}</TableCell>
-                    <TableCell align="center">
-                      {dryer.action === 'On' ? 'Running' : 'Off'}
-                    </TableCell>
-                    <TableCell align="center">{dryer.timer}</TableCell>
-                    <TableCell align="center">{dryer.queue}</TableCell>
-                    <TableCell align="center">{dryer.useCount}</TableCell>
-                    <TableCell align="center">
-                      {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </tbody>
-            </Table>
-          </Paper>
+              ))}
+            </tbody>
+          </Table>
         </TableContainer>
       </div>
     </div>
