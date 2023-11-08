@@ -11,9 +11,9 @@ import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
 import { useRouter } from "next/navigation";
 
-const getBranchStaff = async (branchId) => {
+const getBranchStaff = async () => {
     try {
-        const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
+        const res = await fetch("http://localhost:3000/api/branch-staff", {
             cache: "no-store",
         });
 
@@ -45,7 +45,7 @@ const getBranchId = async () => {
     }
 };
 
-const BranchStaff = ({branchId}) => {
+const BranchStaff = ({ onClose }) => {
     // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
     const [branchData, setBranchData] = useState(null);
@@ -54,13 +54,9 @@ const BranchStaff = ({branchId}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedBranchId, setSelectedBranchId] = useState(null);
     const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
-    const [isBranchStaffVisible, setBranchStaffVisible] = useState(true);
 
-    const closeBranchStaff = () => {
-        setBranchStaffVisible(false);
-    };
+    const router = useRouter();
 
     // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
@@ -130,36 +126,6 @@ const BranchStaff = ({branchId}) => {
         fetchBranchStaff();
     }, []);
 
-    // Fetch staff data specific to the selected branch (branchId)
-    useEffect(() => {
-        const fetchBranchStaffData = async () => {
-            try {
-                const staff = await getBranchStaff(branchId);
-                setBranchStaffData(staff);
-            } catch (error) {
-                console.error("Error fetching Branch Staff:", error);
-            }
-        };
-
-        fetchBranchStaffData();
-    }, [branchId]);
-
-    // Use the selectedBranchId to filter staff data
-    useEffect(() => {
-        if (selectedBranchId) {
-            const fetchStaffForSelectedBranch = async () => {
-                try {
-                    const staff = await getBranchStaff(selectedBranchId);
-                    setBranchStaffData(staff);
-                } catch (error) {
-                    console.error("Error fetching Branch Staff:", error);
-                }
-            };
-
-            fetchStaffForSelectedBranch();
-        }
-    }, [selectedBranchId]);
-
     //BRANCHID
     useEffect(() => {
         const fetchBranchId = async () => {
@@ -207,7 +173,6 @@ const BranchStaff = ({branchId}) => {
 
     return (
         <>
-         {isBranchStaffVisible && (
             <div className="container-box-staff">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
@@ -268,23 +233,27 @@ const BranchStaff = ({branchId}) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="pagination">
-                    <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                        <ArrowBackIosRoundedIcon />
-                    </button>
-                    <span>{`Showing entries ${startRange}-${endRange} of ${filteredStaff.length}`}</span>
-                    <button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                    >
-                        <ArrowForwardIosRoundedIcon />
-                    </button>
+                <div className="footer">
+                <div className="cancel-button">
+                        <Button className="back-button" onClick={onClose}>Back</Button>
+                    </div>
+
+                    <div className="pagination">
+                        <button className="entries-button" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                            <ArrowBackIosRoundedIcon />
+                        </button>
+                        <span>{`Showing entries ${startRange}-${endRange} of ${filteredStaff.length}`}</span>
+                        <button className="entries-button"
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            <ArrowForwardIosRoundedIcon />
+                        </button>
+                    </div>
+                    
                 </div>
-                
-                <button onClick={closeBranchStaff}>cancel</button>
-                
+
             </div>
-            )}
             <StaffPage
                 isOpen={showStaffPage}
                 onClose={handleSaveData}
@@ -296,7 +265,6 @@ const BranchStaff = ({branchId}) => {
                 onClose={handleClose}
                 onSave={handleSaveData} // Implement the save function
             />
-            
         </>
     );
 };

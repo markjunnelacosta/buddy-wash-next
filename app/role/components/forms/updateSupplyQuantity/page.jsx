@@ -126,6 +126,7 @@ export default function UpdateSupply() {
     // const response = await fetch(`/api/supply/${supplyName}/`);
     // const data = await response.json();
     // console.log(data);
+    window.location.reload();
   };
 
   const [open, setOpen] = React.useState(false);

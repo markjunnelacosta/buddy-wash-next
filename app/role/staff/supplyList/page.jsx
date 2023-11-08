@@ -20,6 +20,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import SupplyTable from "./SupplyTable";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const getSupplies = async () => {
   try {
@@ -42,6 +43,8 @@ const getSupplies = async () => {
 function SupplyList() {
   const [supplies, setSupplies] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [status, setStatus] = useState("");
+  const [availableStock, setAvailableStock] = useState();
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -59,6 +62,16 @@ function SupplyList() {
   React.useEffect(() => {
     console.log(supplies);
   }, [supplies]);
+
+  const getStatusIcon = (stock) => {
+    if (stock < 10) {
+      return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
+    } else if (stock >= 10 && stock < 20) {
+      return <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />;
+    } else {
+      return <CircleIcon fontSize="smaller" style={{ color: "green" }} />;
+    }
+  };
 
   const filteredSupplies = supplies.filter((supply) =>
     supply.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -116,7 +129,9 @@ function SupplyList() {
                     <TableCell align="center">
                       {supply.availableStock}
                     </TableCell>
-                    <TableCell align="center"> </TableCell>
+                    <TableCell align="center">
+                      {getStatusIcon(supply.availableStock)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

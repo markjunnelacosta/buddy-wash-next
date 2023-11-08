@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import RemoveButton from './removeButton';
 import EditBranchPopup from './eButton';
 import { useRouter } from 'next/navigation';
-import Branch from './branches';
+import BranchStaff from './branch-staff/page';
 
 
 // Function to fetch user data from the server
@@ -36,6 +36,7 @@ const Branches = () => {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showBranchStaffPopup, setShowBranchStaffPopup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -71,6 +72,11 @@ const Branches = () => {
   useEffect(() => {
     console.log(branchesData);
   }, [branchesData]);
+
+  const handleSeeInfo = () => {
+    // Show the BranchStaff popup
+    setShowBranchStaffPopup(true);
+  };
 
   const openAddBranch = () => {
     setShowAddBranch(true);
@@ -112,14 +118,39 @@ const Branches = () => {
               onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
           <div className="button-container">
-            <button className="add-button" onClick={openAddBranch}>
+            <button className="add-button-branch" onClick={openAddBranch}>
               <AddRoundedIcon /> Add New Branch
             </button>
           </div>
         </div>
         <div className="branches-list">
           {filteredBranches.map((branch) => (
-            <Branch key={branch._id} branch={branch} />
+            <div key={branch._id} className="branch-container">
+              <p id="branch-num">Branch {branch.branchNumber}</p>
+              <p>Location: {branch.branchAddress}</p>
+              <p>Number of Staff: {branch.numberOfStaff === null ? 0 : branch.numberOfStaff}</p>
+              <div className="b-container">
+                <Button
+                  variant="outlined"
+                  id="edit-button"
+                  style={{ borderColor: '#b57b24', color: '#b57b24' }}
+                  onClick={handleSeeInfo}
+                >
+                  See Info
+                </Button>
+                &nbsp;
+                <Button
+                  variant="outlined"
+                  style={{ borderColor: 'blue' }}
+                  id="edit-button"
+                  onClick={() => handleEditBranch(branch)}
+                >
+                  Edit
+                </Button>
+                &nbsp;
+                <RemoveButton id={branch._id} />
+              </div>
+            </div>
           ))}
         </div>
 
@@ -132,6 +163,10 @@ const Branches = () => {
         onClose={handleClose}
         onSave={handleSaveData}
       />
+
+      {showBranchStaffPopup && (
+        <BranchStaff onClose={() => setShowBranchStaffPopup(false)} />
+      )}
     </>
   )
 }
