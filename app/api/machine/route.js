@@ -14,7 +14,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await connectToDB();
-  const machines = await Customer.find();
+  const machines = await Machine.find();
   return NextResponse.json({ machines });
 }
 

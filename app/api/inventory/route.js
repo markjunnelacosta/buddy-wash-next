@@ -10,13 +10,14 @@ export async function GET() {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { date, supplyName, quantity, type } = body;
+  const { date, supplyName, supplyId, quantity, type } = body;
 
   try {
     await connectToDB();
     const newInventory = new Inventory({
       date,
       supplyName,
+      supplyId,
       quantity,
       type,
     });
