@@ -4,19 +4,55 @@ import './addLaundry.css'
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
 
-const addLaundry = ({ isOpen, onClose }) => {
+const addLaundry = ({ isOpen, onClose, onSave }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
     const [supplyData, setSupplyData] = useState([]); // State for supplies
 
-    const [customerName, setCustomerName] = useState(null);
+    const [customerName, setCustomerName] = useState("");
     const [orderDate, setOrderDate] = useState("");
     const [weight, setWeight] = useState("");
     const [washMode, setWashMode] = useState("");
     const [dryMode, setDryMode] = useState("");
     const [fold, setFold] = useState("");
     const [colored, setColored] = useState("");
-    const [selectedDetergent, setSelectedDetergent] = useState("");
-    const [selectedFabCon, setSelectedFabCon] = useState("");
+    const [detergent, setDetergent] = useState("");
+    const [fabCon, setFabCon] = useState("");
+    const [detergentQty, setDetergentQty] = useState("");
+    const [fabConQty, setFabConQty] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [refNum, setRefNum] = useState("");
+
+    const onClick = async () => {
+        console.log(
+            customerName, 
+            orderDate, weight, washMode, 
+            dryMode, fold, colored, 
+            detergent, fabCon, detergentQty,
+            fabConQty, paymentMethod, refNum);
+        const response = await fetch("/api/laundrybin", {
+          method: "POST",
+          body: JSON.stringify({
+            customerName: customerName,
+            orderDate: orderDate,
+            weight: weight,
+            washMode: washMode,
+            dryMode: dryMode,
+            fold: fold,
+            colored: colored,
+            detergent: detergent,
+            fabcon: fabCon,
+            detergentQty: detergentQty,
+            fabconQty: fabConQty,
+            paymentMethod: paymentMethod,
+            refNum: refNum
+          }),
+        });
+    
+        console.log(response);
+    
+        onSaveData();
+        onClose();
+      };
     
 
     useEffect(() => {
@@ -103,9 +139,8 @@ const addLaundry = ({ isOpen, onClose }) => {
                                 <p>Detergent</p>
                                 <select
                                     className="dropdown"
-                                    onChange={(e) => setSelectedDetergent(e.target.value)}
+                                    onChange={(e) => setDetergent(e.target.value)}
                                 >
-
                                     <option value=""></option>
                                     <option value="">None</option>
                                     {supplyData.map((supplies, i) => (
@@ -138,7 +173,7 @@ const addLaundry = ({ isOpen, onClose }) => {
                                 <p>Fabric Conditioner</p>
                                 <select
                                     className="dropdown"
-                                    onChange={(e) => setSelectedFabCon(e.target.value)}
+                                    onChange={(e) => setFabCon(e.target.value)}
                                 >
                                     <option value=""></option>
                                     <option value="">None</option>
@@ -195,7 +230,7 @@ const addLaundry = ({ isOpen, onClose }) => {
                         onClick={onClose}
                         >Cancel</button>
                         <button className="save"
-                        // onClick={onClick}
+                        onClick={onClick}
                         >Save</button>
                     </div>
                 </div>

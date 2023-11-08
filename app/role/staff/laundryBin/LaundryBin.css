@@ -2,24 +2,26 @@
     background-color: #ececec;
     width: 80%;
     display: flex;
-    height:90vh;
-    float:right;
+    height: 90vh;
+    float: right;
+    justify-content: space-between;
 }
 .blue-container{
-    display:flex;
+    display: flex;
     flex-direction: column;
-    background-color: #54BCBC;
+    background-color: #54bcbc;
     width: 100%;
-    margin :20px;
+    margin: 20px;
     gap: 10px;
     border-radius: 10px;
 
-}
-    
+} 
 
-.table-container{
+.table-container {
     background-color: white;
-    margin: 30px 30px;
-    height:100%;
-    
-}
+    margin: 30px;
+    padding: 10px;
+    flex-grow: 1; /* Allow the table container to expand to fill available space */
+    overflow: auto; /* Enable scrolling when the content overflows */
+  }
+

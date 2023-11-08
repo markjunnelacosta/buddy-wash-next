@@ -8,6 +8,13 @@ import { Add } from '@mui/icons-material';
 import DenseTable from './Table';
 import { useState } from 'react';
 import AddLaundry from '../../components/forms/addLaundry/page';
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 const LaundryBin = () => {
 
@@ -30,11 +37,31 @@ const LaundryBin = () => {
                         onClick={openAddLaundry}>
                         New Laundry
                     </Button>
-                    <div className="table-container">
-                        {DenseTable()}
-                    </div>
+
+                    <div className='table-container'>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow >
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Date </TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Name</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Machine No. </TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Action</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Timer</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Dryer No. </TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Action</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Timer</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Status</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                        </Table>
+                    </TableContainer>
                 </div>
+                </div>
+                
             </div>
+
             <AddLaundry
                 isOpen={showAddLaundry}
                 onClose={closeAddLaundry}
