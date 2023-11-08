@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import './addStaff.css'
 
 
-const StaffPage = ({ isOpen, onClose, onSaveData }) => {
+const StaffPage = ({ isOpen, onClose, onSaveData, branchId }) => {
   const [staffName, setStaffName] = useState("");
   const [staffAddress, setStaffAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -11,7 +11,7 @@ const StaffPage = ({ isOpen, onClose, onSaveData }) => {
 
 
   const onClick = async () => {
-    console.log(staffName, staffAddress, phoneNumber, staffPosition);
+    console.log(staffName, staffAddress, phoneNumber, staffPosition, branchId);
     const response = await fetch("/api/branch-staff", {
       method: "POST",
       body: JSON.stringify({
@@ -19,6 +19,7 @@ const StaffPage = ({ isOpen, onClose, onSaveData }) => {
         staffAddress: staffAddress,
         phoneNumber: phoneNumber,
         staffPosition: staffPosition,
+        staffBranchId: branchId
       }),
     });
     console.log(response);

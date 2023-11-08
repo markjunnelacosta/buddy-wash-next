@@ -1,22 +1,40 @@
 import { connectToDB } from "@/utils/database";
 import BranchesStaff from "@/models/branch-staff";
-import Branch from "@/models/branch";
 import { NextResponse } from "next/server";
 
+// export const GET = async (req, res) => {
+//   try {
+//     await connectToDB();
+//     const branchStaff = await BranchesStaff.find({}).populate({ path: 'staffBranchId', model: 'Branch'});
+//     const responseData = { branchStaffData: branchStaff };
+//     return new Response(JSON.stringify(responseData), { status: 200 });
+//   } catch (error) {
+//     return new Response(JSON.stringify({ error: "Failed to get branch staff" }), { status: 500 });
+//   }
+// };
+
+// Update the GET request handler in app\api\branch-staff\route.js
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-    const branchStaff = await BranchesStaff.find({}).populate({ path: 'staffBranchId', model: 'Branch'});
-    const responseData = { branchStaffData: branchStaff };
-    return new Response(JSON.stringify(responseData), { status: 200 });
+
+    if (req.query && req.query.branchId) {
+      const branchId = req.query.branchId;
+      const branchStaff = await BranchesStaff.find({ staffBranchId: branchId }).populate({ path: 'staffBranchId', model: 'Branch' });
+      const responseData = { branchStaffData: branchStaff };
+      return new Response(JSON.stringify(responseData), { status: 200 });
+    } else {
+      return new Response(JSON.stringify({ error: 'branchId query parameter is missing' }), { status: 400 });
+    }
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to get branch staff" }), { status: 500 });
+    return new Response(JSON.stringify({ error: 'Failed to get branch staff' }), { status: 500 });
   }
 };
 
+
 export const POST = async (req) => {
   const body = await req.json();
-  const { staffName, staffAddress, phoneNumber, staffPosition, staffBranchId} = body;
+  const { staffName, staffAddress, phoneNumber, staffPosition, staffBranchId } = body;
 
   try {
     await connectToDB();

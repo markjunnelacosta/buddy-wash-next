@@ -28,24 +28,7 @@ const getBranchStaff = async () => {
     }
 };
 
-const getBranchId = async () => {
-    try {
-        const res = await fetch("http://localhost:3000/api/branch", {
-            cache: "no-store",
-        });
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch branch");
-        }
-
-        const response = await res.json();
-        return response.branchData || [];
-    } catch (error) {
-        console.log("Error loading branch: ", error);
-    }
-};
-
-const BranchStaff = ({ onClose }) => {
+const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
     const [branchData, setBranchData] = useState(null);
@@ -54,7 +37,9 @@ const BranchStaff = ({ onClose }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState('');
+    const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState(false);
+    const [selectedBranchId, setSelectedBranchId] = useState(null);
+
 
     const router = useRouter();
 
@@ -112,34 +97,38 @@ const BranchStaff = ({ onClose }) => {
         staff.staffName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Use an effect to fetch staff data when the component mounts
+    // Add a function to handle branch selection
+    const handleBranchSelection = (branchId) => {
+        setSelectedBranchId(branchId);
+        // Fetch and display staff members for the selected branch
+        fetchStaffByBranch(branchId);
+    };
+
     useEffect(() => {
         const fetchBranchStaff = async () => {
             try {
-                const staff = await getBranchStaff();
-                setBranchStaffData(staff);
+                // Fetch branch staff data for the specified branchId
+                const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
+                    cache: "no-store",
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch branch staff");
+                }
+
+                const response = await res.json();
+                setBranchStaffData(response.branchStaffData || []);
             } catch (error) {
-                console.error("Error fetching Branch Staff:", error);
+                console.error("Error loading branch staff:", error);
             }
         };
 
-        fetchBranchStaff();
-    }, []);
+        if (branchId) {
+            // Fetch branch staff data only if a branch is selected
+            fetchBranchStaff();
+        }
 
-    //BRANCHID
-    useEffect(() => {
-        const fetchBranchId = async () => {
-            try {
-                const branchData = await getBranchId();
-                setBranchData(branchData);
-            } catch (error) {
-                console.error("Error fetching Branch:", error);
-            }
-        };
-
-        fetchBranchId();
-    }, []);
-
+    }, [branchId]);
 
     // Log the branch staff data for debugging
     useEffect(() => {
@@ -165,18 +154,38 @@ const BranchStaff = ({ onClose }) => {
         }
     };
 
+    const fetchStaffByBranch = async (branchId) => {
+        try {
+            const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
+                cache: 'no-store',
+            });
+
+            if (!res.ok) {
+                throw new Error('Failed to fetch staff members for the branch');
+            }
+
+            const response = await res.json();
+            setBranchStaffData(response.branchStaffData);
+        } catch (error) {
+            console.error('Error fetching branch staff:', error);
+        }
+    };
+
+
     // Function to handle saving data after adding or editing a staff member
     const handleSaveData = () => {
         closeStaffPage(); // Close the StaffPage
         fetchData(); // Fetch updated data
     };
 
+    console.log('branchId in BranchStaff:', branchId);
+
     return (
         <>
             <div className="container-box-staff">
                 <div className="searchContainer">
                     <div className="searchContainer-right">
-                        <p style={{ fontWeight: "bold" }}>Location:</p>
+                        <p style={{ fontWeight: "bold" }}>Location: {selectedBranchAddress}</p>
                         <p style={{ fontWeight: "bold" }}>Search</p>
                         <input
                             type="text"
@@ -234,7 +243,7 @@ const BranchStaff = ({ onClose }) => {
                     </table>
                 </div>
                 <div className="footer">
-                <div className="cancel-button">
+                    <div className="cancel-button">
                         <Button className="back-button" onClick={onClose}>Back</Button>
                     </div>
 
@@ -250,14 +259,16 @@ const BranchStaff = ({ onClose }) => {
                             <ArrowForwardIosRoundedIcon />
                         </button>
                     </div>
-                    
+
                 </div>
 
             </div>
+            
             <StaffPage
                 isOpen={showStaffPage}
                 onClose={handleSaveData}
                 onSaveData={handleSaveData}
+                branchId={selectedBranchId}
             />
             <EditStaffPopup
                 isOpen={isUpdateStaffPopupVisible}

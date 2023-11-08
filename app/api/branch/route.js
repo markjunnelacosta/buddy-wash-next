@@ -19,7 +19,7 @@ export const POST = async (req) => {
 
   try {
     await connectToDB();
-    const newBranch = new Branch({ 
+    const newBranch = new Branch({
       branchNumber,
       branchAddress,
       numberOfStaff,

@@ -37,6 +37,7 @@ const Branches = () => {
   const [isUpdateBranchPopupVisible, setUpdateBranchPopupVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showBranchStaffPopup, setShowBranchStaffPopup] = useState(false);
+  const [selectedBranchAddress, setSelectedBranchAddress] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const Branches = () => {
 
     fetchBranch();
   }, []);
+
 
   const fetchData = async () => {
     try {
@@ -73,8 +75,11 @@ const Branches = () => {
     console.log(branchesData);
   }, [branchesData]);
 
-  const handleSeeInfo = () => {
+  const handleSeeInfo = (branchId, branchAddress) => {
     // Show the BranchStaff popup
+    setSelectedBranch(branchId);
+    setSelectedBranchAddress(branchAddress);
+    console.log("Selected Branch ID:", branchId);
     setShowBranchStaffPopup(true);
   };
 
@@ -103,6 +108,7 @@ const Branches = () => {
     closeAddBranch();
     fetchData();
   };
+
   return (
     <>
       <Layout />
@@ -134,7 +140,7 @@ const Branches = () => {
                   variant="outlined"
                   id="edit-button"
                   style={{ borderColor: '#b57b24', color: '#b57b24' }}
-                  onClick={handleSeeInfo}
+                  onClick={() => handleSeeInfo(branch._id, branch.branchAddress)}
                 >
                   See Info
                 </Button>
@@ -165,7 +171,10 @@ const Branches = () => {
       />
 
       {showBranchStaffPopup && (
-        <BranchStaff onClose={() => setShowBranchStaffPopup(false)} />
+        <BranchStaff onClose={() => setShowBranchStaffPopup(false)} 
+        branchId={selectedBranch}
+        selectedBranchAddress={selectedBranchAddress}
+        />
       )}
     </>
   )
