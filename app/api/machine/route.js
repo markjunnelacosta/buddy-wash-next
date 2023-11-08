@@ -2,21 +2,23 @@ import { connectToDB } from "@/utils/database";
 import Machine from "@/models/machines";
 import { NextResponse } from "next/server";
 
-// export const GET = async (req, res) => {
-//   try {
-//     await connectToDB();
-//     const customers = await Customer.find({}).populate("customerName");
-//     return new Response(JSON.stringify(customers), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed get customer", { status: 500 });
-//   }
-// };
+// export async function GET() {
+//   await connectToDB();
+//   const machines = await Machine.find();
+//   return NextResponse.json({ machines });
+// }
 
-export async function GET() {
-  await connectToDB();
-  const machines = await Machine.find();
-  return NextResponse.json({ machines });
-}
+export const GET = async (req, res) => {
+  try {
+    await connectToDB();
+    const machine = await Machine.find({});
+    const responseData = { machineData: machine };
+    return new Response(JSON.stringify(responseData), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Failed to get Machines" }), { status: 500 });
+  }
+  };
+  
 
 export const POST = async (req) => {
   const body = await req.json();
