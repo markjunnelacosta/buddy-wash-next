@@ -10,99 +10,131 @@ import Button from '@mui/material/Button';
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
-  const [newDryer, setNewDryer] = useState({ number: '', minutes: 0 });
+  const [newDryer, setNewDryer] = useState({ number: '' });
+  const [inputError, setInputError] = useState('');
 
   const addNewDryer = () => {
-    setDryerData((prevData) => {
-      const newDryerData = [
-        ...prevData,
-        {
-          id: prevData.length + 1, // Generate a unique ID
-          status: 'Off',
-          timer: '0:00',
-          queue: 0,
-          useCount: 0,
-          number: newDryer.number,
-        },
-      ];
+    if (isValidInput(newDryer.number)) {
+      if (!isNumberRepeated(newDryer.number)) {
+        setDryerData((prevData) => {
+          const newDryerData = [
+            ...prevData,
+            {
+              id: prevData.length + 1, // Generate a unique ID
+              action: 'Off',
+              timer: '0:00',
+              queue: 0,
+              useCount: 0,
+              number: newDryer.number,
+            },
+          ];
+  
+          return newDryerData;
+        });
+  
+        setNewDryer({ number: '' });
+        setInputError(''); // Reset the error message
+      } else {
+        setInputError('The number already exists');
+      }
+    } else {
+      setInputError('Please enter a valid integer between 1 and 25');
+    }
+  };
 
-      return newDryerData;
-    });
+  const isValidInput = (input) => {
+    const number = parseInt(input);
+    return !isNaN(number) && number >= 1 && number <= 25;
+  };
 
-    // Reset the newDryer input fields
-    setNewDryer({ number: '', minutes: 0 });
+  const isNumberRepeated = (number) => {
+    return dryerData.some((dryer) => dryer.number === number);
   };
 
   useEffect(() => {
     // You can load dryer data from your database here or use an empty array initially
-    // const initialDryerData = [
-    //   { id: 1, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
-    //   { id: 2, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
-    //   { id: 3, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
-    //   { id: 4, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
-    //   { id: 5, status: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
-    //   // Add more dryers as needed
-    // ];
-    // setDryerData(initialDryerData);
+    const initialDryerData = [
+      { id: 1, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '1' },
+      { id: 2, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '2' },
+      { id: 3, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '3' },
+      { id: 4, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '4' },
+      { id: 5, action: 'Off', timer: '0:00', queue: 0, useCount: 0, number: '5' }
+      // Add more dryers as needed
+    ];
+    setDryerData(initialDryerData);
   }, []);
 
   return (
     <div>
-      <div className="add-dryer-form">
+      <div className="add-dryer-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <TextField
           label="Dryer Number"
           value={newDryer.number}
           onChange={(e) => setNewDryer({ ...newDryer, number: e.target.value })}
           variant="outlined"
           id="dryerNumberInput"
+          error={inputError !== ''}
+          helperText={inputError}
+          style={{ marginLeft: '10px' }}
+          onInput={(e) => {
+            const inputValue = e.target.value;
+            if (!/^\d*$/.test(inputValue)) {
+              e.preventDefault();
+            }
+          }}
         />
-        <TextField
-          label="Minutes"
-          type="number"
-          value={newDryer.minutes}
-          onChange={(e) => setNewDryer({ ...newDryer, minutes: e.target.value })}
-          variant="outlined"
-          id="dryerMinutesInput"
-        />
-        <Button variant="contained" color="primary" onClick={addNewDryer}>
+        <Button variant="contained" color="primary" onClick={addNewDryer} style={{ marginRight: '10px' }}>
           Add
         </Button>
       </div>
       <TableContainer component={Paper}>
-        <Table size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" className="table-header">
-                Dryer No.
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Status
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Timer
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Queue
-              </TableCell>
-              <TableCell align="center" className="table-header">
-                Use Count
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <tbody>
-            {dryerData.map((dryer) => (
-              <TableRow key={dryer.id}>
-                <TableCell align="center">{dryer.number}</TableCell>
-                <TableCell align="center">
-                  {dryer.status === 'On' ? 'Running' : 'Off'}
+        <Paper style={{ height: 450, width: "100%" }}>
+          <Table
+            stickyHeader
+            aria-label="sticky table"
+            // sx={{ minWidth: 650 }}
+            size="small"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" className="table-header-bold">
+                  Dryer No.
                 </TableCell>
-                <TableCell align="center">{dryer.timer}</TableCell>
-                <TableCell align="center">{dryer.queue}</TableCell>
-                <TableCell align="center">{dryer.useCount}</TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Action
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Timer
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Queue
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Use Count
+                </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Status
+                </TableCell>
               </TableRow>
-            ))}
-          </tbody>
-        </Table>
+            </TableHead>
+            <tbody>
+              {dryerData.map((dryer) => (
+                <TableRow key={dryer.id}>
+                  <TableCell align="center">{dryer.number}</TableCell>
+                  <TableCell align="center">
+                    {dryer.action === 'On' ? 'Running' : 'Off'}
+                  </TableCell>
+                  <TableCell align="center">{dryer.timer}</TableCell>
+                  <TableCell align="center">{dryer.queue}</TableCell>
+                  <TableCell align="center">{dryer.useCount}</TableCell>
+                  <TableCell align="center">
+                    {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </Paper>
       </TableContainer>
     </div>
   );

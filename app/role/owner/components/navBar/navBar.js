@@ -3,216 +3,113 @@ import React from "react";
 import "./navBar.css";
 import {
   List,
-  Divider,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Grid,
-  Paper,
+  Divider,
 } from "@mui/material";
 import SpeedIcon from "@mui/icons-material/Speed";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LogoutIcon from "@mui/icons-material/Logout";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SellIcon from "@mui/icons-material/Sell";
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
+import Dropdown from "rc-dropdown";
+import "rc-dropdown/assets/index.css";
 
 function NavBar() {
+  const overlayStyle = {
+    position: "center",
+    zIndex: 1,
+    backgroundColor: "white",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+  };
+
   return (
     <div className="side-nav-bar-container">
       <List component="nav">
-        <React.Fragment>
-          <ListItemButton
-            className="button"
-            href="/role/owner/components/main/dashboard"
-          >
+        <ListItemButton className="button" href="/role/owner/components/main/dashboard">
+          <ListItemIcon className="button-content">
+            <SpeedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItemButton>
+
+        <Dropdown overlay={renderBranchDropdown("branch1")} animation="slide-up" trigger={["click"]}>
+          <ListItemButton className="button">
             <ListItemIcon className="button-content">
-              <SpeedIcon />
+              <LocationOnIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Branch 1" />
           </ListItemButton>
+        </Dropdown>
 
-          <Dropdown>
-            <DropdownTrigger>
-              <ListItemButton className="button">
-                <ListItemIcon className="button-content">
-                  <LocationOnIcon />
-                </ListItemIcon>
-                <ListItemText primary="Branch 1" />
-              </ListItemButton>
-            </DropdownTrigger>
-            <DropdownMenu className="dropdown-item" aria-label="Static Actions">
-              <DropdownItem>
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch1/transactions"
-                >
-                  <ListItemIcon className="button-content">
-                    <ReceiptLongIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Transactions" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch1/staff"
-                >
-                  <ListItemIcon className="button-content">
-                    <GroupsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Staff" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch1/prices"
-                >
-                  <ListItemIcon className="button-content">
-                    <SellIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Prices" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch1/machines"
-                >
-                  <ListItemIcon className="button-content">
-                    <LocalLaundryServiceIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Machines" />
-                </ListItemButton>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <Dropdown>
-            <DropdownTrigger>
-              <ListItemButton className="button">
-                <ListItemIcon className="button-content">
-                  <LocationOnIcon />
-                </ListItemIcon>
-                <ListItemText primary="Branch 2" />
-              </ListItemButton>
-            </DropdownTrigger>
-            <DropdownMenu className="dropdown-item" aria-label="Static Actions">
-              <DropdownItem>
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch2/transactions"
-                >
-                  <ListItemIcon className="button-content">
-                    <ReceiptLongIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Transactions" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch2/Staff"
-                >
-                  <ListItemIcon className="button-content">
-                    <GroupsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Staff" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch2/prices"
-                >
-                  <ListItemIcon className="button-content">
-                    <SellIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Prices" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch2/machines"
-                >
-                  <ListItemIcon className="button-content">
-                    <LocalLaundryServiceIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Machines" />
-                </ListItemButton>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <Dropdown>
-            <DropdownTrigger>
-              <ListItemButton className="button">
-                <ListItemIcon className="button-content">
-                  <LocationOnIcon />
-                </ListItemIcon>
-                <ListItemText primary="Branch 3" />
-              </ListItemButton>
-            </DropdownTrigger>
-            <DropdownMenu className="dropdown-item" aria-label="Static Actions">
-              <DropdownItem>
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch3/transactions"
-                >
-                  <ListItemIcon className="button-content">
-                    <ReceiptLongIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Transactions" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch3/Staff"
-                >
-                  <ListItemIcon className="button-content">
-                    <GroupsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Staff" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch3/prices"
-                >
-                  <ListItemIcon className="button-content">
-                    <SellIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Prices" />
-                </ListItemButton>
-
-                <ListItemButton
-                  className="button"
-                  href="/role/owner/components/main/branch3/machines"
-                >
-                  <ListItemIcon className="button-content">
-                    <LocalLaundryServiceIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Machines" />
-                </ListItemButton>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <p className="white-space"> &nbsp; </p>
-
-          <ListItemButton className="button" href="/">
+        <Dropdown overlay={renderBranchDropdown("branch2")} animation="slide-up" trigger={["click"]}>
+          <ListItemButton className="button">
             <ListItemIcon className="button-content">
-              <LogoutIcon />
+              <LocationOnIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary="Branch 2" />
           </ListItemButton>
-        </React.Fragment>
+        </Dropdown>
+
+        <Dropdown overlay={renderBranchDropdown("branch3")} animation="slide-up" trigger={["click"]}>
+          <ListItemButton className="button">
+            <ListItemIcon className="button-content">
+              <LocationOnIcon />
+            </ListItemIcon>
+            <ListItemText primary="Branch 3" />
+          </ListItemButton>
+        </Dropdown>
+
+        <p className="white-space"> &nbsp; </p>
+
+        <ListItemButton className="button" href="/">
+          <ListItemIcon className="button-content">
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItemButton>
       </List>
     </div>
   );
+
+  function renderBranchDropdown(branchName) {
+    return (
+      <div style={overlayStyle}>
+        <List>
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/transactions`}>
+            <ListItemIcon className="button-content">
+              <ReceiptLongIcon />
+            </ListItemIcon>
+            <ListItemText primary="Transactions" />
+          </ListItemButton>
+
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/staff`}>
+            <ListItemIcon className="button-content">
+              <GroupsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Staff" />
+          </ListItemButton>
+
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/prices`}>
+            <ListItemIcon className="button-content">
+              <SellIcon />
+            </ListItemIcon>
+            <ListItemText primary="Prices" />
+          </ListItemButton>
+
+          <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/machines`}>
+            <ListItemIcon className="button-content">
+              <LocalLaundryServiceIcon />
+            </ListItemIcon>
+            <ListItemText primary="Machines" />
+          </ListItemButton>
+        </List>
+      </div>
+    );
+  }
 }
+
 export default NavBar;

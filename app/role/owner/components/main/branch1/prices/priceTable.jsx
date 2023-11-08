@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import "./priceTable.css";
 import EditSupplyPopup from "./editButton";
+import RemoveButton from "./removeButton";
 
 const getSupplies = async () => {
   try {
@@ -87,11 +88,11 @@ const SupplyTable = () => {
   return (
     <>
     <TableContainer component={Paper}>
-      <Paper style={{ height: 650, width: "100%" }}>
+      <Paper style={{ height: 455, width: "100%" }}>
         <Table
           stickyHeader
           aria-label="sticky table"
-          // sx={{ minWidth: 750 }}
+          // sx={{ minWidth: 650 }}
           size="small"
         >
           <TableHead>
@@ -122,6 +123,7 @@ const SupplyTable = () => {
                     <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
                       Edit
                     </Button>
+                    <RemoveButton id={supply._id} />
                   </TableCell>
                 </TableRow>
               ))}
