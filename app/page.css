@@ -26,6 +26,10 @@
   }
 } */
 
+body {
+  margin: 0px;
+}
+
 #main-container {
   display: grid;
   grid-template-columns: 3fr 1fr;
