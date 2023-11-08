@@ -51,17 +51,19 @@ export default function UpdateBranch({
 
     return (
         <>
-                <div className="form-container visible">
+                <div className="form-container-edit visible">
                     <p>Edit Branch</p> <hr />
-                    <div className='form-group'>
+                    <div className='form-group-edit'>
                         <p></p>
                         <p>Branch Number</p>
                         <input
+                        id='edit-input'
                             onChange={(e) => setNewBranchNumber(e.target.value)}
                             value={newBranchNumber}
                         />
                         <p>Branch Address</p>
                         <input
+                        id='edit-input'
                             onChange={(e) => setNewBranchAddress(e.target.value)}
                             value={newBranchAddress}
                         />
