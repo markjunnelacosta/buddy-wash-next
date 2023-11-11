@@ -27,6 +27,7 @@ const StaffPage = ({ isOpen, onClose, onSaveData, branchId }) => {
     onClose();
   };
 
+  console.log('branchId in StaffPage:', branchId);
   return (
     <>
         {isOpen && (
