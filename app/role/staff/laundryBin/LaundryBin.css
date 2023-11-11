@@ -19,7 +19,7 @@
 
 .table-container {
     background-color: white;
-    margin: 30px;
+    margin: 0px 30px 30px 30px;
     padding: 10px;
     flex-grow: 1; /* Allow the table container to expand to fill available space */
     overflow: auto; /* Enable scrolling when the content overflows */

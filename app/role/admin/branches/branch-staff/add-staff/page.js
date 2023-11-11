@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import './addStaff.css'
 
 
-const StaffPage = ({ isOpen, onClose, onSaveData, branchId }) => {
+const StaffPage = ({ isOpen, onClose, onSaveData, branchId = ""}) => {
   const [staffName, setStaffName] = useState("");
   const [staffAddress, setStaffAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");

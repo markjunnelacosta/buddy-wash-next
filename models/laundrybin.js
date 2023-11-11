@@ -6,10 +6,14 @@ const LaundryBinSchema = new Schema({
     },
     customerName: {
         type: String,
+        required: [true, "Date is required"]
     },
     orderDate: {
         type: Date,
-        required: [true, "Date is required"]
+        required: [true, "Date is required"],
+        set: (date) => {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
     },
     weight: {
         type: String,

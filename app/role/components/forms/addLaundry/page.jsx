@@ -55,6 +55,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
 
         onSaveData();
         onClose();
+        window.location.reload();
     };
 
 
