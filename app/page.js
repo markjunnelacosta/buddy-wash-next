@@ -18,7 +18,7 @@ export default function Home() {
   useEffect(() => {
     // Check if the user has exceeded 3 failed attempts, and if so, set a timer
     if (failedAttempts >= 3) {
-      const lockoutDuration = 10000; // 2mins
+      const lockoutDuration = 10z000; // 2mins
       const lastFailedAttemptTime = parseInt(localStorage.getItem("lastFailedAttemptTime"), 10);
 
       if (lastFailedAttemptTime && Date.now() - lastFailedAttemptTime < lockoutDuration) {

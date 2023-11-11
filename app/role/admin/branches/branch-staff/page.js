@@ -179,6 +179,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     };
 
     console.log('branchId in BranchStaff:', branchId);
+    console.log(typeof(branchId));
 
     return (
         <>
