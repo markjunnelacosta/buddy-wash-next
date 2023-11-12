@@ -76,6 +76,8 @@ const Branches = () => {
   }, [branchesData]);
 
   const handleSeeInfo = (branchId, branchAddress) => {
+    
+
     // Show the BranchStaff popup
     setSelectedBranch(branchId);
     setSelectedBranchAddress(branchAddress);

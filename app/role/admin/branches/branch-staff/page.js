@@ -11,22 +11,22 @@ import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
 import { useRouter } from "next/navigation";
 
-const getBranchStaff = async () => {
-    try {
-        const res = await fetch("http://localhost:3000/api/branch-staff", {
-            cache: "no-store",
-        });
+// const getBranchStaff = async () => {
+//     try {
+//         const res = await fetch("http://localhost:3000/api/branch-staff", {
+//             cache: "no-store",
+//         });
 
-        if (!res.ok) {
-            throw new Error("Failed to fetch branch staff");
-        }
+//         if (!res.ok) {
+//             throw new Error("Failed to fetch branch staff");
+//         }
 
-        const response = await res.json();
-        return response.branchStaffData || [];
-    } catch (error) {
-        console.log("Error loading branch staff: ", error);
-    }
-};
+//         const response = await res.json();
+//         return response.branchStaffData || [];
+//     } catch (error) {
+//         console.log("Error loading branch staff: ", error);
+//     }
+// };
 
 const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     // State variables
@@ -105,6 +105,14 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     };
 
     useEffect(() => {
+        // Automatically trigger handleBranchSelection when branchId changes
+        if (branchId) {
+            handleBranchSelection(branchId);
+        }
+    }, [branchId]);
+
+
+    useEffect(() => {
         const fetchBranchStaff = async () => {
             try {
                 // Fetch branch staff data for the specified branchId
@@ -178,8 +186,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
         fetchData(); // Fetch updated data
     };
 
-    console.log('branchId in BranchStaff:', branchId);
-    console.log(typeof(branchId));
+    console.log('branchId in BranchStaff:', selectedBranchId);
 
     return (
         <>
