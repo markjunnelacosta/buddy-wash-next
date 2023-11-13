@@ -8,17 +8,12 @@ import { NextResponse } from "next/server";
 //   return NextResponse.json({ machines });
 // }
 
-export const GET = async (req, res) => {
-  try {
-    await connectToDB();
-    const machine = await Machine.find({});
-    const responseData = { machineData: machine };
-    return new Response(JSON.stringify(responseData), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to get Machines" }), { status: 500 });
-  }
-  };
-
+//
+export async function GET() {
+  await connectToDB();
+  const machines = await Machine.find();
+  return NextResponse.json({ machines });
+}
 
 export const POST = async (req) => {
   const body = await req.json();

@@ -8,16 +8,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // import "./CustomerTable.css";
 
-// function Machine(
-
-//   machineNo,
-//   status,
-//   timer,
-//   queue,
-//   useCount,
-
-// ) {
-//   return { machineNo,status,timer,queue,useCount};
+// function Machine(machineNo, status, timer, queue, useCount) {
+//   return { machineNo, status, timer, queue, useCount };
 // }
 
 // // const rows=[];
@@ -27,13 +19,22 @@ import Button from "@mui/material/Button";
 //     <TableContainer component={Paper}>
 //       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 //         <TableHead>
-//           <TableRow >
-//             <TableCell align="center" style={{fontWeight:"bold"}}>Machine No. </TableCell>
-//             <TableCell align="center" style={{fontWeight:"bold"}}>Status</TableCell>
-//             <TableCell align="center" style={{fontWeight:"bold"}}>Timer </TableCell>
-//             <TableCell align="center" style={{fontWeight:"bold"}}>Queue</TableCell>
-//             <TableCell align="center" style={{fontWeight:"bold"}}>Use Count </TableCell>
-
+//           <TableRow>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>
+//               Machine No.{" "}
+//             </TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>
+//               Status
+//             </TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>
+//               Timer{" "}
+//             </TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>
+//               Queue
+//             </TableCell>
+//             <TableCell align="center" style={{ fontWeight: "bold" }}>
+//               Use Count{" "}
+//             </TableCell>
 //           </TableRow>
 //         </TableHead>
 //         {/* <TableBody>
@@ -62,21 +63,58 @@ import Button from "@mui/material/Button";
 //   );
 // }
 
-function MachineTable() {
-  const [machineData, setMachineData] = useState([]);
+const getMachines = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/machine", {
+      cache: "no-store",
+    });
 
-  useEffect(() => {
-    // Simulate machine data (replace with actual data from your database)
-    const initialMachineData = [
-      { id: 1, status: "Off", timer: 0, queue: 0, useCount: 0 },
-      { id: 2, status: "Off", timer: 0, queue: 0, useCount: 0 },
-      { id: 3, status: "Off", timer: 0, queue: 0, useCount: 0 },
-      { id: 4, status: "Off", timer: 0, queue: 0, useCount: 0 },
-      { id: 5, status: "Off", timer: 0, queue: 0, useCount: 0 },
-      // Add more machines as needed
-    ];
-    setMachineData(initialMachineData);
+    if (!res.ok) {
+      throw new Error("Failed to fetch machines");
+    }
+
+    // console.log(await res.json());
+    const response = await res.json();
+    return response.machines;
+  } catch (error) {
+    console.log("Error loading machines: ", error);
+  }
+};
+function MachineTable() {
+  const [machines, setMachines] = useState([]);
+  const [status, setStatus] = useState("Off");
+  const [queue, setQueue] = useState(0);
+  const [timer, setTimer] = useState(0);
+
+  React.useEffect(() => {
+    const fetchMachines = async () => {
+      try {
+        const machineData = await getMachines();
+        setMachines(machineData);
+      } catch (error) {
+        console.error("Error fetching machines:", error);
+      }
+    };
+
+    fetchMachines();
   }, []);
+
+  React.useEffect(() => {
+    console.log(machines);
+  }, [machines]);
+
+  // useEffect(() => {
+  //   // Simulate machine data (replace with actual data from your database)
+  //   const initialMachineData = [
+  //     { id: 1, status: "Off", timer: 0, queue: 0, useCount: 0 },
+  //     { id: 2, status: "Off", timer: 0, queue: 0, useCount: 0 },
+  //     { id: 3, status: "Off", timer: 0, queue: 0, useCount: 0 },
+  //     { id: 4, status: "Off", timer: 0, queue: 0, useCount: 0 },
+  //     { id: 5, status: "Off", timer: 0, queue: 0, useCount: 0 },
+  //     // Add more machines as needed
+  //   ];
+  //   setMachineData(initialMachineData);
+  // }, []);
 
   const toggleTimer = (id) => {
     setMachineData((prevData) => {
@@ -169,9 +207,9 @@ function MachineTable() {
           </TableRow>
         </TableHead>
         <tbody>
-          {machineData.map((machine) => (
-            <TableRow key={machine.id}>
-              <TableCell align="center">{machine.id}</TableCell>
+          {machines.map((machine) => (
+            <TableRow key={machine.machineId}>
+              <TableCell align="center">{machine.machineNumber}</TableCell>
               <TableCell align="center">
                 {machine.status === "On" ? "Running" : "Off"}
                 <Button
@@ -182,8 +220,8 @@ function MachineTable() {
                   {machine.status === "On" ? "Stop" : "Start"}
                 </Button>
               </TableCell>
-              <TableCell align="center">{machine.timer}</TableCell>
-              <TableCell align="center">{machine.queue}</TableCell>
+              <TableCell align="center">{timer}</TableCell>
+              <TableCell align="center">{queue}</TableCell>
               <TableCell align="center">{machine.useCount}</TableCell>
             </TableRow>
           ))}
