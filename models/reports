@@ -1,0 +1,26 @@
+import { Schema, model, models } from "mongoose";
+
+const ReportdSchema = new Schema({
+    reportsId: {
+      type: Schema.Types.ObjectId,
+    },
+
+    orderDate: {
+        type: Date,
+        required: [true, "Date is required"],
+        // set: (date) => {
+        //     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        // },
+    },
+
+    customerName: {
+      type: String,
+      required: [true, "Name is required"],
+    },
+
+    totalAmount: {
+      type: Number,
+      required: [true, "Phone Number is required"],
+    }
+    
+  });
