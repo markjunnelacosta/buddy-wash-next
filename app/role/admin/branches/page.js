@@ -1,8 +1,9 @@
+// app\role\admin\branches\page.js
 "use client";
 import { useState, useEffect } from 'react';
-import React from 'react'
+import React from 'react';
 import Layout from '../components/layout';
-import './branches.css'
+import './branches.css';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AddBranch from './add-branch/page';
 import Button from "@mui/material/Button";
@@ -11,8 +12,6 @@ import EditBranchPopup from './eButton';
 import { useRouter } from 'next/navigation';
 import BranchStaff from './branch-staff/page';
 
-
-// Function to fetch user data from the server
 const getBranch = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/branch", {
@@ -53,7 +52,6 @@ const Branches = () => {
     fetchBranch();
   }, []);
 
-
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/branch", {
@@ -76,9 +74,6 @@ const Branches = () => {
   }, [branchesData]);
 
   const handleSeeInfo = (branchId, branchAddress) => {
-    
-
-    // Show the BranchStaff popup
     setSelectedBranch(branchId);
     setSelectedBranchAddress(branchAddress);
     console.log("Selected Branch ID:", branchId);
@@ -95,12 +90,12 @@ const Branches = () => {
 
   const handleEditBranch = (branch) => {
     setSelectedBranch(branch);
-    setUpdateBranchPopupVisible(true); // Show the popup
+    setUpdateBranchPopupVisible(true);
   };
 
   const handleClose = () => {
     setUpdateBranchPopupVisible(false);
-  }
+  };
 
   const filteredBranches = branchesData.filter((branch) =>
     branch.branchAddress.toLowerCase().includes(searchQuery.toLowerCase())
@@ -161,17 +156,14 @@ const Branches = () => {
             </div>
           ))}
         </div>
-
       </div>
       <AddBranch isOpen={showAddBranch} onSaveData={handleSaveData} closeAddBranch={closeAddBranch} />
-
       <EditBranchPopup
         isOpen={isUpdateBranchPopupVisible}
         branch={selectedBranch}
         onClose={handleClose}
         onSave={handleSaveData}
       />
-
       {showBranchStaffPopup && (
         <BranchStaff onClose={() => setShowBranchStaffPopup(false)} 
         branchId={selectedBranch}
@@ -179,7 +171,7 @@ const Branches = () => {
         />
       )}
     </>
-  )
+  );
 }
 
 export default Branches;

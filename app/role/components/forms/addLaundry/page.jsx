@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import './addLaundry.css'
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-import moment from "moment-timezone";
 
 const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
@@ -24,7 +23,6 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     const [refNum, setRefNum] = useState("");
 
     const onClick = async () => {
-        const philippineTime = moment(orderDate).tz("Asia/Manila").toDate();
 
         console.log(
             customerName,
@@ -57,7 +55,6 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
         onClose();
         window.location.reload();
     };
-
 
     useEffect(() => {
         const fetchCustomer = async () => {
