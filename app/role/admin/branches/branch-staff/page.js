@@ -11,27 +11,8 @@ import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
 import { useRouter } from "next/navigation";
 
-// const getBranchStaff = async () => {
-//     try {
-//         const res = await fetch("http://localhost:3000/api/branch-staff", {
-//             cache: "no-store",
-//         });
-
-//         if (!res.ok) {
-//             throw new Error("Failed to fetch branch staff");
-//         }
-
-//         const response = await res.json();
-//         return response.branchStaffData || [];
-//     } catch (error) {
-//         console.log("Error loading branch staff: ", error);
-//     }
-// };
-
 const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
-    // State variables
     const [branchStaffData, setBranchStaffData] = useState([]);
-    const [branchData, setBranchData] = useState(null);
     const [showStaffPage, setShowStaffPage] = useState(false);
     const [entriesPerPage, setEntriesPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,110 +21,88 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     const [isUpdateStaffPopupVisible, setUpdateStaffPopupVisible] = useState(false);
     const [selectedBranchId, setSelectedBranchId] = useState(null);
 
-
     const router = useRouter();
 
-    // Calculate total number of pages based on the data and entries per page
     const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
-
-    // Calculate the start and end range for displayed entries
     const startRange = (currentPage - 1) * entriesPerPage + 1;
     const endRange = Math.min(currentPage * entriesPerPage, branchStaffData.length);
 
-    // Function to handle going to the previous page
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     };
 
-    // Function to handle going to the next page
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
     };
 
-    // Function to handle changing the number of entries per page
     const handleEntriesPerPageChange = (event) => {
         setEntriesPerPage(event.target.value);
     };
 
-    // Function to open the staff page for adding/editing staff members
     const openStaffPage = () => {
         setShowStaffPage(true);
     };
 
-    // Function to close the staff page
     const closeStaffPage = () => {
         setShowStaffPage(false);
     };
 
-    // Function to handle editing a staff member
     const handleEditStaff = (staff) => {
         setSelectedStaff(staff);
-        // Call a function to show the edit staff member popup (if implemented)
         setUpdateStaffPopupVisible(true);
     };
 
-    // Function to close the edit staff member popup (if implemented)
     const handleClose = () => {
-        // Hide the popup
         setUpdateStaffPopupVisible(false);
     };
 
-    // Filter staff based on search query
     const filteredStaff = branchStaffData.filter((staff) =>
         staff.staffName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Add a function to handle branch selection
     const handleBranchSelection = (branchId) => {
         setSelectedBranchId(branchId);
-        // Fetch and display staff members for the selected branch
         fetchStaffByBranch(branchId);
     };
 
     useEffect(() => {
-        // Automatically trigger handleBranchSelection when branchId changes
         if (branchId) {
             handleBranchSelection(branchId);
         }
     }, [branchId]);
 
-
     useEffect(() => {
         const fetchBranchStaff = async () => {
             try {
-                // Fetch branch staff data for the specified branchId
                 const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
                     cache: "no-store",
                 });
-
+    
                 if (!res.ok) {
-                    throw new Error("Failed to fetch branch staff");
+                    throw new Error(`Failed to fetch branch staff. Status: ${res.status}, Message: ${await res.text()}`);
                 }
-
+    
                 const response = await res.json();
                 setBranchStaffData(response.branchStaffData || []);
             } catch (error) {
                 console.error("Error loading branch staff:", error);
             }
         };
-
+    
         if (branchId) {
-            // Fetch branch staff data only if a branch is selected
             fetchBranchStaff();
         }
-
     }, [branchId]);
+    
 
-    // Log the branch staff data for debugging
     useEffect(() => {
         console.log(branchStaffData);
     }, [branchStaffData]);
 
-    // Function to fetch data from the server
     const fetchData = async () => {
         try {
             const res = await fetch("http://localhost:3000/api/branch-staff", {
@@ -179,11 +138,9 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
         }
     };
 
-
-    // Function to handle saving data after adding or editing a staff member
     const handleSaveData = () => {
-        closeStaffPage(); // Close the StaffPage
-        fetchData(); // Fetch updated data
+        closeStaffPage();
+        fetchData();
     };
 
     console.log('branchId in BranchStaff:', selectedBranchId);
@@ -267,11 +224,9 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
                             <ArrowForwardIosRoundedIcon />
                         </button>
                     </div>
-
                 </div>
-
             </div>
-            
+
             <StaffPage
                 isOpen={showStaffPage}
                 onClose={handleSaveData}
@@ -282,7 +237,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
                 isOpen={isUpdateStaffPopupVisible}
                 staff={selectedStaff}
                 onClose={handleClose}
-                onSave={handleSaveData} // Implement the save function
+                onSave={handleSaveData}
             />
         </>
     );
