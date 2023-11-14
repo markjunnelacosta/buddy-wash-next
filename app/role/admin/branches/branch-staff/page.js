@@ -66,7 +66,6 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
 
     const handleBranchSelection = (branchId) => {
         setSelectedBranchId(branchId);
-        fetchStaffByBranch(branchId);
     };
 
     useEffect(() => {
@@ -76,32 +75,32 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     }, [branchId]);
 
     useEffect(() => {
+        console.log(branchStaffData);
+    }, [branchStaffData]);
+
+    useEffect(() => {
         const fetchBranchStaff = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
-                    cache: "no-store",
-                });
-    
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch branch staff. Status: ${res.status}, Message: ${await res.text()}`);
+                if (branchId !== null && branchId !== undefined) {
+                    const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
+                        cache: "no-store",
+                    });
+
+                    if (!res.ok) {
+                        throw new Error(`Failed to fetch branch staff. Status: ${res.status}, Message: ${await res.text()}`);
+                    }
+
+                    const response = await res.json();
+                    setBranchStaffData(response.branchStaffData || []);
                 }
-    
-                const response = await res.json();
-                setBranchStaffData(response.branchStaffData || []);
             } catch (error) {
                 console.error("Error loading branch staff:", error);
             }
         };
-    
-        if (branchId) {
-            fetchBranchStaff();
-        }
-    }, [branchId]);
-    
 
-    useEffect(() => {
-        console.log(branchStaffData);
-    }, [branchStaffData]);
+        fetchBranchStaff();
+    }, [branchId]);
+
 
     const fetchData = async () => {
         try {
@@ -118,23 +117,6 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
             setBranchStaffData(staff);
         } catch (error) {
             console.log("Error loading branch staff: ", error);
-        }
-    };
-
-    const fetchStaffByBranch = async (branchId) => {
-        try {
-            const res = await fetch(`http://localhost:3000/api/branch-staff?branchId=${branchId}`, {
-                cache: 'no-store',
-            });
-
-            if (!res.ok) {
-                throw new Error('Failed to fetch staff members for the branch');
-            }
-
-            const response = await res.json();
-            setBranchStaffData(response.branchStaffData);
-        } catch (error) {
-            console.error('Error fetching branch staff:', error);
         }
     };
 
