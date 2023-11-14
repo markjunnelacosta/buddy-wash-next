@@ -16,6 +16,8 @@
     "@nextui-org/react": "^2.1.13",
     "bcrypt": "^5.1.1",
     "framer-motion": "^10.16.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "moment-timezone": "^0.5.43",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",

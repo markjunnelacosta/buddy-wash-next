@@ -1,0 +1,35 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: aliceblue;
+}
+p {
+  margin: 0px;
+  margin-left: 10px;
+  font-size: 10px;
+}
+h6 {
+  margin: 2px;
+}
+.container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.receipt-box {
+  border: solid black 2px;
+  padding: 20px;
+  width: 250px;
+  background-color: white;
+}
+.header {
+  margin: 0px;
+  padding-bottom: 10px;
+  border-bottom: solid black 2px;
+}
+
+.with-price {
+  display: flex;
+  justify-content: space-between;
+}

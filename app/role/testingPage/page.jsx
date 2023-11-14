@@ -1,10 +1,10 @@
 import React from "react";
-import ProductSelection from "../components/forms/updateSupplyQuantity/productSelection";
+import App from "../staff/laundryBin/orderSummary";
 
 const TestingPage = () => {
   return (
     <div>
-      <ProductSelection />
+      <App />
     </div>
   );
 };
