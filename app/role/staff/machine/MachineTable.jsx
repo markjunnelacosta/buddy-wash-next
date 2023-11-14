@@ -21,7 +21,6 @@ import Button from "@mui/material/Button";
 // }
 
 // // const rows=[];
-
 // export default function AddMachine() {
 //   return (
 //     <TableContainer component={Paper}>
@@ -94,7 +93,6 @@ function MachineTable() {
       });
     });
   };
-
   const startTimer = (id) => {
     setMachineData((prevData) => {
       return prevData.map((machine) => {
@@ -131,7 +129,6 @@ function MachineTable() {
       });
     });
   };
-
   const stopTimer = (id) => {
     setMachineData((prevData) => {
       return prevData.map((machine) => {
@@ -145,7 +142,6 @@ function MachineTable() {
       });
     });
   };
-
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label="a dense table">
@@ -192,5 +188,4 @@ function MachineTable() {
     </TableContainer>
   );
 }
-
 export default MachineTable;
