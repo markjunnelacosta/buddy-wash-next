@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './Machines.css';
 import MachineTable from './MachineTable';
 import DryerTable from './DryerTable';
+import editMachines from "./MachineTable";
 
 function Machines() {
   const [machines, setMachines] = useState([]); // Store the list of machines
@@ -15,7 +16,7 @@ function Machines() {
           <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Machines</p>
         </div>
         <div className="tables-container">
-          <div className="machineTable-container">
+          <div className="machineTable-container">{editMachines}
             <MachineTable machines={machines} />
             
           </div>

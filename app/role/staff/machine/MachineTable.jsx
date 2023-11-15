@@ -5,64 +5,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import EditPopup from './EditButton'; // Update the import path
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
-  const [newMachine, setNewMachine] = useState('');
-  const [inputError, setInputError] = useState('');
-
-  const addNewMachine = () => {
-    if (isValidInput(newMachine)) {
-      if (!isNumberRepeated(newMachine)) {
-        const newMachineObject = {
-          machineNumber: parseInt(newMachine), // Ensure it's an integer
-          action: 'Off',
-          timer: '00:00',
-          queue: 0,
-          useCount: 0,
-        };
-
-        fetch('http://localhost:3000/api/machine', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newMachineObject),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Failed to add a new machine');
-            }
-            return response.json();
-          })
-          .then((data) => {
-            fetchData();
-          })
-          .catch((error) => {
-            console.error('Error adding a new machine:', error);
-          });
-
-        setMachineData((prevData) => [...prevData, newMachineObject]);
-        setNewMachine('');
-        setInputError('');
-      } else {
-        setInputError('The number already exists');
-      }
-    } else {
-      setInputError('Please enter a valid integer between 1 and 25');
-    }
-  };
-
-  const isValidInput = (input) => {
-    const number = parseInt(input);
-    return !isNaN(number) && number >= 1 && number <= 25;
-  };
-
-  const isNumberRepeated = (number) => {
-    return machineData.some((machine) => machine.machineNumber === parseInt(number));
-  };
+  const [selectedMachine, setSelectedMachine] = useState(null);
+  const [isEditMachinePopupVisible, setEditMachinePopupVisible] = useState(false);
 
   const fetchData = () => {
     fetch('http://localhost:3000/api/machine', {
@@ -82,43 +31,25 @@ function MachineTable() {
       });
   };
 
+  const handleEditMachine = (machine) => {
+    setSelectedMachine(machine);
+    setEditMachinePopupVisible(true);
+  };
+
+  const handleCloseEditMachinePopup = () => {
+    setEditMachinePopupVisible(false);
+    fetchData(); // Refresh data after edit
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <div>
-      <div className="add-machine-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <TextField
-          label="Washer Number"
-          value={newMachine}
-          onChange={(e) => setNewMachine(e.target.value)}
-          variant="outlined"
-          id="machineNumberInput"
-          style={{ marginLeft: '10px' }}
-          error={inputError !== ''}
-          helperText={inputError}
-          onInput={(e) => {
-            const inputValue = e.target.value;
-            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
-              e.preventDefault();
-            }
-          }}
-          inputProps={{
-            maxLength: 2, // Maximum 2 digits
-          }}
-        />
-        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
-          Add
-        </Button>
-      </div>
       <div style={{ height: '400px', overflow: 'auto' }}>
         <TableContainer component={Paper}>
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            size="small"
-          >
+          <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" className="table-header-bold">
@@ -139,6 +70,9 @@ function MachineTable() {
                 <TableCell align="center" className="table-header-bold">
                   Status
                 </TableCell>
+                <TableCell align="center" className="table-header-bold">
+                  Set-up
+                </TableCell>
               </TableRow>
             </TableHead>
             <tbody>
@@ -154,12 +88,23 @@ function MachineTable() {
                   <TableCell align="center">
                     {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
                   </TableCell>
+                  <TableCell align="center">
+                    <Button variant="outlined" onClick={() => handleEditMachine(machine)}>
+                      Edit
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </tbody>
           </Table>
         </TableContainer>
       </div>
+      <EditPopup
+        isOpen={isEditMachinePopupVisible}
+        item={selectedMachine}
+        onClose={handleCloseEditMachinePopup}
+        type="machine" // Specify the type for machines
+      />
     </div>
   );
 }
