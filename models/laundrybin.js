@@ -11,8 +11,13 @@ const LaundryBinSchema = new Schema({
     orderDate: {
         type: Date,
         required: [true, "Date is required"],
-        set: (date) => {
-            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        set: function (date) {
+            if (typeof date === "string") {
+                return new Date(date); // Parse the string as a Date
+            } else if (date instanceof Date) {
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            }
+            return date;
         },
     },
     weight: {

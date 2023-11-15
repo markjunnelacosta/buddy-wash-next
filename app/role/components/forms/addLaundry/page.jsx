@@ -22,7 +22,34 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     const [paymentMethod, setPaymentMethod] = useState("");
     const [refNum, setRefNum] = useState("");
 
+    const weightPrice = {
+        "7.5Kg": 10,
+        "8-9Kg": 20
+    };
+
+    const washModePrice = {
+        "Spin": 40,
+        "Rinse & Spin": 50, // Example price for Rinse & Spin
+        "Regular Wash": 60, // Example price for Regular Wash
+        "Premium": 70 // Example price for Premium
+    };
+
+    const dryModePrice = {
+        "30mins.": 0,
+        "40mins.": 0,
+        "50mins.": 10
+    }
+
+    const foldPrice = 70;
+
     const onClick = async () => {
+
+        const totalWeightPrice = weightPrice[weight] || 0;
+        const totalWashModePrice = washModePrice[washMode] || 0;
+        const totalDryModePrice = dryModePrice[dryMode] || 0;
+        const totalFoldPrice = fold === "Yes" ? foldPrice : 0;
+
+        const totalAmount = totalWeightPrice + totalWashModePrice + totalDryModePrice + totalFoldPrice;
 
         console.log(
             customerName,
@@ -49,12 +76,23 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
             }),
         });
 
+        const res = await fetch("/api/report", {
+            method: "POST",
+            body: JSON.stringify({
+                customerName: customerName,
+                reportDate: orderDate,
+                totalAmount: totalAmount
+            }),
+        });
+
         console.log(response);
+        console.log(res);
 
         onSaveData();
         onClose();
-        window.location.reload();
+        // window.location.reload();
     };
+
 
     useEffect(() => {
         const fetchCustomer = async () => {
@@ -127,8 +165,8 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                             <div id="first">
                                 <p>Weight</p>
                                 <select
-                                value={weight}
-                                onChange={(e) => setWeight(e.currentTarget.value)}
+                                    value={weight}
+                                    onChange={(e) => setWeight(e.currentTarget.value)}
                                 >
                                     <option value=""></option>
                                     <option value="7.5Kg">Light Clothes - 7.5kilos</option>
@@ -136,8 +174,8 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                                 </select>
                                 <p>Fold</p>
                                 <select
-                                value={fold}
-                                onChange={(e) => setFold(e.currentTarget.value)}
+                                    value={fold}
+                                    onChange={(e) => setFold(e.currentTarget.value)}
                                 >
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
@@ -165,8 +203,8 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                             <div id="second">
                                 <p>Wash Mode</p>
                                 <select
-                                value={washMode}
-                                onChange={(e) => setWashMode(e.currentTarget.value)}
+                                    value={washMode}
+                                    onChange={(e) => setWashMode(e.currentTarget.value)}
                                 >
                                     <option value=""></option>
                                     <option value="Spin">Spin - 9mins.</option>
@@ -176,8 +214,8 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                                 </select>
                                 <p>Colored</p>
                                 <select
-                                value={colored}
-                                onChange={(e) => setColored(e.currentTarget.value)}
+                                    value={colored}
+                                    onChange={(e) => setColored(e.currentTarget.value)}
                                 >
                                     <option value=""></option>
                                     <option value="Yes">Yes</option>
@@ -205,8 +243,8 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                             <div id="third">
                                 <p>Dry Mode</p>
                                 <select
-                                value={dryMode}
-                                onChange={(e) => setDryMode(e.currentTarget.value)}
+                                    value={dryMode}
+                                    onChange={(e) => setDryMode(e.currentTarget.value)}
                                 >
                                     <option value=""></option>
                                     <option value="30mins.">30mins.</option>

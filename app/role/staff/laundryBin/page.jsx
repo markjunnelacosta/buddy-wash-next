@@ -59,7 +59,6 @@ const LaundryBin = () => {
     fetchOrder();
   }, []);
 
-  // Log the user data for debugging
   useEffect(() => {
     console.log(laundryData);
   }, [laundryData]);
@@ -76,14 +75,14 @@ const LaundryBin = () => {
 
       const response = await res.json();
       const order = response.laundryData || [];
-      setUserData(order); // Assuming you want to update the user data in your component state
+      setLaundryData(order);
     } catch (error) {
       console.log("Error loading orders: ", error);
     }
   };
 
   const handleSaveData = () => {
-    closeAddLaundry(); // Close the AdminPage
+    closeAddLaundry();
     fetchData();
   };
   return (

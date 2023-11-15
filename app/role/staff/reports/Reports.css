@@ -1,47 +1,61 @@
-.reports-container{
+.reports-container {
     background-color: #ececec;
     width: 80%;
     display: flex;
-    height:90vh;
-    float:right;
+    height: 90vh;
+    float: right;
     justify-content: space-between;
 }
-.blue-container{
-    display:flex;
+
+.blue-container {
+    display: flex;
     flex-direction: column;
     background-color: #54BCBC;
     width: 100%;
-    margin :20px;
+    margin: 20px;
     gap: 10px;
     border-radius: 10px;
 
 }
-    
 
-.table-container{
+
+.report-table-container {
     background-color: white;
     margin: 10px 30px;
-    height:100%;
-    
-}
-.searchContainer{
+    height: 100%;
 
-    display:flex;
+}
+
+.table-cell {
+    text-align: center;
+    font-weight: bold;
+}
+
+.table-body {
+    text-align: center;
+}
+
+.searchContainer {
+
+    display: flex;
     flex-direction: row;
     margin-left: 30px;
     margin-top: 20px;
     justify-content: space-between;
 }
-.searchContainer-left{
-    display:flex;
+
+.searchContainer-left {
+    display: flex;
     align-content: center;
     align-items: center;
 }
-.searchContainer-right{
-    display:flex;
+
+.searchContainer-right {
+    display: flex;
 
 }
-.inputDate{
+
+.inputDate {
     border-color: white;
     margin: 10px 35px 10px 10px;
     width: 200px;
