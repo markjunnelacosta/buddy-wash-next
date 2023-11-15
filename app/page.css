@@ -98,14 +98,13 @@ body {
 .userOptions #staff,
 #owner,
 #admin {
-  background-color: #4b9ae3;
   color: black;
   font-weight: bold;
   border: none;
   border-radius: 10px;
   padding: 10px;
   letter-spacing: 2px;
-  width: 300px;
+  width: 40px;
 }
 
 #textBelow {
