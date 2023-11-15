@@ -17,24 +17,34 @@ import { NextResponse } from "next/server";
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-
-    if (req.query && req.query.branchId) {
-      const branchId = req.query.branchId;
-      const branchStaff = await BranchesStaff.find({ staffBranchId: branchId }).populate({ path: 'staffBranchId', model: 'Branch' });
+    const { branchId } = params;
+    console.log(params);
+    if (branchId) {
+      // const branchId = id;
+      console.log(branchId);
+      const branchStaff = await BranchesStaff.find({
+        staffBranchId: branchId,
+      }).populate({ path: "staffBranchId", model: "Branch" });
       const responseData = { branchStaffData: branchStaff };
       return new Response(JSON.stringify(responseData), { status: 200 });
     } else {
-      return new Response(JSON.stringify({ error: 'branchId query parameter is missing' }), { status: 400 });
+      return new Response(
+        JSON.stringify({ error: "branchId query parameter is missing" }),
+        { status: 400 }
+      );
     }
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to get branch staff' }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: "Failed to get branch staff" }),
+      { status: 500 }
+    );
   }
 };
 
-
 export const POST = async (req) => {
   const body = await req.json();
-  const { staffName, staffAddress, phoneNumber, staffPosition, staffBranchId } = body;
+  const { staffName, staffAddress, phoneNumber, staffPosition, staffBranchId } =
+    body;
 
   try {
     await connectToDB();
@@ -43,7 +53,7 @@ export const POST = async (req) => {
       staffAddress,
       phoneNumber,
       staffPosition,
-      staffBranchId
+      staffBranchId,
     });
     console.log(newBranchesStaff);
     await newBranchesStaff.save();
@@ -52,7 +62,6 @@ export const POST = async (req) => {
     return new Response(error, { status: 500 });
   }
 };
-
 
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
@@ -63,4 +72,3 @@ export async function DELETE(request) {
     { status: 201 }
   );
 }
-
