@@ -10,6 +10,13 @@ import StaffPage from "./add-staff/page";
 import RemoveButton from "./removeButton";
 import EditStaffPopup from "./eButton";
 import { useRouter } from "next/navigation";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
   const [branchStaffData, setBranchStaffData] = useState([]);
@@ -95,8 +102,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
 
           if (!res.ok) {
             throw new Error(
-              `Failed to fetch branch staff. Status: ${
-                res.status
+              `Failed to fetch branch staff. Status: ${res.status
               }, Message: ${await res.text()}`
             );
           }
@@ -142,17 +148,21 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
       <div className="container-box-staff">
         <div className="searchContainer">
           <div className="searchContainer-right">
-            <p style={{ fontWeight: "bold" }}>
-              Location: {selectedBranchAddress}
-            </p>
-            <p style={{ fontWeight: "bold" }}>Search</p>
-            <input
-              type="text"
-              id="searchName"
-              name="staffName"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div className="locs">
+              <p style={{ fontWeight: "bold" }}>
+                Location: {selectedBranchAddress}
+              </p>
+            </div>
+            <div className="search-bar">
+              <p style={{ fontWeight: "bold" }}>Search</p>
+              <input
+                type="text"
+                id="searchName"
+                name="staffName"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
           <div className="button-container">
             <button className="add-button" onClick={openStaffPage}>
@@ -161,45 +171,58 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
           </div>
         </div>
         <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone Number</th>
-                <th>Position</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStaff
-                .slice(
-                  (currentPage - 1) * entriesPerPage,
-                  currentPage * entriesPerPage
-                )
-                .map((staff) => (
-                  <tr key={staff._id}>
-                    <td>{staff.staffName}</td>
-                    <td>{staff.staffAddress}</td>
-                    <td>{staff.phoneNumber}</td>
-                    <td>{staff.staffPosition}</td>
-                    <td>
-                      <div className="b-container">
-                        <Button
-                          variant="outlined"
-                          id="edit-button"
-                          onClick={() => handleEditStaff(staff)}
-                        >
-                          Edit
-                        </Button>
-                        &nbsp;
-                        <RemoveButton id={staff._id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <TableContainer component={Paper} className="table-border">
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              sx={{ minWidth: 600 }}
+              size="small"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell className="table-header">Name</TableCell>
+                  <TableCell className="table-header">Address</TableCell>
+                  <TableCell className="table-header">Phone Number</TableCell>
+                  <TableCell className="table-header">Position</TableCell>
+                  <TableCell className="table-header">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredStaff
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  )
+                  .map((staff) => (
+                    <TableRow
+                      key={staff._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell className="table-body">{staff.staffName}</TableCell>
+                      <TableCell className="table-body">{staff.staffAddress}</TableCell>
+                      <TableCell className="table-body">{staff.phoneNumber}</TableCell>
+                      <TableCell className="table-body">{staff.staffPosition}</TableCell>
+                      <TableCell>
+                        <div className="b-container">
+                          <Button
+                            variant="outlined"
+                            id="edit-button"
+                            onClick={() => handleEditStaff(staff)}
+                          >
+                            Edit
+                          </Button>
+                          &nbsp;
+                          <RemoveButton id={staff._id} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <div className="footer">
           <div className="cancel-button">
