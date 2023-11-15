@@ -4,7 +4,7 @@ import React from "react";
 import "./LaundryBin.css";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { Add } from "@mui/icons-material";
+import { Add, Timer } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import AddLaundry from "../../components/forms/addLaundry/page";
 import Paper from "@mui/material/Paper";
@@ -14,6 +14,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import MachineToggle from "./machineToggle";
+import DryerToggle from "./dryerToggle";
 
 const getOrder = async () => {
   try {
@@ -138,10 +140,18 @@ const LaundryBin = () => {
                       </TableCell>
                       <TableCell className="">{order.customerName}</TableCell>
                       <TableCell className="">t</TableCell>
+                      <TableCell className="">
+                        <MachineToggle
+                          onToggle={() => {
+                            console.log("Start timer for" + order.customerName);
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell className="">{/* <WashTimer /> */}</TableCell>
                       <TableCell className="">t</TableCell>
-                      <TableCell className="">00:00</TableCell>
-                      <TableCell className="">t</TableCell>
-                      <TableCell className="">t</TableCell>
+                      <TableCell className="">
+                        <DryerToggle />
+                      </TableCell>
                       <TableCell className="">00:00</TableCell>
                       <TableCell className="">t</TableCell>
                     </TableRow>

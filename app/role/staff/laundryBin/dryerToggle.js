@@ -3,13 +3,12 @@
 import React from "react";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const MachineToggle = ({ onToggle }) => {
+const DryerToggle = () => {
   return (
     <FormGroup>
       <FormControlLabel
         control={
           <Switch
-            onChange={onToggle}
             sx={{
               m: 1,
             }}
@@ -20,4 +19,4 @@ const MachineToggle = ({ onToggle }) => {
   );
 };
 
-export default MachineToggle;
+export default DryerToggle;
