@@ -5,37 +5,48 @@
   height: 90vh;
   float: right;
 }
+
 .blue-container {
   display: flex;
   flex-direction: column;
-  background-color: #54bcbc;
-  opacity: 80%;
+  background-color: #54BCBC;
   width: 100%;
   margin: 20px;
   gap: 10px;
   border-radius: 10px;
-  justify-content: start;
+
 }
+
 .machineTable-container {
-  margin-top: 10px;
   background-color: white;
-  width: 50%;
-  margin-right: 10px;
+  margin: 10px 30px 30px;
+  padding: 10px;
+  flex-grow: 1;
+  overflow: hidden;
+  
 }
+
 .dryerTable-container {
-  margin-top: 10px;
   background-color: white;
-  width: 50%;
-  margin-left: 10px;
+  margin: 10px 30px 30px;
+  padding: 10px;
+  flex-grow: 1;
+  overflow: hidden;
 }
+
 .top {
   display: flex;
   justify-content: space-around;
-  margin-top: 20px;
+  margin-top: 30px;
 }
+
 .tables-container {
   display: flex;
   justify-content: space-between;
-  margin: 30px;
-  height: 500px;
+  margin: 10px;
+  overflow: auto;
+}
+
+.table-header-bold {
+  font-weight: bold;
 }

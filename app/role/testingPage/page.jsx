@@ -1,10 +1,12 @@
 import React from "react";
-import App from "../staff/laundryBin/orderSummary";
+// import App from "../staff/laundryBin/orderSummary";
+import MachineToggle from "../staff/laundryBin/machineToggle";
 
 const TestingPage = () => {
   return (
     <div>
-      <App />
+      {/* <App /> */}
+      <MachineToggle />
     </div>
   );
 };
