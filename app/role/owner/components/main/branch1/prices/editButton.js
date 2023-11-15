@@ -3,7 +3,7 @@ import UpdateSupply from "@/app/role/components/forms/updateSupply/page";
 
 const EditSupplyPopup = ({ isOpen, supply, onClose, onSave }) => {
     if (!isOpen) {
-        return null; // If not open, don't render anything
+        return null;
       }
   return (
     <div className="popup-container">

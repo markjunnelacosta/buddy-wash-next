@@ -4,14 +4,27 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
   const { id } = params;
-  const { newMachineNumber: machineNumber, newUseCount: useCount } =
-    await request.json();
+  const {
+    newMachineNumber: machineNumber,
+    newAction: action,
+    newTimer: timer,
+    newQueue: queue,
+    newUseCount: useCount,
+    newStatus: status,
+  } = await request.json();
+
   await connectToDB();
-  await Machine.findByIdAndUpdate(id, { machineNumber, useCount });
-  return NextResponse.json(
-    { message: "Machine Details Updated" },
-    { status: 200 }
-  );
+
+  await Machine.findByIdAndUpdate(id, {
+    machineNumber,
+    action,
+    timer,
+    queue,
+    useCount,
+    status,
+  });
+
+  return NextResponse.json({ message: "Machine Details Updated" }, { status: 200 });
 }
 
 export async function GET(request, { params }) {

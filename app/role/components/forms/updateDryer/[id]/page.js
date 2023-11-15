@@ -27,7 +27,7 @@ export default async function EditDryer({ params }) {
   try {
     const dryer = await getDryer(id);
     if (dryer) {
-      const { dryerNumber, action, timer, queue, useCount } = dryer;
+      const { dryerNumber, action, timer, queue, useCount, status } = dryer;
       return (
         <UpdateDryer
           id={id}
@@ -40,7 +40,7 @@ export default async function EditDryer({ params }) {
         />
       );
     } else {
-      // Handle the case where the dryer is not found or other error
+
       return <div>Dryer not found</div>;
     }
   } catch (error) {

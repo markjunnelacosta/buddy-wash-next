@@ -1,17 +1,12 @@
 import { connectToDB } from "@/utils/database";
 import Machine from "@/models/machines";
 import { NextResponse } from "next/server";
-// export async function GET() {
-//   await connectToDB();
-//   const machines = await Machine.find();
-//   return NextResponse.json({ machines });
-// }
 
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-    const machine = await Machine.find({});
-    const responseData = { machineData: machine };
+    const machines = await Machine.find({});
+    const responseData = { machineData: machines };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ error: "Failed to get Machines" }), {
@@ -22,12 +17,17 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { machineNumber, useCount } = body;
+  const { machineNumber, useCount, action, timer, queue, status } = body;
+
   try {
     await connectToDB();
     const newMachine = new Machine({
       machineNumber,
       useCount,
+      action,
+      timer,
+      queue,
+      status,
     });
     console.log(newMachine);
     await newMachine.save();
@@ -36,6 +36,7 @@ export const POST = async (req) => {
     return new Response(error, { status: 500 });
   }
 };
+
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
   await connectToDB();

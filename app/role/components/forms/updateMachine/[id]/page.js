@@ -27,7 +27,7 @@ export default async function EditMachine({ params }) {
   try {
     const machine = await getMachine(id);
     if (machine) {
-      const { machineNumber, action, timer, queue, useCount } = machine;
+      const { machineNumber, action, timer, queue, useCount, status } = machine;
       return (
         <UpdateMachine
           id={id}
@@ -40,7 +40,7 @@ export default async function EditMachine({ params }) {
         />
       );
     } else {
-      // Handle the case where the machine is not found or other error
+      
       return <div>Machine not found</div>;
     }
   } catch (error) {

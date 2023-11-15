@@ -4,7 +4,7 @@ import UpdateDryer from '@/app/role/components/forms/updateDryer/page';
 
 const EditPopup = ({ isOpen, item, onClose, type }) => {
   if (!isOpen) {
-    return null; // If not open, don't render anything
+    return null;
   }
 
   return (

@@ -14,7 +14,7 @@ export default function RemoveButton({ id }) {
       });
 
       if (res.ok) {
-        onDelete(); // Trigger a callback to update the supply data after deletion
+        onDelete();
       }
     }
   };

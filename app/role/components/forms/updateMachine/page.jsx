@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "./editMachine.css";
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { TextField, MenuItem } from "@mui/material";
 
-const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount }) => {
+const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, status }) => {
   const [newMachineNumber, setNewMachineNumber] = useState(machineNumber);
   const [newAction, setNewAction] = useState(action);
   const [newTimer, setNewTimer] = useState(timer);
   const [newQueue, setNewQueue] = useState(queue);
   const [newUseCount, setNewUseCount] = useState(useCount);
+  const [newStatus, setNewStatus] = useState(status);
 
   const [machineNumberError, setMachineNumberError] = useState("");
   const [timerError, setTimerError] = useState("");
@@ -65,6 +67,11 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount }) =>
       setUseCountError("");
     }
   };
+  
+  const handleStatusChange = (e) => {
+    const newValue = e.target.value;
+    setNewStatus(newValue);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +93,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount }) =>
           newTimer,
           newQueue,
           newUseCount,
+          newStatus,
         }),
       });
 
@@ -150,7 +158,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount }) =>
               />
             </div>
           </div>
-          {/* Additional styling or layout elements if needed */}
+
           <hr />
           <div className="input">
             <div className="queue">
@@ -177,8 +185,8 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount }) =>
               <TextField
                 select
                 className="text-box"
-                value={newAction}
-                onChange={handleActionChange}
+                value={newStatus}
+                onChange={handleStatusChange}
               >
                 <MenuItem value="Operational">Operational</MenuItem>
                 <MenuItem value="Under Maintenance">Under Maintenance</MenuItem>

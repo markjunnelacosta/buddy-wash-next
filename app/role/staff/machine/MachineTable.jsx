@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import EditPopup from './EditButton'; // Update the import path
+import EditPopup from './EditButton';
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);

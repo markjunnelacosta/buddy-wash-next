@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-import "./editDryer.css"; // Update the CSS file name if needed
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  MenuItem,
-} from "@mui/material";
+import "./editDryer.css";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemText, } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { TextField, MenuItem } from "@mui/material";
+import Dropdown from "rc-dropdown";
 
-const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount }) => {
+const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount, status }) => {
   const [newDryerNumber, setNewDryerNumber] = useState(dryerNumber);
   const [newAction, setNewAction] = useState(action);
   const [newTimer, setNewTimer] = useState(timer);
   const [newQueue, setNewQueue] = useState(queue);
   const [newUseCount, setNewUseCount] = useState(useCount);
+  const [newStatus, setNewStatus] = useState(status);
 
   const [dryerNumberError, setDryerNumberError] = useState("");
   const [timerError, setTimerError] = useState("");
@@ -74,6 +69,11 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount }) => {
     }
   };
 
+  const handleStatusChange = (e) => {
+    const newValue = e.target.value;
+    setNewStatus(newValue);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -94,6 +94,7 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount }) => {
           newTimer,
           newQueue,
           newUseCount,
+          newStatus,
         }),
       });
 
@@ -158,7 +159,7 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount }) => {
               />
             </div>
           </div>
-          {/* Additional styling or layout elements if needed */}
+
           <hr />
           <div className="input">
             <div className="queue">
@@ -185,8 +186,8 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount }) => {
               <TextField
                 select
                 className="text-box"
-                value={newAction}
-                onChange={handleActionChange}
+                value={newStatus}
+                onChange={handleStatusChange}
               >
                 <MenuItem value="Operational">Operational</MenuItem>
                 <MenuItem value="Under Maintenance">Under Maintenance</MenuItem>

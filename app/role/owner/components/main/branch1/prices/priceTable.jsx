@@ -74,7 +74,7 @@ const SupplyTable = () => {
 
       const response = await res.json();
       const supplies = response.userData || [];
-      setSupplies(supplies); // Assuming you want to update the supply data in your component state
+      setSupplies(supplies); 
     } catch (error) {
       console.log("Error loading supplies: ", error);
     }
@@ -135,7 +135,7 @@ const SupplyTable = () => {
         isOpen={isUpdateSupplyPopupVisible}
         supply={selectedSupply}
         onClose={handleClose}
-        onSave={handleSaveData} // Implement the save function
+        onSave={handleSaveData}
       />
     </>
   );
