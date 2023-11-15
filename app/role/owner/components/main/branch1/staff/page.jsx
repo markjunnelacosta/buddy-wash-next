@@ -64,7 +64,6 @@ const Staff = () => {
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Address</TableCell>
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Phone Number</TableCell>
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Position</TableCell>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
