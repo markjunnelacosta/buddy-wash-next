@@ -22,33 +22,27 @@
     gap: 10px;
     padding: 2rem;
     height: 100%;
-    width: 95%;
-    overflow-x: auto;
-    max-height: 400px;
-    /* overflow-y: scroll; */
-}
-
-table {
-    border-collapse: collapse;
-    border: 1px solid #fff;
-    background-color: #fff;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    table-layout: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    /* flex-grow: 1; */
 }
 
-th, td {
-    border: 1px solid gray;
+.table-header{
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
     text-align: center;
-    padding: 5px;
-    font-size: 15px;
-    background-color: white;
-
 }
 
-td{
-    /* width: 150px; */
-    height: 40px;
+.table-border{
+    border: 1px solid #54BCBC;
+}
+
+.table-body{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-button {
@@ -98,15 +92,16 @@ td{
 
     display:flex;
     flex-direction: row;
-    margin-left: 30px;
+    /* margin-left: 30px; */
     justify-content: space-between;
+    padding: 5px;
 }
 
 .searchContainer-right{
     display:flex;
     align-items: center;
     justify-content: center;
-    margin-right: 400px;
+    margin-right: 300px;
 
 }
 #searchName{
@@ -124,6 +119,8 @@ td{
 
 .b-container{
     display: inline-block;
+    justify-content: center;
+    align-items: center;
 }
 .footer{
     display: flex;
@@ -150,4 +147,16 @@ td{
 
 .entries-button{
     background-color: #54BCBC;
+}
+
+.locs {
+    margin-left: 30px;
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.search-bar{
+    display: flex;
+    margin-left: 20px;
+    flex-shrink: 0;
 }

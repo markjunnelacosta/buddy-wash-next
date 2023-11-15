@@ -8,44 +8,43 @@ import AddStaff from './staffTable';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 
+
 const getBranchStaff = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/branch-staff", {
-      cache: "no-store",
-    });
+      const res = await fetch("http://localhost:3000/api/staff-owner", {
+          cache: "no-store",
+      });
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch branch staff");
-    }
+      if (!res.ok) {
+          throw new Error("Failed to fetch branch staff");
+      }
 
-    const response = await res.json();
-    console.log("Fetched branch staff:", response);
-    return response.branchStaff;
+      const response = await res.json();
+      return response.branchStaffData || [];
   } catch (error) {
-    console.log("Error loading branch staff: ", error);
+      console.log("Error loading branch staff: ", error);
   }
 };
 
-function Staff() {
-  const [branchStaff, setBranchStaff] = useState([]);
-  const [selectedBranchStaff, setSelectedBranchStaff] = useState(null);
+const Staff = () => {
+  const [branchStaffData, setBranchStaffData] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchBranchStaff = async () => {
-      try {
-        const branchStaffData = await getBranchStaff();
-        setBranchStaff(branchStaffData || []);
-      } catch (error) {
-        console.error("Error fetching branch staff:", error);
-      }
+        try {
+            const branchStaff = await getBranchStaff();
+            setBranchStaffData(branchStaff);
+        } catch (error) {
+            console.error("Error fetching report:", error);
+        }
     };
 
     fetchBranchStaff();
-  }, []);
+}, []);
 
-  React.useEffect(() => {
-    console.log(branchStaff);
-  }, [branchStaff]);
+  useEffect(() => {
+    console.log(branchStaffData);
+  }, [branchStaffData]);
 
   return (
     <div className="staff-container">
@@ -65,16 +64,15 @@ function Staff() {
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Address</TableCell>
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Phone Number</TableCell>
                     <TableCell align="center" style={{ fontWeight: "bold" }}>Position</TableCell>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {branchStaff.map(branchStaff => (
-                    <TableRow key={branchStaff.id}>
-                      <TableCell align="center">{branchStaff.staffName}</TableCell>
-                      <TableCell align="center">{branchStaff.staffAddress}</TableCell>
-                      <TableCell align="center">{branchStaff.phoneNumber}</TableCell>
-                      <TableCell align="center">{branchStaff.staffPosition}</TableCell>
+                  {branchStaffData.map((staff) => (
+                    <TableRow key={staff._id}>
+                      <TableCell align="center">{staff.staffName}</TableCell>
+                      <TableCell align="center">{staff.staffAddress}</TableCell>
+                      <TableCell align="center">{staff.phoneNumber}</TableCell>
+                      <TableCell align="center">{staff.staffPosition}</TableCell>
                       <TableCell align="center">
                       </TableCell>
                     </TableRow>

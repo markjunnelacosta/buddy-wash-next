@@ -57,6 +57,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
             dryMode, fold, colored,
             detergent, fabCon, detergentQty,
             fabConQty, paymentMethod, refNum);
+
         const response = await fetch("/api/laundrybin", {
             method: "POST",
             body: JSON.stringify({
@@ -90,7 +91,6 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
 
         onSaveData();
         onClose();
-        // window.location.reload();
     };
 
 
@@ -115,6 +115,11 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
         fetchCustomer();
     }, []);
 
+
+    const filterSuppliesByKeyword = (supplies, keyword) => {
+        return supplies.filter((supply) => supply.supplyName.toLowerCase().includes(keyword));
+    };
+
     useEffect(() => {
         const fetchSupplies = async () => {
             try {
@@ -135,6 +140,20 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
 
         fetchSupplies();
     }, []);
+
+    const getDetergentSupplies = () => {
+        const detergentSupplies = filterSuppliesByKeyword(supplyData, 'detergent');
+        return detergentSupplies.map((supplies, i) => (
+            <option key={i}>{supplies.supplyName}</option>
+        ));
+    };
+
+    const getConditionerSupplies = () => {
+        const conditionerSupplies = filterSuppliesByKeyword(supplyData, 'conditioner');
+        return conditionerSupplies.map((supplies, i) => (
+            <option key={i}>{supplies.supplyName}</option>
+        ));
+    };
 
 
     return (
@@ -188,9 +207,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                                 >
                                     <option value=""></option>
                                     <option value="">None</option>
-                                    {supplyData.map((supplies, i) => (
-                                        <option key={i}>{supplies.supplyName}</option>
-                                    ))}
+                                    {getDetergentSupplies()}
                                 </select>
                                 <p>Detergent Qty.</p>
                                 <input
@@ -228,9 +245,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                                 >
                                     <option value=""></option>
                                     <option value="">None</option>
-                                    {supplyData.map((supplies, i) => (
-                                        <option key={i}>{supplies.supplyName}</option>
-                                    ))}
+                                    {getConditionerSupplies()}
                                 </select>
                                 <p>Fabric Conditioner Qty.</p>
                                 <input
@@ -258,7 +273,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
                                         type="radio"
                                         name="paymentMethod"
                                         value="Cash"
-                                        checked={paymentMethod === "GCash"}
+                                        checked={paymentMethod === "Cash"}
                                         onChange={(e) => setPaymentMethod(e.currentTarget.value)}
                                     /> Cash
                                     <input

@@ -1,12 +1,12 @@
 "use client";
 
-import React from 'react';
-import './LaundryBin.css';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { Add } from '@mui/icons-material';
-import { useState, useEffect } from 'react';
-import AddLaundry from '../../components/forms/addLaundry/page';
+import React from "react";
+import "./LaundryBin.css";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { Add, Timer } from "@mui/icons-material";
+import { useState, useEffect } from "react";
+import AddLaundry from "../../components/forms/addLaundry/page";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,7 +14,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import MachineToggle from "./machineToggle";
+import DryerToggle from "./dryerToggle";
 
 const getOrder = async () => {
   try {
@@ -34,17 +35,16 @@ const getOrder = async () => {
 };
 
 const LaundryBin = () => {
-
   const [laundryData, setLaundryData] = useState([]);
   const [showAddLaundry, setShowAddLaundry] = useState(false);
 
   const openAddLaundry = () => {
     setShowAddLaundry(true);
-  }
+  };
 
   const closeAddLaundry = () => {
     setShowAddLaundry(false);
-  }
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -89,26 +89,42 @@ const LaundryBin = () => {
     <>
       <div className="laundryBin-container">
         <div className="blue-container">
-          <Button style={{ backgroundColor: "white", color: "black", width: "200px", height: "50px", margin: "0", fontWeight: "bold", alignSelf: "flex-end", margin: "30px", borderRadius: "10px" }}
+          <Button
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "200px",
+              height: "50px",
+              margin: "0",
+              fontWeight: "bold",
+              alignSelf: "flex-end",
+              margin: "30px",
+              borderRadius: "10px",
+            }}
             variant="contained"
             startIcon={<Add />}
-            onClick={openAddLaundry}>
+            onClick={openAddLaundry}
+          >
             New Laundry
           </Button>
-          <div className='table-container'>
+          <div className="table-container">
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="a dense table"
+              >
                 <TableHead>
-                  <TableRow >
-                    <TableCell className='table-header'>Date </TableCell>
-                    <TableCell className='table-header'>Name</TableCell>
-                    <TableCell className='table-header'>Machine No. </TableCell>
-                    <TableCell className='table-header'>Action</TableCell>
-                    <TableCell className='table-header'>Timer</TableCell>
-                    <TableCell className='table-header'>Dryer No. </TableCell>
-                    <TableCell className='table-header'>Action</TableCell>
-                    <TableCell className='table-header'>Timer</TableCell>
-                    <TableCell className='table-header'>Status</TableCell>
+                  <TableRow>
+                    <TableCell className="table-header">Date </TableCell>
+                    <TableCell className="table-header">Name</TableCell>
+                    <TableCell className="table-header">Machine No. </TableCell>
+                    <TableCell className="table-header">Action</TableCell>
+                    <TableCell className="table-header">Timer</TableCell>
+                    <TableCell className="table-header">Dryer No. </TableCell>
+                    <TableCell className="table-header">Action</TableCell>
+                    <TableCell className="table-header">Timer</TableCell>
+                    <TableCell className="table-header">Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -119,13 +135,23 @@ const LaundryBin = () => {
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
                     >
-                      <TableCell className="">{new Date(order.orderDate).toLocaleDateString()}</TableCell>
+                      <TableCell className="">
+                        {new Date(order.orderDate).toLocaleDateString()}
+                      </TableCell>
                       <TableCell className="">{order.customerName}</TableCell>
                       <TableCell className="">t</TableCell>
+                      <TableCell className="">
+                        <MachineToggle
+                          onToggle={() => {
+                            console.log("Start timer for" + order.customerName);
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell className="">{/* <WashTimer /> */}</TableCell>
                       <TableCell className="">t</TableCell>
-                      <TableCell className="">00:00</TableCell>
-                      <TableCell className="">t</TableCell>
-                      <TableCell className="">t</TableCell>
+                      <TableCell className="">
+                        <DryerToggle />
+                      </TableCell>
                       <TableCell className="">00:00</TableCell>
                       <TableCell className="">t</TableCell>
                     </TableRow>
@@ -135,7 +161,6 @@ const LaundryBin = () => {
             </TableContainer>
           </div>
         </div>
-
       </div>
 
       <AddLaundry
@@ -144,7 +169,6 @@ const LaundryBin = () => {
         onSaveData={handleSaveData}
       />
     </>
-  )
-}
+  );
+};
 export default LaundryBin;
-
