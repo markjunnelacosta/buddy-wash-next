@@ -15,16 +15,16 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { dryerNumber, useCount, action, timer, queue, status } = body;
+  const { dryerNumber, action, timer, queue, useCount, status } = body;
 
   try {
     await connectToDB();
     const newDryer = new Dryer({
       dryerNumber,
-      useCount,
       action,
       timer,
       queue,
+      useCount,
       status,
     });
     console.log(newDryer);

@@ -17,16 +17,16 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { machineNumber, useCount, action, timer, queue, status } = body;
+  const { machineNumber, action, timer, queue, useCount, status } = body;
 
   try {
     await connectToDB();
     const newMachine = new Machine({
       machineNumber,
-      useCount,
       action,
       timer,
       queue,
+      useCount,
       status,
     });
     console.log(newMachine);

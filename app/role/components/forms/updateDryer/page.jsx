@@ -3,7 +3,6 @@ import "./editDryer.css";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemText, } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { TextField, MenuItem } from "@mui/material";
-import Dropdown from "rc-dropdown";
 
 const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount, status }) => {
   const [newDryerNumber, setNewDryerNumber] = useState(dryerNumber);
