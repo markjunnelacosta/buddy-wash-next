@@ -18,10 +18,11 @@ function DryerTable() {
       if (!isNumberRepeated(newDryer)) {
         const newDryerObject = {
           dryerNumber: parseInt(newDryer),
-          action: 'Off',
+          // action: parseInt(newAction),
           timer: '0:00',
           queue: 0,
           useCount: 0,
+          // status: parseInt(newStatus),
         };
 
         fetch('http://localhost:3000/api/dryer', {
@@ -146,13 +147,13 @@ function DryerTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === 'On' ? 'Running' : 'Off'}
+                    {dryer.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
                   <TableCell align="center">{dryer.timer}</TableCell>
                   <TableCell align="center">{dryer.queue}</TableCell>
                   <TableCell align="center">{dryer.useCount}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                    {dryer.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
                   </TableCell>
                 </TableRow>
               ))}
