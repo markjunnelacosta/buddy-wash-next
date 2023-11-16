@@ -28,7 +28,7 @@ function Staff() {
 
                 <div className="searchContainer-right">
                     <p style={{ color: "black", fontWeight: "bold", alignSelf: "right", margin: "30px" }} variant="contained">
-                        Staff Branch 1
+                        Staff Branch 2
                     </p>
 
                 </div>
