@@ -4,7 +4,7 @@ import './addLaundry.css'
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
 
-const addLaundry = ({ isOpen, onClose, onSaveData }) => {
+const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
     const [supplyData, setSupplyData] = useState([]); // State for supplies
 
@@ -29,9 +29,9 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
 
     const washModePrice = {
         "Spin": 40,
-        "Rinse & Spin": 50, // Example price for Rinse & Spin
-        "Regular Wash": 60, // Example price for Regular Wash
-        "Premium": 70 // Example price for Premium
+        "Rinse & Spin": 50,
+        "Regular Wash": 60,
+        "Premium": 70
     };
 
     const dryModePrice = {
@@ -89,6 +89,24 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
         console.log(response);
         console.log(res);
 
+        // // Assuming you have selected both detergent and fabcon
+        // const selectedDetergent = filterSuppliesByKeyword(supplyData, 'detergent').find(supply => supply.supplyName === detergent);
+        // const selectedFabCon = filterSuppliesByKeyword(supplyData, 'conditioner').find(supply => supply.supplyName === fabCon);
+
+        // // Pass relevant information to UpdateSupply component
+        // onUpdateSupply({
+        //     detergentData: {
+        //         supplyId: selectedDetergent._id,
+        //         quantity: detergentQty,
+        //         type: "Out", // Assuming it's always an "Out" type
+        //     },
+        //     fabConData: {
+        //         supplyId: selectedFabCon._id,
+        //         quantity: fabConQty,
+        //         type: "Out", // Assuming it's always an "Out" type
+        //     },
+        // });
+
         onSaveData();
         onClose();
     };
@@ -97,7 +115,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     useEffect(() => {
         const fetchCustomer = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/customer", {
+                const res = await fetch("/api/customer", {
                     cache: "no-store",
                 });
 
@@ -123,7 +141,7 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     useEffect(() => {
         const fetchSupplies = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/supply", {
+                const res = await fetch("/api/supply", {
                     cache: "no-store",
                 });
 
@@ -308,4 +326,4 @@ const addLaundry = ({ isOpen, onClose, onSaveData }) => {
     );
 };
 
-export default addLaundry;
+export default AddLaundry;
