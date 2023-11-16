@@ -9,9 +9,7 @@ export const GET = async (req, res) => {
     const responseData = { machineData: machines };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to get Machines" }), {
-      status: 500,
-    });
+    return new Response(JSON.stringify({ error: "Failed to get Machines" }), { status: 500 });
   }
 };
 

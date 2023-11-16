@@ -22,7 +22,7 @@ export async function PUT(request, { params }) {
     queue,
     useCount,
     status,
-  });
+  }, { new: true });
 
   return NextResponse.json({ message: "Machine Details Updated" }, { status: 200 });
 }
@@ -30,6 +30,6 @@ export async function PUT(request, { params }) {
 export async function GET(request, { params }) {
   const { id } = params;
   await connectToDB();
-  const machine = await Machine.findOne({ _id: id });
+  const machine = await Machine.findOne({ _id: id }.lean);
   return NextResponse.json({ machine }, { status: 200 });
 }

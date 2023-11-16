@@ -80,13 +80,13 @@ function DryerTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === 'On' ? 'Running' : 'Off'}
+                    {dryer.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
                   <TableCell align="center">{dryer.timer}</TableCell>
                   <TableCell align="center">{dryer.queue}</TableCell>
                   <TableCell align="center">{dryer.useCount}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                    {dryer.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
                   </TableCell>
                   <TableCell align="center">
                     <Button variant="outlined" onClick={() => handleEditDryer(dryer)}>

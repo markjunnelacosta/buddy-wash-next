@@ -143,8 +143,8 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
                 value={newAction}
                 onChange={handleActionChange}
               >
-                <MenuItem value="Running">Running</MenuItem>
                 <MenuItem value="Off">Off</MenuItem>
+                <MenuItem value="Running">Running</MenuItem>
               </TextField>
             </div>
             <div className="timer">

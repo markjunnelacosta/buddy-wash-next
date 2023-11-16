@@ -80,13 +80,13 @@ function MachineTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{machine.machineNumber}</TableCell>
                   <TableCell align="center">
-                    {machine.action === 'On' ? 'Running' : 'Off'}
+                    {machine.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
                   <TableCell align="center">{machine.timer}</TableCell>
                   <TableCell align="center">{machine.queue}</TableCell>
                   <TableCell align="center">{machine.useCount}</TableCell>
                   <TableCell align="center">
-                    {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                    {machine.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
                   </TableCell>
                   <TableCell align="center">
                     <Button variant="outlined" onClick={() => handleEditMachine(machine)}>

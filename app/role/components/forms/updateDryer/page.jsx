@@ -143,8 +143,8 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount, status }
                 value={newAction}
                 onChange={handleActionChange}
               >
-                <MenuItem value="Running">Running</MenuItem>
                 <MenuItem value="Off">Off</MenuItem>
+                <MenuItem value="Running">Running</MenuItem>
               </TextField>
             </div>
             <div className="timer">

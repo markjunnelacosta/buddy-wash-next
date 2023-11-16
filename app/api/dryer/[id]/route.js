@@ -15,7 +15,6 @@ export async function PUT(request, { params }) {
 
   await connectToDB();
 
-  // Update the fields as needed
   await Dryer.findByIdAndUpdate(id, {
     dryerNumber,
     action,
@@ -23,7 +22,7 @@ export async function PUT(request, { params }) {
     queue,
     useCount,
     status,
-  });
+  }, { new: true });
 
   return NextResponse.json({ message: "Dryer Details Updated" }, { status: 200 });
 }
@@ -31,6 +30,6 @@ export async function PUT(request, { params }) {
 export async function GET(request, { params }) {
   const { id } = params;
   await connectToDB();
-  const dryer = await Dryer.findOne({ _id: id });
+  const dryer = await Dryer.findOne({ _id: id }).lean();
   return NextResponse.json({ dryer }, { status: 200 });
 }

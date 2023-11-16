@@ -10,7 +10,7 @@ const DryerSchema = new Schema({
   },
   action: {
     type: String,
-    enum: ["Running", "Off"],
+    enum: ["Off", "Running"],
     default: "Off",
   },
   timer: {
