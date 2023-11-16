@@ -121,7 +121,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
   };
 
   return (
-    <div className="box-container" style={{ zIndex: 9999 }}>
+    <div className="box-container">
       <DialogTitle>Edit Machine</DialogTitle>
       <DialogContent>
         <div className="add-machine-form">

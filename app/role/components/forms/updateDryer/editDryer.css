@@ -9,6 +9,7 @@ p {
     background-color: white;
     padding: 30px;
     border-radius: 20px;
+    padding-bottom: 20px;
   }
   
   .new-dryer-text {
@@ -54,6 +55,10 @@ p {
     padding: 10px;
     font-weight: bold;
   }
+
+  .table-container {
+    margin-top: 20px;
+  }
   
   .box-container {
     background-color: white;
@@ -68,19 +73,5 @@ p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 999;
   }
-
-  /* .css-6hp17o-MuiList-root-MuiMenu-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    outline: 0;
-    z-index: 9999;
-}
-
-.form-container {
-  overflow: visible; or overflow: hidden/auto;
-} */

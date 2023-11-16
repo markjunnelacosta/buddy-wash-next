@@ -121,7 +121,7 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount, status }
   };
 
   return (
-    <div className="box-container" style={{ zIndex: 9999 }}>
+    <div className="box-container">
       <DialogTitle>Edit Dryer</DialogTitle>
       <DialogContent>
         <div className="add-dryer-form">
