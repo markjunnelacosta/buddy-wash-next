@@ -10,32 +10,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("24:00", undefined),
-];
-
-function Chart() {
+function Chart({ data }) {
   const theme = useTheme();
 
   return (
@@ -54,7 +29,7 @@ function Chart() {
           }}
         >
           <XAxis
-            dataKey="time"
+            dataKey="reportDate" // Assuming reportDate is the x-axis data
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
           />
@@ -77,7 +52,7 @@ function Chart() {
           <Line
             isAnimationActive={false}
             type="monotone"
-            dataKey="amount"
+            dataKey="totalAmount" // Assuming totalAmount is the y-axis data
             stroke={theme.palette.primary.main}
             dot={false}
           />
@@ -86,4 +61,5 @@ function Chart() {
     </React.Fragment>
   );
 }
+
 export default Chart;

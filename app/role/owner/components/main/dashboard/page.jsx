@@ -1,5 +1,6 @@
-"use client";
-import React from "react";
+"use client"
+
+import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import {
   List,
@@ -19,14 +20,38 @@ import Counter from "./counter";
 import Chart from "./Chart";
 
 const Dashboard = () => {
+  const [reportData, setReportData] = useState([]);
+  const [totalProfit, setTotalProfit] = useState(0);
+  const [customerCount, setCustomerCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/report");
+        const data = await res.json();
+
+        setReportData(data.reportData);
+
+        const totalProfitValue = data.reportData.reduce((acc, report) => acc + report.totalAmount, 0);
+        setTotalProfit(totalProfitValue);
+
+        const uniqueCustomers = new Set(data.reportData.map((report) => report.customerName));
+        setCustomerCount(uniqueCustomers.size);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="dashboard-container">
-
       <div className="graphs-container">
         <div className="top-container">
           <div className="counters-container">
-            <Counter title="Total Profit Today" value="0.00" />
-            <Counter title="Customers Today" value="0" />
+            <Counter title="Total Profit Today" value={totalProfit.toFixed(2)} />
+            <Counter title="Customers Today" value={customerCount} />
           </div>
           <div className="customers-container">
             <Grid item xs={12} md={8} lg={9}>
@@ -38,14 +63,17 @@ const Dashboard = () => {
                   height: 240,
                 }}
               >
-                <Chart />
+                <Chart data={reportData} />
               </Paper>
             </Grid>
           </div>
         </div>
-        <div className="bar-container"></div>
+        <div className="bar-container">
+          {/* Customize this section based on requirements */}
+        </div>
       </div>
     </div>
   );
 };
+
 export default Dashboard;
