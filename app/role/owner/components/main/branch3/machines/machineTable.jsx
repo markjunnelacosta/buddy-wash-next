@@ -17,11 +17,12 @@ function MachineTable() {
     if (isValidInput(newMachine)) {
       if (!isNumberRepeated(newMachine)) {
         const newMachineObject = {
-          machineNumber: parseInt(newMachine), // Ensure it's an integer
-          action: 'Off',
+          machineNumber: parseInt(newMachine),
+          // action: 'Off',
           timer: '00:00',
           queue: 0,
           useCount: 0,
+          // status: 'Operational',
         };
 
         fetch('http://localhost:3000/api/machine', {
@@ -146,13 +147,13 @@ function MachineTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{machine.machineNumber}</TableCell>
                   <TableCell align="center">
-                    {machine.action === 'On' ? 'Running' : 'Off'}
+                    {machine.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
                   <TableCell align="center">{machine.timer}</TableCell>
                   <TableCell align="center">{machine.queue}</TableCell>
                   <TableCell align="center">{machine.useCount}</TableCell>
                   <TableCell align="center">
-                    {machine.action === 'On' ? 'Under Maintenance' : 'Operational'}
+                    {machine.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
                   </TableCell>
                 </TableRow>
               ))}
