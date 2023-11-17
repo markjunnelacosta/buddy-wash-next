@@ -46,9 +46,11 @@ const TransactionTable = ({ dateFrom, dateTo }) => {
   const [reportData, setReportData] = useState([]);
 
   useEffect(() => {
+    console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo);
     const fetchReport = async () => {
       try {
         const report = await getFilteredReport(dateFrom, dateTo);
+        console.log("Fetched report data:", report);
         setReportData(report);
       } catch (error) {
         console.error("Error fetching transactions:", error);
