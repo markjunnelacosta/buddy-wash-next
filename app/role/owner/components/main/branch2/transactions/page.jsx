@@ -108,7 +108,8 @@ function Transactions() {
           </div>
         </div>
         <div className="table-container" ref={tableRef}>
-          {AddTransactions (filteredData)}
+          {/* {<div AddTransactions (filteredData)>} */}
+          <AddTransactions filteredData={filteredData} ></AddTransactions>
         </div>
       </div>
 
