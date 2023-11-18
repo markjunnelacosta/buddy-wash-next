@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function Chart({ data }) {
+function ForecastChart({ forecastData }) {
   const theme = useTheme();
 
   const formatDate = (dateString) => {
@@ -21,12 +21,12 @@ function Chart({ data }) {
 
   return (
     <React.Fragment>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Chart
+      <Typography component="h2" variant="h6" color="secondary" gutterBottom>
+        Forecast Chart
       </Typography>
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={forecastData}
           margin={{
             top: 16,
             right: 16,
@@ -35,7 +35,7 @@ function Chart({ data }) {
           }}
         >
           <XAxis
-            dataKey="reportDate"
+            dataKey="forecastDate"
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
             tickFormatter={formatDate}
@@ -53,15 +53,15 @@ function Chart({ data }) {
                 ...theme.typography.body1,
               }}
             >
-              Sales (₱)
+              Forecasted Sales (₱)
             </Label>
           </YAxis>
           <Tooltip labelFormatter={(value) => formatDate(value)} />
           <Line
             isAnimationActive={false}
             type="monotone"
-            dataKey="totalAmount"
-            stroke={theme.palette.primary.main}
+            dataKey="forecastedAmount"
+            stroke={theme.palette.secondary.main}
             dot={false}
           />
         </LineChart>
@@ -70,4 +70,4 @@ function Chart({ data }) {
   );
 }
 
-export default Chart;
+export default ForecastChart;
