@@ -7,11 +7,17 @@ import {
   YAxis,
   Label,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { Typography } from "@mui/material";
 
 function Chart({ data }) {
   const theme = useTheme();
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <React.Fragment>
@@ -32,6 +38,7 @@ function Chart({ data }) {
             dataKey="reportDate" // Assuming reportDate is the x-axis data
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
+            tickFormatter={formatDate} 
           />
           <YAxis
             stroke={theme.palette.text.secondary}
@@ -49,6 +56,9 @@ function Chart({ data }) {
               Sales ($)
             </Label>
           </YAxis>
+          <Tooltip
+            labelFormatter={(value) => formatDate(value)}
+          />
           <Line
             isAnimationActive={false}
             type="monotone"
