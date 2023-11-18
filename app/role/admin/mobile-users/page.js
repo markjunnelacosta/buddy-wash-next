@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import RemoveButton from './removeButton';
 
 
 const getMobileUsers = async () => {
@@ -23,7 +24,7 @@ const getMobileUsers = async () => {
     }
 
     const response = await res.json();
-    return response.mobileUserData|| [];
+    return response.mobileUserData || [];
   } catch (error) {
     console.log("Error loading mobile users: ", error);
   }
@@ -31,6 +32,7 @@ const getMobileUsers = async () => {
 
 const MobileUser = () => {
   const [mobileUserData, setMobileUserData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchMobileUSers = async () => {
@@ -49,10 +51,23 @@ const MobileUser = () => {
     console.log(mobileUserData);
   }, [mobileUserData]);
 
+  const filteredUsers = mobileUserData.filter((mobile) =>
+  mobile.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
   return (
     <>
       <Layout />
       <div className='mobile-container-box'>
+      <div className="searchContainer-right">
+            <p style={{ fontWeight: "bold" }}>Search</p>
+            <input
+              type="text"
+              id="searchName"
+              name="branchAddress"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} />
+          </div>
         <div className='mobile-table-container'>
           <TableContainer component={Paper}>
             <Table
@@ -82,7 +97,9 @@ const MobileUser = () => {
                     <TableCell>{mobile.lastName}</TableCell>
                     <TableCell>{mobile.email}</TableCell>
                     <TableCell>{mobile.password}</TableCell>
-                    <TableCell><RemoveButton id={mobile._id} /></TableCell>
+                    <TableCell>
+                      <RemoveButton id={mobile._id} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
