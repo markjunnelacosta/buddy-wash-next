@@ -89,24 +89,26 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         console.log(response);
         console.log(res);
 
-        // // Assuming you have selected both detergent and fabcon
-        // const selectedDetergent = filterSuppliesByKeyword(supplyData, 'detergent').find(supply => supply.supplyName === detergent);
-        // const selectedFabCon = filterSuppliesByKeyword(supplyData, 'conditioner').find(supply => supply.supplyName === fabCon);
 
-        // // Pass relevant information to UpdateSupply component
-        // onUpdateSupply({
-        //     detergentData: {
-        //         supplyId: selectedDetergent._id,
-        //         quantity: detergentQty,
-        //         type: "Out", // Assuming it's always an "Out" type
-        //     },
-        //     fabConData: {
-        //         supplyId: selectedFabCon._id,
-        //         quantity: fabConQty,
-        //         type: "Out", // Assuming it's always an "Out" type
-        //     },
-        // });
+        const selectedDetergent = filterSuppliesByKeyword(supplyData, 'detergent').find(supply => supply.supplyName === detergent);
+        const selectedFabCon = filterSuppliesByKeyword(supplyData, 'conditioner').find(supply => supply.supplyName === fabCon);
 
+        if (onUpdateSupply){
+            onUpdateSupply({
+                detergentData: {
+                    supplyId: selectedDetergent._id,
+                    quantity: detergentQty,
+                    type: "Out",
+                },
+                fabConData: {
+                    supplyId: selectedFabCon._id,
+                    quantity: fabConQty,
+                    type: "Out",
+                },
+            });
+        }
+
+    
         onSaveData();
         onClose();
     };

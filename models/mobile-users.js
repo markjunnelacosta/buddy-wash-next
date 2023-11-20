@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import mongoose from "mongoose";
  
-const UserSchema = new Schema({
+const MobileUserSchema = new Schema({
     firstName: {
     type: String,
     required: true
@@ -21,4 +21,4 @@ const UserSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('mobile-users', UserSchema);
+module.exports = mongoose.model('mobile-users', MobileUserSchema);

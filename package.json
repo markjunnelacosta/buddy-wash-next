@@ -16,6 +16,7 @@
     "@nextui-org/react": "^2.1.13",
     "antd": "^5.11.1",
     "bcrypt": "^5.1.1",
+    "countdown": "^2.6.0",
     "framer-motion": "^10.16.4",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
