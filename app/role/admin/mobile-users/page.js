@@ -52,22 +52,23 @@ const MobileUser = () => {
   }, [mobileUserData]);
 
   const filteredUsers = mobileUserData.filter((mobile) =>
-  mobile.lastName.toLowerCase().includes(searchQuery.toLowerCase())
-);
+    mobile.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    mobile.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
       <Layout />
       <div className='mobile-container-box'>
-      <div className="searchContainer-right">
-            <p style={{ fontWeight: "bold" }}>Search</p>
-            <input
-              type="text"
-              id="searchName"
-              name="branchAddress"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} />
-          </div>
+        <div className="searchContainer">
+          <p style={{ fontWeight: "bold" }}>Search</p>
+          <input
+            type="text"
+            id="searchName"
+            name="searchName"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} />
+        </div>
         <div className='mobile-table-container'>
           <TableContainer component={Paper}>
             <Table
@@ -85,7 +86,7 @@ const MobileUser = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {mobileUserData.map((mobile) => (
+                {filteredUsers.map((mobile) => (
                   <TableRow
                     key={mobile._id}
                     sx={{
@@ -95,7 +96,7 @@ const MobileUser = () => {
                     <TableCell className="table-body">{mobile.firstName}</TableCell>
                     <TableCell className="table-body">{mobile.lastName}</TableCell>
                     <TableCell className="table-body">{mobile.email}</TableCell>
-                    <TableCell>
+                    <TableCell className="table-body">
                       <RemoveButton id={mobile._id} />
                     </TableCell>
                   </TableRow>

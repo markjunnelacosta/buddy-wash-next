@@ -141,8 +141,6 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
     fetchData();
   };
 
-  console.log("branchId in BranchStaff:", selectedBranchId);
-
   return (
     <>
       <div className="container-box-staff">

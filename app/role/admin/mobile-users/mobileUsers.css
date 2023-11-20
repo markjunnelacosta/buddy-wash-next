@@ -37,17 +37,18 @@
     padding: 2px;
 }
 
-.searchContainer-right{
+.searchContainer{
     display:flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 400px;
-    float: right;
+    /* align-items: center;
+    justify-content: center; */
+    margin-right: 600px;
+    float: left;
+    padding: 10px;
 
 }
 #searchName{
     border-color: white;
-    margin: 10px 35px 10px 10px;
+    margin: 10px;
     width: 200px;
 }
 
