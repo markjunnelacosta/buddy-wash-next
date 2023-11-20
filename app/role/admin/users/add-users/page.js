@@ -69,11 +69,20 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
                   onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                 ></input>
                 <p>Position</p>
-                <input
+                {/* <input
                   type="text"
                   value={userRole}
                   onChange={(e) => setUserRole(e.currentTarget.value)}
-                ></input>
+                ></input> */}
+                 <select
+                  value={userRole}
+                  onChange={(e) => setUserRole(e.currentTarget.value)}
+                >
+                  <option value=""></option>
+                  <option value="admin">Admin</option>
+                  <option value="staff">Staff</option>
+                  <option value="owner">Owner</option>
+                </select>
                 <p>Password</p>
                 <input
                   type="text"

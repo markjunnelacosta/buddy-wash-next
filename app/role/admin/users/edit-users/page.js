@@ -74,19 +74,16 @@ export default function UpdateUser({
           <hr />
           <div className="form-group">
             <div id="first">
-              {/* User Name input */}
               <p>User Name</p>
               <input
                 onChange={(e) => setNewUserName(e.target.value)}
                 value={newUserName}
               />
-              {/* Address input */}
               <p>Address</p>
               <input
                 onChange={(e) => setNewUserAddress(e.target.value)}
                 value={newUserAddress}
               />
-              {/* User ID input */}
               <p>UserID</p>
               <input
                 onChange={(e) => setNewUserId(e.target.value)}
@@ -95,19 +92,24 @@ export default function UpdateUser({
             </div>
 
             <div id="second">
-              {/* Phone Number input */}
               <p>Phone Number</p>
               <input
                 onChange={(e) => setNewPhoneNumber(e.target.value)}
                 value={newPhoneNumber}
               />
-              {/* User Role input */}
               <p>Position</p>
-              <input
+              {/* <input
                 onChange={(e) => setNewUserRole(e.target.value)}
                 value={newUserRole}
-              />
-              {/* Password input */}
+              /> */}
+              <select
+                onChange={(e) => setNewUserRole(e.target.value)}
+                value={newUserRole}
+              >
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="owner">Owner</option>
+              </select>
               <p>Password</p>
               <input
                 onChange={(e) => setNewPassword(e.target.value)}

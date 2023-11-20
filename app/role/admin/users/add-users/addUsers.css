@@ -25,6 +25,15 @@ input {
     font-size: 17px;
 }
 
+select {
+    border-radius: 7px;
+    width: 87%;
+    height: 28px;
+    border: 1px solid;
+    border-color: gray;
+    font-size: 17px;
+}
+
 #first {
     width: 25vw;
     flex: 50%;
