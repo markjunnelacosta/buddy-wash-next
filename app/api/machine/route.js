@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-    const machines = await Machine.find({});
+    const machines = await Machine.find({}); 
+    // const machines = await Machine.find({ branchNumber });
     const responseData = { machineData: machines };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {

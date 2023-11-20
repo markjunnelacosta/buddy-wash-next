@@ -34,7 +34,7 @@ export const getFilteredReport = async (dateFrom, dateTo) => {
     const filteredData = response.reportData.filter((report) => {
       const reportDate = new Date(report.reportDate);
       return (!dateFrom || reportDate >= new Date(dateFrom)) &&
-             (!dateTo || reportDate <= new Date(dateTo));
+        (!dateTo || reportDate <= new Date(dateTo));
     });
     return filteredData || [];
   } catch (error) {
@@ -42,23 +42,30 @@ export const getFilteredReport = async (dateFrom, dateTo) => {
   }
 };
 
-const TransactionTable = ({ dateFrom, dateTo }) => {
+const TransactionTable = ({ dateFrom, dateTo, filteredData }) => {
   const [reportData, setReportData] = useState([]);
 
   useEffect(() => {
-    console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo);
-    const fetchReport = async () => {
-      try {
-        const report = await getFilteredReport(dateFrom, dateTo);
-        console.log("Fetched report data:", report);
-        setReportData(report);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
+    if (filteredData.length > 0) {
+      setReportData(filteredData);
+    }
+    else {
+      console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo);
+      const fetchReport = async () => {
+        try {
+          const report = await getFilteredReport(dateFrom, dateTo);
+          console.log("Fetched report data:", report);
+          setReportData(report);
+        } catch (error) {
+          console.error("Error fetching transactions:", error);
+        }
       }
+
+      fetchReport();
     };
 
-    fetchReport();
-  }, [dateFrom, dateTo]);
+    console.log(filteredData);
+  });
 
   useEffect(() => {
     console.log(reportData);
@@ -70,14 +77,14 @@ const TransactionTable = ({ dateFrom, dateTo }) => {
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Date</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {reportData.map((report) => (
-              <TableRow key={report._id} sx={{"&:last-child td, &:last-child th": { border: 0 },}}>
+              <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
                 <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
                 <TableCell align="center">{report.customerName}</TableCell>
                 <TableCell align="center">{report.totalAmount}</TableCell>

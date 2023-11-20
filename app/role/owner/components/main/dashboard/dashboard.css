@@ -7,15 +7,17 @@
   .graphs-container {
     width: 100%;
     background-color: #ececec;
-    display: flex;
+    display: fixed;
     flex-direction: column;
 
     .top-container {
       display: flex;
+      flex-direction: wrap;
       padding: 16px;
 
       .counters-container {
-        display: flex;
+        display: fixed;
+        flex-wrap: wrap;
         margin: 0px 10px;
         gap: 10px;
 
@@ -24,10 +26,28 @@
           background-color: #bee5e5;
           height: 150px;
           width: 150px;
+          margin-bottom: 10px;
+        }
+      }
+
+      .counters-container1 {
+        display: fixed;
+        flex-wrap: wrap;
+        margin: 0px 10px;
+        gap: 10px;
+
+        .counter {
+          padding: 16px;
+          background-color: #bee5e5;
+          height: 150px;
+          width: 150px;
+          margin-bottom: 10px;
+          margin-right: 10px;
         }
       }
 
       .customers-container {
+        gap: 20px;
         width: 70%;
       }
     }
