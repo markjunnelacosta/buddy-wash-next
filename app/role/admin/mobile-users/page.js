@@ -81,7 +81,6 @@ const MobileUser = () => {
                   <TableCell className="table-header">First Name</TableCell>
                   <TableCell className="table-header">Last Name</TableCell>
                   <TableCell className="table-header">Email</TableCell>
-                  <TableCell className="table-header">Password</TableCell>
                   <TableCell className="table-header">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -93,10 +92,9 @@ const MobileUser = () => {
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}
                   >
-                    <TableCell>{mobile.firstName}</TableCell>
-                    <TableCell>{mobile.lastName}</TableCell>
-                    <TableCell>{mobile.email}</TableCell>
-                    <TableCell>{mobile.password}</TableCell>
+                    <TableCell className="table-body">{mobile.firstName}</TableCell>
+                    <TableCell className="table-body">{mobile.lastName}</TableCell>
+                    <TableCell className="table-body">{mobile.email}</TableCell>
                     <TableCell>
                       <RemoveButton id={mobile._id} />
                     </TableCell>

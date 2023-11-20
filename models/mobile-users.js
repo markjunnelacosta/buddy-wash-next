@@ -21,4 +21,4 @@ const MobileUserSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('mobile-users', MobileUserSchema);
+module.exports = mongoose.models['mobile-users'] || mongoose.model('mobile-users', MobileUserSchema);

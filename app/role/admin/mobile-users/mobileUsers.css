@@ -50,3 +50,18 @@
     margin: 10px 35px 10px 10px;
     width: 200px;
 }
+
+.table-body {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    border-radius: 7px;
+    width: 85%;
+    height: 25px;
+    border: 1px solid;
+    border-color: gray;
+    font-size: 17px;
+}
