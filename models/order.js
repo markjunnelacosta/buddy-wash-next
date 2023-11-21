@@ -18,11 +18,11 @@ const OrderSchema = new Schema({
   },
   machineAction: {
     type: String,
-    required: [true, "Action is required"],
+    required: [false, "Action is not required"],
   },
   machineTimer: {
     type: String,
-    required: [true, "Timer is required"],
+    required: [false, "Timer is not required"],
   },
   dryerNo: {
     type: Number,
@@ -30,11 +30,11 @@ const OrderSchema = new Schema({
   },
   dryerAction: {
     type: String,
-    required: [true, "Action is required"],
+    required: [false, "Action is not required"],
   },
   dryerTimer: {
     type: String,
-    required: [true, "Timer is required"],
+    required: [false, "Timer is not required"],
   },
   status: {
     type: String,
