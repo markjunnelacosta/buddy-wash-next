@@ -382,22 +382,22 @@ const LaundryBin = () => {
                       <TableCell className="">
                         {new Date(order.orderDate).toLocaleDateString()}
                       </TableCell>
-                      <TableCell className="">{order.customerName}</TableCell>
-                      <TableCell className="">t</TableCell>
-                      <TableCell className="">
+                      <TableCell className="table-body">{order.customerName}</TableCell>
+                      <TableCell className="table-body">t</TableCell>
+                      <TableCell className="table-body">
                         <MachineToggle
                           onToggle={() => onToggleChange(order._id)}
                         />
                       </TableCell>
-                      <TableCell className="">
+                      <TableCell className="table-body">
                         {getCountDownTimer(order._id)}
                       </TableCell>
-                      <TableCell className="">t</TableCell>
-                      <TableCell className="">
+                      <TableCell className="table-body">t</TableCell>
+                      <TableCell className="table-body">
                         <DryerToggle />
                       </TableCell>
-                      <TableCell className="">00:00</TableCell>
-                      <TableCell className="">t</TableCell>
+                      <TableCell className="table-body">00:00</TableCell>
+                      <TableCell className="table-body">t</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
