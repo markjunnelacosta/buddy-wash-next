@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import TableContainer from '@mui/material/TableContainer';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import EditPopup from './EditButton';
+import React, { useState, useEffect } from "react";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import EditPopup from "./EditButton";
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
@@ -14,12 +14,12 @@ function DryerTable() {
   const [isEditDryerPopupVisible, setEditDryerPopupVisible] = useState(false);
 
   const fetchData = () => {
-    fetch('http://localhost:3000/api/dryer', {
-      cache: 'no-store',
+    fetch("http://localhost:3000/api/dryer", {
+      cache: "no-store",
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch dryer data');
+          throw new Error("Failed to fetch dryer data");
         }
         return response.json();
       })
@@ -27,7 +27,7 @@ function DryerTable() {
         setDryerData(data.dryerData || []); // Update dryerData state
       })
       .catch((error) => {
-        console.error('Error fetching dryer data:', error);
+        console.error("Error fetching dryer data:", error);
       });
   };
 
@@ -47,7 +47,7 @@ function DryerTable() {
 
   return (
     <div>
-      <div style={{ height: '400px', overflow: 'auto' }}>
+      <div style={{ height: "400px", overflow: "auto" }}>
         <TableContainer component={Paper}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
@@ -57,9 +57,6 @@ function DryerTable() {
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
                   Action
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Timer
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
                   Queue
@@ -80,16 +77,20 @@ function DryerTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === 'Running' ? 'Running' : 'Off'}
+                    {dryer.action === "Running" ? "Running" : "Off"}
                   </TableCell>
-                  <TableCell align="center">{dryer.timer}</TableCell>
                   <TableCell align="center">{dryer.queue}</TableCell>
                   <TableCell align="center">{dryer.useCount}</TableCell>
                   <TableCell align="center">
-                    {dryer.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
+                    {dryer.status === "Operational"
+                      ? "Operational"
+                      : "Under Maintenance"}
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="outlined" onClick={() => handleEditDryer(dryer)}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => handleEditDryer(dryer)}
+                    >
                       Edit
                     </Button>
                   </TableCell>
