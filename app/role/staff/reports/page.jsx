@@ -78,9 +78,9 @@ const Reports = () => {
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow >
-                                    <TableCell className='table-cell'>Date </TableCell>
-                                    <TableCell className='table-cell'>Customer Name</TableCell>
-                                    <TableCell className='table-cell'>Total Amount </TableCell>
+                                    <TableCell className='table-head'>Date </TableCell>
+                                    <TableCell className='table-head'>Customer Name</TableCell>
+                                    <TableCell className='table-head'>Total Amount </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

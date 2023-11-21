@@ -24,11 +24,15 @@
     margin: 10px 30px;
     height: 100%;
     overflow: auto;
+    position: relative;
 }
 
-.table-cell {
+.table-head {
     text-align: center;
     font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .table-body {
