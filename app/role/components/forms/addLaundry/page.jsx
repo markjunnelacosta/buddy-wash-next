@@ -4,7 +4,7 @@ import './addLaundry.css'
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
 
-const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
+const AddLaundry = ({ isOpen, onClose, onSaveData, }) => {
     const [customerData, setCustomerData] = useState([]); // State for customers
     const [supplyData, setSupplyData] = useState([]); // State for supplies
 
@@ -89,26 +89,44 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         console.log(response);
         console.log(res);
 
+        // Update available stock for selected detergent and fabric conditioner
+        if (detergent && detergentQty) {
+            const selectedDetergent = supplyData.find((supply) => supply.supplyName === detergent);
 
-        const selectedDetergent = filterSuppliesByKeyword(supplyData, 'detergent').find(supply => supply.supplyName === detergent);
-        const selectedFabCon = filterSuppliesByKeyword(supplyData, 'conditioner').find(supply => supply.supplyName === fabCon);
+            if (selectedDetergent) {
+                const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedDetergent._id)}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        quantity: detergentQty, // Subtract the used quantity
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
-        if (onUpdateSupply){
-            onUpdateSupply({
-                detergentData: {
-                    supplyId: selectedDetergent._id,
-                    quantity: detergentQty,
-                    type: "Out",
-                },
-                fabConData: {
-                    supplyId: selectedFabCon._id,
-                    quantity: fabConQty,
-                    type: "Out",
-                },
-            });
+                console.log(supplyUpdateResponse);
+            }
         }
 
-    
+        if (fabCon && fabConQty) {
+            const selectedFabCon = supplyData.find((supply) => supply.supplyName === fabCon);
+
+            if (selectedFabCon) {
+                const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedFabCon._id)}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        quantity: fabConQty, // Subtract the used quantity
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                console.log(supplyUpdateResponse);
+            }
+        }
+
+
         onSaveData();
         onClose();
     };
@@ -161,6 +179,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         fetchSupplies();
     }, []);
 
+    //filter detergent
     const getDetergentSupplies = () => {
         const detergentSupplies = filterSuppliesByKeyword(supplyData, 'detergent');
         return detergentSupplies.map((supplies, i) => (
@@ -168,6 +187,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         ));
     };
 
+    //filter fabcon
     const getConditionerSupplies = () => {
         const conditionerSupplies = filterSuppliesByKeyword(supplyData, 'conditioner');
         return conditionerSupplies.map((supplies, i) => (

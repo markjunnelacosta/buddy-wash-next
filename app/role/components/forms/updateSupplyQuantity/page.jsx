@@ -113,20 +113,6 @@ export default function UpdateSupply() {
     } else {
       console.error("Failed to update supply record");
     }
-
-    // const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
-    //   method: "PATCH",
-    //   body: JSON.stringify({
-    //     availableStock: quantity, // if IN, iadd sa available stocks, if out isubtract
-    //   }),
-    // });
-
-    // if (res.ok) {
-    //   router.refresh();
-    // }
-    // const response = await fetch(`/api/supply/${supplyName}/`);
-    // const data = await response.json();
-    // console.log(data);
     window.location.reload();
   };
 
@@ -138,71 +124,6 @@ export default function UpdateSupply() {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleUpdateSupply = async ({ detergentData, fabConData }) => {
-    try {
-      console.log("Updating detergent supply:", detergentData.supplyId, detergentData.quantity, detergentData.type);
-      console.log("Updating fabcon supply:", fabConData.supplyId, fabConData.quantity, fabConData.type);
-
-      const resDetergent = await fetch(`/api/inventory?type=${detergentData.type}`, {
-        method: "POST",
-        body: JSON.stringify({
-          date: dateTime,
-          supplyName: selectedSupply.supplyName,
-          supplyId: detergentData.supplyId,
-          quantity: detergentData.quantity,
-          type: detergentData.type,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const resFabCon = await fetch(`/api/inventory?type=${fabConData.type}`, {
-        method: "POST",
-        body: JSON.stringify({
-          date: dateTime,
-          supplyName: selectedSupply.supplyName,
-          supplyId: fabConData.supplyId,
-          quantity: fabConData.quantity,
-          type: fabConData.type,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (resDetergent.ok && resFabCon.ok) {
-        console.log("Supplies updated successfully");
-      } else {
-        console.error("Failed to update supplies");
-      }
-
-      const resDetergentStock = await fetch(`http://localhost:3000/api/supply?id=${detergentData.supplyId}`, {
-        method: "PATCH",
-        body: JSON.stringify({ availableStock: +detergentData.quantity }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const resFabConStock = await fetch(`http://localhost:3000/api/supply?id=${fabConData.supplyId}`, {
-        method: "PATCH",
-        body: JSON.stringify({ availableStock: +fabConData.quantity }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (resDetergentStock.ok && resFabConStock.ok) {
-        console.log("Supply records updated successfully");
-      } else {
-        console.error("Failed to update supply records");
-      }
-    } catch (error) {
-      console.error("Error updating supplies:", error);
-    }
   };
 
   return (
@@ -294,7 +215,6 @@ export default function UpdateSupply() {
           </Button>
         </DialogActions>
       </Dialog>
-      <AddLaundry onUpdateSupply={handleUpdateSupply} />
     </div>
   );
 }
