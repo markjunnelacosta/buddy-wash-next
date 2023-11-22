@@ -9,7 +9,9 @@ export const GET = async (req, res) => {
     const responseData = { dryerData: dryers };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to get Dryers" }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Failed to get Dryers" }), {
+      status: 500,
+    });
   }
 };
 
