@@ -31,10 +31,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const washModePrice = {
-    Spin: 40,
+    "Spin": 40,
     "Rinse & Spin": 50,
     "Regular Wash": 60,
-    Premium: 70,
+    "Premium": 70,
   };
 
   const dryModePrice = {

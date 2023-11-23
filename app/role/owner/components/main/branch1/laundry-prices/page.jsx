@@ -111,7 +111,7 @@ const LaundryPrice = () => {
                             <p>Wash Mode:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ width: "100%" }}>
+                                     <Paper style={{ height: 125, width: "100%" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -218,7 +218,118 @@ const LaundryPrice = () => {
                                     </Paper>
                                 </TableContainer>
                             </div>
-
+                        </div>
+                        <div className="weight">
+                            <p>Weight:</p>
+                            <div className="table-container">
+                                <TableContainer component={Paper}>
+                                    <Paper style={{ width: "100%" }}>
+                                        <Table
+                                            stickyHeader
+                                            aria-label="sticky table"
+                                            size="small"
+                                        >
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Name
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Price
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Action
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {laundryModeData
+                                                    .filter((mode) => mode.category === 'Weight')
+                                                    .map((mode) => (
+                                                        <TableRow
+                                                            key={mode._id}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <TableCell className="table-body">{mode.modeName}</TableCell>
+                                                            <TableCell className="table-body">{mode.price}</TableCell>
+                                                            <TableCell className="table-body">
+                                                                <div className="b-container">
+                                                                    <Button
+                                                                        variant="outlined"
+                                                                        id="edit-button"
+                                                                        onClick={() => editLaundryMode(mode)}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                    &nbsp;
+                                                                    <RemoveButton id={mode._id} />
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                            </TableBody>
+                                        </Table>
+                                    </Paper>
+                                </TableContainer>
+                            </div>
+                        </div>
+                        <div className="weight">
+                            <p>Fold:</p>
+                            <div className="table-container">
+                                <TableContainer component={Paper}>
+                                    <Paper style={{ width: "100%" }}>
+                                        <Table
+                                            stickyHeader
+                                            aria-label="sticky table"
+                                            size="small"
+                                        >
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Name
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Price
+                                                    </TableCell>
+                                                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                                        Action
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {laundryModeData
+                                                    .filter((mode) => mode.category === 'Fold')
+                                                    .map((mode) => (
+                                                        <TableRow
+                                                            key={mode._id}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <TableCell className="table-body">{mode.modeName}</TableCell>
+                                                            <TableCell className="table-body">{mode.price}</TableCell>
+                                                            <TableCell className="table-body">
+                                                                <div className="b-container">
+                                                                    <Button
+                                                                        variant="outlined"
+                                                                        id="edit-button"
+                                                                        onClick={() => editLaundryMode(mode)}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                    &nbsp;
+                                                                    <RemoveButton id={mode._id} />
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                            </TableBody>
+                                        </Table>
+                                    </Paper>
+                                </TableContainer>
+                            </div>
                         </div>
                     </div>
                 </div>

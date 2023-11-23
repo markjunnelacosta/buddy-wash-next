@@ -41,6 +41,7 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
                                 <option value=""></option>
                                 <option value="Wash">Wash Mode</option>
                                 <option value="Dry">Dry Mode</option>
+                                <option value="Weight">Weight</option>
                             </select>
                             <p>Mode Name</p>
                             <input
