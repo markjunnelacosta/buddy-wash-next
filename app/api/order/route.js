@@ -62,3 +62,23 @@ export async function DELETE(request) {
     { status: 201 }
   );
 }
+
+export async function PATCH(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  const body = await request.json();
+
+  try {
+    await connectToDB();
+
+    // Update the document with all fields from the request body
+    await Order.findByIdAndUpdate(id, body);
+
+    console.log(id);
+    return NextResponse.json(
+      { message: "Updated Order Table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return new Response(error, { status: 500 });
+  }
+}
