@@ -28,3 +28,13 @@ export const GET = async (req, res) => {
       return new Response(error, { status: 500 });
     }
   };
+
+  export async function DELETE(request) {
+    const id = request.nextUrl.searchParams.get("id");
+    await connectToDB();
+    await Price.findByIdAndDelete(id);
+    return NextResponse.json(
+      { message: "Deleted a laundry mode" },
+      { status: 201 }
+    );
+  }

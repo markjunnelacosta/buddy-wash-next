@@ -28,7 +28,7 @@
     height: 100%;
 }
 
-.laundry-mode{
+.laundry-mode {
     padding: 20px;
     display: flex;
 }
@@ -62,10 +62,30 @@ input {
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    padding: 15px;
+    padding: 10px;
 }
 
 p {
     font-weight: 800;
     font-size: 20px;
+}
+
+.table-body {
+    text-align: center;
+}
+
+.b-container{
+    display: inline-block;
+}
+
+#edit-button {
+    padding: 2px;
+    color: blue;
+    border: solid blue 0.5px;
+}
+
+#delete-button {
+    color: red;
+    border: solid red 0.5px;
+    padding: 2px;
 }

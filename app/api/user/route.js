@@ -51,7 +51,7 @@ export async function DELETE(request) {
   await connectToDB();
   await User.findByIdAndDelete(id);
   return NextResponse.json(
-    { message: "Deleted a customer Record" },
+    { message: "Deleted a user Record" },
     { status: 201 }
   );
 }

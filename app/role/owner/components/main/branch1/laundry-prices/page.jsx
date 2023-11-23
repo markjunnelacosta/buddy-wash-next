@@ -11,23 +11,25 @@ import Paper from "@mui/material/Paper";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import AddLaundryMode from "@/app/role/components/forms/addLaundryMode/page";
 import { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import RemoveButton from "./removeButton";
 
 const getLaundryMode = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/laundry-price", {
-        cache: "no-store",
-      });
-  
-      if (!res.ok) {
-        throw new Error("Failed to fetch laundry mode data");
-      }
-  
-      const response = await res.json();
-      return response.laundryModeData || [];
+        const res = await fetch("http://localhost:3000/api/laundry-price", {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch laundry mode data");
+        }
+
+        const response = await res.json();
+        return response.laundryModeData || [];
     } catch (error) {
-      console.log("Error loading laundry mode data: ", error);
+        console.log("Error loading laundry mode data: ", error);
     }
-  };
+};
 
 const LaundryPrice = () => {
     const [laundryModeData, setLaundryModeData] = useState([]);
@@ -48,38 +50,38 @@ const LaundryPrice = () => {
 
     useEffect(() => {
         const fetchLaundryMode = async () => {
-          try {
-            const mode = await getLaundryMode();
-            setUserData(mode);
-          } catch (error) {
-            console.error("Error fetching laundry mode data:", error);
-          }
+            try {
+                const mode = await getLaundryMode();
+                setLaundryModeData(mode);
+            } catch (error) {
+                console.error("Error fetching laundry mode data:", error);
+            }
         };
-    
+
         fetchLaundryMode();
-      }, []);
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         console.log(laundryModeData);
-      }, [laundryModeData]);
+    }, [laundryModeData]);
 
-      const fetchData = async () => {
+    const fetchData = async () => {
         try {
-          const res = await fetch("http://localhost:3000/api/laundry-price", {
-            cache: "no-store",
-          });
-    
-          if (!res.ok) {
-            throw new Error("Failed to fetch laundry mode data");
-          }
-    
-          const response = await res.json();
-          const mode = response.laundryModeData || [];
-          setLaundryModeData(mode); // Assuming you want to update the user data in your component state
+            const res = await fetch("http://localhost:3000/api/laundry-price", {
+                cache: "no-store",
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch laundry mode data");
+            }
+
+            const response = await res.json();
+            const mode = response.laundryModeData || [];
+            setLaundryModeData(mode); // Assuming you want to update the user data in your component state
         } catch (error) {
-          console.log("Error loading laundry mode data: ", error);
+            console.log("Error loading laundry mode data: ", error);
         }
-      };
+    };
 
     return (
         <>
@@ -89,7 +91,7 @@ const LaundryPrice = () => {
                         <button className="save" onClick={openLaundryMode}>
                             <AddRoundedIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} />
                             Laundry Mode
-                            </button>
+                        </button>
                     </div>
                     <div className="laundry-mode">
                         <div className="wash-mode">
@@ -115,6 +117,34 @@ const LaundryPrice = () => {
                                                     </TableCell>
                                                 </TableRow>
                                             </TableHead>
+                                            <TableBody>
+                                                {laundryModeData
+                                                    .filter((mode) => mode.category === 'Wash')
+                                                    .map((mode) => (
+                                                        <TableRow
+                                                            key={mode._id}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <TableCell className="table-body">{mode.modeName}</TableCell>
+                                                            <TableCell className="table-body">{mode.price}</TableCell>
+                                                            <TableCell className="table-body">
+                                                                <div className="b-container">
+                                                                    <Button
+                                                                        // variant="outlined"
+                                                                        id="edit-button"
+                                                                    // onClick={() => handleEditUser(user)}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                    &nbsp;
+                                                                    <RemoveButton id={mode._id} />
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                            </TableBody>
                                         </Table>
                                     </Paper>
                                 </TableContainer>
@@ -143,6 +173,34 @@ const LaundryPrice = () => {
                                                     </TableCell>
                                                 </TableRow>
                                             </TableHead>
+                                            <TableBody>
+                                                {laundryModeData
+                                                    .filter((mode) => mode.category === 'Dry')
+                                                    .map((mode) => (
+                                                        <TableRow
+                                                            key={mode._id}
+                                                            sx={{
+                                                                "&:last-child td, &:last-child th": { border: 0 },
+                                                            }}
+                                                        >
+                                                            <TableCell className="table-body">{mode.modeName}</TableCell>
+                                                            <TableCell className="table-body">{mode.price}</TableCell>
+                                                            <TableCell className="table-body">
+                                                                <div className="b-container">
+                                                                    <Button
+                                                                        // variant="outlined"
+                                                                        id="edit-button"
+                                                                    // onClick={() => handleEditUser(user)}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                    &nbsp;
+                                                                    <RemoveButton id={mode._id} />
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                            </TableBody>
                                         </Table>
                                     </Paper>
                                 </TableContainer>
@@ -153,9 +211,9 @@ const LaundryPrice = () => {
                 </div>
             </div>
             <AddLaundryMode
-            isOpen={showLaundryMode}
-            onClose={closeLaundryMode}
-            onSaveData={handleSaveData}
+                isOpen={showLaundryMode}
+                onClose={closeLaundryMode}
+                onSaveData={handleSaveData}
             />
         </>
     );
