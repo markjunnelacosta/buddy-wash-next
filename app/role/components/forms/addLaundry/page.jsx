@@ -23,6 +23,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [refNum, setRefNum] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
+  let stock = 0;
 
   const weightPrice = {
     "7.5Kg": 10,
@@ -182,38 +183,79 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
     // Update available stock for selected detergent and fabric conditioner
     if (detergent && detergentQty) {
-      const selectedDetergent = supplyData.find((supply) => supply.supplyName === detergent);
-
+      const selectedDetergent = supplyData.find(
+        (supply) => supply.supplyName === detergent
+      );
+      stock = parseInt(selectedDetergent.availableStock, 10) - +detergentQty; //
       if (selectedDetergent) {
-        const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedDetergent._id)}`, {
-          method: "PATCH",
-          body: JSON.stringify({
-            quantity: detergentQty, // Subtract the used quantity
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        // const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedDetergent._id)}`, {
+        //   method: "PATCH",
+        //   body: JSON.stringify({
+        //     quantity: detergentQty, // Subtract the used quantity
+        //   }),
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        // });
 
-        console.log(supplyUpdateResponse);
+        // console.log(supplyUpdateResponse);
+        const res = await fetch(
+          `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({ availableStock: stock }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (res.ok) {
+          console.log("Supply record updated successfully");
+        } else {
+          console.error("Failed to update supply record");
+        }
+        window.location.reload();
       }
     }
 
     if (fabCon && fabConQty) {
-      const selectedFabCon = supplyData.find((supply) => supply.supplyName === fabCon);
-
+      const selectedFabCon = supplyData.find(
+        (supply) => supply.supplyName === fabCon
+      );
+      stock = parseInt(selectedFabCon.availableStock, 10) - +fabConQty;
       if (selectedFabCon) {
-        const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedFabCon._id)}`, {
-          method: "PATCH",
-          body: JSON.stringify({
-            quantity: fabConQty, // Subtract the used quantity
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        // const supplyUpdateResponse = await fetch(
+        //   `/api/laundry-supply/${encodeURIComponent(selectedFabCon._id)}`,
+        //   {
+        //     method: "PATCH",
+        //     body: JSON.stringify({
+        //       quantity: fabConQty, // Subtract the used quantity
+        //     }),
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
 
-        console.log(supplyUpdateResponse);
+        // console.log(supplyUpdateResponse);
+        const res = await fetch(
+          `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({ availableStock: stock }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (res.ok) {
+          console.log("Supply record updated successfully");
+        } else {
+          console.error("Failed to update supply record");
+        }
+        window.location.reload();
       }
     }
 
