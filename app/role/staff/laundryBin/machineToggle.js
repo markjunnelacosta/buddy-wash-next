@@ -1,15 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const MachineToggle = ({ onToggle }) => {
+const MachineToggle = ({ orderId, onToggle }) => {
+  const localStorageKey = `machineToggleState_${orderId}`;
+
+  const storedState = localStorage.getItem(localStorageKey);
+  const [isChecked, setIsChecked] = useState(
+    storedState ? JSON.parse(storedState) : false
+  );
+
+  useEffect(() => {
+    localStorage.setItem(localStorageKey, JSON.stringify(isChecked));
+  }, [isChecked, localStorageKey]);
+
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+    onToggle(orderId, !isChecked);
+  };
+
   return (
     <FormGroup>
       <FormControlLabel
         control={
           <Switch
-            onChange={onToggle}
+            checked={isChecked}
+            onChange={handleToggle}
             sx={{
               m: 1,
             }}
