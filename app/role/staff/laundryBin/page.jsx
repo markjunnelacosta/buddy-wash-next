@@ -62,7 +62,9 @@ const LaundryBin = () => {
   const [laundryData, setLaundryData] = useState([]);
   const [showAddLaundry, setShowAddLaundry] = useState(false);
   const [machineTimer, setMachineTimer] = useState([]);
+  const [dryerTimer, setDryerTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
+  const [dryerData, setDryerData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
 
   const fetchMachines = () => {
@@ -86,6 +88,28 @@ const LaundryBin = () => {
   useEffect(() => {
     console.log("machine timer" + machineTimer);
   }, [machineTimer]);
+
+  const fetchDryers = () => {
+    fetch("http://localhost:3000/api/dryer", {
+      cache: "no-store",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch dryer data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDryerData(data.dryerData || []); // Update dryerData state
+      })
+      .catch((error) => {
+        console.error("Error fetching dryer data:", error);
+      });
+  };
+
+  useEffect(() => {
+    console.log("dryer timer" + dryerTimer);
+  }, [dryerTimer]);
 
   React.useEffect(() => {
     console.log(orderDetails);
@@ -116,6 +140,13 @@ const LaundryBin = () => {
         });
         console.log("timers", timers);
         setMachineTimer(timers);
+
+        const dTimers = [];
+        order.forEach((o) => {
+          dTimers.push({ orderId: o._id, startTime: 0 }); //************DITO ILALAGAY ANG START TIME NA GALING SA DB
+        });
+        console.log("dryer timers", dTimers);
+        setDryerTimer(dTimers);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -237,9 +268,31 @@ const LaundryBin = () => {
     }
   };
 
+  const rendererDryer = async ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a complete state
+      //************DITO IOOFF ANG TOGGLE
+      //************DITO RIN ANG PAG PATCH NG USE COUNT SA MACHINE TABLE
+      onToggleChangeDryer(orderId, false); // Pass false to turn off the toggle
+
+      return <span>Done</span>;
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {minutes}:{seconds}
+        </span>
+      );
+    }
+  };
+
   useEffect(() => {
     console.log(machineTimer);
   }, [machineTimer]);
+
+  useEffect(() => {
+    console.log(dryerTimer);
+  }, [dryerTimer]);
 
   // const onToggleChange = async (orderId) => {
   //   const timers = [...machineTimer];
@@ -318,8 +371,40 @@ const LaundryBin = () => {
     console.log("Start Time:", getOrderStartTime(orderId));
   };
 
+  const onToggleChangeDryer = async (orderId, shouldTurnOn) => {
+    const dTimers = [...dryerTimer];
+    const dIndex = dryerTimer.findIndex((d) => d.orderId === orderId);
+
+    // Update the startTime based on shouldTurnOn
+    dTimers[dIndex].startTime = shouldTurnOn ? Date.now() : 0;
+
+    setMachineTimer(dTimers);
+
+    //************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ dryerTimer: shouldTurnOn ? Date.now() : 0 }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Orders record updated successfully");
+    } else {
+      console.error("Failed to update orders record");
+    }
+
+    console.log("Start Time:", getOrderStartTime(orderId));
+  };
+
   const getOrderStartTime = (orderId) => {
     const index = machineTimer.findIndex((m) => m.orderId == orderId);
+    return machineTimer[index].startTime;
+  };
+
+  const getOrderStartTimeDryer = (orderId) => {
+    const index = dryerTimer.findIndex((d) => d.orderId == orderId);
     return machineTimer[index].startTime;
   };
 
@@ -333,6 +418,18 @@ const LaundryBin = () => {
         <Countdown
           date={Date.now() + computedDate(getOrderStartTime(orderId))}
           renderer={renderer}
+        />
+      );
+    }
+  };
+
+  const getCountDownTimerDryer = (orderId) => {
+    const startTime = getOrderStartTimeDryer(orderId);
+    if (startTime) {
+      return (
+        <Countdown
+          date={Date.now() + computedDate(getOrderStartTimeDryer(orderId))}
+          renderer={rendererDryer}
         />
       );
     }
@@ -436,6 +533,10 @@ const LaundryBin = () => {
                       (t) => t.orderId === order._id
                     );
 
+                    const dryertimer = dryerTimer.find(
+                      (t) => t.orderId === order._id
+                    );
+
                     return (
                       <TableRow
                         key={order._id}
@@ -470,9 +571,15 @@ const LaundryBin = () => {
                           {order.dryerNo}
                         </TableCell>
                         <TableCell className="table-body">
-                          <DryerToggle />
+                          <DryerToggle
+                            key={dryertimer.orderId}
+                            orderId={dryertimer.orderId}
+                            onToggle={onToggleChangeDryer}
+                          />
                         </TableCell>
-                        <TableCell className="table-body"></TableCell>
+                        <TableCell className="table-body">
+                          {getCountDownTimerDryer(order._id)}
+                        </TableCell>
                         <TableCell className="table-body">t</TableCell>
                       </TableRow>
                     );
