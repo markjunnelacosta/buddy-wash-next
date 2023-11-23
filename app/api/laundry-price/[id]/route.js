@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Price from "@/models/prices";
+import {NextResponse} from "next/server";
 
 export const GET = async (req, res) => {
     try {
@@ -14,3 +15,11 @@ export const GET = async (req, res) => {
       return new Response("Internal Server Error", { status: 500 });
     }
   };
+
+  export async function PUT(request, {params}) {
+    const {id} = params;
+    const {newModeName: modeName, newPrice: price}= await request.json();
+    await connectToDB();
+    await Price.findByIdAndUpdate(id, {modeName, price});
+    return NextResponse.json({message: "Laundry Mode is Updated"}, {status:200});
+}

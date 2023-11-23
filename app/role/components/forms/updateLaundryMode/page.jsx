@@ -1,24 +1,49 @@
 "use client";
 import React, { useState } from "react";
 import "./editLaundryMode.css";
-import { Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { useRouter } from "next/navigation";
 
-export default function UpdateSupply({ id, modeName, price }) {
+export default function UpdateLaundryMode({ id, modeName, price, onClose }) {
     const [newModeName, setNewModeName] = useState(modeName);
     const [newPrice, setNewPrice] = useState(price);
 
+    const onClick = async (e) => {
+        e.preventDefault();
+        console.log({
+            id,
+            newModeName,
+            newPrice
+        });
+        try {
+            const res = await fetch(`http://localhost:3000/api/laundry-price/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                },
+
+                body: JSON.stringify({
+                    id,
+                    newModeName,
+                    newPrice
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to update laundry details");
+            }
+
+            onClose();
+            window.location.reload();
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
-        <>
-            <div className="form-container visible">
+        <div>
+            <div className="form-container">
                 <div>
-                    <p>Add Laundry Mode</p>
+                    <p>Update Laundry Mode</p>
                     <hr />
                     <div className="form-group">
                         <p>Mode Name</p>
@@ -40,7 +65,7 @@ export default function UpdateSupply({ id, modeName, price }) {
                 </div>
 
             </div>
-        </>
+        </div>
     );
 
 }

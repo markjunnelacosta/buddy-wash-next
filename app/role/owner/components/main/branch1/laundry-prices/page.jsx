@@ -13,6 +13,8 @@ import AddLaundryMode from "@/app/role/components/forms/addLaundryMode/page";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import RemoveButton from "./removeButton";
+import UpdateLaundryMode from "@/app/role/components/forms/updateLaundryMode/page";
+import EditLaundryPopup from "./editButton";
 
 const getLaundryMode = async () => {
     try {
@@ -34,6 +36,8 @@ const getLaundryMode = async () => {
 const LaundryPrice = () => {
     const [laundryModeData, setLaundryModeData] = useState([]);
     const [showLaundryMode, setLaundryMode] = useState(false);
+    const [selectedLaundry, setSelectedLaundry] = useState(null);
+    const [editPopup, setEditPopup] = useState(false);
 
     const openLaundryMode = () => {
         setLaundryMode(true);
@@ -46,6 +50,15 @@ const LaundryPrice = () => {
     const handleSaveData = () => {
         closeLaundryMode();
         fetchData();
+    }
+
+    const editLaundryMode = (mode) => {
+        setSelectedLaundry(mode);
+        setEditPopup(true);
+    }
+
+    const handleClose = () => {
+        setEditPopup(false);
     }
 
     useEffect(() => {
@@ -132,9 +145,9 @@ const LaundryPrice = () => {
                                                             <TableCell className="table-body">
                                                                 <div className="b-container">
                                                                     <Button
-                                                                        // variant="outlined"
+                                                                        variant="outlined"
                                                                         id="edit-button"
-                                                                    // onClick={() => handleEditUser(user)}
+                                                                        onClick={() => editLaundryMode(mode)}
                                                                     >
                                                                         Edit
                                                                     </Button>
@@ -188,9 +201,9 @@ const LaundryPrice = () => {
                                                             <TableCell className="table-body">
                                                                 <div className="b-container">
                                                                     <Button
-                                                                        // variant="outlined"
+                                                                        variant="outlined"
                                                                         id="edit-button"
-                                                                    // onClick={() => handleEditUser(user)}
+                                                                        onClick={() => editLaundryMode(mode)}
                                                                     >
                                                                         Edit
                                                                     </Button>
@@ -214,6 +227,12 @@ const LaundryPrice = () => {
                 isOpen={showLaundryMode}
                 onClose={closeLaundryMode}
                 onSaveData={handleSaveData}
+            />
+            <EditLaundryPopup
+                isOpen={editPopup}
+                mode={selectedLaundry}
+                onClose={handleClose}
+                onSave={handleSaveData}
             />
         </>
     );
