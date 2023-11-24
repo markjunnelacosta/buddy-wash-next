@@ -319,8 +319,6 @@ const LaundryPrice = () => {
                                                                     >
                                                                         Edit
                                                                     </Button>
-                                                                    &nbsp;
-                                                                    <RemoveButton id={mode._id} />
                                                                 </div>
                                                             </TableCell>
                                                         </TableRow>
