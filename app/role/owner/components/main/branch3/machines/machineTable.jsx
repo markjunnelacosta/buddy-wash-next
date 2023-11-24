@@ -19,7 +19,7 @@ function MachineTable() {
         const newMachineObject = {
           machineNumber: parseInt(newMachine),
           // action: 'Off',
-          timer: '00:00',
+          // timer: '00:00',
           queue: 0,
           useCount: 0,
           // status: 'Operational',
@@ -109,7 +109,7 @@ function MachineTable() {
             maxLength: 2, // Maximum 2 digits
           }}
         />
-        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
+        <Button variant="outlined" color="primary" onClick={addNewMachine} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>
           Add
         </Button>
       </div>
@@ -128,9 +128,9 @@ function MachineTable() {
                 <TableCell align="center" className="table-header-bold">
                   Action
                 </TableCell>
-                <TableCell align="center" className="table-header-bold">
+                {/* <TableCell align="center" className="table-header-bold">
                   Timer
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="center" className="table-header-bold">
                   Queue
                 </TableCell>
@@ -149,7 +149,7 @@ function MachineTable() {
                   <TableCell align="center">
                     {machine.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
-                  <TableCell align="center">{machine.timer}</TableCell>
+                  {/* <TableCell align="center">{machine.timer}</TableCell> */}
                   <TableCell align="center">{machine.queue}</TableCell>
                   <TableCell align="center">{machine.useCount}</TableCell>
                   <TableCell align="center">
