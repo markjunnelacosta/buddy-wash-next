@@ -5,6 +5,7 @@ import { Grid, Paper } from "@mui/material";
 import Counter from "./counter";
 import Chart from "./Chart";
 import ForecastChart from "./ForecastChart";
+import { Select, MenuItem } from '@mui/material';
 
 const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
@@ -13,6 +14,8 @@ const Dashboard = () => {
   const [b1Profit, setB1Profit] = useState(0);
   const [b2Profit, setB2Profit] = useState(0);
   const [b3Profit, setB3Profit] = useState(0);
+  const [dateRange, setDateRange] = useState("daily");
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +31,8 @@ const Dashboard = () => {
         );
         setTotalProfit(totalProfitValue);
 
-        const uniqueCustomers = new Set(
-          data.reportData.map((report) => report.customerName)
-        );
-        setCustomerCount(uniqueCustomers.size);
+        const totalTransactions = data.reportData.length; // Counting total transactions
+        setCustomerCount(totalTransactions);
 
         const b1ProfitValue = data.reportData.reduce(
           (acc, report) => acc + report.b1Amount,
@@ -66,9 +67,10 @@ const Dashboard = () => {
     const averageTotalAmount =
       pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) /
       (pastReports.length || 1);
+    const forecastDate = new Date(report.reportDate);
 
     return {
-      forecastDate: report.reportDate,
+      forecastDate: forecastDate.toLocaleDateString(),
       forecastedAmount: averageTotalAmount,
     };
   });
@@ -78,48 +80,66 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="graphs-container">
+        <Select
+          value={dateRange}
+          onChange={(e) => setDateRange(e.target.value)}
+          style={{
+            backgroundColor: "white",
+            color: "black",
+            width: "200px",
+            height: "40px",
+            fontWeight: "bold",
+            margin: "30px",
+            marginLeft: "45px",
+            borderRadius: "10px"
+          }}
+        >
+          <MenuItem disabled>Select Data Period</MenuItem>
+          <MenuItem value="daily">Daily</MenuItem>
+          <MenuItem value="weekly">Weekly</MenuItem>
+          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="annually">Annually</MenuItem>
+          <MenuItem value="semi-annually">Semi-Annually</MenuItem>
+        </Select>
         <div className="top-container">
           <div className="counters-container">
-            <Counter title="Total Profit Today" value={totalProfit.toFixed(2)} />
-            <Counter title="Customers Today" value={customerCount} />
-          </div>
-          <div className="counters-container1">
-            <Counter title="B1 Profit Today" value={b1Profit.toFixed(2)} />
-            <Counter title="B2 Profit Today" value={b2Profit.toFixed(2)} />
-            <Counter title="B3 Profit Today" value={b3Profit.toFixed(2)} />
+            <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />
+            <Counter title="Customers" value={customerCount} />
+            <Counter title="Branch 1 Sales" value={b1Profit.toFixed(2)} currency="₱" />
+            <Counter title="Branch 2 Sales" value={b2Profit.toFixed(2)} currency="₱" />
+            <Counter title="Branch 3 Sales" value={b3Profit.toFixed(2)} currency="₱" />
           </div>
 
           <div className="customers-container">
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <Chart data={reportData} />
-              </Paper>
-            </Grid>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
+                  }}
+                >
+                  <Chart data={reportData} />
+                </Paper>
+              </Grid>
 
-            <div style={{ margin: "20px" }} />
-
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <ForecastChart forecastData={forecastData} />
-              </Paper>
+              <Grid item xs={12} md={6}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
+                  }}
+                >
+                  <ForecastChart forecastData={forecastData} />
+                </Paper>
+              </Grid>
             </Grid>
           </div>
         </div>
-        <div className="bar-container">{/* Customize this section based on requirements */}</div>
       </div>
     </div>
   );
