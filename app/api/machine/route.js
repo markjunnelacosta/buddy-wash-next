@@ -1,11 +1,12 @@
 import { connectToDB } from "@/utils/database";
 import Machine from "@/models/machines";
 import { NextResponse } from "next/server";
+import Machines from "@/app/role/staff/machine/page";
 
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-    const machines = await Machine.find({}); 
+    const machines = await Machine.find({});
     // const machines = await Machine.find({ branchNumber });
     const responseData = { machineData: machines };
     return new Response(JSON.stringify(responseData), { status: 200 });
@@ -70,7 +71,7 @@ export async function PATCH(request) {
     await connectToDB();
 
     // Update the document with all fields from the request body
-    await Supply.findByIdAndUpdate(id, body);
+    await Machine.findByIdAndUpdate(id, body);
 
     console.log(id);
     return NextResponse.json(
