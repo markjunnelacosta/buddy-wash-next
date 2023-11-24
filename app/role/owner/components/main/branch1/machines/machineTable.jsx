@@ -109,7 +109,7 @@ function MachineTable() {
             maxLength: 2, // Maximum 2 digits
           }}
         />
-        <Button variant="contained" color="primary" onClick={addNewMachine} style={{ marginRight: '10px' }}>
+        <Button variant="outlined" color="primary" onClick={addNewMachine} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>
           Add
         </Button>
       </div>
@@ -129,9 +129,6 @@ function MachineTable() {
                   Action
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
-                  Timer
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
                   Queue
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
@@ -149,7 +146,6 @@ function MachineTable() {
                   <TableCell align="center">
                     {machine.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
-                  <TableCell align="center">{machine.timer}</TableCell>
                   <TableCell align="center">{machine.queue}</TableCell>
                   <TableCell align="center">{machine.useCount}</TableCell>
                   <TableCell align="center">
