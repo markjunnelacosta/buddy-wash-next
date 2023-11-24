@@ -39,6 +39,11 @@
     text-align: center;
 }
 
+.table-cell {
+    text-align: center;
+    font-weight: bold;
+}
+
 .searchContainer {
 
     display: flex;

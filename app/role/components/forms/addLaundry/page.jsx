@@ -28,6 +28,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [refNum, setRefNum] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
+  const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
+  const [showReceipt, setShowReceipt] = useState(false);
+
   let stock = 0;
 
   const fetchMachines = () => {
@@ -100,10 +103,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       !colored ||
       !detergent ||
       !fabCon ||
-      !detergentQty ||
-      !fabConQty ||
-      !paymentMethod ||
-      !refNum
+      !paymentMethod
     ) {
       alert("Please fill in all required fields.");
       return;
@@ -146,6 +146,23 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         refNum: refNum,
       }),
     });
+
+    // setLaundryOrderSummary({
+    //   customerName,
+    //   orderDate,
+    //   weight,
+    //   washMode,
+    //   dryMode,
+    //   fold,
+    //   colored,
+    //   detergent,
+    //   fabCon,
+    //   detergentQty,
+    //   fabConQty,
+    //   paymentMethod,
+    //   refNum,
+    //   totalAmount,
+    // });
 
     const res = await fetch("/api/report", {
       method: "POST",
@@ -239,8 +256,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       return;
     }
 
+    setShowReceipt(true);
     onSaveData();
     onClose();
+
+
   };
 
   useEffect(() => {
@@ -331,12 +351,12 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   const calculateTotalAmount = () => {
     let total = 0;
-  
+
     const selectedWeightMode = weightModes.find((mode) => mode.modeName === weight);
     if (selectedWeightMode) {
       total += selectedWeightMode.price;
     }
-  
+
     const selectedWashMode = washModes.find((mode) => mode.modeName === washMode);
     if (selectedWashMode) {
       total += selectedWashMode.price;
@@ -346,12 +366,12 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     if (selectedDryMode) {
       total += selectedDryMode.price;
     }
-  
+
     const selectedFoldMode = foldMode.find((mode) => mode.modeName === fold);
     if (selectedFoldMode) {
       total += selectedFoldMode.price;
     }
-  
+
     setTotalAmount(total);
   };
 
