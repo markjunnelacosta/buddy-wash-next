@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const MachineToggle = ({ orderId, onToggle }) => {
+const MachineToggle = ({ orderId, onToggle, disabled }) => {
   const localStorageKey = `dryerToggleState_${orderId}`;
 
   const storedState = localStorage.getItem(localStorageKey);
@@ -27,6 +27,7 @@ const MachineToggle = ({ orderId, onToggle }) => {
           <Switch
             checked={isChecked}
             onChange={handleToggle}
+            disabled={disabled}
             sx={{
               m: 1,
             }}
