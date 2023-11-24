@@ -1,6 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Reports.css';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -31,8 +30,42 @@ const getReport = async () => {
     }
 };
 
+const getFilteredReport = async (dateFrom, dateTo) => {
+    try {
+        const res = await fetch("http://localhost:3000/api/report", {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch transactions");
+        }
+
+        const response = await res.json();
+        const filteredData = response.reportData.filter((report) => {
+            const reportDate = new Date(report.reportDate);
+            return (!dateFrom || reportDate >= new Date(dateFrom)) &&
+                (!dateTo || reportDate <= new Date(dateTo));
+        });
+        return filteredData || [];
+    } catch (error) {
+        console.log("Error loading transactions: ", error);
+    }
+};
+
 const Reports = () => {
     const [reportData, setReportData] = useState([]);
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
+
+    const handleFilter = async () => {
+        try {
+            const data = await getFilteredReport(dateFrom, dateTo);
+            console.log("Filtered data:", data);
+            setReportData(data);
+        } catch (error) {
+            console.error("Error filtering transactions:", error);
+        }
+    };
 
     useEffect(() => {
         const fetchReport = async () => {
@@ -49,7 +82,7 @@ const Reports = () => {
 
     useEffect(() => {
         console.log(reportData);
-      }, [reportData]);
+    }, [reportData]);
 
     return (
         <div className="reports-container">
@@ -58,10 +91,10 @@ const Reports = () => {
                 <div className="searchContainer">
                     <div className="searchContainer-left">
                         <p style={{ fontWeight: "bold" }}>Date From: </p>
-                        <input className="inputDate" type="text" id="dateFrom" name="dateFrom" />
+                        <input className="inputDate" type="date" id="dateFrom" name="dateFrom" onChange={(e) => setDateFrom(e.target.value)}/>
                         <p style={{ fontWeight: "bold" }}>To: </p>
-                        <input className="inputDate" type="text" id="dateTo" name="dateTo" />
-                        <Button style={{ backgroundColor: "white", color: "black", width: "100px", height: "40px", fontWeight: "bold", alignSelf: "flex-end", margin: "30px", borderRadius: "10px" }} variant="contained" >
+                        <input className="inputDate" type="date" id="dateTo" name="dateTo" onChange={(e) => setDateTo(e.target.value)}/>
+                        <Button style={{ backgroundColor: "white", color: "black", width: "100px", height: "40px", fontWeight: "bold", alignSelf: "flex-end", margin: "30px", borderRadius: "10px" }} variant="contained" onClick={handleFilter}>
                             Filter
                         </Button>
                     </div>
@@ -78,9 +111,9 @@ const Reports = () => {
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow >
-                                    <TableCell className='table-head'>Date </TableCell>
-                                    <TableCell className='table-head'>Customer Name</TableCell>
-                                    <TableCell className='table-head'>Total Amount </TableCell>
+                                    <TableCell className='table-cell'>Date </TableCell>
+                                    <TableCell className='table-cell'>Customer Name</TableCell>
+                                    <TableCell className='table-cell'>Total Amount </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
