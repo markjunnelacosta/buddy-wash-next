@@ -19,7 +19,6 @@ function DryerTable() {
         const newDryerObject = {
           dryerNumber: parseInt(newDryer),
           // action: parseInt(newAction),
-          timer: '0:00',
           queue: 0,
           useCount: 0,
           // status: parseInt(newStatus),
@@ -109,7 +108,7 @@ function DryerTable() {
             maxLength: 2,
           }}
         />
-        <Button variant="contained" color="primary" onClick={addNewDryer} style={{ marginRight: '10px' }}>
+        <Button variant="outlined" color="primary" onClick={addNewDryer} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>
           Add
         </Button>
       </div>
@@ -129,9 +128,6 @@ function DryerTable() {
                   Action
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
-                  Timer
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
                   Queue
                 </TableCell>
                 <TableCell align="center" className="table-header-bold">
@@ -149,7 +145,6 @@ function DryerTable() {
                   <TableCell align="center">
                     {dryer.action === 'Running' ? 'Running' : 'Off'}
                   </TableCell>
-                  <TableCell align="center">{dryer.timer}</TableCell>
                   <TableCell align="center">{dryer.queue}</TableCell>
                   <TableCell align="center">{dryer.useCount}</TableCell>
                   <TableCell align="center">
