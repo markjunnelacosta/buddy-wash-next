@@ -3,21 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const MachineToggle = ({ orderId, onToggle, disabled }) => {
-  const localStorageKey = `dryerToggleState_${orderId}`;
-
-  const storedState = localStorage.getItem(localStorageKey);
-  const [isChecked, setIsChecked] = useState(
-    storedState ? JSON.parse(storedState) : false
-  );
-
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(isChecked));
-  }, [isChecked, localStorageKey]);
-
+const DryerToggle = ({ orderId, onToggle, disabled, isChecked }) => {
   const handleToggle = () => {
-    setIsChecked(!isChecked);
-    onToggle(orderId, !isChecked);
+    // setIsChecked(!isChecked);
+    onToggle(orderId);
   };
 
   return (
@@ -25,9 +14,9 @@ const MachineToggle = ({ orderId, onToggle, disabled }) => {
       <FormControlLabel
         control={
           <Switch
+            disabled={disabled || isChecked}
             checked={isChecked}
             onChange={handleToggle}
-            disabled={disabled}
             sx={{
               m: 1,
             }}
@@ -38,4 +27,4 @@ const MachineToggle = ({ orderId, onToggle, disabled }) => {
   );
 };
 
-export default MachineToggle;
+export default DryerToggle;
