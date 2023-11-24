@@ -98,18 +98,6 @@ function Receipt({ selectedOrder }) {
           </div>
         </div>
       </div>
-      {/* receipt action
-      <div className="receipt-actions-div">
-        <div className="actions-right">
-          <button
-            className="receipt-modal-download-button"
-            onClick={downloadPDF}
-            disabled={!(loader === false)}
-          >
-            {loader ? <span>Downloading</span> : <span>Download</span>}
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 }
