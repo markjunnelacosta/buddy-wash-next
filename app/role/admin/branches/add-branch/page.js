@@ -6,16 +6,14 @@ import './addBranch.css'
 const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
   const [branchAddress, setBranchAddress] = useState("");
   const [branchNumber, setBranchNumber] = useState("");
-  const [numberOfStaff, setNumberOfStaff] = useState("");
 
   const onClick = async () => {
-    console.log(branchAddress, branchNumber, numberOfStaff);
+    console.log(branchAddress, branchNumber);
     const response = await fetch("/api/branch", {
       method: "POST",
       body: JSON.stringify({
         branchAddress: branchAddress,
         branchNumber: branchNumber,
-        numberOfStaff: numberOfStaff,
       }),
     });
 
@@ -37,7 +35,7 @@ const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
             <p>Branch Number</p>
             <input
             id='add-input'
-              type="text"
+              type="Number"
               name="branchNumber"
               value={branchNumber}
               onChange={(e) => setBranchNumber(e.currentTarget.value)}

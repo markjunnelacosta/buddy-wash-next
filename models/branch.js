@@ -5,17 +5,13 @@ const BranchSchema = new Schema({
     type: Schema.Types.ObjectId,
   },
   branchNumber: {
-    type: String,
+    type: Number,
     required: [true, "Branch Number is required"],
   },
   branchAddress: {
     type: String,
     required: [true, "Branch Location is required"],
-  },
-  numberOfStaff: {
-    type: Number,
-    default: 0,
-  },
+  }
 });
 
 const Branch = models.Branch || model('Branch', BranchSchema);
