@@ -81,7 +81,6 @@ export default function Home() {
               router.push("/");
               break;
           }
-          // Clear stored values on successful login
           localStorage.removeItem("loginAttempts");
           localStorage.removeItem("isTimerActive");
           localStorage.removeItem("remainingTime");
