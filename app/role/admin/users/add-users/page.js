@@ -13,6 +13,31 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
 
 
   const onClick = async () => {
+    
+    if (
+      !userName ||
+      !phoneNumber ||
+      !userAddress || 
+      !userRole ||
+      !userId ||
+      !password
+    ) { 
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(phoneNumber)) {
+      alert("Invalid characters in phone number. Please enter a valid number.");
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!nameRegex.test(userName)) {
+      alert("Invalid characters in user name. Please enter a valid name.");
+      return;
+    }
+
     console.log(userName, phoneNumber, userAddress, userRole, userId, password);
     const response = await fetch("/api/user", {
       method: "POST",

@@ -24,6 +24,29 @@ export default function UpdateUser({
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (
+      !newUserName ||
+      !newPhoneNumber ||
+      !newUserAddress || 
+      !newUserRole ||
+      !newUserId ||
+      !newPassword
+    ) { 
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(newPhoneNumber)) {
+      alert("Invalid characters in phone number. Please enter a valid number.");
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!nameRegex.test(newUserName)) {
+      alert("Invalid characters in user name. Please enter a valid name.");
+      return;
+    }
     console.log({
       id,
       newUserName,

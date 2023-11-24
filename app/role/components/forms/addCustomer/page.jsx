@@ -19,10 +19,10 @@ export default function AddCustomer() {
 
   const onClickSave = async () => {
     
-    if (
+   if (
       !customerName ||
       !customerNumber
-    ) {
+    ) { 
       alert("Please fill in all required fields.");
       return;
     }

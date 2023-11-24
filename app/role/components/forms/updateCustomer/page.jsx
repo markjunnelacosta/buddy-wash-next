@@ -27,6 +27,26 @@ export default function UpdateCustomerForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      !newCustomerName ||
+      !newCustomerNumber
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!nameRegex.test(newCustomerName)) {
+      alert("Invalid characters in customer name. Please enter a valid name.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(newCustomerNumber)) {
+      alert("Invalid characters in phone number. Please enter a valid number.");
+      return;
+    }
+
     try {
       const res = await fetch(`http://localhost:3000/api/customer/${id}`, {
         method: "PUT",
