@@ -62,7 +62,9 @@ const LaundryBin = () => {
   const [laundryData, setLaundryData] = useState([]);
   const [showAddLaundry, setShowAddLaundry] = useState(false);
   const [machineTimer, setMachineTimer] = useState([]);
+  const [dryerTimer, setDryerTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
+  const [dryerData, setDryerData] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
 
   const fetchMachines = () => {
@@ -87,18 +89,27 @@ const LaundryBin = () => {
     console.log("machine timer" + machineTimer);
   }, [machineTimer]);
 
-  // React.useEffect(() => {
-  //   const fetchOrderDetails = async () => {
-  //     try {
-  //       const orderData = await getOrderDetails();
-  //       setOrderDetails(orderData);
-  //     } catch (error) {
-  //       console.error("Error fetching orders:", error);
-  //     }
-  //   };
+  const fetchDryers = () => {
+    fetch("http://localhost:3000/api/dryer", {
+      cache: "no-store",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch dryer data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDryerData(data.dryerData || []); // Update dryerData state
+      })
+      .catch((error) => {
+        console.error("Error fetching dryer data:", error);
+      });
+  };
 
-  //   fetchOrderDetails();
-  // }, []);
+  useEffect(() => {
+    console.log("dryer timer" + dryerTimer);
+  }, [dryerTimer]);
 
   React.useEffect(() => {
     console.log(orderDetails);
@@ -129,6 +140,13 @@ const LaundryBin = () => {
         });
         console.log("timers", timers);
         setMachineTimer(timers);
+
+        const dTimers = [];
+        order.forEach((o) => {
+          dTimers.push({ orderId: o._id, startTime: 0 }); //************DITO ILALAGAY ANG START TIME NA GALING SA DB
+        });
+        console.log("dryer timers", dTimers);
+        setDryerTimer(dTimers);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -189,7 +207,7 @@ const LaundryBin = () => {
     const startdate = new Date(start);
     if (startdate) {
       const endDate = new Date(start);
-      endDate.setMinutes(startdate.getMinutes() + 5);
+      endDate.setMinutes(startdate.getMinutes() + 5); // + kung gaano katagal yung type of wash dapat
 
       const currDate = new Date();
 
@@ -203,14 +221,63 @@ const LaundryBin = () => {
     return 0;
   };
 
-  const renderer = ({ hours, minutes, seconds, completed }) => {
+  // const renderer = async ({ hours, minutes, seconds, completed }) => {
+  //   if (completed) {
+  //     //Render a complete state
+  //     //************DITO IOOFF ANG TOGGLE
+  //     //************DITO RIN ANG PAG PATCH NG USE COUNT SA MACHINE TABLE
+  //     <span>Done</span>;
+  //     const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+  //       method: "PATCH",
+  //       body: JSON.stringify({ machineTimer: 0 }),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (res.ok) {
+  //       console.log("Supply record updated successfully");
+  //     } else {
+  //       console.error("Failed to update supply record");
+  //     }
+  //   } else {
+  //     //Render a countdown
+  //     return (
+  //       <span>
+  //         {minutes}:{seconds}
+  //       </span>
+  //     );
+  //   }
+  // };
+
+  const renderer = async ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-      //Render a complete state
+      // Render a complete state
       //************DITO IOOFF ANG TOGGLE
       //************DITO RIN ANG PAG PATCH NG USE COUNT SA MACHINE TABLE
-      <span>Done</span>;
+      onToggleChange(orderId, false); // Pass false to turn off the toggle
+
+      return <span>Done</span>;
     } else {
-      //Render a countdown
+      // Render a countdown
+      return (
+        <span>
+          {minutes}:{seconds}
+        </span>
+      );
+    }
+  };
+
+  const rendererDryer = async ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a complete state
+      //************DITO IOOFF ANG TOGGLE
+      //************DITO RIN ANG PAG PATCH NG USE COUNT SA MACHINE TABLE
+      onToggleChangeDryer(orderId, false); // Pass false to turn off the toggle
+
+      return <span>Done</span>;
+    } else {
+      // Render a countdown
       return (
         <span>
           {minutes}:{seconds}
@@ -223,34 +290,126 @@ const LaundryBin = () => {
     console.log(machineTimer);
   }, [machineTimer]);
 
-  const onToggleChange = (orderId) => {
+  useEffect(() => {
+    console.log(dryerTimer);
+  }, [dryerTimer]);
+
+  // const onToggleChange = async (orderId) => {
+  //   const timers = [...machineTimer];
+  //   const index = machineTimer.findIndex((m) => m.orderId == orderId);
+  //   timers[index].startTime = Date.now();
+
+  //   setMachineTimer(timers);
+
+  //   //************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+
+  //   const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+  //     method: "PATCH",
+  //     body: JSON.stringify({ machineTimer: Date.now() },{} ),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+
+  //   if (res.ok) {
+  //     console.log("Orders record updated successfully");
+  //   } else {
+  //     console.error("Failed to update orders record");
+  //   }
+  // };
+  // const onToggleChange = async (orderId) => {
+  //   const timers = [...machineTimer];
+  //   const index = machineTimer.findIndex((m) => m.orderId === orderId);
+  //   timers[index].startTime = Date.now();
+
+  //   setMachineTimer(timers);
+
+  //   //************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+
+  //   const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+  //     method: "PATCH",
+  //     body: JSON.stringify({ machineTimer: Date.now() }, {}),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+
+  //   if (res.ok) {
+  //     console.log("Orders record updated successfully");
+  //   } else {
+  //     console.error("Failed to update orders record");
+  //   }
+  // };
+  // const selectedMachine = machineData.find(
+  //   (machine) => machine.machineNumber === fabCon
+  // );
+
+  const onToggleChange = async (orderId, shouldTurnOn) => {
     const timers = [...machineTimer];
-    const index = machineTimer.findIndex((m) => m.orderId == orderId);
-    timers[index].startTime = Date.now();
+    const index = machineTimer.findIndex((m) => m.orderId === orderId);
+
+    // Update the startTime based on shouldTurnOn
+    timers[index].startTime = shouldTurnOn ? Date.now() : 0;
 
     setMachineTimer(timers);
 
     //************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ machineTimer: shouldTurnOn ? Date.now() : 0 }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    // const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
-    //   method: "PATCH",
-    //   body: JSON.stringify({ availableStock: stock }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    if (res.ok) {
+      console.log("Orders record updated successfully");
+    } else {
+      console.error("Failed to update orders record");
+    }
 
-    // if (res.ok) {
-    //   console.log("Supply record updated successfully");
-    // } else {
-    //   console.error("Failed to update supply record");
-    // }
+    console.log("Start Time:", getOrderStartTime(orderId));
+  };
+
+  const onToggleChangeDryer = async (orderId, shouldTurnOn) => {
+    const dTimers = [...dryerTimer];
+    const dIndex = dryerTimer.findIndex((d) => d.orderId === orderId);
+
+    // Update the startTime based on shouldTurnOn
+    dTimers[dIndex].startTime = shouldTurnOn ? Date.now() : 0;
+
+    setMachineTimer(dTimers);
+
+    //************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ dryerTimer: shouldTurnOn ? Date.now() : 0 }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Orders record updated successfully");
+    } else {
+      console.error("Failed to update orders record");
+    }
+
+    console.log("Start Time:", getOrderStartTime(orderId));
   };
 
   const getOrderStartTime = (orderId) => {
     const index = machineTimer.findIndex((m) => m.orderId == orderId);
     return machineTimer[index].startTime;
   };
+
+  const getOrderStartTimeDryer = (orderId) => {
+    const index = dryerTimer.findIndex((d) => d.orderId == orderId);
+    return machineTimer[index].startTime;
+  };
+
+  //ERROR: HINDI NAGCOCOUNTDOWN
+  //HINDI NAKUKUHA ANG START TIME
 
   const getCountDownTimer = (orderId) => {
     const startTime = getOrderStartTime(orderId);
@@ -259,6 +418,18 @@ const LaundryBin = () => {
         <Countdown
           date={Date.now() + computedDate(getOrderStartTime(orderId))}
           renderer={renderer}
+        />
+      );
+    }
+  };
+
+  const getCountDownTimerDryer = (orderId) => {
+    const startTime = getOrderStartTimeDryer(orderId);
+    if (startTime) {
+      return (
+        <Countdown
+          date={Date.now() + computedDate(getOrderStartTimeDryer(orderId))}
+          renderer={rendererDryer}
         />
       );
     }
@@ -355,39 +526,64 @@ const LaundryBin = () => {
                     <TableCell className="table-header">Status</TableCell>
                   </TableRow>
                 </TableHead>
+
                 <TableBody>
-                  {orderDetails.map((order) => (
-                    <TableRow
-                      key={order._id}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell className="">
-                        {new Date(order.date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="table-body">{order.name}</TableCell>
-                      <TableCell className="table-body">
-                        {order.machineNo}
-                      </TableCell>
-                      <TableCell className="table-body">
-                        <MachineToggle
+                  {orderDetails.map((order) => {
+                    const timer = machineTimer.find(
+                      (t) => t.orderId === order._id
+                    );
+
+                    const dryertimer = dryerTimer.find(
+                      (t) => t.orderId === order._id
+                    );
+
+                    return (
+                      <TableRow
+                        key={order._id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell className="">
+                          {new Date(order.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {order.name}
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {order.machineNo}
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {/* <MachineToggle
                           onToggle={() => onToggleChange(order._id)}
-                        />
-                      </TableCell>
-                      <TableCell className="table-body">
-                        {getCountDownTimer(order._id)}
-                      </TableCell>
-                      <TableCell className="table-body">
-                        {order.dryerNo}
-                      </TableCell>
-                      <TableCell className="table-body">
-                        <DryerToggle />
-                      </TableCell>
-                      <TableCell className="table-body"></TableCell>
-                      <TableCell className="table-body">t</TableCell>
-                    </TableRow>
-                  ))}
+                        /> */}
+
+                          <MachineToggle
+                            key={timer.orderId}
+                            orderId={timer.orderId}
+                            onToggle={onToggleChange}
+                          />
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {getCountDownTimer(order._id)}
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {order.dryerNo}
+                        </TableCell>
+                        <TableCell className="table-body">
+                          <DryerToggle
+                            key={dryertimer.orderId}
+                            orderId={dryertimer.orderId}
+                            onToggle={onToggleChangeDryer}
+                          />
+                        </TableCell>
+                        <TableCell className="table-body">
+                          {getCountDownTimerDryer(order._id)}
+                        </TableCell>
+                        <TableCell className="table-body">t</TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
