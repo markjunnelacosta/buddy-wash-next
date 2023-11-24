@@ -7,12 +7,14 @@ import AddTransactions from './transactionsTable';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getFilteredReport } from './transactionsTable';
+import { Select, MenuItem } from '@mui/material';
 
 function Transactions() {
   const tableRef = useRef(null);
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [filteredData, setReportData] = useState([]);
+  const [dateRange, setDateRange] = useState('daily');
 
   const handleFilter = async () => {
     try {
@@ -21,6 +23,23 @@ function Transactions() {
       setReportData(data); 
     } catch (error) {
       console.error("Error filtering transactions:", error);
+    }
+  };
+
+  const handleFilterD = async () => {
+    switch (dateRange) {
+      case 'daily':
+        break;
+      case 'weekly':
+        break;
+      case 'monthly':
+        break;
+      case 'annually':
+        break;
+      case 'semi-annually':
+        break;
+      default:
+        break;
     }
   };
 
@@ -52,7 +71,6 @@ function Transactions() {
   return (
     <div className="transactions-container">
       <div className="blue-container">
-
         <div className="searchContainer">
           <div className="searchContainer-left">
             <p style={{ fontWeight: "bold" }}>Date From: </p>
@@ -87,6 +105,26 @@ function Transactions() {
             </Button>
           </div>
           <div className="searchContainer-right">
+          <Select
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value)}
+              style={{ 
+              backgroundColor: "white",
+              color: "black",
+              width: "160px",
+              height: "40px",
+              fontWeight: "bold",
+              alignSelf: "flex-end",
+              margin: "30px",
+              borderRadius: "10px"
+            }}
+            >
+              <MenuItem value="daily">Daily</MenuItem>
+              <MenuItem value="weekly">Weekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
+              <MenuItem value="annually">Annually</MenuItem>
+              <MenuItem value="semi-annually">Semi-Annually</MenuItem>
+            </Select>
             <Button
               style={{
                 backgroundColor: "white",
@@ -109,7 +147,7 @@ function Transactions() {
         </div>
         <div className="table-container" ref={tableRef}>
           {/* {<div AddTransactions (filteredData)>} */}
-          <AddTransactions filteredData={filteredData} ></AddTransactions>
+          <AddTransactions filteredData={filteredData} dateRange={dateRange}  ></AddTransactions>
         </div>
       </div>
 
