@@ -53,7 +53,7 @@ export async function PATCH(request) {
     await connectToDB();
 
     // Update the document with all fields from the request body
-    await Supply.findByIdAndUpdate(id, body);
+    await Dryer.findByIdAndUpdate(id, body);
 
     console.log(id);
     return NextResponse.json(
