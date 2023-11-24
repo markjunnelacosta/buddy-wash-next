@@ -41,6 +41,7 @@ const LaundryBin = () => {
   const [showAddLaundry, setShowAddLaundry] = useState(false);
   const [machineTimer, setMachineTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
+  const [dryerData, setDryerData] = useState([]);
 
   const fetchMachines = () => {
     fetch("http://localhost:3000/api/machine", {
@@ -64,6 +65,30 @@ const LaundryBin = () => {
   useEffect(() => {
     fetchMachines();
   }, []);
+  console.log("********machine data", machineData);
+  const fetchDryer = () => {
+    fetch("http://localhost:3000/api/dryer", {
+      cache: "no-store",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch dryer data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.dryerData.filter((d) => d.branchNumber == 1));
+        setDryerData(data.dryerData || []); // Update dryer state
+      })
+      .catch((error) => {
+        console.error("Error fetching dryer data:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchDryer();
+  }, []);
+  console.log("********dryer data", dryerData);
 
   const openAddLaundry = () => {
     setShowAddLaundry(true);
@@ -77,10 +102,17 @@ const LaundryBin = () => {
     const fetchOrder = async () => {
       try {
         const order = await getOrderDetails();
+        console.log("*****orderDetails   ", order);
         setLaundryData(order);
         const timers = [];
         order.forEach((o) => {
-          timers.push({ orderId: o._id, startTime: parseInt(o.machineTimer) });
+          timers.push({
+            orderId: o._id,
+            machineNumber: o.machineNo,
+            startTime: parseInt(o.machineTimer),
+            dryerNumber: o.dryerNo,
+            dryerStartTime: parseInt(o.dryerTimer),
+          });
         });
         console.log("timers", timers);
         setMachineTimer(timers);
@@ -155,12 +187,75 @@ const LaundryBin = () => {
       console.error("Failed to update orders record");
     }
 
-    console.log("Start Time:", getOrderStartTime(orderId));
+    // console.log("Start Time:", getOrderStartTime(orderId));
+  };
+
+  const updateOrderTimerForDryer = async (orderId, date) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ dryerTimer: date }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Orders record updated successfully");
+    } else {
+      console.error("Failed to update orders record");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(orderId));
   };
 
   useEffect(() => {
     console.log(machineTimer);
   }, [machineTimer]);
+
+  const updateMachineTimer = async (selectedMachine, date) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(
+      `http://localhost:3000/api/machine?id=${selectedMachine}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ timer: date }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (res.ok) {
+      console.log("Machine timer updated successfully");
+    } else {
+      console.error("Failed to update Machine timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
+
+  const updateDryerTimer = async (selectedDryer, date) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(
+      `http://localhost:3000/api/dryer?id=${selectedDryer}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ timer: date }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (res.ok) {
+      console.log("Dryer timer updated successfully");
+    } else {
+      console.error("Failed to update Dryer timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
 
   const onToggleChange = async (orderId) => {
     const timers = [...machineTimer];
@@ -171,6 +266,34 @@ const LaundryBin = () => {
     setMachineTimer(timers);
 
     updateOrderTimer(orderId, currentTime);
+
+    const mData = [...machineData];
+    const mIndex = machineData.findIndex(
+      (m) => parseInt(m.machineNumber) == timers[index].machineNumber
+    );
+    const selectedMachine = mData[mIndex]._id;
+    console.log("****mdata", mData);
+    console.log("*****mIndex", mIndex);
+    console.log("*****selectedMachine", selectedMachine);
+    updateMachineTimer(selectedMachine, timers[index].startTime);
+  };
+
+  const onDryerToggleChange = async (orderId) => {
+    const timers = [...machineTimer];
+    const index = machineTimer.findIndex((m) => m.orderId == orderId);
+    const currentTime = Date.now();
+    timers[index].dryerStartTime = currentTime;
+
+    setMachineTimer(timers);
+
+    updateOrderTimerForDryer(orderId, currentTime);
+
+    const dData = [...dryerData];
+    const dIndex = dryerData.findIndex(
+      (d) => parseInt(d.dryerNumber) == timers[index].dryerNumber
+    );
+    const selectedDryer = dData[dIndex]._id;
+    updateDryerTimer(selectedDryer, timers[index].dryerStartTime);
   };
 
   const getOrderStartTime = (orderId) => {
@@ -178,6 +301,10 @@ const LaundryBin = () => {
     return machineTimer[index].startTime;
   };
 
+  const getOrderStartTimeDryer = (orderId) => {
+    const index = machineTimer.findIndex((m) => m.orderId == orderId);
+    return machineTimer[index].dryerStartTime;
+  };
   const getCountDownTimer = (orderId) => {
     const startTime = getOrderStartTime(orderId);
 
@@ -188,7 +315,14 @@ const LaundryBin = () => {
         const timers = [...machineTimer];
         const index = timers.findIndex((m) => m.orderId == orderId);
         updateOrderTimer(orderId, 0);
+        const mData = [...machineData];
+        const mIndex = machineData.findIndex(
+          (m) => parseInt(m.machineNumber) == timers[index].machineNumber
+        );
+        const selectedMachine = mData[mIndex]._id;
+        updateMachineTimer(selectedMachine, 0);
         // update machine timer to 0
+
         // update useCount plus 1
         timers[index].startTime = 0;
         setMachineTimer(timers);
@@ -206,6 +340,47 @@ const LaundryBin = () => {
       return (
         <Countdown
           date={Date.now() + computedDate(getOrderStartTime(orderId))}
+          renderer={renderer}
+        />
+      );
+    }
+  };
+
+  const getCountDownTimerDryer = (orderId) => {
+    const startTime = getOrderStartTimeDryer(orderId);
+
+    const renderer = ({ hours, minutes, seconds, completed, api, props }) => {
+      if (completed) {
+        //Render a complete state
+        console.log("Completed.");
+        const timers = [...machineTimer];
+        const index = timers.findIndex((m) => m.orderId == orderId);
+        updateOrderTimerForDryer(orderId, 0);
+        const dData = [...dryerData];
+        const dIndex = dryerData.findIndex(
+          (d) => parseInt(d.dryerNumber) == timers[index].dryerNumber
+        );
+        const selectedDryer = dData[dIndex]._id;
+        updateDryerTimer(selectedDryer, 0);
+        // update dryer timer to 0
+
+        // update useCount plus 1
+        timers[index].dryerStartTime = 0;
+        setMachineTimer(timers);
+      } else {
+        //Render a countdown
+        return (
+          <span>
+            {minutes}:{seconds}
+          </span>
+        );
+      }
+    };
+
+    if (startTime) {
+      return (
+        <Countdown
+          date={Date.now() + computedDate(getOrderStartTimeDryer(orderId))}
           renderer={renderer}
         />
       );
@@ -269,6 +444,10 @@ const LaundryBin = () => {
                       <TableCell className="">{order.machineNo}</TableCell>
                       <TableCell className="">
                         <MachineToggle
+                          disabled={
+                            computedDate(getOrderStartTimeDryer(order._id)) >
+                              0 || false
+                          }
                           isChecked={
                             computedDate(getOrderStartTime(order._id)) > 0 ||
                             false
@@ -279,16 +458,23 @@ const LaundryBin = () => {
                       <TableCell className="">
                         {getCountDownTimer(order._id)}
                       </TableCell>
-                      <TableCell className="">t</TableCell>
+                      <TableCell className="">{order.dryerNo}</TableCell>
                       <TableCell className="">
                         <DryerToggle
                           disabled={
                             computedDate(getOrderStartTime(order._id)) > 0 ||
                             false
                           }
+                          isChecked={
+                            computedDate(getOrderStartTimeDryer(order._id)) >
+                              0 || false
+                          }
+                          onToggle={() => onDryerToggleChange(order._id)}
                         />
                       </TableCell>
-                      <TableCell className="">00:00</TableCell>
+                      <TableCell className="">
+                        {getCountDownTimerDryer(order._id)}
+                      </TableCell>
                       <TableCell className="">t</TableCell>
                     </TableRow>
                   ))}
