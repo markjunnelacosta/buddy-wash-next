@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const MachineToggle = ({ orderId, onToggle, isChecked }) => {
+const MachineToggle = ({ orderId, onToggle, isChecked, disabled }) => {
   const handleToggle = () => {
     // setIsChecked(!isChecked);
     onToggle(orderId);
@@ -14,7 +14,7 @@ const MachineToggle = ({ orderId, onToggle, isChecked }) => {
       <FormControlLabel
         control={
           <Switch
-            disabled={isChecked}
+            disabled={disabled || isChecked}
             checked={isChecked}
             onChange={handleToggle}
             sx={{
