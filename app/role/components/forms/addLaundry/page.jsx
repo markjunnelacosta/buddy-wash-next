@@ -8,12 +8,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
   const [supplyData, setSupplyData] = useState([]); // State for supplies
   const [laundryModeData, setLaundryModeData] = useState([]); //State for Laundry modes prices
-
+  const [totalAmount, setTotalAmount] = useState(0);
   const [weightModes, setWeightModes] = useState([]);
   const [washModes, setWashModes] = useState([]);
   const [dryModes, setDryModes] = useState([]);
   const [foldMode, setFoldMode] = useState([]);
-
   const [customerName, setCustomerName] = useState("");
   const [orderDate, setOrderDate] = useState("");
   const [weight, setWeight] = useState("");
@@ -300,6 +299,35 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     fetchLaundryMode();
   }, []);
 
+  const calculateTotalAmount = () => {
+    let total = 0;
+  
+    const selectedWeightMode = weightModes.find((mode) => mode.modeName === weight);
+    if (selectedWeightMode) {
+      total += selectedWeightMode.price;
+    }
+  
+    const selectedWashMode = washModes.find((mode) => mode.modeName === washMode);
+    if (selectedWashMode) {
+      total += selectedWashMode.price;
+    }
+
+    const selectedDryMode = dryModes.find((mode) => mode.modeName === dryMode);
+    if (selectedDryMode) {
+      total += selectedDryMode.price;
+    }
+  
+    const selectedFoldMode = foldMode.find((mode) => mode.modeName === fold);
+    if (selectedFoldMode) {
+      total += selectedFoldMode.price;
+    }
+  
+    setTotalAmount(total);
+  };
+
+  useEffect(() => {
+    calculateTotalAmount();
+  }, [weight, washMode, dryMode, fold]);
 
 
   return (
