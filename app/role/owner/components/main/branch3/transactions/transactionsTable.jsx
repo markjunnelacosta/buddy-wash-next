@@ -42,7 +42,7 @@ export const getFilteredReport = async (dateFrom, dateTo) => {
   }
 };
 
-const TransactionTable = ({ dateFrom, dateTo, filteredData }) => {
+const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange}) => {
   const [reportData, setReportData] = useState([]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData }) => {
       setReportData(filteredData);
     }
     else {
-      console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo);
+      console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dateRange:", dateRange);
       const fetchReport = async () => {
         try {
           const report = await getFilteredReport(dateFrom, dateTo);
