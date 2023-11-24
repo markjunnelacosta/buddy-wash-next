@@ -12,38 +12,51 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(120);
+
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the user has exceeded 3 failed attempts, and if so, set a timer
-    if (failedAttempts >= 3) {
-      const lockoutDuration = 120000; // 2mins
-      const lastFailedAttemptTime = parseInt(localStorage.getItem("lastFailedAttemptTime"), 10);
-
-      if (lastFailedAttemptTime && Date.now() - lastFailedAttemptTime < lockoutDuration) {
-        // The user is locked out, set an error message
-        setError("You have three failed attempts. Try again 2 minutes later.");
-      } else {
-        // Reset failed attempts if the lockout duration has passed
-        setFailedAttempts(0);
-      }
+    let timer;
+    if (isTimerActive && remainingTime > 0) {
+      timer = setTimeout(() => {
+        setRemainingTime(remainingTime - 1);
+      }, 1000);
+    } else if (isTimerActive && remainingTime === 0) {
+      setIsTimerActive(false);
+      setLoginAttempts(0);
+      localStorage.removeItem("loginAttempts"); // Reset stored login attempt
     }
-  }, [failedAttempts]);
+
+    return () => clearTimeout(timer);
+  }, [isTimerActive, remainingTime]);
+
+  useEffect(() => {
+    // On component mount, check if there are stored login attempts
+    const storedLoginAttempts = localStorage.getItem("loginAttempts");
+    if (storedLoginAttempts) {
+      setLoginAttempts(parseInt(storedLoginAttempts, 10));
+    }
+
+    // Check if there is an active timer
+    const storedTimerState = localStorage.getItem("isTimerActive");
+    if (storedTimerState === "true") {
+      setIsTimerActive(true);
+      setRemainingTime(parseInt(localStorage.getItem("remainingTime"), 10));
+    }
+  }, []);
 
   const onClick = async () => {
     try {
       if (!username || !password) {
-        // Check if either username or password is empty
-        setError("Please enter both username and password.");
-        setTimeout(() => {
-          setError("");
-        }, 3500);
-        return; // Exit the function early
+        alert("Please enter both username and password.");
+        return;
       }
 
-      if (failedAttempts >= 3) {
-        // The user is locked out
+      if (isTimerActive) {
+        alert(`Please wait for ${remainingTime} seconds before trying again.`);
         return;
       }
 
@@ -54,10 +67,6 @@ export default function Home() {
 
       if (data) {
         if (data.password == password) {
-          // Successful login, reset failed attempts
-          setFailedAttempts(0);
-          localStorage.removeItem("lastFailedAttemptTime");
-
           switch (data.userRole) {
             case "admin":
               router.push("role/admin/users");
@@ -73,26 +82,19 @@ export default function Home() {
               break;
           }
         } else {
-          // Show error Invalid Password
-          setError("Invalid Password");
-          setTimeout(() => {
-            setError("");
-          }, 3500);
-          // Increment failed login attempts
-          setFailedAttempts(failedAttempts + 1);
-          // Update the timestamp of the last failed login attempt in localStorage
-          localStorage.setItem("lastFailedAttemptTime", Date.now());
+          setLoginAttempts(loginAttempts + 1);
+          localStorage.setItem("loginAttempts", loginAttempts + 1);
+
+          if (loginAttempts >= 2) {
+            setIsTimerActive(true);
+            setRemainingTime(120);
+            localStorage.setItem("isTimerActive", true);
+            localStorage.setItem("remainingTime", 120);
+            alert("Three unsuccessful login attempts. Please try again later.");
+          } else {
+            alert("Password does not match.");
+          }
         }
-      } else {
-        // Show error cannot find username
-        setError("Username not found");
-        setTimeout(() => {
-          setError("");
-        }, 3500);
-        // Increment failed login attempts
-        setFailedAttempts(failedAttempts + 1);
-        // Update the timestamp of the last failed login attempt in localStorage
-        localStorage.setItem("lastFailedAttemptTime", Date.now());
       }
     } catch (error) {
       console.log(error);

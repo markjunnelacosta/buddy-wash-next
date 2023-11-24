@@ -11,6 +11,7 @@ import RemoveButton from './removeButton';
 import EditBranchPopup from './eButton';
 import { useRouter } from 'next/navigation';
 import BranchStaff from './branch-staff/page';
+import StaffPage from './branch-staff/add-staff/page';
 
 const getBranch = async () => {
   try {
@@ -37,6 +38,10 @@ const Branches = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showBranchStaffPopup, setShowBranchStaffPopup] = useState(false);
   const [selectedBranchAddress, setSelectedBranchAddress] = useState('');
+
+  // Inside your Branches component
+  const [showAddStaff, setShowAddStaff] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -106,6 +111,11 @@ const Branches = () => {
     fetchData();
   };
 
+  // Inside your Branches component
+  const openAddStaff = () => {
+    setShowAddStaff(true);
+  };
+
   return (
     <>
       <Layout />
@@ -119,6 +129,11 @@ const Branches = () => {
               name="branchAddress"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} />
+          </div>
+          <div className="button-container-staff">
+            <button className="add-button-staff" onClick={openAddStaff}>
+              <AddRoundedIcon /> Add New Staff
+            </button>
           </div>
           <div className="button-container">
             <button className="add-button-branch" onClick={openAddBranch}>
@@ -165,9 +180,17 @@ const Branches = () => {
         onSave={handleSaveData}
       />
       {showBranchStaffPopup && (
-        <BranchStaff onClose={() => setShowBranchStaffPopup(false)} 
-        branchId={selectedBranch}
-        selectedBranchAddress={selectedBranchAddress}
+        <BranchStaff onClose={() => setShowBranchStaffPopup(false)}
+          branchId={selectedBranch}
+          selectedBranchAddress={selectedBranchAddress}
+        />
+      )}
+      {showAddStaff && (
+        <StaffPage
+          isOpen={showAddStaff}
+          onClose={() => setShowAddStaff(false)}
+          onSaveData={handleSaveData}
+          branchId={selectedBranch} // Pass the selected branchId
         />
       )}
     </>

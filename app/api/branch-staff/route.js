@@ -32,7 +32,7 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { staffName, staffAddress, phoneNumber, staffPosition, staffBranchId } =
+  const { staffName, staffAddress, phoneNumber, staffPosition, selectedBranch, staffBranchId } =
     body;
 
   try {
@@ -42,6 +42,7 @@ export const POST = async (req) => {
       staffAddress,
       phoneNumber,
       staffPosition,
+      selectedBranch,
       staffBranchId,
     });
     console.log(newBranchesStaff);
