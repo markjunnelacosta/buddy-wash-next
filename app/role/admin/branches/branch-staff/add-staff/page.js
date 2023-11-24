@@ -11,7 +11,30 @@ const StaffPage = ({ isOpen, onClose, onSaveData, branchId}) => {
 
 
   const onClick = async () => {
+    if (
+      !staffName ||
+      !staffAddress ||
+      !phoneNumber ||
+      !staffPosition
+    ) { 
+      alert("Please fill in all required fields.");
+      return;
+    }
+    
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!nameRegex.test(staffName)) {
+      alert("Invalid characters in staff name. Please enter a valid name.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(phoneNumber)) {
+      alert("Invalid characters in phone number. Please enter a valid number.");
+      return;
+    }
+
     console.log(staffName, staffAddress, phoneNumber, staffPosition, branchId);
+
     const response = await fetch("/api/branch-staff", {
       method: "POST",
       body: JSON.stringify({
@@ -25,6 +48,7 @@ const StaffPage = ({ isOpen, onClose, onSaveData, branchId}) => {
     console.log(response);
     onSaveData();
     onClose();
+    window.location.reload();
   };
 
   console.log('branchId in StaffPage:', branchId);
@@ -59,11 +83,16 @@ const StaffPage = ({ isOpen, onClose, onSaveData, branchId}) => {
                   onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                 ></input>
                 <p>Position</p>
-                <input
-                  type="text"
+                 <select
                   value={staffPosition}
                   onChange={(e) => setStaffPosition(e.currentTarget.value)}
-                ></input>
+                >
+                  <option value=""></option>
+                  <option value="Staff">Staff</option>
+                  <option value="Guard">Guard</option>
+                  <option value="Technician">Technician</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
 
             </div>
