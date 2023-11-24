@@ -23,14 +23,14 @@
   flex-wrap: wrap;
   margin: 0px 30px;
   gap: 20px;
-  margin-left: 45px;
+  margin-left: 40px;
 }
 
 .counter {
   padding: 20px;
   background-color: #bee5e5;
   height: 100px;
-  width: 150px;
+  width: 165px;
 }
 
 .customers-container {
