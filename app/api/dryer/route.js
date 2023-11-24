@@ -6,6 +6,7 @@ export const GET = async (req, res) => {
   try {
     await connectToDB();
     const dryers = await Dryer.find({});
+    // const dryers = await Dryer.find({ branchNumber });
     const responseData = { dryerData: dryers };
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
@@ -42,4 +43,24 @@ export async function DELETE(request) {
   await connectToDB();
   await Dryer.findByIdAndDelete(id);
   return NextResponse.json({ message: "Deleted a dryer." }, { status: 201 });
+}
+
+export async function PATCH(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  const body = await request.json();
+
+  try {
+    await connectToDB();
+
+    // Update the document with all fields from the request body
+    await Supply.findByIdAndUpdate(id, body);
+
+    console.log(id);
+    return NextResponse.json(
+      { message: "Updated Dryer Table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return new Response(error, { status: 500 });
+  }
 }

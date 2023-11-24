@@ -18,10 +18,11 @@ function DryerTable() {
       if (!isNumberRepeated(newDryer)) {
         const newDryerObject = {
           dryerNumber: parseInt(newDryer),
-          // action: parseInt(newAction),
+          // action: 'Off',
+          // timer: '00:00',
           queue: 0,
           useCount: 0,
-          // status: parseInt(newStatus),
+          // status: 'Operational',
         };
 
         fetch('http://localhost:3000/api/dryer', {
@@ -75,7 +76,7 @@ function DryerTable() {
         return response.json();
       })
       .then((data) => {
-        setDryerData(data.dryerData || []);
+        setDryerData(data.dryerData || []); // Update dryerData state
       })
       .catch((error) => {
         console.error('Error fetching dryer data:', error);
@@ -105,7 +106,7 @@ function DryerTable() {
             }
           }}
           inputProps={{
-            maxLength: 2,
+            maxLength: 2, // Maximum 2 digits
           }}
         />
         <Button variant="outlined" color="primary" onClick={addNewDryer} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>
@@ -139,19 +140,21 @@ function DryerTable() {
               </TableRow>
             </TableHead>
             <tbody>
-              {dryerData.map((dryer, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{dryer.dryerNumber}</TableCell>
-                  <TableCell align="center">
-                    {dryer.action === 'Running' ? 'Running' : 'Off'}
-                  </TableCell>
-                  <TableCell align="center">{dryer.queue}</TableCell>
-                  <TableCell align="center">{dryer.useCount}</TableCell>
-                  <TableCell align="center">
-                    {dryer.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {dryerData
+                .filter((dryer) => dryer.branchNumber === "1")
+                .map((dryer, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="center">{dryer.dryerNumber}</TableCell>
+                    <TableCell align="center">
+                      {dryer.action === 'Running' ? 'Running' : 'Off'}
+                    </TableCell>
+                    <TableCell align="center">{dryer.queue}</TableCell>
+                    <TableCell align="center">{dryer.useCount}</TableCell>
+                    <TableCell align="center">
+                      {dryer.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </tbody>
           </Table>
         </TableContainer>

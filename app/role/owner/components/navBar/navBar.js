@@ -45,7 +45,8 @@ function NavBar() {
         </ListItemButton>
 
         <p className="white-space"> </p>
-          <span className="nav-section-text">Branches</span>
+        <span className="nav-section-text">Branches</span>
+        <p className="white-space"> </p>
         <Dropdown overlay={renderBranchDropdown("branch1")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">

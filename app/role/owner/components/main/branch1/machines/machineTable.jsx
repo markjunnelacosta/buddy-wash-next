@@ -19,7 +19,7 @@ function MachineTable() {
         const newMachineObject = {
           machineNumber: parseInt(newMachine),
           // action: 'Off',
-          timer: '00:00',
+          // timer: '00:00',
           queue: 0,
           useCount: 0,
           // status: 'Operational',
@@ -140,19 +140,21 @@ function MachineTable() {
               </TableRow>
             </TableHead>
             <tbody>
-              {machineData.map((machine, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{machine.machineNumber}</TableCell>
-                  <TableCell align="center">
-                    {machine.action === 'Running' ? 'Running' : 'Off'}
-                  </TableCell>
-                  <TableCell align="center">{machine.queue}</TableCell>
-                  <TableCell align="center">{machine.useCount}</TableCell>
-                  <TableCell align="center">
-                    {machine.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {machineData
+                .filter((machine) => machine.branchNumber === "1")
+                .map((machine, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="center">{machine.machineNumber}</TableCell>
+                    <TableCell align="center">
+                      {machine.action === 'Running' ? 'Running' : 'Off'}
+                    </TableCell>
+                    <TableCell align="center">{machine.queue}</TableCell>
+                    <TableCell align="center">{machine.useCount}</TableCell>
+                    <TableCell align="center">
+                      {machine.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </tbody>
           </Table>
         </TableContainer>
