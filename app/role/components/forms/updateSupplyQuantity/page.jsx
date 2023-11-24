@@ -69,6 +69,8 @@ export default function UpdateSupply() {
     setName(selectedSupply.supplyName);
   }, [selectedSupply]);
 
+
+  
   const onClickSave = async () => {
     console.log(selectedSupply);
     console.log(time, name, quantity, type);

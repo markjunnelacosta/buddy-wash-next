@@ -90,6 +90,25 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   const onClick = async () => {
 
+    if (
+      !customerName ||
+      !orderDate ||
+      !weight ||
+      !washMode ||
+      !dryMode ||
+      !fold ||
+      !colored ||
+      !detergent ||
+      !fabCon ||
+      !detergentQty ||
+      !fabConQty ||
+      !paymentMethod ||
+      !refNum
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     const machineNo = assignMachine();
     const dryerNo = assignDryer();
 
@@ -207,6 +226,17 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
         window.location.reload();
       }
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(detergentQty)) {
+      alert("Invalid characters in Detergent Qty. Please enter a valid number.");
+      return;
+    }
+
+    if (!numberRegex.test(fabConQty)) {
+      alert("Invalid characters in Fabric Conditioner Qty. Please enter a valid number.");
+      return;
     }
 
     onSaveData();
