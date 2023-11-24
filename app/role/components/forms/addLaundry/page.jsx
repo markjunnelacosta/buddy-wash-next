@@ -7,6 +7,12 @@ import { Autocomplete, TextField } from "@mui/material";
 const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
   const [supplyData, setSupplyData] = useState([]); // State for supplies
+  const [laundryModeData, setLaundryModeData] = useState([]); //State for Laundry modes prices
+
+  const [weightModes, setWeightModes] = useState([]);
+  const [washModes, setWashModes] = useState([]);
+  const [dryModes, setDryModes] = useState([]);
+  const [foldMode, setFoldMode] = useState([]);
 
   const [customerName, setCustomerName] = useState("");
   const [orderDate, setOrderDate] = useState("");
@@ -24,26 +30,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
   let stock = 0;
-
-  const weightPrice = {
-    "7.5Kg": 10,
-    "8-9Kg": 20,
-  };
-
-  const washModePrice = {
-    "Spin": 40,
-    "Rinse & Spin": 50,
-    "Regular Wash": 60,
-    "Premium": 70,
-  };
-
-  const dryModePrice = {
-    "30mins.": 0,
-    "40mins.": 0,
-    "50mins.": 10,
-  };
-
-  const foldPrice = 70;
 
   const fetchMachines = () => {
     fetch("http://localhost:3000/api/machine", {
@@ -104,19 +90,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const onClick = async () => {
-    const totalWeightPrice = weightPrice[weight] || 0;
-    const totalWashModePrice = washModePrice[washMode] || 0;
-    const totalDryModePrice = dryModePrice[dryMode] || 0;
-    const totalFoldPrice = fold === "Yes" ? foldPrice : 0;
 
     const machineNo = assignMachine();
     const dryerNo = assignDryer();
-
-    const totalAmount =
-      totalWeightPrice +
-      totalWashModePrice +
-      totalDryModePrice +
-      totalFoldPrice;
 
     console.log(
       customerName,
@@ -181,24 +157,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log(res);
     console.log("orderszzzzzz" + orderRes);
 
-    // Update available stock for selected detergent and fabric conditioner
+
     if (detergent && detergentQty) {
       const selectedDetergent = supplyData.find(
         (supply) => supply.supplyName === detergent
       );
-      stock = parseInt(selectedDetergent.availableStock, 10) - +detergentQty; //
+      stock = parseInt(selectedDetergent.availableStock, 10) - +detergentQty;
       if (selectedDetergent) {
-        // const supplyUpdateResponse = await fetch(`/api/laundry-supply/${encodeURIComponent(selectedDetergent._id)}`, {
-        //   method: "PATCH",
-        //   body: JSON.stringify({
-        //     quantity: detergentQty, // Subtract the used quantity
-        //   }),
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // });
-
-        // console.log(supplyUpdateResponse);
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
           {
@@ -225,20 +190,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       );
       stock = parseInt(selectedFabCon.availableStock, 10) - +fabConQty;
       if (selectedFabCon) {
-        // const supplyUpdateResponse = await fetch(
-        //   `/api/laundry-supply/${encodeURIComponent(selectedFabCon._id)}`,
-        //   {
-        //     method: "PATCH",
-        //     body: JSON.stringify({
-        //       quantity: fabConQty, // Subtract the used quantity
-        //     }),
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // );
-
-        // console.log(supplyUpdateResponse);
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
           {
@@ -319,14 +270,37 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(
-      supplyData,
-      "conditioner"
-    );
+    const conditionerSupplies = filterSuppliesByKeyword(supplyData, "conditioner");
     return conditionerSupplies.map((supplies, i) => (
       <option key={i}>{supplies.supplyName}</option>
     ));
   };
+
+  useEffect(() => {
+    const fetchLaundryMode = async () => {
+      try {
+        const res = await fetch("/api/laundry-price", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch laundry mode");
+        }
+
+        const response = await res.json();
+        setWeightModes(response.laundryModeData.filter((mode) => mode.category === "Weight"));
+        setWashModes(response.laundryModeData.filter((mode) => mode.category === "Wash"));
+        setDryModes(response.laundryModeData.filter((mode) => mode.category === "Dry"));
+        setFoldMode(response.laundryModeData.filter((mode) => mode.category === "Fold"));
+      } catch (error) {
+        console.error("Error fetching laundry modes:", error);
+      }
+    };
+
+    fetchLaundryMode();
+  }, []);
+
+
 
   return (
     <>
@@ -362,8 +336,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   onChange={(e) => setWeight(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="7.5Kg">Light Clothes - 7.5kilos</option>
-                  <option value="8-9Kg">Light Clothes - 8 to 9 kilos</option>
+                  {weightModes.map((mode) => (
+                    <option key={mode.id} value={mode.modeName}>
+                      {mode.modeName} - ₱{mode.price}
+                    </option>
+                  ))}
                 </select>
                 <p>Fold</p>
                 <select
@@ -371,8 +348,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   onChange={(e) => setFold(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
+                  {foldMode.map((mode) => (
+                    <option key={mode.id} value={mode.modeName}>
+                      {mode.modeName}
+                    </option>
+                  ))}
                 </select>
                 <p>Detergent</p>
                 <select
@@ -398,10 +378,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   onChange={(e) => setWashMode(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="Spin">Spin - 9mins.</option>
-                  <option value="Rinse & Spin">Rinse & Spin - 24mins.</option>
-                  <option value="Regular Wash">Regular Wash – 37mins.</option>
-                  <option value="Premium">Super/Premium Wash – 45mins.</option>
+                  {washModes.map((mode) => (
+                    <option key={mode.id} value={mode.modeName}>
+                      {mode.modeName} - ₱{mode.price}
+                    </option>
+                  ))}
                 </select>
                 <p>Colored</p>
                 <select
@@ -436,9 +417,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   onChange={(e) => setDryMode(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="30mins.">30mins.</option>
-                  <option value="40mins.">40mins.</option>
-                  <option value="50mins.">50mins.</option>
+                  {dryModes.map((mode) => (
+                    <option key={mode.id} value={mode.modeName}>
+                      {mode.modeName} - ₱{mode.price}
+                    </option>
+                  ))}
                 </select>
                 <p>Pay by:</p>
                 <div className="radio-label">
@@ -461,12 +444,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   />
                   Gcash
                 </div>
-                <p>Ref. No. for Gcash</p>
-                <input
-                  type="text"
-                  value={refNum}
-                  onChange={(e) => setRefNum(e.currentTarget.value)}
-                ></input>
               </div>
             </div>
             <br />

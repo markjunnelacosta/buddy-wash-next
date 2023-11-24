@@ -90,7 +90,7 @@ const LaundryPrice = () => {
 
             const response = await res.json();
             const mode = response.laundryModeData || [];
-            setLaundryModeData(mode); // Assuming you want to update the user data in your component state
+            setLaundryModeData(mode);
         } catch (error) {
             console.log("Error loading laundry mode data: ", error);
         }
@@ -111,7 +111,7 @@ const LaundryPrice = () => {
                             <p>Wash Mode:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                     <Paper style={{ height: 125, width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "100%" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -167,7 +167,7 @@ const LaundryPrice = () => {
                             <p>Dry Mode:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "100%" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -223,7 +223,7 @@ const LaundryPrice = () => {
                             <p>Weight:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "100%" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -279,7 +279,7 @@ const LaundryPrice = () => {
                             <p>Fold:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "100%" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
