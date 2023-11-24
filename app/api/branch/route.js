@@ -15,14 +15,13 @@ try {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { branchNumber, branchAddress, numberOfStaff } = body;
+  const { branchNumber, branchAddress} = body;
 
   try {
     await connectToDB();
     const newBranch = new Branch({
       branchNumber,
-      branchAddress,
-      numberOfStaff,
+      branchAddress
     });
     console.log(newBranch);
     await newBranch.save();

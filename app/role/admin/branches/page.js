@@ -38,8 +38,7 @@ const Branches = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showBranchStaffPopup, setShowBranchStaffPopup] = useState(false);
   const [selectedBranchAddress, setSelectedBranchAddress] = useState('');
-
-  // Inside your Branches component
+  const [branchStaffData, setBranchStaffData] = useState({});
   const [showAddStaff, setShowAddStaff] = useState(false);
 
   const router = useRouter();
@@ -130,11 +129,6 @@ const Branches = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
-          <div className="button-container-staff">
-            <button className="add-button-staff" onClick={openAddStaff}>
-              <AddRoundedIcon /> Add New Staff
-            </button>
-          </div>
           <div className="button-container">
             <button className="add-button-branch" onClick={openAddBranch}>
               <AddRoundedIcon /> Add New Branch
@@ -146,7 +140,7 @@ const Branches = () => {
             <div key={branch._id} className="branch-container">
               <p id="branch-num">Branch {branch.branchNumber}</p>
               <p>Location: {branch.branchAddress}</p>
-              <p>Number of Staff: {branch.numberOfStaff === null ? 0 : branch.numberOfStaff}</p>
+              <p>Number of Staff: </p>
               <div className="b-container">
                 <Button
                   variant="outlined"
