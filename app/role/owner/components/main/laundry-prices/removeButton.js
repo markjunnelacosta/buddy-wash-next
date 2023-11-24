@@ -24,7 +24,7 @@ export default function RemoveButton({ id }) {
       onClick={removeLaundryMode}
       variant="outlined"
       id="delete-button"
-      href="/role/owner/components/main/branch1/laundry-prices"
+      href="/role/owner/components/main/laundry-prices"
     >
       Delete
     </Button>

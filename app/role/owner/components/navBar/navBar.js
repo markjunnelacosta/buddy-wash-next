@@ -15,6 +15,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SellIcon from "@mui/icons-material/Sell";
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
+import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
 
@@ -36,6 +37,15 @@ function NavBar() {
           <ListItemText primary="Dashboard" />
         </ListItemButton>
 
+        <ListItemButton className="button" href="/role/owner/components/main/laundry-prices">
+          <ListItemIcon className="button-content">
+            <SettingsSuggestRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Laundry Modes" />
+        </ListItemButton>
+
+        <p className="white-space"> </p>
+          <span className="nav-section-text">Branches</span>
         <Dropdown overlay={renderBranchDropdown("branch1")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">

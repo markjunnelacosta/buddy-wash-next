@@ -76,9 +76,9 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                // href="/role/staff/components/main-content/manageCustomer"
+                 href="/role/staff/manageMobileCustomer"
                 >
-                  <ListItemText primary="Manage Customer" />
+                  <ListItemText primary="Manage Mobile Customer" />
                 </ListItemButton>
               </DropdownItem>
             </DropdownMenu>
@@ -89,7 +89,7 @@ function NavBar() {
             </ListItemIcon>
             <ListItemText primary="Machine" />
           </ListItemButton>
-          <br/>
+          <br />
 
           {/* <p className="white-space"> &nbsp; </p> */}
 
