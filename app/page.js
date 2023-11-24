@@ -81,6 +81,9 @@ export default function Home() {
               router.push("/");
               break;
           }
+          localStorage.removeItem("loginAttempts");
+          localStorage.removeItem("isTimerActive");
+          localStorage.removeItem("remainingTime");
         } else {
           setLoginAttempts(loginAttempts + 1);
           localStorage.setItem("loginAttempts", loginAttempts + 1);
