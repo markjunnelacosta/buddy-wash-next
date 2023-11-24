@@ -11,18 +11,20 @@ import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCel
 
 const getBranchStaff = async () => {
   try {
-      const res = await fetch("http://localhost:3000/api/staff-owner", {
-          cache: "no-store",
-      });
+    const res = await fetch("http://localhost:3000/api/staff-owner", {
+      cache: "no-store",
+    });
 
-      if (!res.ok) {
-          throw new Error("Failed to fetch branch staff");
-      }
+    if (!res.ok) {
+      throw new Error("Failed to fetch branch staff");
+    }
 
-      const response = await res.json();
-      return response.branchStaffData || [];
+    const response = await res.json();
+    console.log(response);
+    return response.branchStaffData || [];
+
   } catch (error) {
-      console.log("Error loading branch staff: ", error);
+    console.log("Error loading branch staff: ", error);
   }
 };
 
@@ -31,16 +33,16 @@ const Staff = () => {
 
   useEffect(() => {
     const fetchBranchStaff = async () => {
-        try {
-            const branchStaff = await getBranchStaff();
-            setBranchStaffData(branchStaff);
-        } catch (error) {
-            console.error("Error fetching report:", error);
-        }
+      try {
+        const branchStaff = await getBranchStaff();
+        setBranchStaffData(branchStaff);
+      } catch (error) {
+        console.error("Error fetching report:", error);
+      }
     };
 
     fetchBranchStaff();
-}, []);
+  }, []);
 
   useEffect(() => {
     console.log(branchStaffData);
@@ -51,7 +53,7 @@ const Staff = () => {
       <div className="blue-container">
         <div className="searchContainer-right">
           <p style={{ color: "black", fontWeight: "bold", alignSelf: "right", margin: "30px" }} variant="contained">
-            Staff Branch 3
+            Staff Branch 2
           </p>
         </div>
         <div className="table-container">
@@ -67,16 +69,18 @@ const Staff = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {branchStaffData.map((staff) => (
-                    <TableRow key={staff._id}>
-                      <TableCell align="center">{staff.staffName}</TableCell>
-                      <TableCell align="center">{staff.staffAddress}</TableCell>
-                      <TableCell align="center">{staff.phoneNumber}</TableCell>
-                      <TableCell align="center">{staff.staffPosition}</TableCell>
-                      <TableCell align="center">
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {branchStaffData
+                    .filter((staff) => staff.selectedBranch === "Branch 3")
+                    .map((staff) => (
+                      <TableRow key={staff._id}>
+                        <TableCell align="center">{staff.staffName}</TableCell>
+                        <TableCell align="center">{staff.staffAddress}</TableCell>
+                        <TableCell align="center">{staff.phoneNumber}</TableCell>
+                        <TableCell align="center">{staff.staffPosition}</TableCell>
+                        <TableCell align="center">
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </Paper>
