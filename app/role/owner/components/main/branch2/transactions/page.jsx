@@ -16,30 +16,13 @@ function Transactions() {
   const [filteredData, setReportData] = useState([]);
   const [dateRange, setDateRange] = useState('daily');
 
-  const handleFilter = async () => {
+  const handleFilterButtonClick = async () => {
     try {
-      const data = await getFilteredReport(dateFrom, dateTo);
+      const data = await getFilteredReport(dateFrom, dateTo, dateRange);
       console.log("Filtered data:", data);
-      setReportData(data); 
+      setReportData(data);
     } catch (error) {
       console.error("Error filtering transactions:", error);
-    }
-  };
-
-  const handleFilterD = async () => {
-    switch (dateRange) {
-      case 'daily':
-        break;
-      case 'weekly':
-        break;
-      case 'monthly':
-        break;
-      case 'annually':
-        break;
-      case 'semi-annually':
-        break;
-      default:
-        break;
     }
   };
 
@@ -79,6 +62,7 @@ function Transactions() {
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
+              style={{ width: "150px" }}
             />
             <p style={{ fontWeight: "bold" }}>To: </p>
             <input
@@ -86,6 +70,7 @@ function Transactions() {
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
+              style={{ width: "150px" }}
             />
             <Button
               style={{
@@ -95,30 +80,31 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px",
+                margin: "30px 10px 30px 0",
                 borderRadius: "10px"
               }}
               variant="contained"
-              onClick={handleFilter}
+              onClick={handleFilterButtonClick}
             >
               Filter
             </Button>
           </div>
           <div className="searchContainer-right">
-          <Select
+            <Select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              style={{ 
-              backgroundColor: "white",
-              color: "black",
-              width: "160px",
-              height: "40px",
-              fontWeight: "bold",
-              alignSelf: "flex-end",
-              margin: "30px",
-              borderRadius: "10px"
-            }}
+              style={{
+                backgroundColor: "white",
+                color: "black",
+                width: "160px",
+                height: "40px",
+                fontWeight: "bold",
+                alignSelf: "flex-end",
+                margin: "30px 30px 30px 10px",
+                borderRadius: "10px"
+              }}
             >
+              <MenuItem disabled>Select Data Period</MenuItem>
               <MenuItem value="daily">Daily</MenuItem>
               <MenuItem value="weekly">Weekly</MenuItem>
               <MenuItem value="monthly">Monthly</MenuItem>
@@ -133,7 +119,7 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px",
+                margin: "30px 30px 30px 10px",
                 borderRadius: "10px"
               }}
               variant="contained"

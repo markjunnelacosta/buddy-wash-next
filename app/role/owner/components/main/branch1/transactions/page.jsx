@@ -62,6 +62,7 @@ function Transactions() {
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
+              style={{ width: "150px" }}
             />
             <p style={{ fontWeight: "bold" }}>To: </p>
             <input
@@ -69,6 +70,7 @@ function Transactions() {
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
+              style={{ width: "150px" }}
             />
             <Button
               style={{
@@ -78,8 +80,7 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px",
-                marginLeft: "auto",
+                margin: "30px 10px 30px 0",
                 borderRadius: "10px"
               }}
               variant="contained"
@@ -99,7 +100,7 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px",
+                margin: "30px 30px 30px 10px",
                 borderRadius: "10px"
               }}
             >
@@ -118,7 +119,7 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px",
+                margin: "30px 30px 30px 10px",
                 borderRadius: "10px"
               }}
               variant="contained"
