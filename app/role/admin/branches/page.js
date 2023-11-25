@@ -15,7 +15,7 @@ import StaffPage from './branch-staff/add-staff/page';
 
 const getBranch = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/branch", {
+    const res = await fetch("/api/branch", {
       cache: "no-store",
     });
 
@@ -58,7 +58,7 @@ const Branches = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/branch", {
+      const res = await fetch("/api/branch", {
         cache: "no-store",
       });
 

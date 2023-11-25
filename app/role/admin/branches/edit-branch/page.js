@@ -23,7 +23,7 @@ export default function UpdateBranch({
         });
 
         try {
-            const res = await fetch(`http://localhost:3000/api/branch/${id}`, {
+            const res = await fetch(`/api/branch/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
