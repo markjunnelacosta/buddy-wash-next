@@ -4,19 +4,6 @@ body {
   background-color: aliceblue;
 }
 
-.container {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10000; /* Set a higher z-index value */
-  display: flex;
-  overflow-y: auto;
-  justify-content: center;
-}
 p {
   margin: 0px;
   margin-left: 10px;

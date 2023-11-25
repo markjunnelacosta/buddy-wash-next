@@ -8,12 +8,14 @@ import "./orderSummary.css";
 function Receipt({ selectedOrder }) {
   const [loader, setLoader] = useState(false);
 
+  
   useEffect(() => {
     // This will trigger the downloadPDF function when selectedOrder changes
     if (selectedOrder) {
       downloadPDF();
     }
   }, [selectedOrder]);
+
 
   const downloadPDF = () => {
     const capture = document.querySelector(".actual-receipt");
