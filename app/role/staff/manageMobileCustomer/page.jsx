@@ -56,53 +56,54 @@ const MobileUser = () => {
 
   return (
     <>
-    <div className='manageMobileCustomer-container'>
-    <div className='mobile-container-box'>
-        <div className="searchContainer">
-          <p style={{ fontWeight: "bold" }}>Search</p>
-          <input
-            type="text"
-            id="searchName"
-            name="searchName"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} />
-        </div>
-        <div className='mobile-table-container'>
-          <TableContainer component={Paper}>
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              sx={{ minWidth: 600 }}
-              size="small"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell className="table-header">First Name</TableCell>
-                  <TableCell className="table-header">Last Name</TableCell>
-                  <TableCell className="table-header">Email</TableCell>
-                  <TableCell className="table-header">Phone Number</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredUsers.map((mobile) => (
-                  <TableRow
-                    key={mobile._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell className="table-body">{mobile.firstName}</TableCell>
-                    <TableCell className="table-body">{mobile.lastName}</TableCell>
-                    <TableCell className="table-body">{mobile.email}</TableCell>
+      <div className='manageMobileCustomer-container'>
+        <div className='mobile-container-box'>
+          <div className="search-Container">
+            <p style={{ fontWeight: "bold" }}>Search</p>
+            <input
+              type="text"
+              id="searchName"
+              name="searchName"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} />
+          </div>
+          <div className='mobile-table-container'>
+            <TableContainer component={Paper}>
+              <Table
+                stickyHeader
+                aria-label="sticky table"
+                sx={{ minWidth: 600 }}
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="table-header">First Name</TableCell>
+                    <TableCell className="table-header">Last Name</TableCell>
+                    <TableCell className="table-header">Email</TableCell>
+                    <TableCell className="table-header">Phone Number</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {filteredUsers.map((mobile) => (
+                    <TableRow
+                      key={mobile._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell className="table-body">{mobile.firstName}</TableCell>
+                      <TableCell className="table-body">{mobile.lastName}</TableCell>
+                      <TableCell className="table-body">{mobile.email}</TableCell>
+                      <TableCell className="table-body">{mobile.phoneNumber}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
       </div>
-    </div>
-     
+
     </>
   )
 }

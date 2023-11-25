@@ -48,12 +48,34 @@ function NavBar() {
 
           <p className="white-space"> </p>
           <span className="nav-section-text">Laundry Service</span>
-          <ListItemButton className="button" href="/role/staff/laundryBin">
-            <ListItemIcon className="button-content">
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Laundry Bin" />
-          </ListItemButton>
+          <Dropdown>
+            <DropdownTrigger>
+              <ListItemButton className="button">
+                <ListItemIcon className="button-content">
+                <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Laundry Bin" />
+              </ListItemButton>
+            </DropdownTrigger>
+            <DropdownMenu className="dropdown-item" aria-label="Static Actions">
+              <DropdownItem>
+                <ListItemButton
+                  className="button"
+                  href="/role/staff/laundryBin"
+                >
+                  <ListItemText primary="Manage Walk-In Orders" />
+                </ListItemButton>
+              </DropdownItem>
+              <DropdownItem>
+                <ListItemButton
+                  className="button"
+                //  href="/role/staff/manageMobileCustomer"
+                >
+                  <ListItemText primary="Manage Mobile Orders" />
+                </ListItemButton>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
 
           <Dropdown>
             <DropdownTrigger>

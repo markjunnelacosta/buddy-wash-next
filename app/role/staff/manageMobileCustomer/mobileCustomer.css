@@ -49,14 +49,14 @@
     padding: 2px;
 }
 
-.searchContainer {
+.search-Container {
     display: flex;
     /* align-items: center;
     justify-content: center; */
-    margin-right: 600px;
-    float: left;
     padding: 10px;
-
+    width:fit-content;
+    margin-left: 25px;
+    margin-top: 10px;
 }
 
 #searchName {
