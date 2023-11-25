@@ -11,13 +11,53 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function ForecastChart({ forecastData }) {
+function ForecastChart({ forecastData, dateRange }) {
   const theme = useTheme();
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+  const filterForecastDataByDateRange = (data, range) => {
+    return data.filter((forecast) => {
+      const forecastDate = new Date(forecast.forecastDate);
+      const currentDate = new Date();
+
+      switch (range) {
+        case "daily":
+          return (
+            forecastDate.getDate() === currentDate.getDate() &&
+            forecastDate.getMonth() === currentDate.getMonth() &&
+            forecastDate.getFullYear() === currentDate.getFullYear()
+          );
+        case "weekly":
+          const firstDayOfWeek = new Date();
+          firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+          return forecastDate >= firstDayOfWeek && forecastDate <= currentDate;
+        case "monthly":
+          return (
+            forecastDate.getMonth() === currentDate.getMonth() &&
+            forecastDate.getFullYear() === currentDate.getFullYear()
+          );
+        case "annually":
+          return forecastDate.getFullYear() === currentDate.getFullYear();
+        case "semi-annually":
+          const halfYear = Math.ceil(forecastDate.getMonth() / 6);
+          const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+          return (
+            halfYear === currentHalfYear &&
+            forecastDate.getFullYear() === currentDate.getFullYear()
+          );
+        default:
+          return true;
+      }
+    });
+  };
+
+  const filteredForecastData = filterForecastDataByDateRange(forecastData, dateRange);
+
+  console.log("Filtered Forecast Data:", filteredForecastData);
 
   return (
     <React.Fragment>
@@ -26,7 +66,7 @@ function ForecastChart({ forecastData }) {
       </Typography>
       <ResponsiveContainer>
         <LineChart
-          data={forecastData}
+          data={filteredForecastData}
           margin={{
             top: 16,
             right: 16,

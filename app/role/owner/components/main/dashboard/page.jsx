@@ -154,7 +154,7 @@ const Dashboard = () => {
                     height: 240,
                   }}
                 >
-                  <Chart data={reportData} />
+                  <Chart data={reportData} dateRange={dateRange} />
                 </Paper>
               </Grid>
 
@@ -167,7 +167,7 @@ const Dashboard = () => {
                     height: 240,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData} />
+                  <ForecastChart forecastData={forecastData} dateRange={dateRange} />
                 </Paper>
               </Grid>
             </Grid>
