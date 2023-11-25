@@ -191,7 +191,6 @@ export default function UpdateSupply() {
                 >
                   <option>Select Type</option>
                   <option value="In">IN</option>
-                  <option value="Out">OUT</option>
                 </select>
               </div>
             </div>

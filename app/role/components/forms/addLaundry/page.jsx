@@ -24,7 +24,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [detergent, setDetergent] = useState("");
   const [fabCon, setFabCon] = useState("");
   const [detergentQty, setDetergentQty] = useState("");
-  const [fabConQty, setFabConQty] = useState("");
+  const [fabConQty, setFabConQty] = useState();
   const [paymentMethod, setPaymentMethod] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
@@ -114,6 +114,21 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
     const machineNo = assignMachine();
     const dryerNo = assignDryer();
 
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(detergentQty)) {
+      alert(
+        "Invalid characters in Detergent Qty. Please enter a valid number."
+      );
+      return;
+    }
+    
+    if (!numberRegex.test(fabConQty)) {
+      alert(
+        "Invalid characters in Fabric Conditioner Qty. Please enter a valid number."
+      );
+      return;
+    }
+
     console.log(
       customerName,
       orderDate,
@@ -181,6 +196,27 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       );
       stock = parseInt(selectedDetergent.availableStock, 10) - +detergentQty;
       if (selectedDetergent) {
+        const inventoryResponse = await fetch("/api/inventory", {
+          method: "POST",
+          body: JSON.stringify({
+            date: orderDate,
+            supplyName: detergent,
+            supplyId: selectedDetergent._id,
+            quantity: detergentQty,
+            type: "Out",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (inventoryResponse.ok) {
+          console.log("Inventory record updated successfully");
+        } else {
+          console.error("Failed to update inventory record");
+        }
+
+
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
           {
@@ -207,6 +243,28 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       );
       stock = parseInt(selectedFabCon.availableStock, 10) - +fabConQty;
       if (selectedFabCon) {
+        const inventoryResponse = await fetch("/api/inventory", {
+          method: "POST",
+          body: JSON.stringify({
+            date: orderDate,
+            supplyName: fabCon,
+            supplyId: selectedFabCon._id,
+            quantity: fabConQty,
+            type: "Out",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (inventoryResponse.ok) {
+          console.log("Inventory record updated successfully");
+        } else {
+          console.error("Failed to update inventory record");
+        }
+
+
+
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
           {
@@ -225,21 +283,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
         }
         window.location.reload();
       }
-    }
-
-    const numberRegex = /^\d+$/;
-    if (!numberRegex.test(detergentQty)) {
-      alert(
-        "Invalid characters in Detergent Qty. Please enter a valid number."
-      );
-      return;
-    }
-
-    if (!numberRegex.test(fabConQty)) {
-      alert(
-        "Invalid characters in Fabric Conditioner Qty. Please enter a valid number."
-      );
-      return;
     }
 
     // setLaundryOrderSummary({
@@ -395,7 +438,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
         total += parseInt(selectedDetergent.productPrice, 10) * parseInt(detergentQty, 10);
       }
     }
-    
+
     if (fabCon && fabConQty) {
       const selectedFabCon = supplyData.find(
         (supply) => supply.supplyName === fabCon
@@ -405,7 +448,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
         total += parseInt(selectedFabCon.productPrice, 10) * parseInt(fabConQty, 10);
       }
     }
-    
+
 
     setTotalAmount(total);
   };
@@ -476,15 +519,15 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
                   onChange={(e) => setDetergent(e.target.value)}
                 >
                   <option value=""></option>
-                  <option value="">None</option>
+                  <option value="None">None</option>
                   {getDetergentSupplies()}
                 </select>
-                <p>Detergent Qty.</p>
-                <input
-                  type="number"
-                  value={detergentQty}
-                  onChange={(e) => setDetergentQty(e.currentTarget.value)}
-                ></input>
+                    <p>Detergent Qty.</p>
+                    <input
+                      type="number"
+                      value={detergentQty}
+                      onChange={(e) => setDetergentQty(e.currentTarget.value)}
+                    ></input>
               </div>
 
               <div id="second">
@@ -515,15 +558,15 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
                   onChange={(e) => setFabCon(e.target.value)}
                 >
                   <option value=""></option>
-                  <option value="">None</option>
+                  <option value="None">None</option>
                   {getConditionerSupplies()}
                 </select>
-                <p>Fabric Conditioner Qty.</p>
-                <input
-                  type="number"
-                  value={fabConQty}
-                  onChange={(e) => setFabConQty(e.currentTarget.value)}
-                ></input>
+                    <p>Fabric Conditioner Qty.</p>
+                    <input
+                      type="number"
+                      value={fabConQty}
+                      onChange={(e) => setFabConQty(e.currentTarget.value)}
+                    ></input>
               </div>
 
               <div id="third">
@@ -572,7 +615,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
           </div>
         </div>
       )}
-       {/* {laundryOrderSummary && (
+      {/* {laundryOrderSummary && (
         <Receipt selectedOrder={laundryOrderSummary} onClose={closeReceipt} />
       )} */}
     </>
