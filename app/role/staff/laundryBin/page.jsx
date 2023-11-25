@@ -426,7 +426,7 @@ const LaundryBin = () => {
                     <TableCell className="table-header">Dryer No. </TableCell>
                     <TableCell className="table-header">Action</TableCell>
                     <TableCell className="table-header">Timer</TableCell>
-                    <TableCell className="table-header">Status</TableCell>
+                    <TableCell className="table-header">Receipt</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -446,7 +446,7 @@ const LaundryBin = () => {
                         <MachineToggle
                           disabled={
                             computedDate(getOrderStartTimeDryer(order._id)) >
-                              0 || false
+                            0 || false
                           }
                           isChecked={
                             computedDate(getOrderStartTime(order._id)) > 0 ||
@@ -467,7 +467,7 @@ const LaundryBin = () => {
                           }
                           isChecked={
                             computedDate(getOrderStartTimeDryer(order._id)) >
-                              0 || false
+                            0 || false
                           }
                           onToggle={() => onDryerToggleChange(order._id)}
                         />
@@ -475,7 +475,16 @@ const LaundryBin = () => {
                       <TableCell className="">
                         {getCountDownTimerDryer(order._id)}
                       </TableCell>
-                      <TableCell className="">t</TableCell>
+                      <TableCell className=""> <div className="b-container">
+                        <Button
+                          variant="outlined"
+                          id="edit-button"
+                        // onClick={() => handleEditUser(user)}
+                        >
+                          PDF
+                        </Button>
+                      </div>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

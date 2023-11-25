@@ -207,7 +207,7 @@ const Users = () => {
                             id="edit-button"
                             onClick={() => handleEditUser(user)}
                           >
-                            Edit
+                            PDF
                           </Button>
                           &nbsp;
                           <RemoveButton id={user._id} />
