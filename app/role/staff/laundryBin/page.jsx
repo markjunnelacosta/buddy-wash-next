@@ -17,7 +17,6 @@ import TableRow from "@mui/material/TableRow";
 import MachineToggle from "./machineToggle";
 import DryerToggle from "./dryerToggle";
 import Countdown from "react-countdown";
-import Receipt from "./orderSummary";
 
 
 const getOrderDetails = async () => {
@@ -43,8 +42,6 @@ const LaundryBin = () => {
   const [machineTimer, setMachineTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showOrderSummary, setShowOrderSummary] = useState(false);
 
   const fetchMachines = () => {
     fetch("http://localhost:3000/api/machine", {
@@ -101,10 +98,6 @@ const LaundryBin = () => {
     setShowAddLaundry(false);
   };
 
-  const closeReceipt = () => {
-    setShowOrderSummary(false);
-  }
-
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -149,6 +142,7 @@ const LaundryBin = () => {
       const response = await res.json();
       const order = response.laundryData || [];
       setLaundryData(order);
+
     } catch (error) {
       console.log("Error loading orders: ", error);
     }
@@ -433,7 +427,6 @@ const LaundryBin = () => {
                     <TableCell className="table-header">Dryer No. </TableCell>
                     <TableCell className="table-header">Action</TableCell>
                     <TableCell className="table-header">Timer</TableCell>
-                    <TableCell className="table-header">Receipt</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -482,19 +475,6 @@ const LaundryBin = () => {
                       <TableCell className="">
                         {getCountDownTimerDryer(order._id)}
                       </TableCell>
-                      <TableCell className=""> <div className="b-container">
-                        <Button
-                          variant="outlined"
-                          id="edit-button"
-                          onClick={() => {
-                            setSelectedOrder(order);
-                            setShowOrderSummary(true);
-                          }}
-                        >
-                          PDF
-                        </Button>
-                      </div>
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -509,10 +489,6 @@ const LaundryBin = () => {
         onClose={closeAddLaundry}
         onSaveData={handleSaveData}
       />
-
-      {showOrderSummary && (
-        <Receipt selectedOrder={selectedOrder} onClose={closeReceipt}/>
-      )}
     </>
   );
 };
