@@ -1,12 +1,13 @@
-import React from "react";
-import Loader from "../../loading";
+// import React from "react";
+// import Loader from "../../loading";
 
-const OwnerPage = () => {
-  return (
-    <div>
-      <Loader />
-    </div>
-  );
-};
+// const OwnerPage = () => {
+//   return (
+//     <div>
+//       <Loader />
+//     </div>
+//   );
+// };
 
-export default OwnerPage;
+// export default OwnerPage;
+

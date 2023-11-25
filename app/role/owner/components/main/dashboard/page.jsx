@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [b2Profit, setB2Profit] = useState(0);
   const [b3Profit, setB3Profit] = useState(0);
   const [dateRange, setDateRange] = useState("daily");
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,42 +25,67 @@ const Dashboard = () => {
 
         setReportData(data.reportData);
 
-        const totalProfitValue = data.reportData.reduce(
-          (acc, report) => acc + report.totalAmount,
-          0
-        );
-        setTotalProfit(totalProfitValue);
+        const calculateTotalProfit = (range) => {
+          return data.reportData
+            .filter((report) => {
+              const reportDate = new Date(report.reportDate);
+              const currentDate = new Date();
 
-        const totalTransactions = data.reportData.length; // Counting total transactions
-        setCustomerCount(totalTransactions);
+              switch (range) {
+                case "daily":
+                  return (
+                    reportDate.getDate() === currentDate.getDate() &&
+                    reportDate.getMonth() === currentDate.getMonth() &&
+                    reportDate.getFullYear() === currentDate.getFullYear()
+                  );
+                case "weekly":
+                  const firstDayOfWeek = new Date();
+                  firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+                  return (
+                    reportDate >= firstDayOfWeek && reportDate <= currentDate
+                  );
+                  break;
+                case "monthly":
+                  return (
+                    reportDate.getMonth() === currentDate.getMonth() &&
+                    reportDate.getFullYear() === currentDate.getFullYear()
+                  );
+                case "annually":
+                  return reportDate.getFullYear() === currentDate.getFullYear();
+                  break;
+                case "semi-annually":
+                  const halfYear = Math.ceil(reportDate.getMonth() / 6);
+                  const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+                  return (
+                    halfYear === currentHalfYear &&
+                    reportDate.getFullYear() === currentDate.getFullYear()
+                  );
+                default:
+                  return true;
+              }
+            })
+            .reduce((acc, report) => acc + report.totalAmount, 0);
+        };
 
-        const b1ProfitValue = data.reportData.reduce(
-          (acc, report) => acc + report.b1Amount,
-          0
-        );
-        console.log("B1 Profit:", b1ProfitValue);
-        setB1Profit(b1ProfitValue);
+        // const getWeekNumber = (date) => {
+        //   const onejan = new Date(date.getFullYear(), 0, 1);
+        //   const weekNumber = Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
+        //   return weekNumber;
+        // };
 
-        const b2ProfitValue = data.reportData.reduce(
-          (acc, report) => acc + report.b2Amount,
-          0
-        );
-        console.log("B2 Profit:", b2ProfitValue);
-        setB2Profit(b2ProfitValue);
-
-        const b3ProfitValue = data.reportData.reduce(
-          (acc, report) => acc + report.b3Amount,
-          0
-        );
-        console.log("B3 Profit:", b3ProfitValue);
-        setB3Profit(b3ProfitValue);
+        // Update state hooks with calculated values based on the selected date range
+        setTotalProfit(calculateTotalProfit(dateRange));
+        setCustomerCount(data.reportData.length);
+        setB1Profit(calculateTotalProfit(dateRange, "b1Amount"));
+        setB2Profit(calculateTotalProfit(dateRange, "b2Amount"));
+        setB3Profit(calculateTotalProfit(dateRange, "b3Amount"));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [dateRange]);
 
   const forecastData = reportData.map((report, index) => {
     const pastReports = reportData.slice(0, index);

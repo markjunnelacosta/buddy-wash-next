@@ -10,7 +10,7 @@ import {
   import Person from "@mui/icons-material/Person";
   import MenuIcon from "@mui/icons-material/Menu";
   import React from "react";
-  import "./Header.css";
+  import "./header.css";
   
   export const Header = () => {
     return (
