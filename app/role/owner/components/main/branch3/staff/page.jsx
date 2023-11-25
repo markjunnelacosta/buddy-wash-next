@@ -53,7 +53,7 @@ const Staff = () => {
       <div className="blue-container">
         <div className="searchContainer-right">
           <p style={{ color: "black", fontWeight: "bold", alignSelf: "right", margin: "30px" }} variant="contained">
-            Staff Branch 2
+            Staff Branch 3
           </p>
         </div>
         <div className="table-container">
