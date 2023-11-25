@@ -53,9 +53,6 @@ const LaundryBinSchema = new Schema({
     paymentMethod: {
         type: String,
         required: [true, "Payment Method is required"]
-    },
-    refNum: {
-        type: String
     }
 });
 

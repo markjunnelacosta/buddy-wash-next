@@ -386,6 +386,27 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       total += selectedFoldMode.price;
     }
 
+    if (detergent && detergentQty) {
+      const selectedDetergent = supplyData.find(
+        (supply) => supply.supplyName === detergent
+      );
+      console.log("Selected Detergent:", selectedDetergent); // Debug log
+      if (selectedDetergent) {
+        total += parseInt(selectedDetergent.productPrice, 10) * parseInt(detergentQty, 10);
+      }
+    }
+    
+    if (fabCon && fabConQty) {
+      const selectedFabCon = supplyData.find(
+        (supply) => supply.supplyName === fabCon
+      );
+      console.log("Selected FabCon:", selectedFabCon); // Debug log
+      if (selectedFabCon) {
+        total += parseInt(selectedFabCon.productPrice, 10) * parseInt(fabConQty, 10);
+      }
+    }
+    
+
     setTotalAmount(total);
   };
 
