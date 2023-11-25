@@ -46,6 +46,9 @@ const getFilteredReport = async (dateFrom, dateTo) => {
             return (!dateFrom || reportDate >= new Date(dateFrom)) &&
                 (!dateTo || reportDate <= new Date(dateTo));
         });
+
+        filteredData.sort((a, b) => new Date(b.reportDate) - new Date(a.reportDate));
+
         return filteredData || [];
     } catch (error) {
         console.log("Error loading transactions: ", error);
