@@ -20,7 +20,7 @@ import Paper from "@mui/material/Paper";
 // Function to fetch user data from the server
 const getUsers = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/user", {
+    const res = await fetch("/api/user", {
       cache: "no-store",
     });
 
@@ -119,7 +119,7 @@ const Users = () => {
   // Function to fetch data from the server
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/user", {
+      const res = await fetch("/api/user", {
         cache: "no-store",
       });
 

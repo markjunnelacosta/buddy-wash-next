@@ -11,7 +11,7 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure you want to remove this User?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/user?id=${id}`, {
+      const res = await fetch(`/api/user?id=${id}`, {
         method: "DELETE",
       });
 

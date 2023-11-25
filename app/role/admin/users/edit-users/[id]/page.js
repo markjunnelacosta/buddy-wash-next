@@ -3,7 +3,7 @@ import UpdateUser from "@/app/role/admin/users/edit-users/page";
 // Function to fetch user data from the server
 const getUsers = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/user/${id}`, {
+    const res = await fetch(`/api/user/${id}`, {
       cache: "no-store",
     });
 
