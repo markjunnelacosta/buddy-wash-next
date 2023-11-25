@@ -25,7 +25,7 @@ const Dashboard = () => {
 
         setReportData(data.reportData);
 
-        const calculateTotalProfit = (range) => {
+        const calculateDataForDateRange = (range) => {
           return data.reportData
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
@@ -64,7 +64,14 @@ const Dashboard = () => {
                   return true;
               }
             })
-            .reduce((acc, report) => acc + report.totalAmount, 0);
+            .reduce(
+              (acc, report) => {
+                acc.totalProfit += report.totalAmount;
+                acc.customerCount += 1;
+                return acc;
+              },
+              { totalProfit: 0, customerCount: 0 }
+            );
         };
 
         // const getWeekNumber = (date) => {
@@ -74,11 +81,12 @@ const Dashboard = () => {
         // };
 
         // Update state hooks with calculated values based on the selected date range
-        setTotalProfit(calculateTotalProfit(dateRange));
-        setCustomerCount(data.reportData.length);
-        setB1Profit(calculateTotalProfit(dateRange, "b1Amount"));
-        setB2Profit(calculateTotalProfit(dateRange, "b2Amount"));
-        setB3Profit(calculateTotalProfit(dateRange, "b3Amount"));
+        const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount } = calculateDataForDateRange(dateRange);
+        setTotalProfit(totalProfit);
+        setCustomerCount(customerCount);
+        setB1Profit(b1Profit("b1Amount"));
+        setB2Profit(b2Profit("b2Amount"));
+        setB3Profit(b3Profit("b3Amount"));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
