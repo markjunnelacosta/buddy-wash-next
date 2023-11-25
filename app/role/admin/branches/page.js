@@ -140,7 +140,6 @@ const Branches = () => {
             <div key={branch._id} className="branch-container">
               <p id="branch-num">Branch {branch.branchNumber}</p>
               <p>Location: {branch.branchAddress}</p>
-              <p>Number of Staff: </p>
               <div className="b-container">
                 <Button
                   variant="outlined"
