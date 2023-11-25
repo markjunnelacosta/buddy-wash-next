@@ -122,7 +122,7 @@ const Dashboard = () => {
             width: "200px",
             height: "40px",
             fontWeight: "bold",
-            margin: "30px",
+            margin: "20px",
             marginLeft: "45px",
             borderRadius: "10px"
           }}
