@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-// import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
