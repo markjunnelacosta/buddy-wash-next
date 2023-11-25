@@ -11,7 +11,7 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure you want to remove this Mobile User?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/mobile-users?id=${id}`, {
+      const res = await fetch(`/api/mobile-users?id=${id}`, {
         method: "DELETE",
       });
 

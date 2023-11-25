@@ -15,7 +15,7 @@ import RemoveButton from './removeButton';
 
 const getMobileUsers = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/mobile-users", {
+    const res = await fetch("/api/mobile-users", {
       cache: "no-store",
     });
 
