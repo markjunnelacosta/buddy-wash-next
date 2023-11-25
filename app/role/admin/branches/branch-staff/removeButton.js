@@ -11,7 +11,7 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure you want to remove this Staff?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/branch-staff?id=${id}`, {
+      const res = await fetch(`/api/branch-staff?id=${id}`, {
         method: "DELETE",
       });
 

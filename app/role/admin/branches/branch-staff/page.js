@@ -94,7 +94,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
       try {
         if (branchId !== null && branchId !== undefined) {
           const res = await fetch(
-            `http://localhost:3000/api/branch-staff/${branchId}`,
+            `/api/branch-staff/${branchId}`,
             {
               cache: "no-store",
             }
@@ -120,7 +120,7 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/branch-staff", {
+      const res = await fetch("/api/branch-staff", {
         cache: "no-store",
       });
 

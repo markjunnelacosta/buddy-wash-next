@@ -53,7 +53,7 @@ export default function UpdateStaff({
         });
 
         try {
-            const res = await fetch(`http://localhost:3000/api/branch-staff/${id}`, {
+            const res = await fetch(`/api/branch-staff/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",

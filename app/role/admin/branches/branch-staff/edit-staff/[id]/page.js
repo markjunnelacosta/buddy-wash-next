@@ -3,7 +3,7 @@ import UpdateStaff from "../page";
 
 const getStaff = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/branch-staff/${id}`, {
+    const res = await fetch(`/api/branch-staff/${id}`, {
       cache: "no-store",
     });
 
