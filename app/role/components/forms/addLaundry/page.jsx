@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
+import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [customerData, setCustomerData] = useState([]);
@@ -27,7 +28,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
-  const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
+  // const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
 
   let stock = 0;
 
@@ -146,22 +147,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       }),
     });
 
-    // setLaundryOrderSummary({
-    //   customerName,
-    //   orderDate,
-    //   weight,
-    //   washMode,
-    //   dryMode,
-    //   fold,
-    //   colored,
-    //   detergent,
-    //   fabCon,
-    //   detergentQty,
-    //   fabConQty,
-    //   paymentMethod,
-    //   totalAmount
-    // });
-
     const res = await fetch("/api/report", {
       method: "POST",
       body: JSON.stringify({
@@ -256,6 +241,22 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       );
       return;
     }
+
+    // setLaundryOrderSummary({
+    //   customerName,
+    //   orderDate,
+    //   weight,
+    //   washMode,
+    //   dryMode,
+    //   fold,
+    //   colored,
+    //   detergent,
+    //   fabCon,
+    //   detergentQty,
+    //   fabConQty,
+    //   paymentMethod,
+    //   totalAmount
+    // });
 
     onSaveData();
     onClose();
@@ -391,6 +392,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   useEffect(() => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
+
+  const closeReceipt = () => {
+    setLaundryOrderSummary(null);
+  };
 
   return (
     <>
@@ -546,6 +551,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
           </div>
         </div>
       )}
+       {/* {laundryOrderSummary && (
+        <Receipt selectedOrder={laundryOrderSummary} onClose={closeReceipt} />
+      )} */}
     </>
   );
 };
