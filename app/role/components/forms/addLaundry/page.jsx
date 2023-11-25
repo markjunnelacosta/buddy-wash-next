@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
+// import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
@@ -28,6 +29,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [refNum, setRefNum] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
+  const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
+
   let stock = 0;
 
   const fetchMachines = () => {
@@ -54,7 +57,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   const assignMachine = () => {
     console.log(machineData);
-    const availableMachine = machineData.find((m) => m.timer === "00:00");
+    const availableMachine = machineData.find(
+      (m) => m.timer == "00:00" || m.timer == 0
+    );
     console.log("available machines" + availableMachine);
     return +availableMachine.machineNumber;
   };
@@ -83,13 +88,14 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   const assignDryer = () => {
     console.log(dryerData);
-    const availableDryer = dryerData.find((d) => d.timer === "00:00");
+    const availableDryer = dryerData.find(
+      (d) => d.timer == "00:00" || d.timer == 0
+    );
     console.log("available dryers" + availableDryer);
     return +availableDryer.dryerNumber;
   };
 
   const onClick = async () => {
-
     if (
       !customerName ||
       !orderDate ||
@@ -100,10 +106,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       !colored ||
       !detergent ||
       !fabCon ||
-      !detergentQty ||
-      !fabConQty ||
-      !paymentMethod ||
-      !refNum
+      !paymentMethod
     ) {
       alert("Please fill in all required fields.");
       return;
@@ -147,6 +150,23 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       }),
     });
 
+    // setLaundryOrderSummary({
+    //   customerName,
+    //   orderDate,
+    //   weight,
+    //   washMode,
+    //   dryMode,
+    //   fold,
+    //   colored,
+    //   detergent,
+    //   fabCon,
+    //   detergentQty,
+    //   fabConQty,
+    //   paymentMethod,
+    //   refNum,
+    //   totalAmount,
+    // });
+
     const res = await fetch("/api/report", {
       method: "POST",
       body: JSON.stringify({
@@ -174,7 +194,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log(response);
     console.log(res);
     console.log("orderszzzzzz" + orderRes);
-
 
     if (detergent && detergentQty) {
       const selectedDetergent = supplyData.find(
@@ -230,12 +249,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(detergentQty)) {
-      alert("Invalid characters in Detergent Qty. Please enter a valid number.");
+      alert(
+        "Invalid characters in Detergent Qty. Please enter a valid number."
+      );
       return;
     }
 
     if (!numberRegex.test(fabConQty)) {
-      alert("Invalid characters in Fabric Conditioner Qty. Please enter a valid number.");
+      alert(
+        "Invalid characters in Fabric Conditioner Qty. Please enter a valid number."
+      );
       return;
     }
 
@@ -299,7 +322,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(supplyData, "conditioner");
+    const conditionerSupplies = filterSuppliesByKeyword(
+      supplyData,
+      "conditioner"
+    );
     return conditionerSupplies.map((supplies, i) => (
       <option key={i}>{supplies.supplyName}</option>
     ));
@@ -317,10 +343,18 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
 
         const response = await res.json();
-        setWeightModes(response.laundryModeData.filter((mode) => mode.category === "Weight"));
-        setWashModes(response.laundryModeData.filter((mode) => mode.category === "Wash"));
-        setDryModes(response.laundryModeData.filter((mode) => mode.category === "Dry"));
-        setFoldMode(response.laundryModeData.filter((mode) => mode.category === "Fold"));
+        setWeightModes(
+          response.laundryModeData.filter((mode) => mode.category === "Weight")
+        );
+        setWashModes(
+          response.laundryModeData.filter((mode) => mode.category === "Wash")
+        );
+        setDryModes(
+          response.laundryModeData.filter((mode) => mode.category === "Dry")
+        );
+        setFoldMode(
+          response.laundryModeData.filter((mode) => mode.category === "Fold")
+        );
       } catch (error) {
         console.error("Error fetching laundry modes:", error);
       }
@@ -331,13 +365,17 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   const calculateTotalAmount = () => {
     let total = 0;
-  
-    const selectedWeightMode = weightModes.find((mode) => mode.modeName === weight);
+
+    const selectedWeightMode = weightModes.find(
+      (mode) => mode.modeName === weight
+    );
     if (selectedWeightMode) {
       total += selectedWeightMode.price;
     }
-  
-    const selectedWashMode = washModes.find((mode) => mode.modeName === washMode);
+
+    const selectedWashMode = washModes.find(
+      (mode) => mode.modeName === washMode
+    );
     if (selectedWashMode) {
       total += selectedWashMode.price;
     }
@@ -346,19 +384,18 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     if (selectedDryMode) {
       total += selectedDryMode.price;
     }
-  
+
     const selectedFoldMode = foldMode.find((mode) => mode.modeName === fold);
     if (selectedFoldMode) {
       total += selectedFoldMode.price;
     }
-  
+
     setTotalAmount(total);
   };
 
   useEffect(() => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
-
 
   return (
     <>
@@ -514,6 +551,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           </div>
         </div>
       )}
+      {/* <Receipt
+      selectedOrder={setLaundryOrderSummary}
+      /> */}
     </>
   );
 };

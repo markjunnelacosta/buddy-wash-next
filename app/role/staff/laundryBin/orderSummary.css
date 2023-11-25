@@ -3,13 +3,30 @@ body {
   padding: 0px;
   background-color: aliceblue;
 }
+
+.container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000; /* Set a higher z-index value */
+  display: flex;
+  overflow-y: auto;
+  justify-content: center;
+}
 p {
   margin: 0px;
   margin-left: 10px;
   font-size: 10px;
+  font-family: "Courier New", monospace;
 }
 h6 {
   margin: 2px;
+  font-family: "Courier New", monospace;
+  font-weight: bolder;
 }
 .container {
   display: flex;
@@ -27,9 +44,22 @@ h6 {
   margin: 0px;
   padding-bottom: 10px;
   border-bottom: solid black 2px;
+  text-align: center;
+  font-family: "Courier New", monospace;
 }
 
 .with-price {
   display: flex;
   justify-content: space-between;
+}
+
+#receipt {
+  text-align: center;
+  margin: 0;
+  font-family: "Courier New", monospace;
+}
+
+#asterisk {
+  margin: 0;
+  padding: 0;
 }
