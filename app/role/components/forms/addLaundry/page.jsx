@@ -4,10 +4,10 @@ import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
 
-const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
-  const [customerData, setCustomerData] = useState([]); // State for customers
-  const [supplyData, setSupplyData] = useState([]); // State for supplies
-  const [laundryModeData, setLaundryModeData] = useState([]); //State for Laundry modes prices
+const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
+  const [customerData, setCustomerData] = useState([]);
+  const [supplyData, setSupplyData] = useState([]);
+  const [laundryModeData, setLaundryModeData] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [weightModes, setWeightModes] = useState([]);
   const [washModes, setWashModes] = useState([]);
@@ -25,7 +25,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [detergentQty, setDetergentQty] = useState("");
   const [fabConQty, setFabConQty] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [refNum, setRefNum] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
   const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
@@ -126,8 +125,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       fabCon,
       detergentQty,
       fabConQty,
-      paymentMethod,
-      refNum
+      paymentMethod
     );
 
     const response = await fetch("/api/laundrybin", {
@@ -144,8 +142,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         fabcon: fabCon,
         detergentQty: detergentQty,
         fabconQty: fabConQty,
-        paymentMethod: paymentMethod,
-        refNum: refNum,
+        paymentMethod: paymentMethod
       }),
     });
 
@@ -162,8 +159,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     //   detergentQty,
     //   fabConQty,
     //   paymentMethod,
-    //   refNum,
-    //   totalAmount,
+    //   totalAmount
     // });
 
     const res = await fetch("/api/report", {
@@ -550,9 +546,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           </div>
         </div>
       )}
-      {/* <Receipt
-      selectedOrder={setLaundryOrderSummary}
-      /> */}
     </>
   );
 };

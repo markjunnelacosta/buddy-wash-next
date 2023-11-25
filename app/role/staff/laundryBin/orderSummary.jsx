@@ -5,51 +5,39 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./orderSummary.css";
 
-function Receipt({ selectedOrder }) {
+function Receipt({ selectedOrder, onClose }) {
   const [loader, setLoader] = useState(false);
-
-  
-  useEffect(() => {
-    // This will trigger the downloadPDF function when selectedOrder changes
-    if (selectedOrder) {
-      downloadPDF();
-    }
-  }, [selectedOrder]);
-
 
   const downloadPDF = () => {
     const capture = document.querySelector(".actual-receipt");
     setLoader(true);
-  
-    // Increase the DPI for better image quality
-    const scale = 2; // You can adjust this value
+
+    const scale = 2;
     html2canvas(capture, { scale: scale }).then((canvas) => {
       const imgData = canvas.toDataURL("image/jpeg", 1.0); // Use JPEG for better quality
       const doc = new jsPDF("p", "mm", [85, 150]); // this is for size
-  
-      // Adjusted dimensions and position
+
       doc.addImage(imgData, "JPEG", 5, 5, 75, 130, undefined, "FAST"); // Adjusted position and dimensions
-  
+
       setLoader(false);
-      doc.save("receipt.pdf");
+      // doc.save("receipt.pdf");
+      doc.autoPrint();
+      window.open(doc.output("bloburl"), "_blank");
     });
   };
-  
+
 
   return (
-    <div className="container">
+    <div className="container-receipt">
       <div className="receipt-box">
-        {/* actual receipt */}
         <div className="actual-receipt">
-          {/* HEADER */}
           <div>
             <h4 id="asterisk">****************************</h4>
-          <h3 id="receipt">RECEIPT</h3>
-          <h4 id="asterisk">****************************</h4>
+            <h3 id="receipt">RECEIPT</h3>
+            <h4 id="asterisk">****************************</h4>
             <h4 className="header">ORDER SUMMARY</h4>
           </div>
 
-          {/* INFO */}
           <div>
             <h6>Date:</h6>
             <p>{selectedOrder?.orderDate}</p>
@@ -98,6 +86,25 @@ function Receipt({ selectedOrder }) {
             <h4 id="asterisk">---------------------------------</h4>
             <h4 id="asterisk">******** THANK YOU ********</h4>
           </div>
+        </div>
+      </div>
+      <div className="buttons">
+      <div className="dl-cancel">
+          <button
+            className="cancel-button"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+        </div>
+        <div className="dl">
+          <button
+            className="download-button"
+            onClick={downloadPDF}
+            disabled={!(loader === false)}
+          >
+            {loader ? <span>Printing</span> : <span>Print</span>}
+          </button>
         </div>
       </div>
     </div>

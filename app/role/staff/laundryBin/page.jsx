@@ -17,6 +17,8 @@ import TableRow from "@mui/material/TableRow";
 import MachineToggle from "./machineToggle";
 import DryerToggle from "./dryerToggle";
 import Countdown from "react-countdown";
+import Receipt from "./orderSummary";
+
 
 const getOrderDetails = async () => {
   try {
@@ -28,7 +30,6 @@ const getOrderDetails = async () => {
       throw new Error("Failed to fetch orders");
     }
 
-    // console.log(await res.json());
     const response = await res.json();
     return response.orders;
   } catch (error) {
@@ -42,6 +43,8 @@ const LaundryBin = () => {
   const [machineTimer, setMachineTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showOrderSummary, setShowOrderSummary] = useState(false);
 
   const fetchMachines = () => {
     fetch("http://localhost:3000/api/machine", {
@@ -97,6 +100,10 @@ const LaundryBin = () => {
   const closeAddLaundry = () => {
     setShowAddLaundry(false);
   };
+
+  const closeReceipt = () => {
+    setShowOrderSummary(false);
+  }
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -479,7 +486,10 @@ const LaundryBin = () => {
                         <Button
                           variant="outlined"
                           id="edit-button"
-                        // onClick={() => handleEditUser(user)}
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setShowOrderSummary(true);
+                          }}
                         >
                           PDF
                         </Button>
@@ -499,6 +509,10 @@ const LaundryBin = () => {
         onClose={closeAddLaundry}
         onSaveData={handleSaveData}
       />
+
+      {showOrderSummary && (
+        <Receipt selectedOrder={selectedOrder} onClose={closeReceipt}/>
+      )}
     </>
   );
 };

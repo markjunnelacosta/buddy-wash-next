@@ -3,7 +3,6 @@ body {
   padding: 0px;
   background-color: aliceblue;
 }
-
 p {
   margin: 0px;
   margin-left: 10px;
@@ -15,10 +14,19 @@ h6 {
   font-family: "Courier New", monospace;
   font-weight: bolder;
 }
-.container {
+.container-receipt {
+  background-color: #54BCBC;
+  padding: 20px;
   display: flex;
-  flex-flow: column;
   align-items: center;
+  position: absolute;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  flex-direction: column;
 }
 
 .receipt-box {
@@ -38,6 +46,37 @@ h6 {
 .with-price {
   display: flex;
   justify-content: space-between;
+}
+
+.download-button {
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: white;
+  margin-left: 5px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-button {
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: white;
+  margin-left: 5px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buttons {
+  margin-left: 80px;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
 }
 
 #receipt {
