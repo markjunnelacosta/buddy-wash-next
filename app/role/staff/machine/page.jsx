@@ -16,7 +16,8 @@ function Machines() {
           <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Machines</p>
         </div>
         <div className="tables-container">
-          <div className="machineTable-container">{editMachines}
+          <div className="machineTable-container">
+            {editMachines}
             <MachineTable machines={machines} />
             
           </div>
