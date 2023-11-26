@@ -15,11 +15,11 @@ export const GET = async (req, res) => {
 
   export const POST = async (req) => {
     const body = await req.json();
-    const { modeName, category, price } = body;
+    const { modeName, category, price, timer } = body;
     try {
       await connectToDB();
       const newLaundryMode = new Price({
-        modeName, category, price
+        modeName, category, price, timer
       });
       console.log(newLaundryMode);
       await newLaundryMode.save();

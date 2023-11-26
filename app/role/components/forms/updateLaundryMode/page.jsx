@@ -2,16 +2,19 @@
 import React, { useState } from "react";
 import "./editLaundryMode.css";
 
-export default function UpdateLaundryMode({ id, modeName, price, onClose }) {
+export default function UpdateLaundryMode({ id, modeName, price, timer, onClose }) {
     const [newModeName, setNewModeName] = useState(modeName);
     const [newPrice, setNewPrice] = useState(price);
+    const [newTimer, setNewTimer] = useState(timer);
+    const [showTimerInput, setShowTimerInput] = useState(false);
 
     const onClick = async (e) => {
         e.preventDefault();
         console.log({
             id,
             newModeName,
-            newPrice
+            newPrice,
+            timer
         });
         try {
             const res = await fetch(`/api/laundry-price/${id}`, {
@@ -23,7 +26,8 @@ export default function UpdateLaundryMode({ id, modeName, price, onClose }) {
                 body: JSON.stringify({
                     id,
                     newModeName,
-                    newPrice
+                    newPrice,
+                    timer
                 }),
             });
 
@@ -58,6 +62,12 @@ export default function UpdateLaundryMode({ id, modeName, price, onClose }) {
                             value={newPrice}
                             onChange={(e) => setNewPrice(e.currentTarget.value)}
                         ></input>
+                        <p>Timer</p>
+                        <input
+                            type="number"
+                            value={newTimer}
+                            onChange={(e) => setNewTimer(e.currentTarget.value)}
+                        />
                     </div>
                     <br />
                     <button className="cancel" onClick={onClose}>Cancel</button>

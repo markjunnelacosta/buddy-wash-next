@@ -7,23 +7,31 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
     const [category, setCategory] = useState("");
     const [modeName, setModeName] = useState("");
     const [price, setPrice] = useState("");
+    const [timer, setTimer] = useState("");
+    const [showTimerInput, setShowTimerInput] = useState(false);
 
     const onClick = async () => {
         console.log(category, modeName, price);
         const response = await fetch("/api/laundry-price", {
-          method: "POST",
-          body: JSON.stringify({
-            category: category,
-            modeName: modeName,
-            price: price
-          }),
+            method: "POST",
+            body: JSON.stringify({
+                category: category,
+                modeName: modeName,
+                price: price,
+                timer: showTimerInput ? timer : undefined,
+            }),
         });
-    
+
         console.log(response);
-    
+
         onSaveData();
         onClose();
-      };
+    };
+
+    const handleCategoryChange = (e) => {
+        setCategory(e.currentTarget.value);
+        setShowTimerInput(e.currentTarget.value === "Wash" || e.currentTarget.value === "Dry");
+    };
 
     return (
         <>
@@ -36,7 +44,7 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
                             <p>Category</p>
                             <select
                                 value={category}
-                                onChange={(e) => setCategory(e.currentTarget.value)}
+                                onChange={handleCategoryChange}
                             >
                                 <option value=""></option>
                                 <option value="Wash">Wash Mode</option>
@@ -55,6 +63,16 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
                                 value={price}
                                 onChange={(e) => setPrice(e.currentTarget.value)}
                             ></input>
+                            {showTimerInput && (
+                                <>
+                                    <p>Timer</p>
+                                    <input
+                                        type="number"
+                                        value={timer}
+                                        onChange={(e) => setTimer(e.currentTarget.value)}
+                                    ></input>
+                                </>
+                            )}
                         </div>
                         <br />
                         <button className="cancel" onClick={onClose}>Cancel</button>

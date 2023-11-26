@@ -16,6 +16,9 @@ const PriceSchema = new Schema({
         type: Number,
         required: [true, "Machine Number is required"],
     },
+    timer: {
+        type: Number
+    },
 });
 
 const Price = models.Price || model("Price", PriceSchema);
