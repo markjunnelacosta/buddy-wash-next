@@ -15,7 +15,7 @@ function MachineTable() {
     useState(false);
 
   const fetchData = () => {
-    fetch("http://localhost:3000/api/machine", {
+    fetch("/api/machine", {
       cache: "no-store",
     })
       .then((response) => {

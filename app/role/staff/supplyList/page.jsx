@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
-// import "./SupplyTable";
 import AddSupply from "../../components/forms/addSupply/page";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,12 +18,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SupplyTable from "./SupplyTable";
 import CircleIcon from "@mui/icons-material/Circle";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/supply", {
+    const res = await fetch("/api/supply", {
       cache: "no-store",
     });
 
