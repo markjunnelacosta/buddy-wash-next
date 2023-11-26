@@ -81,7 +81,7 @@ const UpdateDryer = ({ id, dryerNumber, action, timer, queue, useCount, status }
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/dryer/${id}`, {
+      const res = await fetch(`/api/dryer/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

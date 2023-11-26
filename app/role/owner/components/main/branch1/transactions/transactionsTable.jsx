@@ -5,7 +5,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper
 
 export const getReport = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/report", {
+    const res = await fetch("/api/report", {
       cache: "no-store",
     });
 
@@ -22,7 +22,7 @@ export const getReport = async () => {
 
 export const getFilteredReport = async (dateFrom, dateTo, dateRange) => {
   try {
-    const res = await fetch("http://localhost:3000/api/report", {
+    const res = await fetch("/api/report", {
       cache: "no-store",
     });
 
@@ -64,8 +64,10 @@ const calculateDataForDateRange = (data, dateRange) => {
           }
           break;
         case "weekly":
-          const firstDayOfWeek = new Date();
-          firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+          const firstDayOfWeek = new Date(currentDate);
+          const dayOfWeek = currentDate.getDay();
+          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+          firstDayOfWeek.setDate(diff);
           if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
             acc.push(report);
           }
@@ -84,8 +86,8 @@ const calculateDataForDateRange = (data, dateRange) => {
           }
           break;
         case "semi-annually":
-          const halfYear = Math.ceil(reportDate.getMonth() / 6);
-          const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+          const halfYear = Math.floor(reportDate.getMonth() / 6);
+          const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
           if (
             halfYear === currentHalfYear &&
             reportDate.getFullYear() === currentDate.getFullYear()
@@ -107,50 +109,52 @@ const calculateDataForDateRange = (data, dateRange) => {
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
 
-    const fetchReport = async () => {
-      try {
-        if (filteredData.length > 0) {
-          setReportData(filteredData);
-        }
-        else {
-          console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dateRange:", dateRange);
-          const report = await getFilteredReport(dateFrom, dateTo, dateRange);
-          console.log("Fetched report data:", report);
-          setReportData(report);
-        }
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
+  const fetchReport = async () => {
+    try {
+      if (filteredData.length > 0) {
+        setReportData(filteredData);
       }
-    };
+      else {
+        console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dateRange:", dateRange);
+        const report = await getFilteredReport(dateFrom, dateTo, dateRange);
+        console.log("Fetched report data:", report);
+        setReportData(report);
+      }
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
 
-    useEffect(() => {
-      fetchReport();
-    }, [dateFrom, dateTo, dateRange,  filteredData]);
-    
-    return (
-      <TableContainer component={Paper}>
-        <Paper style={{ height: 500, width: "100%" }}>
-          <Table stickyHeader aria-label="sticky table" size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
-                <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
-                <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reportData.map((report) => (
+  useEffect(() => {
+    fetchReport();
+  }, [dateFrom, dateTo, dateRange, filteredData]);
+
+  return (
+    <TableContainer component={Paper}>
+      <Paper style={{ height: 500, width: "100%" }}>
+        <Table stickyHeader aria-label="sticky table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {reportData
+              // .filter((report) => report.branchNumber === "1")
+              .map((report) => (
                 <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
                   <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
                   <TableCell align="center">{report.customerName}</TableCell>
                   <TableCell align="center">{report.totalAmount}</TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      </TableContainer>
-    );
-  };
+          </TableBody>
+        </Table>
+      </Paper>
+    </TableContainer>
+  );
+};
 
-  export default TransactionTable;
+export default TransactionTable;

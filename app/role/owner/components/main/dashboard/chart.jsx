@@ -34,8 +34,10 @@ function Chart({ data, dateRange }) {
             reportDate.getFullYear() === currentDate.getFullYear()
           );
         case "weekly":
-          const firstDayOfWeek = new Date();
-          firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+          const firstDayOfWeek = new Date(currentDate);
+          const dayOfWeek = currentDate.getDay();
+          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+          firstDayOfWeek.setDate(diff);
           return reportDate >= firstDayOfWeek && reportDate <= currentDate;
         case "monthly":
           return (
@@ -45,8 +47,8 @@ function Chart({ data, dateRange }) {
         case "annually":
           return reportDate.getFullYear() === currentDate.getFullYear();
         case "semi-annually":
-          const halfYear = Math.ceil(reportDate.getMonth() / 6);
-          const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+          const halfYear = Math.floor(reportDate.getMonth() / 6);
+          const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
           return (
             halfYear === currentHalfYear &&
             reportDate.getFullYear() === currentDate.getFullYear()

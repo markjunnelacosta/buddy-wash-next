@@ -3,7 +3,7 @@ import UpdateDryer from "../page";
 // Function to fetch dryer data from the server
 const getDryer = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/dryer/${id}`, {
+    const res = await fetch(`/api/dryer/${id}`, {
       cache: "no-store",
     });
 

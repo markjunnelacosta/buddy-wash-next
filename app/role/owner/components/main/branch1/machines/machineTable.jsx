@@ -25,7 +25,7 @@ function MachineTable() {
           // status: 'Operational',
         };
 
-        fetch('http://localhost:3000/api/machine', {
+        fetch('/api/machine', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function MachineTable() {
   };
 
   const fetchData = () => {
-    fetch('http://localhost:3000/api/machine', {
+    fetch('/api/machine', {
       cache: 'no-store',
     })
       .then((response) => {

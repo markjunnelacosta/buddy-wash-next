@@ -52,7 +52,7 @@ export default function UpdateSupply({
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/supply/${id}`, {
+      const res = await fetch(`/api/supply/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

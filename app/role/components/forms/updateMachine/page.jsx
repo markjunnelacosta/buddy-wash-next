@@ -81,7 +81,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/machine/${id}`, {
+      const res = await fetch(`/api/machine/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

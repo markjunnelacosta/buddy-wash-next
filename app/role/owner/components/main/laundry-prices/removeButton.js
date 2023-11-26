@@ -9,7 +9,7 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/laundry-price?id=${id}`, {
+      const res = await fetch(`/api/laundry-price?id=${id}`, {
         method: "DELETE",
       });
 

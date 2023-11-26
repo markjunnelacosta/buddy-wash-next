@@ -32,8 +32,10 @@ function ForecastChart({ forecastData, dateRange }) {
             forecastDate.getFullYear() === currentDate.getFullYear()
           );
         case "weekly":
-          const firstDayOfWeek = new Date();
-          firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+          const firstDayOfWeek = new Date(currentDate);
+          const dayOfWeek = currentDate.getDay();
+          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+          firstDayOfWeek.setDate(diff);
           return forecastDate >= firstDayOfWeek && forecastDate <= currentDate;
         case "monthly":
           return (
@@ -43,8 +45,8 @@ function ForecastChart({ forecastData, dateRange }) {
         case "annually":
           return forecastDate.getFullYear() === currentDate.getFullYear();
         case "semi-annually":
-          const halfYear = Math.ceil(forecastDate.getMonth() / 6);
-          const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+          const halfYear = Math.floor(forecastDate.getMonth() / 6);
+          const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
           return (
             halfYear === currentHalfYear &&
             forecastDate.getFullYear() === currentDate.getFullYear()

@@ -2,7 +2,7 @@ import UpdateLaundryMode from "../page";
 
 const getLaundryMode = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/laundry-price/${id}`, {
+      const res = await fetch(`/api/laundry-price/${id}`, {
         cache: "no-store",
       });
   
