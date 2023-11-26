@@ -87,7 +87,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const assignDryer = () => {
     console.log(dryerData);
     const availableDryer = dryerData.find(
-      (d) => d.timer == "00:00" || d.timer == 0
+      (d) => d.timer == "00:00" || d.timer == "0"
     );
     console.log("available dryers" + availableDryer);
     return +availableDryer.dryerNumber;
@@ -174,7 +174,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
         machineTimer: "0",
         dryerNo: dryerNo,
         dryerAction: "",
-        dryerTimer: "",
+        dryerTimer: "0",
         status: "",
       }),
     });

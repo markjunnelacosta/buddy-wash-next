@@ -40,6 +40,10 @@ const OrderSchema = new Schema({
     type: String,
     required: [false, "Timer is not required"],
   },
+  dryer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Dryer',
+  },
   status: {
     type: String,
     required: [false, "status is not required"],
