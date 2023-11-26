@@ -14,7 +14,25 @@ function DryerTable() {
   const [selectedDryer, setSelectedDryer] = useState(null);
   const [isEditDryerPopupVisible, setEditDryerPopupVisible] = useState(false);
 
-  const fetchData = () => {
+  // const fetchData = () => {
+  //   fetch("/api/dryer", {
+  //     cache: "no-store",
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch dryer data");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setDryerData(data.dryerData || []); // Update dryerData state
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching dryer data:", error);
+  //     });
+  // };
+
+  const fetchDryer = () => {
     fetch("/api/dryer", {
       cache: "no-store",
     })
@@ -25,12 +43,21 @@ function DryerTable() {
         return response.json();
       })
       .then((data) => {
-        setDryerData(data.dryerData || []); // Update dryerData state
+        setDryerData(
+          data.dryerData.filter(
+            (d) => d.branchNumber == 1 || d.branchNumber == "1"
+          ) || []
+        ); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
       });
   };
+
+  useEffect(() => {
+    fetchDryer();
+  }, []);
+  console.log("********dryer data", dryerData);
 
   const handleEditDryer = (dryer) => {
     setSelectedDryer(dryer);
@@ -39,12 +66,12 @@ function DryerTable() {
 
   const handleCloseEditDryerPopup = () => {
     setEditDryerPopupVisible(false);
-    fetchData(); // Refresh data after edit
+    fetchDryer(); // Refresh data after edit
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <div>
