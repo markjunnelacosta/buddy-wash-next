@@ -64,8 +64,10 @@ const calculateDataForDateRange = (data, dateRange) => {
           }
           break;
         case "weekly":
-          const firstDayOfWeek = new Date();
-          firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+          const firstDayOfWeek = new Date(currentDate);
+          const dayOfWeek = currentDate.getDay();
+          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+          firstDayOfWeek.setDate(diff);
           if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
             acc.push(report);
           }
@@ -84,8 +86,8 @@ const calculateDataForDateRange = (data, dateRange) => {
           }
           break;
         case "semi-annually":
-          const halfYear = Math.ceil(reportDate.getMonth() / 6);
-          const currentHalfYear = Math.ceil(currentDate.getMonth() / 6);
+          const halfYear = Math.floor(reportDate.getMonth() / 6);
+          const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
           if (
             halfYear === currentHalfYear &&
             reportDate.getFullYear() === currentDate.getFullYear()
