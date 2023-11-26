@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -10,14 +10,31 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import EditPopup from "./EditButton";
 
-
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
   const [isEditMachinePopupVisible, setEditMachinePopupVisible] =
     useState(false);
 
-  const fetchData = () => {
+  // const fetchData = () => {
+  //   fetch("/api/machine", {
+  //     cache: "no-store",
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch machine data");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setMachineData(data.machineData || []); // Update machineData state
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching machine data:", error);
+  //     });
+  // };
+
+  const fetchMachines = () => {
     fetch("/api/machine", {
       cache: "no-store",
     })
@@ -28,12 +45,19 @@ function MachineTable() {
         return response.json();
       })
       .then((data) => {
-        setMachineData(data.machineData || []); // Update machineData state
+        setMachineData(
+          data.machineData.filter((m) => m.branchNumber == "1") || []
+        ); // Update machineData state
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
       });
   };
+
+  useEffect(() => {
+    fetchMachines();
+  }, []);
+  console.log("********machine data", machineData);
 
   const handleEditMachine = (machine) => {
     setSelectedMachine(machine);
@@ -42,19 +66,18 @@ function MachineTable() {
 
   const handleCloseEditMachinePopup = () => {
     setEditMachinePopupVisible(false);
-    fetchData(); // Refresh data after edit
+    fetchMachines(); // Refresh data after edit
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetch();
+  // }, []);
 
   return (
     <div>
       <div style={{ height: "400px", overflow: "auto" }}>
         <TableContainer component={Paper}>
-          <Table stickyHeader aria-label="sticky table"
-          size="small">
+          <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" className="table-header-bold">
