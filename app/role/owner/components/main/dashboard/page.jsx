@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [b2Profit, setB2Profit] = useState(0);
   const [b3Profit, setB3Profit] = useState(0);
   const [dateRange, setDateRange] = useState("daily");
-  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [paymentMethod, setPaymentMethod] = useState("all");
   const [customerData, setCustomerData] = useState("walk-in");
 
 
@@ -27,12 +27,13 @@ const Dashboard = () => {
 
         setReportData(data.reportData);
 
-        const calculateDataForDateRange = (range) => {
+        const calculateDataForDateRange = (range, paymentMethod) => {
           return data.reportData
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
-
+              const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              
               switch (range) {
                 case "daily":
                   return (
@@ -63,16 +64,28 @@ const Dashboard = () => {
                     reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 default:
-                  return true;
+                  return isCorrectPaymentMethod;
               }
             })
             .reduce(
               (acc, report) => {
+                const isCorrectPaymentMethod =
+                paymentMethod === "all" || report.paymentMethod === paymentMethod;
+      
+              if (isCorrectPaymentMethod) {
                 acc.totalProfit += report.totalAmount;
                 acc.customerCount += 1;
+      
+                if (report.paymentMethod === "GCash") {
+                  acc.gcashProfit += report.totalAmount;
+                } else if (report.paymentMethod === "Cash") {
+                  acc.cashProfit += report.totalAmount;
+                }
+              }
+
                 return acc;
               },
-              { totalProfit: 0, customerCount: 0 }
+              { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
             );
         };
 
@@ -83,19 +96,23 @@ const Dashboard = () => {
         // };
 
         // Update state hooks with calculated values based on the selected date range
-        const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount } = calculateDataForDateRange(dateRange);
+        const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
+
         setB1Profit(b1Profit("b1Amount"));
         setB2Profit(b2Profit("b2Amount"));
         setB3Profit(b3Profit("b3Amount"));
+
+        console.log("GCash Profit:", gcashProfit);
+        console.log("Cash Profit:", cashProfit);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [dateRange]);
+  }, [dateRange, paymentMethod]);
 
   const forecastData = reportData.map((report, index) => {
     const pastReports = reportData.slice(0, index);
@@ -149,8 +166,9 @@ const Dashboard = () => {
           }}
         >
           <MenuItem disabled>Select Payment Data</MenuItem>
-          <MenuItem value="cash">Cash</MenuItem>
-          <MenuItem value="gcash">GCash</MenuItem>
+          <MenuItem value="all">All Payments</MenuItem>
+          <MenuItem value="Cash">Cash</MenuItem>
+          <MenuItem value="GCash">GCash</MenuItem>
         </Select>
 
         <Select
