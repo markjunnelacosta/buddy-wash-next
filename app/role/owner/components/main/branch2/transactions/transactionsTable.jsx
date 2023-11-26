@@ -5,7 +5,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper
 
 export const getReport = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/report", {
+    const res = await fetch("/api/report", {
       cache: "no-store",
     });
 
@@ -22,7 +22,7 @@ export const getReport = async () => {
 
 export const getFilteredReport = async (dateFrom, dateTo, dateRange) => {
   try {
-    const res = await fetch("http://localhost:3000/api/report", {
+    const res = await fetch("/api/report", {
       cache: "no-store",
     });
 

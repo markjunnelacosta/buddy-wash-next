@@ -14,7 +14,7 @@ export default function UpdateLaundryMode({ id, modeName, price, onClose }) {
             newPrice
         });
         try {
-            const res = await fetch(`http://localhost:3000/api/laundry-price/${id}`, {
+            const res = await fetch(`/api/laundry-price/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",

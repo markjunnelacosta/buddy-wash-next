@@ -11,7 +11,7 @@ import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCel
 
 const getBranchStaff = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/staff-owner", {
+    const res = await fetch("/api/staff-owner", {
       cache: "no-store",
     });
 

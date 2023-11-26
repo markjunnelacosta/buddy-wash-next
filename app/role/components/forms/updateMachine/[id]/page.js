@@ -3,7 +3,7 @@ import UpdateMachine from "../page";
 // Function to fetch machine data from the server
 const getMachine = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/machine/${id}`, {
+    const res = await fetch(`/api/machine/${id}`, {
       cache: "no-store",
     });
 

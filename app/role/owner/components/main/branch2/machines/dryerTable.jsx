@@ -25,7 +25,7 @@ function DryerTable() {
           // status: 'Operational',
         };
 
-        fetch('http://localhost:3000/api/dryer', {
+        fetch('/api/dryer', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function DryerTable() {
   };
 
   const fetchData = () => {
-    fetch('http://localhost:3000/api/dryer', {
+    fetch('/api/dryer', {
       cache: 'no-store',
     })
       .then((response) => {

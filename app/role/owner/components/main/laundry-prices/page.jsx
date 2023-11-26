@@ -18,7 +18,7 @@ import EditLaundryPopup from "./editButton";
 
 const getLaundryMode = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/laundry-price", {
+        const res = await fetch("/api/laundry-price", {
             cache: "no-store",
         });
 
@@ -80,7 +80,7 @@ const LaundryPrice = () => {
 
     const fetchData = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/laundry-price", {
+            const res = await fetch("/api/laundry-price", {
                 cache: "no-store",
             });
 
