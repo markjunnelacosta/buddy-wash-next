@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import { Grid, Paper } from "@mui/material";
 import Counter from "./counter";
-import Chart from "./Chart";
+import Chart from "./chart";
 import ForecastChart from "./ForecastChart";
 import { Select, MenuItem } from '@mui/material';
 

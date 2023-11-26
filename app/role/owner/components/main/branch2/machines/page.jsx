@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 import './machines.css';
-import MachineTable from './MachineTable';
-import DryerTable from './DryerTable';
+import MachineTable from './machineTable';
+import DryerTable from './dryerTable';
 
 function Machines() {
   const [machines, setMachines] = useState([]); // Store the list of machines
