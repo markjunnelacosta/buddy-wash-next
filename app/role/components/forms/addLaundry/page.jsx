@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
+import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [customerData, setCustomerData] = useState([]);
@@ -27,6 +28,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
+  const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
 
   let stock = 0;
 
@@ -154,15 +156,31 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
     console.log(response);
 
-    // const res = await fetch("/api/report", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     customerName: customerName,
-    //     reportDate: orderDate,
-    //     totalAmount: totalAmount,
-    //     paymentMethod: paymentMethod,
-    //   }),
-    // }); DONT DELETE
+    setLaundryOrderSummary({
+      customerName,
+      orderDate,
+      weight,
+      washMode,
+      dryMode,
+      fold,
+      colored,
+      detergent,
+      fabCon,
+      detergentQty,
+      fabConQty,
+      paymentMethod,
+      totalAmount
+    });
+
+    const res = await fetch("/api/report", {
+      method: "POST",
+      body: JSON.stringify({
+        customerName: customerName,
+        reportDate: orderDate,
+        totalAmount: totalAmount,
+        paymentMethod: paymentMethod,
+      }),
+    });
 
     const orderRes = await fetch("/api/order", {
       method: "POST",
@@ -209,7 +227,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
 
         const res = await fetch(
-          `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
+          `/api/supply?id=${selectedDetergent._id}`,
           {
             method: "PATCH",
             body: JSON.stringify({ availableStock: stock }),
@@ -257,7 +275,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
 
         const res = await fetch(
-          `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
+          `/api/supply?id=${selectedFabCon._id}`,
           {
             method: "PATCH",
             body: JSON.stringify({ availableStock: stock }),
@@ -276,22 +294,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       }
     }
 
-    // setLaundryOrderSummary({
-    //   customerName,
-    //   orderDate,
-    //   weight,
-    //   washMode,
-    //   dryMode,
-    //   fold,
-    //   colored,
-    //   detergent,
-    //   fabCon,
-    //   detergentQty,
-    //   fabConQty,
-    //   paymentMethod,
-    //   totalAmount
-    // });
-    //DONT DELETE
+
+    
 
     onSaveData();
     onClose();
@@ -450,6 +454,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
 
+  const closeReceipt = () => {
+    setLaundryOrderSummary(null);
+  };
+
   return (
     <>
       {isOpen && (
@@ -604,9 +612,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
           </div>
         </div>
       )}
-      {/* {laundryOrderSummary && (
+      {laundryOrderSummary && (
         <Receipt selectedOrder={laundryOrderSummary} onClose={closeReceipt} />
-      )} */}
+      )}
     </>
   );
 };
