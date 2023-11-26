@@ -363,7 +363,15 @@ const LaundryBin = () => {
       console.log("Order deleted");
     }
   };
-
+  const updateUseCountDryer = async (selectedDryer, useCount) => {
+    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+      method: "PATCH",
+      body: JSON.stringify({ useCount: useCount + 1 }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
   const getCountDownTimerDryer = (orderId) => {
     const startTime = getOrderStartTimeDryer(orderId);
 
@@ -383,26 +391,28 @@ const LaundryBin = () => {
         // update dryer timer to 0
 
         // Increment useCount on the server
-        fetch(`/api/dryer/${selectedDryer}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ timer: 0 }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data.message);
-          })
-          .catch((error) => {
-            console.error("Failed to increment useCount:", error);
-          });
+        // fetch(`/api/dryer/${selectedDryer}`, {
+        //   method: "PATCH",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ timer: 0 }),
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data.message);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Failed to increment useCount:", error);
+        //   });
 
         // update useCount plus 1
         timers[index].dryerStartTime = 0;
         setMachineTimer(timers);
         // delete order
         deleteOrder(orderId);
+        // update use count
+        updateUseCountDryer(selectedDryer, dData[dIndex].useCount);
       } else {
         //Render a countdown
         return (
