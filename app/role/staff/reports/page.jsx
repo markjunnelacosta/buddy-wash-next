@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 
 const getReport = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/report", {
+        const res = await fetch("/api/report", {
             cache: "no-store",
         });
 
@@ -32,7 +32,7 @@ const getReport = async () => {
 
 const getFilteredReport = async (dateFrom, dateTo) => {
     try {
-        const res = await fetch("http://localhost:3000/api/report", {
+        const res = await fetch("/api/report", {
             cache: "no-store",
         });
 

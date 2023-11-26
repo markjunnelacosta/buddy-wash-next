@@ -14,7 +14,7 @@ function DryerTable() {
   const [isEditDryerPopupVisible, setEditDryerPopupVisible] = useState(false);
 
   const fetchData = () => {
-    fetch("http://localhost:3000/api/dryer", {
+    fetch("/api/dryer", {
       cache: "no-store",
     })
       .then((response) => {

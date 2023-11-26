@@ -17,12 +17,10 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
-import SupplyInOutTable from "./SupplyInOutTable";
-// import AddSupplyInOut from "./SupplyInOutTable";
 import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
 const getInventory = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/inventory", {
+    const res = await fetch("/api/inventory", {
       cache: "no-store",
     });
 

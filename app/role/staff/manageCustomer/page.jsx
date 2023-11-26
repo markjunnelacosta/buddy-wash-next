@@ -25,7 +25,7 @@ import EditCustomerPopup from "./editButton";
 
 const getCustomers = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/customer", {
+    const res = await fetch("/api/customer", {
       cache: "no-store",
     });
 
