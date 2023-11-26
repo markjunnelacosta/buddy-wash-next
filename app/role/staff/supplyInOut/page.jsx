@@ -56,9 +56,20 @@ function SupplyInOut() {
   React.useEffect(() => {
     console.log(inventory);
   }, [inventory]);
+
   const filteredInventory = inventory.filter((inventory) =>
     inventory.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const sortedInventory = [...filteredInventory].sort((a, b) => {
+    // Convert date strings to Date objects for comparison
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    // Sort in descending order
+    return dateB - dateA;
+  });
+
   return (
     <div className="supplyInOut-container">
       <div className="blue-container">
@@ -103,7 +114,7 @@ function SupplyInOut() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredInventory.map((inventory) => (
+              {sortedInventory.map((inventory) => (
                   <TableRow
                     key={inventory._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

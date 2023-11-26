@@ -30,7 +30,7 @@ p {
 .text-box {
   border: solid lightgray;
   line-height: 25px;
-  width: 400px;
+  width: 250px;
   border-width: thin;
   font-weight: bold;
   padding: 0px;
@@ -66,13 +66,14 @@ p {
   width: inherit;
   padding: 10px 0px;
 }
-select {
+
+.dropdown {
+  width: 250px; /* Adjust the width according to your preference */
   border: solid lightgray;
   line-height: 20px;
-  width: 400px;
   height: 30px;
   border-width: thin;
-  font-weight: bold;
+  font-weight: thin;
 }
 
 .MuiDialogTitle-root + .css-ypiqx9-MuiDialogContent-root {
