@@ -117,6 +117,7 @@ const Reports = () => {
                                     <TableCell className='table-cell'>Date </TableCell>
                                     <TableCell className='table-cell'>Customer Name</TableCell>
                                     <TableCell className='table-cell'>Total Amount </TableCell>
+                                    <TableCell className='table-cell'>Paymen Method</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -130,6 +131,7 @@ const Reports = () => {
                                         <TableCell className="table-body">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
                                         <TableCell className="table-body">{report.customerName}</TableCell>
                                         <TableCell className="table-body">{report.totalAmount}</TableCell>
+                                        <TableCell className="table-body">{report.paymentMethod}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

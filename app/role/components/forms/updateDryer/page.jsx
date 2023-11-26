@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import "./editDryer.css";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemText, } from "@mui/material";

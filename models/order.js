@@ -24,6 +24,10 @@ const OrderSchema = new Schema({
     type: String,
     required: [false, "Timer is not required"],
   },
+  machine: {
+    type: Schema.Types.ObjectId,
+    ref: 'Machine',
+  },
   dryerNo: {
     type: Number,
     required: [true, "Dryer Number is required"],
@@ -35,6 +39,10 @@ const OrderSchema = new Schema({
   dryerTimer: {
     type: String,
     required: [false, "Timer is not required"],
+  },
+  dryer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Dryer',
   },
   status: {
     type: String,

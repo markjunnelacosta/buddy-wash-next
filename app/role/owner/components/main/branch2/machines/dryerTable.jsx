@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';

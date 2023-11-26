@@ -21,7 +21,7 @@ import Countdown from "react-countdown";
 
 const getOrderDetails = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/order", {
+    const res = await fetch("/api/order", {
       cache: "no-store",
     });
 
@@ -44,7 +44,7 @@ const LaundryBin = () => {
   const [dryerData, setDryerData] = useState([]);
 
   const fetchMachines = () => {
-    fetch("http://localhost:3000/api/machine", {
+    fetch("/api/machine", {
       cache: "no-store",
     })
       .then((response) => {
@@ -67,7 +67,7 @@ const LaundryBin = () => {
   }, []);
   console.log("********machine data", machineData);
   const fetchDryer = () => {
-    fetch("http://localhost:3000/api/dryer", {
+    fetch("/api/dryer", {
       cache: "no-store",
     })
       .then((response) => {
@@ -130,7 +130,7 @@ const LaundryBin = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/laundrybin", {
+      const res = await fetch("/api/laundrybin", {
         cache: "no-store",
       });
 
@@ -174,7 +174,7 @@ const LaundryBin = () => {
 
   const updateOrderTimer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ machineTimer: date }),
       headers: {
@@ -193,7 +193,7 @@ const LaundryBin = () => {
 
   const updateOrderTimerForDryer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ dryerTimer: date }),
       headers: {
@@ -217,7 +217,7 @@ const LaundryBin = () => {
   const updateMachineTimer = async (selectedMachine, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const res = await fetch(
-      `http://localhost:3000/api/machine?id=${selectedMachine}`,
+      `/api/machine?id=${selectedMachine}`,
       {
         method: "PATCH",
         body: JSON.stringify({ timer: date }),
@@ -239,7 +239,7 @@ const LaundryBin = () => {
   const updateDryerTimer = async (selectedDryer, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const res = await fetch(
-      `http://localhost:3000/api/dryer?id=${selectedDryer}`,
+      `/api/dryer?id=${selectedDryer}`,
       {
         method: "PATCH",
         body: JSON.stringify({ timer: date }),
@@ -324,6 +324,23 @@ const LaundryBin = () => {
         updateMachineTimer(selectedMachine, 0);
         // update machine timer to 0
 
+        // Increment useCount on the server
+        fetch(`/api/machine/${selectedMachine}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timer: 0 }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.message);
+          })
+          .catch((error) => {
+            console.error('Failed to increment useCount:', error);
+          });
+
+
         // update useCount plus 1
         timers[index].startTime = 0;
         setMachineTimer(timers);
@@ -364,6 +381,22 @@ const LaundryBin = () => {
         const selectedDryer = dData[dIndex]._id;
         updateDryerTimer(selectedDryer, 0);
         // update dryer timer to 0
+
+         // Increment useCount on the server
+         fetch(`/api/dryer/${selectedDryer}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timer: 0 }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.message);
+          })
+          .catch((error) => {
+            console.error('Failed to increment useCount:', error);
+          });
 
         // update useCount plus 1
         timers[index].dryerStartTime = 0;

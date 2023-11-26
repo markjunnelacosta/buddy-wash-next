@@ -4,7 +4,6 @@ import './staff.css';
 import AddIcon from '@mui/icons-material/Add';
 import { Add } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
-import AddStaff from './staffTable';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 

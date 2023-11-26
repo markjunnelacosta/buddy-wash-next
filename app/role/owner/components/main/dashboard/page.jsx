@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import { Grid, Paper } from "@mui/material";
 import Counter from "./counter";
-import Chart from "./Chart";
-import ForecastChart from "./ForecastChart";
+import Chart from "./chart";
+import ForecastChart from "./forecastChart";
 import { Select, MenuItem } from '@mui/material';
 
 const Dashboard = () => {
