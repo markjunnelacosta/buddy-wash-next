@@ -14,7 +14,7 @@ function Transactions() {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [filteredData, setReportData] = useState([]);
-  const [dateRange, setDateRange] = useState('daily');
+  const [dateRange, setDateRange] = useState('annually');
 
   const handleFilterButtonClick = async () => {
     try {

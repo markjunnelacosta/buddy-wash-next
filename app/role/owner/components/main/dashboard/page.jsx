@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [b1Profit, setB1Profit] = useState(0);
   const [b2Profit, setB2Profit] = useState(0);
   const [b3Profit, setB3Profit] = useState(0);
-  const [dateRange, setDateRange] = useState("daily");
+  const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
   const [customerData, setCustomerData] = useState("walk-in");
 
