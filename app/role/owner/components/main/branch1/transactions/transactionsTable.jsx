@@ -141,13 +141,15 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {reportData.map((report) => (
-              <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
-                <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
-                <TableCell align="center">{report.customerName}</TableCell>
-                <TableCell align="center">{report.totalAmount}</TableCell>
-              </TableRow>
-            ))}
+            {reportData
+              // .filter((report) => report.branchNumber === "1")
+              .map((report) => (
+                <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
+                  <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
+                  <TableCell align="center">{report.customerName}</TableCell>
+                  <TableCell align="center">{report.totalAmount}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </Paper>

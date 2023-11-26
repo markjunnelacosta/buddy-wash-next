@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [b2Profit, setB2Profit] = useState(0);
   const [b3Profit, setB3Profit] = useState(0);
   const [dateRange, setDateRange] = useState("daily");
+  const [paymentMethod, setPaymentMethod] = useState("caash");
+  const [customerData, setCustomerData] = useState("walk-in");
 
 
   useEffect(() => {
@@ -113,6 +115,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="graphs-container">
+      <div className="selects-container">
         <Select
           value={dateRange}
           onChange={(e) => setDateRange(e.target.value)}
@@ -122,8 +125,6 @@ const Dashboard = () => {
             width: "200px",
             height: "40px",
             fontWeight: "bold",
-            margin: "20px",
-            marginLeft: "45px",
             borderRadius: "10px"
           }}
         >
@@ -134,6 +135,41 @@ const Dashboard = () => {
           <MenuItem value="annually">Annually</MenuItem>
           <MenuItem value="semi-annually">Semi-Annually</MenuItem>
         </Select>
+
+        <Select
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+          style={{
+            backgroundColor: "white",
+            color: "black",
+            width: "200px",
+            height: "40px",
+            fontWeight: "bold",
+            borderRadius: "10px"
+          }}
+        >
+          <MenuItem disabled>Select Payment Data</MenuItem>
+          <MenuItem value="cash">Cash</MenuItem>
+          <MenuItem value="gcash">GCash</MenuItem>
+        </Select>
+
+        <Select
+          value={customerData}
+          onChange={(e) => setCustomerData(e.target.value)}
+          style={{
+            backgroundColor: "white",
+            color: "black",
+            width: "200px",
+            height: "40px",
+            fontWeight: "bold",
+            borderRadius: "10px"
+          }}
+        >
+          <MenuItem disabled>Select Customer Data</MenuItem>
+          <MenuItem value="walk-in">Walk-in</MenuItem>
+          <MenuItem value="mobile">Mobile</MenuItem>
+        </Select>
+        </div>
         <div className="top-container">
           <div className="counters-container">
             <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />
