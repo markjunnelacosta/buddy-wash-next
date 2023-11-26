@@ -18,7 +18,6 @@ import MachineToggle from "./machineToggle";
 import DryerToggle from "./dryerToggle";
 import Countdown from "react-countdown";
 
-
 const getOrderDetails = async () => {
   try {
     const res = await fetch("/api/order", {
@@ -142,7 +141,6 @@ const LaundryBin = () => {
       const response = await res.json();
       const order = response.laundryData || [];
       setLaundryData(order);
-
     } catch (error) {
       console.log("Error loading orders: ", error);
     }
@@ -216,16 +214,13 @@ const LaundryBin = () => {
 
   const updateMachineTimer = async (selectedMachine, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(
-      `/api/machine?id=${selectedMachine}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ timer: date }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
+      method: "PATCH",
+      body: JSON.stringify({ timer: date }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (res.ok) {
       console.log("Machine timer updated successfully");
@@ -238,16 +233,13 @@ const LaundryBin = () => {
 
   const updateDryerTimer = async (selectedDryer, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(
-      `/api/dryer?id=${selectedDryer}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ timer: date }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+      method: "PATCH",
+      body: JSON.stringify({ timer: date }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (res.ok) {
       console.log("Dryer timer updated successfully");
@@ -326,9 +318,9 @@ const LaundryBin = () => {
 
         // Increment useCount on the server
         fetch(`/api/machine/${selectedMachine}`, {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ timer: 0 }),
         })
@@ -337,9 +329,8 @@ const LaundryBin = () => {
             console.log(data.message);
           })
           .catch((error) => {
-            console.error('Failed to increment useCount:', error);
+            console.error("Failed to increment useCount:", error);
           });
-
 
         // update useCount plus 1
         timers[index].startTime = 0;
@@ -363,6 +354,15 @@ const LaundryBin = () => {
       );
     }
   };
+  const deleteOrder = async (orderId) => {
+    const res = await fetch(`/api/order?id=${orderId}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      console.log("Order deleted");
+    }
+  };
 
   const getCountDownTimerDryer = (orderId) => {
     const startTime = getOrderStartTimeDryer(orderId);
@@ -382,11 +382,11 @@ const LaundryBin = () => {
         updateDryerTimer(selectedDryer, 0);
         // update dryer timer to 0
 
-         // Increment useCount on the server
-         fetch(`/api/dryer/${selectedDryer}`, {
-          method: 'PATCH',
+        // Increment useCount on the server
+        fetch(`/api/dryer/${selectedDryer}`, {
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ timer: 0 }),
         })
@@ -395,12 +395,14 @@ const LaundryBin = () => {
             console.log(data.message);
           })
           .catch((error) => {
-            console.error('Failed to increment useCount:', error);
+            console.error("Failed to increment useCount:", error);
           });
 
         // update useCount plus 1
         timers[index].dryerStartTime = 0;
         setMachineTimer(timers);
+        // delete order
+        deleteOrder(orderId);
       } else {
         //Render a countdown
         return (
@@ -479,7 +481,7 @@ const LaundryBin = () => {
                         <MachineToggle
                           disabled={
                             computedDate(getOrderStartTimeDryer(order._id)) >
-                            0 || false
+                              0 || false
                           }
                           isChecked={
                             computedDate(getOrderStartTime(order._id)) > 0 ||
@@ -500,7 +502,7 @@ const LaundryBin = () => {
                           }
                           isChecked={
                             computedDate(getOrderStartTimeDryer(order._id)) >
-                            0 || false
+                              0 || false
                           }
                           onToggle={() => onDryerToggleChange(order._id)}
                         />
