@@ -187,7 +187,7 @@ const Dashboard = () => {
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 230,
                   }}
                 >
                   <Chart data={reportData} dateRange={dateRange} />
@@ -200,7 +200,7 @@ const Dashboard = () => {
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 230,
                   }}
                 >
                   <ForecastChart forecastData={forecastData} dateRange={dateRange} />
