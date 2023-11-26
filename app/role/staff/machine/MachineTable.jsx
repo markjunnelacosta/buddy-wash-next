@@ -1,12 +1,15 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import EditPopup from "./EditButton";
+
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
@@ -50,7 +53,8 @@ function MachineTable() {
     <div>
       <div style={{ height: "400px", overflow: "auto" }}>
         <TableContainer component={Paper}>
-          <Table stickyHeader aria-label="sticky table" size="small">
+          <Table stickyHeader aria-label="sticky table"
+          size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" className="table-header-bold">
@@ -73,7 +77,7 @@ function MachineTable() {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <tbody>
+            <TableBody>
               {machineData.map((machine, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">{machine.machineNumber}</TableCell>
@@ -97,7 +101,7 @@ function MachineTable() {
                   </TableCell>
                 </TableRow>
               ))}
-            </tbody>
+            </TableBody>
           </Table>
         </TableContainer>
       </div>
