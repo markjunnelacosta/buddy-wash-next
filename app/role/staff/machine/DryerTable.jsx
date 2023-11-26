@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -78,7 +78,9 @@ function DryerTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
-                    {dryer.action === "Running" ? "Running" : "Off"}
+                    {dryer.timer == "00:00" || dryer.timer == 0
+                      ? "Off"
+                      : "Running"}
                   </TableCell>
                   <TableCell align="center">{dryer.queue}</TableCell>
                   <TableCell align="center">{dryer.useCount}</TableCell>
