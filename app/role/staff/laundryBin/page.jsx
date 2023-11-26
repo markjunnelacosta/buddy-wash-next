@@ -298,6 +298,16 @@ const LaundryBin = () => {
     const index = machineTimer.findIndex((m) => m.orderId == orderId);
     return machineTimer[index].dryerStartTime;
   };
+  const updateUseCountMachine = async (selectedMachine, useCount) => {
+    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
+      method: "PATCH",
+      body: JSON.stringify({ useCount: useCount + 1 }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   const getCountDownTimer = (orderId) => {
     const startTime = getOrderStartTime(orderId);
 
@@ -316,25 +326,10 @@ const LaundryBin = () => {
         updateMachineTimer(selectedMachine, 0);
         // update machine timer to 0
 
-        // Increment useCount on the server
-        fetch(`/api/machine/${selectedMachine}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ timer: 0 }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data.message);
-          })
-          .catch((error) => {
-            console.error("Failed to increment useCount:", error);
-          });
-
-        // update useCount plus 1
         timers[index].startTime = 0;
         setMachineTimer(timers);
+        // add 1 to use count
+        updateUseCountMachine(selectedMachine, mData[mIndex].useCount);
       } else {
         //Render a countdown
         return (
