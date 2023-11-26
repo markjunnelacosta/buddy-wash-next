@@ -26,6 +26,9 @@ const ReportSchema = new Schema({
   totalAmount: {
     type: Number,
     required: [true, "Phone Number is required"],
+  },
+  paymentMethod: {
+    type: String
   }
 
 });
