@@ -357,6 +357,7 @@ const LaundryBin = () => {
     if (res.ok) {
       console.log("Order deleted");
     }
+    window.location.reload();
   };
   const updateUseCountDryer = async (selectedDryer, useCount) => {
     const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
