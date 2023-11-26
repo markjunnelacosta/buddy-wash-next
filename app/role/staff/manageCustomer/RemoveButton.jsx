@@ -3,7 +3,7 @@
 // import { HiOutlineTrash } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
-import "./CustomerTable.css";
+import "./ManageCustomer.css";
 export default function RemoveButton({ id }) {
   const router = useRouter();
   const removeCustomer = async () => {
