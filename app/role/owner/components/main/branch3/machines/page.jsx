@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import './Machines.css';
+import './machines.css';
 import MachineTable from './MachineTable';
 import DryerTable from './DryerTable';
 
