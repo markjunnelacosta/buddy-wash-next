@@ -16,14 +16,15 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { customerName, reportDate, totalAmount } = body;
+  const { customerName, reportDate, totalAmount, paymentMethod } = body;
 
   try {
     await connectToDB();
     const newReport = new Reports({
       customerName,
       reportDate,
-      totalAmount
+      totalAmount,
+      paymentMethod
     });
     console.log(newReport);
     await newReport.save();

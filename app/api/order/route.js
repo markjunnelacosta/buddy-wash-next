@@ -1,6 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Order from "@/models/order";
 import { NextResponse } from "next/server";
+import Machine from "@/models/machines";
 
 // export const GET = async (req, res) => {
 //   try {
@@ -14,7 +15,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await connectToDB();
-  const orders = await Order.find();
+  const orders = await Order.find().populate('machine');
   return NextResponse.json({ orders });
 }
 
@@ -34,9 +35,17 @@ export const POST = async (req) => {
 
   try {
     await connectToDB();
+
+    // Find the machine based on machineNo
+    const machine = await Machine.findOne({ machineNumber: machineNo });
+
+    if (!machine) {
+      return new Response("Machine not found", { status: 404 });
+    }
     const newOrder = new Order({
       date,
       name,
+      machine: machine._id,
       machineNo,
       machineAction,
       machineTimer,

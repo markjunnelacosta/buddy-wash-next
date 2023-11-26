@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [customerData, setCustomerData] = useState([]);
@@ -28,12 +27,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
-  // const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
 
   let stock = 0;
 
   const fetchMachines = () => {
-    fetch("http://localhost:3000/api/machine", {
+    fetch("/api/machine", {
       cache: "no-store",
     })
       .then((response) => {
@@ -57,14 +55,15 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
   const assignMachine = () => {
     console.log(machineData);
     const availableMachine = machineData.find(
-      (m) => m.timer == "00:00" || m.timer == 0
+      (m) => m.timer == "0" || m.timer == "00:00"
     );
     console.log("available machines" + availableMachine);
     return +availableMachine.machineNumber;
   };
 
+
   const fetchDryers = () => {
-    fetch("http://localhost:3000/api/dryer", {
+    fetch("/api/dryer", {
       cache: "no-store",
     })
       .then((response) => {
@@ -111,9 +110,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       return;
     }
 
-    const machineNo = assignMachine();
-    const dryerNo = assignDryer();
-
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(detergentQty)) {
       alert(
@@ -121,7 +117,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       );
       return;
     }
-    
+
     if (!numberRegex.test(fabConQty)) {
       alert(
         "Invalid characters in Fabric Conditioner Qty. Please enter a valid number."
@@ -129,20 +125,14 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       return;
     }
 
-    console.log(
-      customerName,
-      orderDate,
-      weight,
-      washMode,
-      dryMode,
-      fold,
-      colored,
-      detergent,
-      fabCon,
-      detergentQty,
-      fabConQty,
-      paymentMethod
-    );
+    const machineNo = assignMachine();
+    const dryerNo = assignDryer();
+
+    if (machineNo === null || dryerNo === null) {
+      // Handle the case where no available machine or dryer is found
+      return;
+    }
+
 
     const response = await fetch("/api/laundrybin", {
       method: "POST",
@@ -162,14 +152,17 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       }),
     });
 
-    const res = await fetch("/api/report", {
-      method: "POST",
-      body: JSON.stringify({
-        customerName: customerName,
-        reportDate: orderDate,
-        totalAmount: totalAmount,
-      }),
-    });
+    console.log(response);
+
+    // const res = await fetch("/api/report", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     customerName: customerName,
+    //     reportDate: orderDate,
+    //     totalAmount: totalAmount,
+    //     paymentMethod: paymentMethod,
+    //   }),
+    // }); DONT DELETE
 
     const orderRes = await fetch("/api/order", {
       method: "POST",
@@ -178,7 +171,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
         name: customerName,
         machineNo: machineNo,
         machineAction: "",
-        machineTimer: "",
+        machineTimer: "0",
         dryerNo: dryerNo,
         dryerAction: "",
         dryerTimer: "",
@@ -186,9 +179,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       }),
     });
 
-    console.log(response);
-    console.log(res);
-    console.log("orderszzzzzz" + orderRes);
+     console.log("orderszzzzzz" + orderRes);
 
     if (detergent && detergentQty) {
       const selectedDetergent = supplyData.find(
@@ -300,10 +291,12 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
     //   paymentMethod,
     //   totalAmount
     // });
+    //DONT DELETE
 
     onSaveData();
     onClose();
   };
+
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -457,10 +450,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
 
-  const closeReceipt = () => {
-    setLaundryOrderSummary(null);
-  };
-
   return (
     <>
       {isOpen && (
@@ -482,7 +471,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
               <p>Date</p>
               <input
                 type="date"
-                value={orderDate}
+                value={orderDate.substring(0, 10)}
                 onChange={(e) => setOrderDate(e.currentTarget.value)}
               ></input>
             </div>
@@ -522,12 +511,12 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
                   <option value="None">None</option>
                   {getDetergentSupplies()}
                 </select>
-                    <p>Detergent Qty.</p>
-                    <input
-                      type="number"
-                      value={detergentQty}
-                      onChange={(e) => setDetergentQty(e.currentTarget.value)}
-                    ></input>
+                <p>Detergent Qty.</p>
+                <input
+                  type="number"
+                  value={detergentQty}
+                  onChange={(e) => setDetergentQty(e.currentTarget.value)}
+                ></input>
               </div>
 
               <div id="second">
@@ -561,12 +550,12 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
                   <option value="None">None</option>
                   {getConditionerSupplies()}
                 </select>
-                    <p>Fabric Conditioner Qty.</p>
-                    <input
-                      type="number"
-                      value={fabConQty}
-                      onChange={(e) => setFabConQty(e.currentTarget.value)}
-                    ></input>
+                <p>Fabric Conditioner Qty.</p>
+                <input
+                  type="number"
+                  value={fabConQty}
+                  onChange={(e) => setFabConQty(e.currentTarget.value)}
+                ></input>
               </div>
 
               <div id="third">

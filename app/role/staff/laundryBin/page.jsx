@@ -174,7 +174,7 @@ const LaundryBin = () => {
 
   const updateOrderTimer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ machineTimer: date }),
       headers: {
@@ -193,7 +193,7 @@ const LaundryBin = () => {
 
   const updateOrderTimerForDryer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`http://localhost:3000/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ dryerTimer: date }),
       headers: {
@@ -217,7 +217,7 @@ const LaundryBin = () => {
   const updateMachineTimer = async (selectedMachine, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const res = await fetch(
-      `http://localhost:3000/api/machine?id=${selectedMachine}`,
+      `/api/machine?id=${selectedMachine}`,
       {
         method: "PATCH",
         body: JSON.stringify({ timer: date }),
@@ -323,6 +323,23 @@ const LaundryBin = () => {
         const selectedMachine = mData[mIndex]._id;
         updateMachineTimer(selectedMachine, 0);
         // update machine timer to 0
+
+        // Increment useCount on the server
+        fetch(`/api/machine/${selectedMachine}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ timer: 0 }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.message);
+          })
+          .catch((error) => {
+            console.error('Failed to increment useCount:', error);
+          });
+
 
         // update useCount plus 1
         timers[index].startTime = 0;
