@@ -208,7 +208,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <Chart data={reportData} dateRange={dateRange} />
+                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} />
                 </Paper>
               </Grid>
 

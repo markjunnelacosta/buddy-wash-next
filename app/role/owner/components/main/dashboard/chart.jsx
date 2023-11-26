@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function Chart({ data, dateRange }) {
+function Chart({ data, dateRange, paymentMethod }) {
   const theme = useTheme();
 
   console.log("Chart Component Rendered");
@@ -59,59 +59,67 @@ function Chart({ data, dateRange }) {
     });
   };
 
-    const filteredData = filterDataByDateRange(data, dateRange);
+  const filterDataByPaymentMethod = (data, method) => {
+    if (method === "all") {
+      return data;
+    } else {
+      return data.filter((report) => report.paymentMethod === method);
+    }
+  };
 
-    console.log("Filtered Data:", filteredData);
+  const filteredData = filterDataByPaymentMethod(filterDataByDateRange(data, dateRange), paymentMethod);
 
-    return (
-      <React.Fragment>
-        <Typography component="h2" variant="h6" color="primary" gutterBottom>
-          Chart
-        </Typography>
-        <ResponsiveContainer>
-          <LineChart
-            data={filteredData}
-            margin={{
-              top: 16,
-              right: 16,
-              bottom: 0,
-              left: 24,
-            }}
+  console.log("Filtered Data:", filteredData);
+
+  return (
+    <React.Fragment>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+        Chart
+      </Typography>
+      <ResponsiveContainer>
+        <LineChart
+          data={filteredData}
+          margin={{
+            top: 16,
+            right: 16,
+            bottom: 0,
+            left: 24,
+          }}
+        >
+          <XAxis
+            dataKey="reportDate"
+            stroke={theme.palette.text.secondary}
+            style={theme.typography.body2}
+            tickFormatter={formatDate}
+          />
+          <YAxis
+            stroke={theme.palette.text.secondary}
+            style={theme.typography.body2}
           >
-            <XAxis
-              dataKey="reportDate"
-              stroke={theme.palette.text.secondary}
-              style={theme.typography.body2}
-              tickFormatter={formatDate}
-            />
-            <YAxis
-              stroke={theme.palette.text.secondary}
-              style={theme.typography.body2}
+            <Label
+              angle={270}
+              position="left"
+              style={{
+                textAnchor: "middle",
+                fill: theme.palette.text.primary,
+                ...theme.typography.body1,
+              }}
             >
-              <Label
-                angle={270}
-                position="left"
-                style={{
-                  textAnchor: "middle",
-                  fill: theme.palette.text.primary,
-                  ...theme.typography.body1,
-                }}
-              >
-                Sales (₱)
-              </Label>
-            </YAxis>
-            <Tooltip labelFormatter={(value) => formatDate(value)} />
-            <Line
-              isAnimationActive={false}
-              type="monotone"
-              dataKey="totalAmount"
-              stroke={theme.palette.primary.main}
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </React.Fragment>
-    );
-  }
+              Sales (₱)
+            </Label>
+          </YAxis>
+          <Tooltip labelFormatter={(value) => formatDate(value)} />
+          <Line
+            isAnimationActive={false}
+            type="monotone"
+            dataKey="totalAmount"
+            stroke={theme.palette.primary.main}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </React.Fragment>
+  );
+}
 
-  export default Chart;
+export default Chart;
