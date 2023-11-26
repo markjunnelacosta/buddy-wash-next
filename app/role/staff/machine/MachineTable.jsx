@@ -81,8 +81,11 @@ function MachineTable() {
               {machineData.map((machine, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">{machine.machineNumber}</TableCell>
+
                   <TableCell align="center">
-                    {machine.action === "Running" ? "Running" : "Off"}
+                    {machine.timer == "00:00" || machine.timer == 0
+                      ? "Off"
+                      : "Running"}
                   </TableCell>
                   <TableCell align="center">{machine.queue}</TableCell>
                   <TableCell align="center">{machine.useCount}</TableCell>
