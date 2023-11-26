@@ -138,6 +138,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
               <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
               <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
+              <TableCell align="center" style={{ fontWeight: "bold" }}>Payment Method</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -148,6 +149,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                   <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
                   <TableCell align="center">{report.customerName}</TableCell>
                   <TableCell align="center">{report.totalAmount}</TableCell>
+                  <TableCell align="center">{report.paymentMethod}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
