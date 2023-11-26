@@ -1,7 +1,6 @@
-
-/* use client */
-import { useState, useEffect } from 'react';
+"use client";
 import React from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../components/layout';
 import './branches.css';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
