@@ -17,7 +17,7 @@ import AddLaundry from "../addLaundry/page";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/supply", {
+    const res = await fetch("/api/supply", {
       cache: "no-store",
     });
 
@@ -62,15 +62,13 @@ export default function UpdateSupply() {
     fetchSupplies();
   }, []);
 
-  React.useEffect(() => { }, [supplies]);
+  React.useEffect(() => {}, [supplies]);
 
   console.log({ supplies });
   useEffect(() => {
     setName(selectedSupply.supplyName);
   }, [selectedSupply]);
 
-
-  
   const onClickSave = async () => {
     console.log(selectedSupply);
     console.log(time, name, quantity, type);
@@ -102,7 +100,7 @@ export default function UpdateSupply() {
     }
     console.log(stock);
 
-    const res = await fetch(`http://localhost:3000/api/supply?id=${supplyId}`, {
+    const res = await fetch(`/api/supply?id=${supplyId}`, {
       method: "PATCH",
       body: JSON.stringify({ availableStock: stock }),
       headers: {
