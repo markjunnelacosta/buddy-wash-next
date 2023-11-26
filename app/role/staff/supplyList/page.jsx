@@ -108,6 +108,9 @@ function SupplyList() {
                     Name
                   </TableCell>
                   <TableCell align="center" style={{ fontWeight: "bold" }}>
+                    Price
+                  </TableCell>
+                  <TableCell align="center" style={{ fontWeight: "bold" }}>
                     Available Stock
                   </TableCell>
                   <TableCell align="center" style={{ fontWeight: "bold" }}>
@@ -124,12 +127,16 @@ function SupplyList() {
                     <TableCell align="center" component="th" scope="row">
                       {supply.supplyName}
                     </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {supply.productPrice}
+                    </TableCell>
                     <TableCell align="center">
                       {supply.availableStock}
                     </TableCell>
                     <TableCell align="center">
                       {getStatusIcon(supply.availableStock)}
                     </TableCell>
+                    
                   </TableRow>
                 ))}
               </TableBody>
