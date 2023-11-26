@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import "./editMachine.css";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
