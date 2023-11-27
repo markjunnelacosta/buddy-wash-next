@@ -13,26 +13,7 @@ import EditPopup from "./EditButton";
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
-  const [isEditMachinePopupVisible, setEditMachinePopupVisible] =
-    useState(false);
-
-  // const fetchData = () => {
-  //   fetch("/api/machine", {
-  //     cache: "no-store",
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch machine data");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       setMachineData(data.machineData || []); // Update machineData state
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching machine data:", error);
-  //     });
-  // };
+  const [isEditMachinePopupVisible, setEditMachinePopupVisible] = useState(false);
 
   const fetchMachines = () => {
     fetch("/api/machine", {
@@ -75,7 +56,6 @@ function MachineTable() {
 
   return (
     <div>
-      <div style={{ height: "400px", overflow: "auto" }}>
         <TableContainer component={Paper}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
@@ -130,7 +110,6 @@ function MachineTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
       <EditPopup
         isOpen={isEditMachinePopupVisible}
         item={selectedMachine}
