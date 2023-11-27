@@ -44,32 +44,32 @@ function NavBar() {
           <React.Fragment>
             <ListItemButton className="button" href="/role/admin/users">
               <ListItemIcon className="button-content">
-                <GroupAddRoundedIcon />
+                <GroupAddRoundedIcon className="navbar-text"/>
               </ListItemIcon>
-              <ListItemText primary="User" />
+              <ListItemText primary="User" className="navbar-text"/>
             </ListItemButton>
 
             <ListItemButton className="button" href="/role/admin/branches" >
               <ListItemIcon className="button-content">
-                <AddLocationAltRoundedIcon />
+                <AddLocationAltRoundedIcon className="navbar-text"/>
               </ListItemIcon>
-              <ListItemText primary="Branches" />
+              <ListItemText primary="Branches" className="navbar-text"/>
             </ListItemButton>
 
             <ListItemButton className="button" href="/role/admin/mobile-users">
               <ListItemIcon className="button-content">
-                <RememberMeRoundedIcon />
+                <RememberMeRoundedIcon className="navbar-text"/>
               </ListItemIcon>
-              <ListItemText primary="Mobile Customer" />
+              <ListItemText primary="Mobile Customer" className="navbar-text"/>
             </ListItemButton >
 
             <p className='white-space'> &nbsp; </p>
 
             <ListItemButton className="button" href="/">
               <ListItemIcon className="button-content">
-                <LogoutIcon />
+                <LogoutIcon className="navbar-text"/>
               </ListItemIcon>
-              <ListItemText primary="Logout" />
+              <ListItemText primary="Logout" className="navbar-text"/>
             </ListItemButton>
           </React.Fragment>
         </List>

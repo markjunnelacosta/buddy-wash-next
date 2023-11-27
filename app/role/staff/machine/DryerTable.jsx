@@ -14,24 +14,6 @@ function DryerTable() {
   const [selectedDryer, setSelectedDryer] = useState(null);
   const [isEditDryerPopupVisible, setEditDryerPopupVisible] = useState(false);
 
-  // const fetchData = () => {
-  //   fetch("/api/dryer", {
-  //     cache: "no-store",
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch dryer data");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       setDryerData(data.dryerData || []); // Update dryerData state
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching dryer data:", error);
-  //     });
-  // };
-
   const fetchDryer = () => {
     fetch("/api/dryer", {
       cache: "no-store",
