@@ -36,24 +36,28 @@ const getReport = async () => {
     }
 };
 
-const getFilteredReport = async (dateFrom, dateTo) => {
+const getFilteredReport = async (dateFrom, dateTo, selectedDataPeriod) => {
     try {
-        const res = await fetch("/api/report", {
+        const res = await fetch(`/api/report?dateFrom=${dateFrom}&dateTo=${dateTo}`, {
             cache: "no-store",
         });
 
         if (!res.ok) {
-            throw new Error("Failed to fetch transactions");
+            throw new Error("Failed to fetch reports");
         }
 
         const response = await res.json();
-        const filteredData = response.reportData.filter((report) => {
+        let filteredData = response.reportData.filter((report) => {
             const reportDate = new Date(report.reportDate);
             return (!dateFrom || reportDate >= new Date(dateFrom)) &&
                 (!dateTo || reportDate <= new Date(dateTo));
         });
 
+        filteredData = filterDataByPeriod(filteredData, selectedDataPeriod);
+
         filteredData.sort((a, b) => new Date(b.reportDate) - new Date(a.reportDate));
+
+        console.log("Filtered Data:", filteredData);
 
         return filteredData || [];
     } catch (error) {
@@ -61,17 +65,81 @@ const getFilteredReport = async (dateFrom, dateTo) => {
     }
 };
 
+const filterDataByPeriod = (data, selectedDataPeriod) => {
+    return data.reduce(
+        (acc, report) => {
+            const reportDate = new Date(report.reportDate);
+            const currentDate = new Date();
+
+            switch (selectedDataPeriod) {
+                case "daily":
+                case "daily":
+                    if (
+                        reportDate.getDate() === currentDate.getDate() &&
+                        reportDate.getMonth() === currentDate.getMonth() &&
+                        reportDate.getFullYear() === currentDate.getFullYear()
+                    ) {
+                        acc.push(report);
+                    }
+                    break;
+                case "weekly":
+                    const firstDayOfWeek = new Date(currentDate);
+                    const dayOfWeek = currentDate.getDay();
+                    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+                    firstDayOfWeek.setDate(diff);
+                    if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
+                        acc.push(report);
+                    }
+                    break;
+                case "monthly":
+                    if (
+                        reportDate.getMonth() === currentDate.getMonth() &&
+                        reportDate.getFullYear() === currentDate.getFullYear()
+                    ) {
+                        acc.push(report);
+                    }
+                    break;
+                case "annually":
+                    if (reportDate.getFullYear() === currentDate.getFullYear()) {
+                        acc.push(report);
+                    }
+                    break;
+                case "semi-annually":
+                    const halfYear = Math.floor(reportDate.getMonth() / 6);
+                    const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
+                    if (
+                        halfYear === currentHalfYear &&
+                        reportDate.getFullYear() === currentDate.getFullYear()
+                    ) {
+                        acc.push(report);
+                    }
+                    break;
+                default:
+                    acc.push(report);
+                    break;
+            }
+            return acc;
+        },
+        []
+    );
+};
+
 const Reports = () => {
     let tableRef = useRef(null);
     const [reportData, setReportData] = useState([]);
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
+    const [selectedDataPeriod, setSelectedDataPeriod] = useState('annually');
 
     const handleFilter = async () => {
         try {
-            const data = await getFilteredReport(dateFrom, dateTo);
-            console.log("Filtered data:", data);
-            setReportData(data);
+            const data = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
+            if (data.length === 0) {
+                console.log("No records found for the specified period.");
+            } else {
+                console.log("Filtered data:", data);
+                setReportData(data);
+            }
         } catch (error) {
             console.error("Error filtering transactions:", error);
         }
@@ -91,8 +159,10 @@ const Reports = () => {
     }, []);
 
     useEffect(() => {
-        console.log(reportData);
-    }, [reportData]);
+        if (dateFrom && dateTo) {
+            handleFilter();
+        }
+    }, [selectedDataPeriod]); 
 
     const handleExportToPDF = async () => {
         try {
@@ -169,9 +239,23 @@ const Reports = () => {
                 <div className="searchContainer">
                     <div className="searchContainer-left">
                         <p style={{ fontWeight: "bold" }}>Date From: </p>
-                        <input className="inputDate" type="date" id="dateFrom" name="dateFrom" onChange={(e) => setDateFrom(e.target.value)} />
+                        <input
+                            className="inputDate"
+                            type="date"
+                            id="dateFrom"
+                            name="dateFrom"
+                            onChange={(e) => setDateFrom(e.target.value)}
+                            style={{ width: "150px" }}
+                        />
                         <p style={{ fontWeight: "bold" }}>To: </p>
-                        <input className="inputDate" type="date" id="dateTo" name="dateTo" onChange={(e) => setDateTo(e.target.value)} />
+                        <input
+                            className="inputDate"
+                            type="date"
+                            id="dateTo"
+                            name="dateTo"
+                            onChange={(e) => setDateTo(e.target.value)}
+                            style={{ width: "150px" }}
+                        />
                         <Button
                             style={{
                                 backgroundColor: "white",
@@ -180,7 +264,7 @@ const Reports = () => {
                                 height: "40px",
                                 fontWeight: "bold",
                                 alignSelf: "flex-end",
-                                margin: "30px",
+                                margin: "30px 10px 30px 0",
                                 borderRadius: "10px"
                             }}
                             variant="contained"
@@ -189,6 +273,28 @@ const Reports = () => {
                         </Button>
                     </div>
                     <div className="searchContainer-right">
+                        <Select
+                            value={selectedDataPeriod}
+                            onChange={(e) => setSelectedDataPeriod(e.target.value)}
+                            style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                width: "160px",
+                                height: "40px",
+                                fontWeight: "bold",
+                                alignSelf: "flex-end",
+                                margin: "30px 30px 30px 10px",
+                                borderRadius: "10px"
+                            }}
+                        >
+                            <MenuItem disabled>Select Data Period</MenuItem>
+                            <MenuItem value="daily">Daily</MenuItem>
+                            <MenuItem value="weekly">Weekly</MenuItem>
+                            <MenuItem value="monthly">Monthly</MenuItem>
+                            <MenuItem value="annually">Annually</MenuItem>
+                            <MenuItem value="semi-annually">Semi-Annually</MenuItem>
+                        </Select>
+
                         <Button
                             style={{
                                 backgroundColor: "white",
@@ -197,7 +303,7 @@ const Reports = () => {
                                 height: "40px",
                                 fontWeight: "bold",
                                 alignSelf: "flex-end",
-                                margin: "30px",
+                                margin: "30px 10px 30px 0px",
                                 borderRadius: "10px"
                             }}
                             variant="contained"
@@ -231,7 +337,7 @@ const Reports = () => {
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
-                                <TableRow >
+                                <TableRow>
                                     <TableCell className='table-cell'>Date </TableCell>
                                     <TableCell className='table-cell'>Customer Name</TableCell>
                                     <TableCell className='table-cell'>Total Amount </TableCell>
@@ -239,13 +345,8 @@ const Reports = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {reportData.map((report) => (
-                                    <TableRow
-                                        key={report._id}
-                                        sx={{
-                                            "&:last-child td, &:last-child th": { border: 0 },
-                                        }}
-                                    >
+                                {reportData && reportData.map((report) => (
+                                    <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
                                         <TableCell className="table-body">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
                                         <TableCell className="table-body">{report.customerName}</TableCell>
                                         <TableCell className="table-body">{report.totalAmount}</TableCell>
