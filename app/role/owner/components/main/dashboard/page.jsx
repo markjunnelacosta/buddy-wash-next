@@ -33,7 +33,7 @@ const Dashboard = () => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
-              
+
               switch (range) {
                 case "daily":
                   return (
@@ -70,18 +70,18 @@ const Dashboard = () => {
             .reduce(
               (acc, report) => {
                 const isCorrectPaymentMethod =
-                paymentMethod === "all" || report.paymentMethod === paymentMethod;
-      
-              if (isCorrectPaymentMethod) {
-                acc.totalProfit += report.totalAmount;
-                acc.customerCount += 1;
-      
-                if (report.paymentMethod === "GCash") {
-                  acc.gcashProfit += report.totalAmount;
-                } else if (report.paymentMethod === "Cash") {
-                  acc.cashProfit += report.totalAmount;
+                  paymentMethod === "all" || report.paymentMethod === paymentMethod;
+
+                if (isCorrectPaymentMethod) {
+                  acc.totalProfit += report.totalAmount;
+                  acc.customerCount += 1;
+
+                  if (report.paymentMethod === "GCash") {
+                    acc.gcashProfit += report.totalAmount;
+                  } else if (report.paymentMethod === "Cash") {
+                    acc.cashProfit += report.totalAmount;
+                  }
                 }
-              }
 
                 return acc;
               },
@@ -130,63 +130,63 @@ const Dashboard = () => {
   console.log("Forecast Data:", forecastData);
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container-owner">
       <div className="graphs-container">
-      <div className="selects-container">
-        <Select
-          value={dateRange}
-          onChange={(e) => setDateRange(e.target.value)}
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            width: "200px",
-            height: "40px",
-            fontWeight: "bold",
-            borderRadius: "10px"
-          }}
-        >
-          <MenuItem disabled>Select Data Period</MenuItem>
-          <MenuItem value="daily">Daily</MenuItem>
-          <MenuItem value="weekly">Weekly</MenuItem>
-          <MenuItem value="monthly">Monthly</MenuItem>
-          <MenuItem value="annually">Annually</MenuItem>
-          <MenuItem value="semi-annually">Semi-Annually</MenuItem>
-        </Select>
+        <div className="selects-container">
+          <Select
+            value={dateRange}
+            onChange={(e) => setDateRange(e.target.value)}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "200px",
+              height: "40px",
+              fontWeight: "bold",
+              borderRadius: "10px"
+            }}
+          >
+            <MenuItem disabled>Select Data Period</MenuItem>
+            <MenuItem value="daily">Daily</MenuItem>
+            <MenuItem value="weekly">Weekly</MenuItem>
+            <MenuItem value="monthly">Monthly</MenuItem>
+            <MenuItem value="annually">Annually</MenuItem>
+            <MenuItem value="semi-annually">Semi-Annually</MenuItem>
+          </Select>
 
-        <Select
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            width: "200px",
-            height: "40px",
-            fontWeight: "bold",
-            borderRadius: "10px"
-          }}
-        >
-          <MenuItem disabled>Select Payment Data</MenuItem>
-          <MenuItem value="all">All Payments</MenuItem>
-          <MenuItem value="Cash">Cash</MenuItem>
-          <MenuItem value="GCash">GCash</MenuItem>
-        </Select>
+          <Select
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "200px",
+              height: "40px",
+              fontWeight: "bold",
+              borderRadius: "10px"
+            }}
+          >
+            <MenuItem disabled>Select Payment Data</MenuItem>
+            <MenuItem value="all">All Payments</MenuItem>
+            <MenuItem value="Cash">Cash</MenuItem>
+            <MenuItem value="GCash">GCash</MenuItem>
+          </Select>
 
-        <Select
-          value={customerData}
-          onChange={(e) => setCustomerData(e.target.value)}
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            width: "200px",
-            height: "40px",
-            fontWeight: "bold",
-            borderRadius: "10px"
-          }}
-        >
-          <MenuItem disabled>Select Customer Data</MenuItem>
-          <MenuItem value="walk-in">Walk-in</MenuItem>
-          <MenuItem value="mobile">Mobile</MenuItem>
-        </Select>
+          <Select
+            value={customerData}
+            onChange={(e) => setCustomerData(e.target.value)}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "200px",
+              height: "40px",
+              fontWeight: "bold",
+              borderRadius: "10px"
+            }}
+          >
+            <MenuItem disabled>Select Customer Data</MenuItem>
+            <MenuItem value="walk-in">Walk-in</MenuItem>
+            <MenuItem value="mobile">Mobile</MenuItem>
+          </Select>
         </div>
         <div className="top-container">
           <div className="counters-container">

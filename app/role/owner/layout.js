@@ -1,10 +1,10 @@
 import React from 'react';
-import NavBar from "./components/navBar/navBar";
-import { Header } from "@/app/role/owner/components/header/header";
+import NavBar from './components/navBar/navBar';
+import { Header } from './components/header/header';
 
 const Layout = ({ children }) => {
     return (
-      <div className="container">
+      <div>
         <Header />
         <main>{children}</main>
         <NavBar />

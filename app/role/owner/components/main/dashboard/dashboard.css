@@ -1,8 +1,9 @@
-.dashboard-container {
+.dashboard-container-owner {
   width: 80%;
   display: flex;
-  height: 90vh;
+  height: 89.5vh;
   float: right;
+  margin: 0;
 }
 
 .graphs-container {
@@ -10,6 +11,7 @@
   background-color: #ececec;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .selects-container {
@@ -40,7 +42,7 @@
 }
 
 .customers-container {
-  padding: 30px;
+  padding: 10px;
   gap: 30px;
   width: 100%;
 }
