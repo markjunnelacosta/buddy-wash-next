@@ -24,7 +24,10 @@ const getReport = async () => {
         }
 
         const response = await res.json();
-        return response.reportData || [];
+
+        const sortedReportData = response.reportData.sort((a, b) => new Date(b.reportDate) - new Date(a.reportDate));
+
+        return sortedReportData || [];
     } catch (error) {
         console.log("Error loading report: ", error);
     }
