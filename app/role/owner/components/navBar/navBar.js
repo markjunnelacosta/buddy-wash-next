@@ -32,16 +32,16 @@ function NavBar() {
       <List component="nav">
         <ListItemButton className="button" href="/role/owner/components/main/dashboard">
           <ListItemIcon className="button-content">
-            <SpeedIcon />
+            <SpeedIcon className="navbar-text"/>
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Dashboard" className="navbar-text"/>
         </ListItemButton>
 
         <ListItemButton className="button" href="/role/owner/components/main/laundry-prices">
           <ListItemIcon className="button-content">
-            <SettingsSuggestRoundedIcon />
+            <SettingsSuggestRoundedIcon className="navbar-text"/>
           </ListItemIcon>
-          <ListItemText primary="Laundry Modes" />
+          <ListItemText primary="Laundry Modes" className="navbar-text"/>
         </ListItemButton>
 
         <p className="white-space"> </p>
@@ -50,27 +50,27 @@ function NavBar() {
         <Dropdown overlay={renderBranchDropdown("branch1")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
-              <LocationOnIcon />
+              <LocationOnIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Branch 1" />
+            <ListItemText primary="Branch 1" className="navbar-text"/>
           </ListItemButton>
         </Dropdown>
 
         <Dropdown overlay={renderBranchDropdown("branch2")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
-              <LocationOnIcon />
+              <LocationOnIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Branch 2" />
+            <ListItemText primary="Branch 2" className="navbar-text"/>
           </ListItemButton>
         </Dropdown>
 
         <Dropdown overlay={renderBranchDropdown("branch3")} animation="slide-up" trigger={["click"]}>
           <ListItemButton className="button">
             <ListItemIcon className="button-content">
-              <LocationOnIcon />
+              <LocationOnIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Branch 3" />
+            <ListItemText primary="Branch 3" className="navbar-text"/>
           </ListItemButton>
         </Dropdown>
 
@@ -78,9 +78,9 @@ function NavBar() {
 
         <ListItemButton className="button" href="/">
           <ListItemIcon className="button-content">
-            <LogoutIcon />
+            <LogoutIcon className="navbar-text"/>
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary="Logout" className="navbar-text"/>
         </ListItemButton>
       </List>
     </div>
@@ -92,30 +92,30 @@ function NavBar() {
         <List>
           <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/transactions`}>
             <ListItemIcon className="button-content">
-              <ReceiptLongIcon />
+              <ReceiptLongIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Transactions" />
+            <ListItemText primary="Transactions" className="navbar-text"/>
           </ListItemButton>
 
           <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/staff`}>
             <ListItemIcon className="button-content">
-              <GroupsIcon />
+              <GroupsIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Staff" />
+            <ListItemText primary="Staff" className="navbar-text"/>
           </ListItemButton>
 
           <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/prices`}>
             <ListItemIcon className="button-content">
-              <SellIcon />
+              <SellIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Prices" />
+            <ListItemText primary="Prices" className="navbar-text"/>
           </ListItemButton>
 
           <ListItemButton className="button" href={`/role/owner/components/main/${branchName}/machines`}>
             <ListItemIcon className="button-content">
-              <LocalLaundryServiceIcon />
+              <LocalLaundryServiceIcon className="navbar-text"/>
             </ListItemIcon>
-            <ListItemText primary="Machines" />
+            <ListItemText primary="Machines" className="navbar-text"/>
           </ListItemButton>
         </List>
       </div>
