@@ -6,6 +6,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import AddTransactions from './transactionsTable';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import * as XLSX from 'xlsx';
 import { getFilteredReport } from './transactionsTable';
 import { Select, MenuItem } from '@mui/material';
 
@@ -62,6 +63,25 @@ function Transactions() {
       }, 500);
     } catch (error) {
       console.error("Error exporting to PDF:", error);
+    }
+  };
+
+  const handleExportToExcel = () => {
+    try {
+      const table = tableRef.current;
+
+      if (!table) {
+        console.error("Table reference not found");
+        return;
+      }
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.table_to_sheet(table);
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      XLSX.writeFile(wb, 'table.xlsx');
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
     }
   };
 
@@ -133,7 +153,7 @@ function Transactions() {
                 height: "40px",
                 fontWeight: "bold",
                 alignSelf: "flex-end",
-                margin: "30px 30px 30px 10px",
+                margin: "30px 10px 30px 0px",
                 borderRadius: "10px"
               }}
               variant="contained"
@@ -141,6 +161,24 @@ function Transactions() {
               onClick={handleExportToPDF}
             >
               PDF
+            </Button>
+
+            <Button
+              style={{
+                backgroundColor: "white",
+                color: "black",
+                width: "100px",
+                height: "40px",
+                fontWeight: "bold",
+                alignSelf: "flex-end",
+                margin: "30px 30px 30px 0px",
+                borderRadius: "10px"
+              }}
+              variant="contained"
+              startIcon={<DownloadIcon />}
+              onClick={handleExportToExcel}
+            >
+              Excel
             </Button>
 
           </div>
