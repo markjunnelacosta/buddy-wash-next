@@ -104,7 +104,7 @@ export default function UpdateStaff({
                         <div id="second">
                             <p>Phone Number</p>
                             <input
-                                value={phoneNumber}
+                                value={newPhoneNumber}
                                 onChange={(e) => setNewPhoneNumber(e.currentTarget.value)}
                             ></input>
                             <p>Position</p>
