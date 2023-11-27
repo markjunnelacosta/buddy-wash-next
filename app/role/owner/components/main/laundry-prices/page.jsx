@@ -102,16 +102,16 @@ const LaundryPrice = () => {
                 <div className="blue-container">
                     <div className="add-mode">
                         <button className="save" onClick={openLaundryMode}>
-                            <AddRoundedIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-                            Laundry Mode
+                            <AddRoundedIcon className="add-icon" />
+                            <span>LAUNDRY MODE</span>
                         </button>
                     </div>
                     <div className="laundry-mode">
                         <div className="wash-mode">
-                            <p>Wash Mode:</p>
+                            <p style={{ fontSize: '16px' }} >Wash Mode:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ height: 125, width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "auto" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -164,10 +164,10 @@ const LaundryPrice = () => {
                             </div>
                         </div>
                         <div className="dry-mode">
-                            <p>Dry Mode:</p>
+                            <p style={{ fontSize: '16px' }} >Dry Mode:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ height: 125, width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "auto" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -220,10 +220,10 @@ const LaundryPrice = () => {
                             </div>
                         </div>
                         <div className="weight">
-                            <p>Weight:</p>
+                            <p style={{ fontSize: '16px' }} >Weight:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ height: 125, width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "auto" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
@@ -276,10 +276,10 @@ const LaundryPrice = () => {
                             </div>
                         </div>
                         <div className="weight">
-                            <p>Fold:</p>
+                            <p style={{ fontSize: '16px' }} >Fold:</p>
                             <div className="table-container">
                                 <TableContainer component={Paper}>
-                                    <Paper style={{ height: 125, width: "100%" }}>
+                                    <Paper style={{ height: 125, width: "auto" }}>
                                         <Table
                                             stickyHeader
                                             aria-label="sticky table"
