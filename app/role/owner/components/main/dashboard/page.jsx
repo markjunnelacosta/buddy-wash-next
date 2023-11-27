@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [b3Profit, setB3Profit] = useState(0);
   const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
-  const [customerData, setCustomerData] = useState("walk-in");
+  // const [customerData, setCustomerData] = useState("walk-in");
 
 
   useEffect(() => {
@@ -190,7 +190,7 @@ const Dashboard = () => {
             <MenuItem value="GCash">GCash</MenuItem>
           </Select>
 
-          <Select
+          {/* <Select
             value={customerData}
             onChange={(e) => setCustomerData(e.target.value)}
             style={{
@@ -205,7 +205,7 @@ const Dashboard = () => {
             <MenuItem disabled>Select Customer Data</MenuItem>
             <MenuItem value="walk-in">Walk-in</MenuItem>
             <MenuItem value="mobile">Mobile</MenuItem>
-          </Select>
+          </Select> */}
         </div>
         <div className="top-container">
           <div className="counters-container">

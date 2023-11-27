@@ -14,8 +14,9 @@ function Transactions() {
   const tableRef = useRef(null);
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
-  const [filteredData, setReportData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState('annually');
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleFilterButtonClick = async () => {
     try {
@@ -23,8 +24,13 @@ function Transactions() {
       if (data.length === 0) {
         console.log("No records found for the specified period.");
       } else {
-        console.log("Filtered data:", data);
-        setReportData(data);
+
+        const branch1Data = data.filter(report => report.branchNumber === "b3");
+        console.log("Filtered data:", branch1Data);
+        setFilteredData(branch1Data);
+
+        const totalForBranch1 = branch1Data.reduce((sum, report) => sum + report.totalAmount, 0);
+        setTotalAmount(totalForBranch1);
       }
     } catch (error) {
       console.error("Error filtering transactions:", error);
@@ -49,6 +55,7 @@ function Transactions() {
           pdf.text('Reports from Branch 3', 20, 20);
           pdf.setFontSize(12);
           pdf.text(`Date Range: ${dateFrom} to ${dateTo}`, 20, 30);
+          pdf.text(`Total Amount: ₱${totalAmount}`, 20, 40);
 
           const canvas = await html2canvas(table, { scale: 2 });
           const imgData = canvas.toDataURL('image/png');

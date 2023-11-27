@@ -109,54 +109,53 @@ const calculateDataForDateRange = (data, dateRange) => {
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
 
-  const fetchReport = async () => {
-    try {
-      if (filteredData.length > 0) {
-        setReportData(filteredData);
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        if (filteredData.length > 0) {
+          setReportData(filteredData);
+        } else {
+          console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dateRange:", dateRange);
+          const report = await getFilteredReport(dateFrom, dateTo, dateRange);
+          console.log("Fetched report data:", report);
+          setReportData(report);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
       }
-      else {
-        console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dateRange:", dateRange);
-        const report = await getFilteredReport(dateFrom, dateTo, dateRange);
-        console.log("Fetched report data:", report);
-        setReportData(report);
-      }
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
+    };
+    
+      fetchReport();
+    }, [dateFrom, dateTo, dateRange, filteredData]);
+
+    return (
+      <TableContainer component={Paper}>
+        <Paper style={{ height: 500, width: "100%" }}>
+          <Table stickyHeader aria-label="sticky table" size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Payment Method</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {reportData
+                .filter((report) => report.branchNumber === "b2")
+                .map((report) => (
+                  <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
+                    <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
+                    <TableCell align="center">{report.customerName}</TableCell>
+                    <TableCell align="center">{report.totalAmount}</TableCell>
+                    <TableCell align="center">{report.paymentMethod}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </TableContainer>
+    );
   };
 
-  useEffect(() => {
-    fetchReport();
-  }, [dateFrom, dateTo, dateRange, filteredData]);
-
-  return (
-    <TableContainer component={Paper}>
-      <Paper style={{ height: 500, width: "100%" }}>
-        <Table stickyHeader aria-label="sticky table" size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Dates</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>Payment Method</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reportData
-              .filter((report) => report.branchNumber === "b2")
-              .map((report) => (
-                <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
-                  <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
-                  <TableCell align="center">{report.customerName}</TableCell>
-                  <TableCell align="center">{report.totalAmount}</TableCell>
-                  <TableCell align="center">{report.paymentMethod}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </TableContainer>
-  );
-};
-
-export default TransactionTable;
+  export default TransactionTable;
