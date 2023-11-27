@@ -32,66 +32,43 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
   let stock = 0;
 
+  // Fetch Machines
   const fetchMachines = () => {
-    fetch("/api/machine", {
-      cache: "no-store",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch machine data");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMachineData(data.machineData || []); // Update machineData state
-      })
-      .catch((error) => {
-        console.error("Error fetching machine data:", error);
-      });
+    fetch("/api/machine", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => setMachineData(data.machineData || []))
+      .catch((error) => console.error("Error fetching machine data:", error));
   };
 
   useEffect(() => {
     fetchMachines();
   }, []);
 
+  // Assign Machine
   const assignMachine = () => {
-    console.log(machineData);
     const availableMachine = machineData.find(
       (m) => m.timer == "0" || m.timer == "00:00"
     );
-    console.log("available machines" + availableMachine);
     return +availableMachine.machineNumber;
   };
 
-
+  // Fetch Dryers
   const fetchDryers = () => {
-    fetch("/api/dryer", {
-      cache: "no-store",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch dryer data");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setDryerData(data.dryerData || []); // Update dryerData state
-      })
-      .catch((error) => {
-        console.error("Error fetching dryer data:", error);
-      });
+    fetch("/api/dryer", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => setDryerData(data.dryerData || []))
+      .catch((error) => console.error("Error fetching dryer data:", error));
   };
 
   useEffect(() => {
     fetchDryers();
   }, []);
 
+  // Assign Dryer
   const assignDryer = () => {
-    console.log(dryerData);
     const availableDryer = dryerData.find(
       (d) => d.timer == "00:00" || d.timer == "0"
     );
-    console.log("available dryers" + availableDryer);
     return +availableDryer.dryerNumber;
   };
 
@@ -127,33 +104,33 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       return;
     }
 
+    // Assign machines and dryers
     const machineNo = assignMachine();
     const dryerNo = assignDryer();
 
+    // Handle the case where no available machine or dryer is found
     if (machineNo === null || dryerNo === null) {
-      // Handle the case where no available machine or dryer is found
       return;
     }
 
-
+    // API call to save laundry data
     const response = await fetch("/api/laundrybin", {
       method: "POST",
       body: JSON.stringify({
-        customerName: customerName,
-        orderDate: orderDate,
-        weight: weight,
-        washMode: washMode,
-        dryMode: dryMode,
-        fold: fold,
-        colored: colored,
-        detergent: detergent,
-        fabcon: fabCon,
-        detergentQty: detergentQty,
-        fabconQty: fabConQty,
-        paymentMethod: paymentMethod
+        customerName,
+        orderDate,
+        weight,
+        washMode,
+        dryMode,
+        fold,
+        colored,
+        detergent,
+        fabCon,
+        detergentQty,
+        fabConQty,
+        paymentMethod,
       }),
     });
-
     console.log(response);
 
     setLaundryOrderSummary({
@@ -272,8 +249,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
           console.error("Failed to update inventory record");
         }
 
-
-
         const res = await fetch(
           `/api/supply?id=${selectedFabCon._id}`,
           {
@@ -294,8 +269,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
       }
     }
 
-
-    
 
     onSaveData();
     onClose();
@@ -342,6 +315,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
         const response = await res.json();
         setSupplyData(response.supplies);
+
+        calculateTotalAmount();
       } catch (error) {
         console.error("Error fetching supplies:", error);
       }
@@ -350,57 +325,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
     fetchSupplies();
   }, []);
 
-  const getDetergentSupplies = () => {
-    const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
-    return detergentSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
-    ));
-  };
-
-  const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(
-      supplyData,
-      "conditioner"
-    );
-    return conditionerSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
-    ));
-  };
-
-  useEffect(() => {
-    const fetchLaundryMode = async () => {
-      try {
-        const res = await fetch("/api/laundry-price", {
-          cache: "no-store",
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch laundry mode");
-        }
-
-        const response = await res.json();
-        setWeightModes(
-          response.laundryModeData.filter((mode) => mode.category === "Weight")
-        );
-        setWashModes(
-          response.laundryModeData.filter((mode) => mode.category === "Wash")
-        );
-        setDryModes(
-          response.laundryModeData.filter((mode) => mode.category === "Dry")
-        );
-        setFoldMode(
-          response.laundryModeData.filter((mode) => mode.category === "Fold")
-        );
-      } catch (error) {
-        console.error("Error fetching laundry modes:", error);
-      }
-    };
-
-    fetchLaundryMode();
-  }, []);
-
   const calculateTotalAmount = () => {
     let total = 0;
+
+    if (!supplyData || supplyData.length === 0) {
+      console.error("Supply data not available.");
+      return;
+    }
 
     const selectedWeightMode = weightModes.find(
       (mode) => mode.modeName === weight
@@ -449,6 +380,55 @@ const AddLaundry = ({ isOpen, onClose, onSaveData }) => {
 
     setTotalAmount(total);
   };
+
+  const getDetergentSupplies = () => {
+    const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
+    return detergentSupplies.map((supplies, i) => (
+      <option key={i}>  {supplies.supplyName} - ₱{supplies.productPrice}</option>
+    ));
+  };
+
+  const getConditionerSupplies = () => {
+    const conditionerSupplies = filterSuppliesByKeyword(
+      supplyData,
+      "conditioner"
+    );
+    return conditionerSupplies.map((supplies, i) => (
+      <option key={i}>  {supplies.supplyName} - ₱{supplies.productPrice}</option>
+    ));
+  };
+
+  useEffect(() => {
+    const fetchLaundryMode = async () => {
+      try {
+        const res = await fetch("/api/laundry-price", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch laundry mode");
+        }
+
+        const response = await res.json();
+        setWeightModes(
+          response.laundryModeData.filter((mode) => mode.category === "Weight")
+        );
+        setWashModes(
+          response.laundryModeData.filter((mode) => mode.category === "Wash")
+        );
+        setDryModes(
+          response.laundryModeData.filter((mode) => mode.category === "Dry")
+        );
+        setFoldMode(
+          response.laundryModeData.filter((mode) => mode.category === "Fold")
+        );
+      } catch (error) {
+        console.error("Error fetching laundry modes:", error);
+      }
+    };
+
+    fetchLaundryMode();
+  }, []);
 
   useEffect(() => {
     calculateTotalAmount();
