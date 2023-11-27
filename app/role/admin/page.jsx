@@ -46,21 +46,21 @@ function NavBar() {
               <ListItemIcon className="button-content">
                 <GroupAddRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="User" />
+              <ListItemText primary="User" className="navbar-text"/>
             </ListItemButton>
 
             <ListItemButton className="button" href="/role/admin/branches" >
               <ListItemIcon className="button-content">
                 <AddLocationAltRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Branches" />
+              <ListItemText primary="Branches" className="navbar-text"/>
             </ListItemButton>
 
             <ListItemButton className="button" href="/role/admin/mobile-users">
               <ListItemIcon className="button-content">
                 <RememberMeRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Mobile Customer" />
+              <ListItemText primary="Mobile Customer" className="navbar-text"/>
             </ListItemButton >
 
             <p className='white-space'> &nbsp; </p>
