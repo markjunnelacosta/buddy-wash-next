@@ -143,7 +143,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
           </TableHead>
           <TableBody>
             {reportData
-              // .filter((report) => report.branchNumber === "1")
+              .filter((report) => report.branchNumber === "b1")
               .map((report) => (
                 <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
                   <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>

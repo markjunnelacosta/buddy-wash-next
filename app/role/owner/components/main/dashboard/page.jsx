@@ -76,6 +76,21 @@ const Dashboard = () => {
                   acc.totalProfit += report.totalAmount;
                   acc.customerCount += 1;
 
+                  switch (report.branchNumber) {
+                    case "b1":
+                      acc.b1Profit += report.totalAmount;
+                      break;
+                    case "b2":
+                      acc.b2Profit += report.totalAmount;
+                      break;
+                    case "b3":
+                      acc.b3Profit += report.totalAmount;
+                      break;
+        
+                    default:
+                      break;
+                  }
+
                   if (report.paymentMethod === "GCash") {
                     acc.gcashProfit += report.totalAmount;
                   } else if (report.paymentMethod === "Cash") {
@@ -85,7 +100,7 @@ const Dashboard = () => {
 
                 return acc;
               },
-              { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
+              { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0, }
             );
         };
 
@@ -100,9 +115,13 @@ const Dashboard = () => {
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
 
-        setB1Profit(b1Profit("b1Amount"));
-        setB2Profit(b2Profit("b2Amount"));
-        setB3Profit(b3Profit("b3Amount"));
+        // setB1Profit(b1Profit("b1Amount"));
+        // setB2Profit(b2Profit("b2Amount"));
+        // setB3Profit(b3Profit("b3Amount"));
+
+        setB1Profit(b1Profit);
+        setB2Profit(b2Profit);
+        setB3Profit(b3Profit);
 
         console.log("GCash Profit:", gcashProfit);
         console.log("Cash Profit:", cashProfit);

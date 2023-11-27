@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Reports.css';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import * as XLSX from 'xlsx';
 
 const getReport = async () => {
     try {
@@ -59,6 +62,7 @@ const getFilteredReport = async (dateFrom, dateTo) => {
 };
 
 const Reports = () => {
+    let tableRef = useRef(null);
     const [reportData, setReportData] = useState([]);
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
@@ -90,6 +94,74 @@ const Reports = () => {
         console.log(reportData);
     }, [reportData]);
 
+    const handleExportToPDF = async () => {
+        try {
+            const table = tableRef.current;
+
+            if (!table) {
+                console.error("Table reference not found");
+                return;
+            }
+
+            setTimeout(async () => {
+                try {
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 190;
+
+                    pdf.setFontSize(14);
+                    pdf.text('Reports', 20, 20);
+                    pdf.setFontSize(12);
+                    pdf.text(`Date Range: ${dateFrom} to ${dateTo}`, 20, 30);
+
+                    const canvas = await html2canvas(table, { scale: 2 });
+                    const imgData = canvas.toDataURL('image/png');
+
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    pdf.addImage(imgData, 'PNG', 10, 40, imgWidth, imgHeight);
+
+                    // pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+
+                    // pdf.text('Date', 10, imgHeight + 40);
+                    // pdf.text('Customer Name', 50, imgHeight + 40);
+                    // pdf.text('Total Amount', 100, imgHeight + 40);
+                    // pdf.text('Payment Method', 150, imgHeight + 40);
+                    // reportData.forEach((report, index) => {
+                    //     const yPos = imgHeight + 50 + index * 10;
+                    //     pdf.text(new Date(report.reportDate).toLocaleDateString(), 10, yPos);
+                    //     pdf.text(report.customerName, 50, yPos);
+                    //     pdf.text(report.totalAmount.toString(), 100, yPos);
+                    //     pdf.text(report.paymentMethod, 150, yPos);
+                    // });
+
+                    pdf.save('reports.pdf');
+                } catch (captureError) {
+                    console.error("Error capturing element:", captureError);
+                }
+            }, 500); // Adjust the delay as needed
+        } catch (error) {
+            console.error("Error exporting to PDF:", error);
+        }
+    };
+
+    const handleExportToExcel = () => {
+        try {
+            const table = tableRef.current;
+
+            if (!table) {
+                console.error("Table reference not found");
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(table);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            XLSX.writeFile(wb, 'table.xlsx');
+        } catch (error) {
+            console.error("Error exporting to Excel:", error);
+        }
+    };
+
     return (
         <div className="reports-container">
             <div className="blue-container">
@@ -97,22 +169,65 @@ const Reports = () => {
                 <div className="searchContainer">
                     <div className="searchContainer-left">
                         <p style={{ fontWeight: "bold" }}>Date From: </p>
-                        <input className="inputDate" type="date" id="dateFrom" name="dateFrom" onChange={(e) => setDateFrom(e.target.value)}/>
+                        <input className="inputDate" type="date" id="dateFrom" name="dateFrom" onChange={(e) => setDateFrom(e.target.value)} />
                         <p style={{ fontWeight: "bold" }}>To: </p>
-                        <input className="inputDate" type="date" id="dateTo" name="dateTo" onChange={(e) => setDateTo(e.target.value)}/>
-                        <Button style={{ backgroundColor: "white", color: "black", width: "100px", height: "40px", fontWeight: "bold", alignSelf: "flex-end", margin: "30px", borderRadius: "10px" }} variant="contained" onClick={handleFilter}>
+                        <input className="inputDate" type="date" id="dateTo" name="dateTo" onChange={(e) => setDateTo(e.target.value)} />
+                        <Button
+                            style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                width: "100px",
+                                height: "40px",
+                                fontWeight: "bold",
+                                alignSelf: "flex-end",
+                                margin: "30px",
+                                borderRadius: "10px"
+                            }}
+                            variant="contained"
+                            onClick={handleFilter}>
                             Filter
                         </Button>
                     </div>
                     <div className="searchContainer-right">
-                        <Button style={{ backgroundColor: "white", color: "black", width: "100px", height: "40px", fontWeight: "bold", alignSelf: "flex-end", margin: "30px", borderRadius: "10px" }} variant="contained" startIcon={<DownloadIcon />}>
+                        <Button
+                            style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                width: "100px",
+                                height: "40px",
+                                fontWeight: "bold",
+                                alignSelf: "flex-end",
+                                margin: "30px",
+                                borderRadius: "10px"
+                            }}
+                            variant="contained"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleExportToPDF} >
                             PDF
+                        </Button>
+
+                        <Button
+                            style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                width: "100px",
+                                height: "40px",
+                                fontWeight: "bold",
+                                alignSelf: "flex-end",
+                                margin: "30px 30px 30px 0px",
+                                borderRadius: "10px"
+                            }}
+                            variant="contained"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleExportToExcel}
+                        >
+                            Excel
                         </Button>
 
                     </div>
                 </div>
 
-                <div className='report-table-container'>
+                <div className='report-table-container' ref={tableRef} >
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
