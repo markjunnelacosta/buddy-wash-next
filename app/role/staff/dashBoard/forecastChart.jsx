@@ -11,47 +11,45 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function Chart({ data, dateRange, paymentMethod }) {
+function ForecastChart({ forecastData, dateRange }) {
   const theme = useTheme();
-
-  console.log("Chart Component Rendered");
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const filterDataByDateRange = (data, range) => {
-    return data.filter((report) => {
-      const reportDate = new Date(report.reportDate);
+  const filterForecastDataByDateRange = (data, range) => {
+    return data.filter((forecast) => {
+      const forecastDate = new Date(forecast.forecastDate);
       const currentDate = new Date();
 
       switch (range) {
         case "daily":
           return (
-            reportDate.getDate() === currentDate.getDate() &&
-            reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear()
+            forecastDate.getDate() === currentDate.getDate() &&
+            forecastDate.getMonth() === currentDate.getMonth() &&
+            forecastDate.getFullYear() === currentDate.getFullYear()
           );
         case "weekly":
           const firstDayOfWeek = new Date(currentDate);
           const dayOfWeek = currentDate.getDay();
           const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
           firstDayOfWeek.setDate(diff);
-          return reportDate >= firstDayOfWeek && reportDate <= currentDate;
+          return forecastDate >= firstDayOfWeek && forecastDate <= currentDate;
         case "monthly":
           return (
-            reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear()
+            forecastDate.getMonth() === currentDate.getMonth() &&
+            forecastDate.getFullYear() === currentDate.getFullYear()
           );
         case "annually":
-          return reportDate.getFullYear() === currentDate.getFullYear();
+          return forecastDate.getFullYear() === currentDate.getFullYear();
         case "semi-annually":
-          const halfYear = Math.floor(reportDate.getMonth() / 6);
+          const halfYear = Math.floor(forecastDate.getMonth() / 6);
           const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
           return (
             halfYear === currentHalfYear &&
-            reportDate.getFullYear() === currentDate.getFullYear()
+            forecastDate.getFullYear() === currentDate.getFullYear()
           );
         default:
           return true;
@@ -59,26 +57,18 @@ function Chart({ data, dateRange, paymentMethod }) {
     });
   };
 
-  const filterDataByPaymentMethod = (data, method) => {
-    if (method === "all") {
-      return data;
-    } else {
-      return data.filter((report) => report.paymentMethod === method);
-    }
-  };
+  const filteredForecastData = filterForecastDataByDateRange(forecastData, dateRange);
 
-  const filteredData = filterDataByPaymentMethod(filterDataByDateRange(data, dateRange), paymentMethod);
-
-  console.log("Filtered Data:", filteredData);
+  console.log("Filtered Forecast Data:", filteredForecastData);
 
   return (
     <React.Fragment>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Chart
+      <Typography component="h2" variant="h6" color="secondary" gutterBottom>
+        Forecast Chart
       </Typography>
       <ResponsiveContainer>
         <LineChart
-          data={filteredData}
+          data={filteredForecastData}
           margin={{
             top: 16,
             right: 16,
@@ -87,7 +77,7 @@ function Chart({ data, dateRange, paymentMethod }) {
           }}
         >
           <XAxis
-            dataKey="reportDate"
+            dataKey="forecastDate"
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
             tickFormatter={formatDate}
@@ -105,15 +95,15 @@ function Chart({ data, dateRange, paymentMethod }) {
                 ...theme.typography.body1,
               }}
             >
-              Sales (₱)
+              Forecasted Sales (₱)
             </Label>
           </YAxis>
           <Tooltip labelFormatter={(value) => formatDate(value)} />
           <Line
             isAnimationActive={false}
             type="monotone"
-            dataKey="totalAmount"
-            stroke={theme.palette.primary.main}
+            dataKey="forecastedAmount"
+            stroke={theme.palette.secondary.main}
             dot={false}
           />
         </LineChart>
@@ -122,4 +112,4 @@ function Chart({ data, dateRange, paymentMethod }) {
   );
 }
 
-export default Chart;
+export default ForecastChart;
