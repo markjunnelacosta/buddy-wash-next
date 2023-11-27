@@ -1,4 +1,4 @@
-.header-toolbar {
+.header-toolbar-owner {
   background-color: white;
   padding-left: 0 !important;
   justify-content: space-between;
@@ -15,6 +15,7 @@
     font-size: 20px;
   }
 }
+
 .right-side {
   display: flex;
   
