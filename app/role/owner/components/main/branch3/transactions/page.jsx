@@ -55,7 +55,7 @@ function Transactions() {
           pdf.text('Reports from Branch 3', 20, 20);
           pdf.setFontSize(12);
           pdf.text(`Date Range: ${dateFrom} to ${dateTo}`, 20, 30);
-          pdf.text(`Total Amount: ₱${totalAmount}`, 20, 40);
+          pdf.text(`Total Amount: Php${totalAmount}`, 20, 40);
 
           const canvas = await html2canvas(table, { scale: 2 });
           const imgData = canvas.toDataURL('image/png');
