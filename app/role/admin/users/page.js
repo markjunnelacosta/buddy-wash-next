@@ -178,6 +178,7 @@ const Users = () => {
                   <TableCell className="table-header">User Role</TableCell>
                   <TableCell className="table-header">User ID</TableCell>
                   <TableCell className="table-header">Password</TableCell>
+                  <TableCell className="table-header">Branch</TableCell>
                   <TableCell className="table-header">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -200,6 +201,7 @@ const Users = () => {
                       <TableCell>{user.userRole}</TableCell>
                       <TableCell>{user.userId}</TableCell>
                       <TableCell>{user.password}</TableCell>
+                      <TableCell>{user.selectedBranch}</TableCell>
                       <TableCell>
                         <div className="b-container">
                           <Button

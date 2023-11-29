@@ -27,7 +27,7 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { userName, phoneNumber, userAddress, userRole, userId, password } = body;
+  const { userName, phoneNumber, userAddress, userRole, userId, password, selectedBranch } = body;
   try {
     await connectToDB();
     const newUser = new User({
@@ -37,6 +37,7 @@ export const POST = async (req) => {
       userRole,
       userId,
       password,
+      selectedBranch
     });
     console.log(newUser);
     await newUser.save();

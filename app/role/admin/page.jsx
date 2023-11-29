@@ -30,7 +30,7 @@ function NavBar() {
                 <span>B u d d y W a s h</span>
               </div>
               <div className="right-side">
-              <h5 id= "staff" style={{color: "black"}}>Admin</h5>
+              <h5 id= "staff" style={{color: "black"}}>Manager</h5>
               <IconButton>
                 <Person />
               </IconButton>

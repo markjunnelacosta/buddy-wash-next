@@ -32,6 +32,7 @@ export async function PUT(request, { params }) {
     newUserRole: userRole,
     newUserId: userId,
     newPassword: password,
+    newSelectedBranch: selectedBranch,
     id: _id,
   } = await request.json();
   console.log({
@@ -41,6 +42,7 @@ export async function PUT(request, { params }) {
     userAddress,
     userRole,
     userId,
+    selectedBranch,
     password,
   });
   await connectToDB();
@@ -51,6 +53,7 @@ export async function PUT(request, { params }) {
     userRole: userRole,
     userId: userId,
     password: password,
+    selectedBranch: selectedBranch,
   });
   return NextResponse.json(
     { message: "User Details is Updated" },

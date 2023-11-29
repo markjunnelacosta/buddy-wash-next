@@ -28,6 +28,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
+  },
+  selectedBranch: {
+    type: String,
+    required: [true, "Selected Branch is required"],
   }
   
 });
