@@ -27,10 +27,7 @@ export default function UpdateCustomerForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !newCustomerName ||
-      !newCustomerNumber
-    ) {
+    if (!newCustomerName || !newCustomerNumber) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -48,7 +45,7 @@ export default function UpdateCustomerForm({
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/customer/${id}`, {
+      const res = await fetch(`/api/customer/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
