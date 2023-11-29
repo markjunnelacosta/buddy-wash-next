@@ -37,25 +37,13 @@ export const POST = async (req) => {
   }
 };
 
-// export async function DELETE(request) {
-//   const id = request.nextUrl.searchParams.get("id");
-//   await connectToDB();
-//   await User.findByIdAndDelete(id);
-//   return NextResponse.json(
-//     { message: "Deleted a user Record" },
-//     { status: 201 }
-//   );
-// }
-
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
   try {
     await connectToDB();
 
-    // Find the user to be deleted
     const archivedUser = await User.findById(id);
 
-    // Create a new DeletedUser object with the details of the deleted user
     const newArchivedUser = new archiveUser({
       userName: archivedUser.userName,
       phoneNumber: archivedUser.phoneNumber,
@@ -64,13 +52,11 @@ export async function DELETE(request) {
       userId: archivedUser.userId,
       password: archivedUser.password,
       selectedBranch: archivedUser.selectedBranch,
-      deletedAt: new Date(), // You can add a timestamp to track when the user was deleted
+      deletedAt: new Date(),
     });
 
-    // Save the newDeletedUser to the DeletedUsers table
     await newArchivedUser.save();
 
-    // Delete the user from the User table
     await User.findByIdAndDelete(id);
 
     return NextResponse.json(

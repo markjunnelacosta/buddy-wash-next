@@ -8,7 +8,7 @@ export default function RemoveButton({ id }) {
   const router = useRouter();
 
   const removeUser = async () => {
-    const confirmed = confirm("Are you sure you want to remove this User?");
+    const confirmed = confirm("Are you sure you want to archive this User?");
 
     if (confirmed) {
       const res = await fetch(`/api/user?id=${id}`, {

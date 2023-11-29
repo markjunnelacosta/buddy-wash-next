@@ -27,7 +27,6 @@ const archiveUserSchema = new Schema({
   },
   deletedAt: {
     type: Date,
-    default: null, // You can set a default value if needed
   },
 });
 
