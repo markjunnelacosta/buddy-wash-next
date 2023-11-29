@@ -28,7 +28,7 @@ export default function RemoveButton({ id }) {
       id="delete-button"
       href="/role/admin/users"
     >
-      Delete
+      Archive
     </Button>
   );
   }
