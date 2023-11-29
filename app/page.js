@@ -165,6 +165,11 @@ export default function Home() {
                 onChange={(e) => {
                   setPassword(e.currentTarget.value);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    onClick();
+                  }
+                }}
               />
               <Button
                 id="login-button"
