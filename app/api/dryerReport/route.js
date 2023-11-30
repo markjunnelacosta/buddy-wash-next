@@ -1,7 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import DryerReport from "@/models/dryerReport";
 import { NextResponse } from "next/server";
-
+import { Types } from "mongoose";
 export async function GET() {
   await connectToDB();
   const dryerReport = await DryerReport.find();
@@ -15,6 +15,7 @@ export const POST = async (req) => {
   try {
     await connectToDB();
     const newDryerReport = new DryerReport({
+      _id: new Types.ObjectId(),
       date,
       dryerNumber,
       useCount,
