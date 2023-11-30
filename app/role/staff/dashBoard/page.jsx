@@ -73,15 +73,15 @@ const Dashboard = () => {
                   acc.customerCount += 1;
                 }
 
-                  if (report.paymentMethod === "GCash") {
-                    acc.gcashProfit += report.totalAmount;
-                  } else if (report.paymentMethod === "Cash") {
-                    acc.cashProfit += report.totalAmount;
-                  }
+                if (report.paymentMethod === "GCash") {
+                  acc.gcashProfit += report.totalAmount;
+                } else if (report.paymentMethod === "Cash") {
+                  acc.cashProfit += report.totalAmount;
+                }
 
-                  return acc;
-                },
-                { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
+                return acc;
+              },
+              { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
             );
         };
 
@@ -106,21 +106,34 @@ const Dashboard = () => {
     fetchData();
   }, [dateRange, paymentMethod]);
 
-  const forecastData = reportData.map((report, index) => {
-    const pastReports = reportData.slice(0, index);
+  const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
+
+  // Calculate future dates (4 days ahead) for forecasting
+  const futureDates = Array.from({ length: 4 }, (_, index) => {
+    const date = new Date(lastReportDate);
+    date.setDate(lastReportDate.getDate() + index + 1); // Add 1 to skip the last date in reportData
+    return date;
+  });
+
+  // Generate forecast data for the calculated future dates
+  const forecastData = futureDates.map(forecastDate => {
+    const pastReports = reportData;
     const averageTotalAmount =
       pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) /
       (pastReports.length || 1);
-    const forecastDate = new Date(report.reportDate);
+
+    // Introduce variability by adding a random factor
+    const variabilityFactor = Math.random() * 0.2 + 0.9; // Adjust the range and factor as needed
+    const forecastedAmount = averageTotalAmount * variabilityFactor;
 
     return {
       forecastDate: forecastDate.toLocaleDateString(),
-      forecastedAmount: averageTotalAmount,
+      forecastedAmount: forecastedAmount.toFixed(2), // Adjust as needed
     };
   });
 
   console.log("Forecast Data:", forecastData);
-
+  
   return (
     <div className="dashboard-container-owner">
       <div className="graphs-container">

@@ -13,6 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
 
@@ -131,6 +132,7 @@ const Reports = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [selectedDataPeriod, setSelectedDataPeriod] = useState('annually');
     const [totalAmount, setTotalAmount] = useState(0);
+    const faviconUrl = '/favicon.png';
 
     const handleFilter = async () => {
         try {
@@ -173,31 +175,23 @@ const Reports = () => {
 
     const handleExportToPDF = async () => {
         try {
-            const table = tableRef.current;
-
-            if (!table) {
-                console.error("Table reference not found");
-                return;
-            }
-
-            setTimeout(async () => {
-                try {
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const imgWidth = 190;
-
-                    pdf.setFontSize(14);
-                    pdf.text('Reports', 20, 20);
-                    pdf.setFontSize(12);
-                    pdf.text(`Date Range: ${dateFrom} to ${dateTo}`, 20, 30);
-                    pdf.text(`Total Amount: Php${totalAmount}`, 20, 40);
-
-                    const canvas = await html2canvas(table, { scale: 2 });
-                    const imgData = canvas.toDataURL('image/png');
-
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                    pdf.addImage(imgData, 'PNG', 10, 40, imgWidth, imgHeight);
-
-                    // pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+          const table = tableRef.current;
+    
+          if (!table) {
+            console.error("Table reference not found");
+            return;
+          }
+    
+          const pdf = new jsPDF('p', 'mm', 'a4');
+          pdf.setFontSize(12);
+    
+          const logoImage = new Image();
+          logoImage.src = faviconUrl;
+          logoImage.onload = function () {
+            const logoSize = 50;
+            pdf.addImage(logoImage, 'JPEG', pdf.internal.pageSize.width - logoSize - 10, 5, logoSize, logoSize);
+            
+            // pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
 
                     // pdf.text('Date', 10, imgHeight + 40);
                     // pdf.text('Customer Name', 50, imgHeight + 40);
@@ -211,15 +205,50 @@ const Reports = () => {
                     //     pdf.text(report.paymentMethod, 150, yPos);
                     // });
 
-                    pdf.save('reports.pdf');
-                } catch (captureError) {
-                    console.error("Error capturing element:", captureError);
-                }
-            }, 500); // Adjust the delay as needed
+            pdf.setFont('times', 'bold');
+            pdf.text('TRANSACTION HISTORY', 20, 20);
+            pdf.setFont('times', 'normal');
+            pdf.text(`Requested Date: ${dateFrom} to ${dateTo}`, 20, 25);
+            // pdf.text(`Printed by: ${getserID()}`, 20, pdf.internal.pageSize.height - 30);
+            pdf.text('Corporation: WASHAF LAUNDRY SHOP', 20, 30);
+            const formattedTotalAmount = totalAmount.toFixed(2);
+            pdf.text(`Total Amount: Php ${formattedTotalAmount}`, 20, 35);
+            pdf.setFontSize(10);
+            pdf.text('This report contains detailed information about transactions of the business.', 20, 45); //specify branch based on account
+    
+            const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+            const rows = filteredData
+              .map((report) => [
+                new Date(report.reportDate).toLocaleDateString(),
+                report.customerName,
+                report.totalAmount,
+                report.paymentMethod,
+              ]);
+    
+            pdf.autoTable({
+              head: [header],
+              body: rows,
+              startY: 55,
+              styles: { fontSize: 8 },
+              margin: { bottom: 40 },
+            });
+    
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+            pdf.setFontSize(10);
+            pdf.text(`Date Accessed: ${formattedDate}`, 20, pdf.internal.pageSize.height - 10);
+            const pageCount = pdf.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+              pdf.setPage(i);
+              pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.width - 40, pdf.internal.pageSize.height - 10);
+            }
+    
+            pdf.save('table.pdf');
+          };
         } catch (error) {
-            console.error("Error exporting to PDF:", error);
+          console.error("Error exporting to PDF:", error);
         }
-    };
+      };
 
     const handleExportToExcel = () => {
         try {
