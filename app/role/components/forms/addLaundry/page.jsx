@@ -176,8 +176,6 @@
 
 //      console.log("orderszzzzzz" + orderRes);
 
-
-
 //     if (fabCon && fabConQty) {
 //       const selectedFabCon = supplyData.find(
 //         (supply) => supply.supplyName === fabCon
@@ -224,11 +222,9 @@
 //       }
 //     }
 
-
 //     onSaveData();
 //     onClose();
 //   };
-
 
 //   useEffect(() => {
 //     const fetchCustomer = async () => {
@@ -308,7 +304,6 @@
 //           console.error("Failed to update inventory record");
 //         }
 
-
 //         const res = fetch(
 //           `/api/supply?id=${selectedDetergent._id}`,
 //           {
@@ -327,7 +322,7 @@
 //         }
 //       }
 //     }
-//   }, [detergent, detergentQty, supplyData]);  
+//   }, [detergent, detergentQty, supplyData]);
 
 //   const calculateTotalAmount = () => {
 //     let total = 0;
@@ -360,7 +355,6 @@
 //     if (selectedFoldMode) {
 //       total += selectedFoldMode.price;
 //     }
-
 
 //     setTotalAmount(total);
 //   };
@@ -585,8 +579,6 @@
 
 // export default AddLaundry;
 
-
-
 "use client";
 import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
@@ -681,7 +673,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const onClick = async () => {
-
     if (
       !customerName ||
       !orderDate ||
@@ -781,7 +772,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log(res);
     console.log("orderszzzzzz" + orderRes);
 
-
     if (detergent && detergentQty) {
       const selectedDetergent = supplyData.find(
         (supply) => supply.supplyName === detergent
@@ -807,7 +797,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         } else {
           console.error("Failed to update inventory record");
         }
-
 
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
@@ -855,8 +844,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           console.error("Failed to update inventory record");
         }
 
-
-
         const res = await fetch(
           `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
           {
@@ -879,19 +866,21 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(detergentQty)) {
-      alert("Invalid characters in Detergent Qty. Please enter a valid number.");
+      alert(
+        "Invalid characters in Detergent Qty. Please enter a valid number."
+      );
       return;
     }
 
     if (!numberRegex.test(fabConQty)) {
-      alert("Invalid characters in Fabric Conditioner Qty. Please enter a valid number.");
+      alert(
+        "Invalid characters in Fabric Conditioner Qty. Please enter a valid number."
+      );
       return;
     }
 
     onSaveData();
     onClose();
-
-
   };
 
   useEffect(() => {
@@ -950,7 +939,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(supplyData, "conditioner");
+    const conditionerSupplies = filterSuppliesByKeyword(
+      supplyData,
+      "conditioner"
+    );
     return conditionerSupplies.map((supplies, i) => (
       <option key={i}>{supplies.supplyName}</option>
     ));
@@ -968,10 +960,18 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
 
         const response = await res.json();
-        setWeightModes(response.laundryModeData.filter((mode) => mode.category === "Weight"));
-        setWashModes(response.laundryModeData.filter((mode) => mode.category === "Wash"));
-        setDryModes(response.laundryModeData.filter((mode) => mode.category === "Dry"));
-        setFoldMode(response.laundryModeData.filter((mode) => mode.category === "Fold"));
+        setWeightModes(
+          response.laundryModeData.filter((mode) => mode.category === "Weight")
+        );
+        setWashModes(
+          response.laundryModeData.filter((mode) => mode.category === "Wash")
+        );
+        setDryModes(
+          response.laundryModeData.filter((mode) => mode.category === "Dry")
+        );
+        setFoldMode(
+          response.laundryModeData.filter((mode) => mode.category === "Fold")
+        );
       } catch (error) {
         console.error("Error fetching laundry modes:", error);
       }
@@ -983,12 +983,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const calculateTotalAmount = () => {
     let total = 0;
 
-    const selectedWeightMode = weightModes.find((mode) => mode.modeName === weight);
+    const selectedWeightMode = weightModes.find(
+      (mode) => mode.modeName === weight
+    );
     if (selectedWeightMode) {
       total += selectedWeightMode.price;
     }
 
-    const selectedWashMode = washModes.find((mode) => mode.modeName === washMode);
+    const selectedWashMode = washModes.find(
+      (mode) => mode.modeName === washMode
+    );
     if (selectedWashMode) {
       total += selectedWashMode.price;
     }
@@ -1009,7 +1013,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   useEffect(() => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
-
 
   return (
     <>
