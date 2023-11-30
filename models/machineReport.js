@@ -1,8 +1,9 @@
 import { Schema, model, models } from "mongoose";
 
 const MachineReportSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
+  type: {
+    type: String,
+    required: [true, "Date is required"],
   },
   date: {
     type: String,

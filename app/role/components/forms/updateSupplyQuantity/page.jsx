@@ -46,7 +46,7 @@ export default function UpdateSupply() {
   var date =
     today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
   var time = today.getHours() + ":" + today.getMinutes();
-  var dateTime = date + "   (" + time + ")";
+  var dateTime = date;
 
   //gets supplies list
   React.useEffect(() => {

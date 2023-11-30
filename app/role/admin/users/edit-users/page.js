@@ -11,6 +11,7 @@ export default function UpdateUser({
   userRole,
   userId,
   password,
+  selectedBranch,
   onClose,
 }) {
   const [newUserName, setNewUserName] = useState(userName);
@@ -19,6 +20,8 @@ export default function UpdateUser({
   const [newUserRole, setNewUserRole] = useState(userRole);
   const [newUserId, setNewUserId] = useState(userId);
   const [newPassword, setNewPassword] = useState(password);
+  const [newSelectedBranch, setNewSelectedBranch] = useState(selectedBranch);
+  const [branchesData, setBranchesData] = useState([]);
 
   const router = useRouter();
 
@@ -27,11 +30,12 @@ export default function UpdateUser({
     if (
       !newUserName ||
       !newPhoneNumber ||
-      !newUserAddress || 
+      !newUserAddress ||
       !newUserRole ||
       !newUserId ||
-      !newPassword
-    ) { 
+      !newPassword ||
+      !newSelectedBranch
+    ) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -55,6 +59,7 @@ export default function UpdateUser({
       newUserRole,
       newUserId,
       newPassword,
+      newSelectedBranch
     });
     try {
       const res = await fetch(`/api/user/${id}`, {
@@ -71,6 +76,7 @@ export default function UpdateUser({
           newUserRole,
           newUserId,
           newPassword,
+          newSelectedBranch
         }),
       });
 
@@ -85,6 +91,27 @@ export default function UpdateUser({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const res = await fetch("/api/branch", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch branch");
+        }
+
+        const response = await res.json();
+        setBranchesData(response.branchesData);
+      } catch (error) {
+        console.error("Error fetching customer:", error);
+      }
+    };
+
+    fetchBranch();
+  }, []);
 
   return (
     <div>
@@ -109,6 +136,18 @@ export default function UpdateUser({
                 onChange={(e) => setNewUserId(e.target.value)}
                 value={newUserId}
               />
+              <p>Branch</p>
+              <select
+                value={newSelectedBranch}
+                onChange={(e) => setNewSelectedBranch(e.currentTarget.value)}
+              >
+                <option value=""></option>
+                {branchesData && branchesData.map((branchOption) => (
+                  <option key={branchOption.id} value={branchOption.id}>
+                    Branch {branchOption.branchNumber}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div id="second">

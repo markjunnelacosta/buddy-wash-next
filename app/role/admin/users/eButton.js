@@ -18,6 +18,7 @@ const EditUserPopup = ({ isOpen, user, onClose, onSave }) => {
           userRole={user.userRole}
           userId={user.userId}
           password={user.password}
+          selectedBranch={user.selectedBranch}
           onClose={onClose}
         />
       </div>

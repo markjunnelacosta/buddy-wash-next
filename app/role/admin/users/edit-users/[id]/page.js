@@ -27,7 +27,7 @@ export default async function EditUser({ params }) {
   try {
     const user = await getUsers(id);
     if (user) {
-      const { userName, phoneNumber, userAddress, userRole, userId, password } = user;
+      const { userName, phoneNumber, userAddress, userRole, userId, password, selectedBranch } = user;
       return (
         <UpdateUser
           id={id}
@@ -37,6 +37,7 @@ export default async function EditUser({ params }) {
           userRole={userRole}
           userId={userId}
           password={password}
+          selectedBranch={selectedBranch}
         />
       );
     } else {

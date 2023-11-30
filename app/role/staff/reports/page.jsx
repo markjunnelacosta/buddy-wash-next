@@ -73,7 +73,6 @@ const filterDataByPeriod = (data, selectedDataPeriod) => {
 
             switch (selectedDataPeriod) {
                 case "daily":
-                case "daily":
                     if (
                         reportDate.getDate() === currentDate.getDate() &&
                         reportDate.getMonth() === currentDate.getMonth() &&
@@ -129,16 +128,24 @@ const Reports = () => {
     const [reportData, setReportData] = useState([]);
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
     const [selectedDataPeriod, setSelectedDataPeriod] = useState('annually');
+    const [totalAmount, setTotalAmount] = useState(0);
 
     const handleFilter = async () => {
         try {
-            const data = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
-            if (data.length === 0) {
+            const filteredData = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
+            if (filteredData.length === 0) {
                 console.log("No records found for the specified period.");
             } else {
-                console.log("Filtered data:", data);
-                setReportData(data);
+                console.log("Filtered Data: ", filteredData);
+
+                const totalAmount = filteredData.reduce((sum, report) => sum + report.totalAmount, 0);
+                console.log("Total Amount: ", totalAmount);
+
+                setFilteredData(filteredData);
+                setTotalAmount(totalAmount);
+                setReportData(filteredData);
             }
         } catch (error) {
             console.error("Error filtering transactions:", error);
@@ -182,6 +189,7 @@ const Reports = () => {
                     pdf.text('Reports', 20, 20);
                     pdf.setFontSize(12);
                     pdf.text(`Date Range: ${dateFrom} to ${dateTo}`, 20, 30);
+                    pdf.text(`Total Amount: Php${totalAmount}`, 20, 40);
 
                     const canvas = await html2canvas(table, { scale: 2 });
                     const imgData = canvas.toDataURL('image/png');

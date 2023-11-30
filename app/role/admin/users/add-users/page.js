@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './addUsers.css'
 
 
@@ -10,6 +10,8 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
   const [userRole, setUserRole] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [branchesData, setBranchesData] = useState([]);
 
 
   const onClick = async () => {
@@ -20,7 +22,8 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
       !userAddress || 
       !userRole ||
       !userId ||
-      !password
+      !password ||
+      !selectedBranch
     ) { 
       alert("Please fill in all required fields.");
       return;
@@ -48,6 +51,7 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
         userRole: userRole,
         userId: userId,
         password: password,
+        selectedBranch: selectedBranch,
       }),
     });
 
@@ -56,6 +60,27 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
     onSaveData();
     onClose();
   };
+
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const res = await fetch("/api/branch", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch branch");
+        }
+
+        const response = await res.json();
+        setBranchesData(response.branchesData);
+      } catch (error) {
+        console.error("Error fetching customer:", error);
+      }
+    };
+
+    fetchBranch();
+  }, []);
 
   return (
     <>
@@ -84,6 +109,18 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
                   value={userId}
                   onChange={(e) => setUserId(e.currentTarget.value)}
                 ></input>
+                <p>Branch</p>
+                <select
+                  value={selectedBranch}
+                  onChange={(e) => setSelectedBranch(e.currentTarget.value)}
+                >
+                  <option value=""></option>
+                  {branchesData && branchesData.map((branchOption) => (
+                  <option key={branchOption.id} value={branchOption.id}>
+                    Branch {branchOption.branchNumber}
+                  </option>
+                ))}
+                </select>
               </div>
 
               <div id="second">
@@ -94,11 +131,6 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
                   onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                 ></input>
                 <p>Position</p>
-                {/* <input
-                  type="text"
-                  value={userRole}
-                  onChange={(e) => setUserRole(e.currentTarget.value)}
-                ></input> */}
                  <select
                   value={userRole}
                   onChange={(e) => setUserRole(e.currentTarget.value)}

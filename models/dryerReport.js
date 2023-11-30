@@ -1,9 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
 const DryerReportSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-  },
   date: {
     type: String,
     required: [true, "Date is required"],

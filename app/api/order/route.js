@@ -16,7 +16,7 @@ import Dryer from "@/models/dryers";
 
 export async function GET() {
   await connectToDB();
-  const orders = await Order.find().populate('machine');
+  const orders = await Order.find().populate("machine");
   return NextResponse.json({ orders });
 }
 
@@ -69,11 +69,10 @@ export async function DELETE(request) {
   await connectToDB();
   await Order.findByIdAndDelete(id);
   return NextResponse.json(
-    { message: "Deleted an order Record" },
+    { message: "Deleted a customer Record" },
     { status: 201 }
   );
 }
-
 export async function PATCH(request) {
   const id = request.nextUrl.searchParams.get("id");
   const body = await request.json();

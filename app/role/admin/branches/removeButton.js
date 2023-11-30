@@ -8,7 +8,7 @@ export default function RemoveButton({ id }) {
   const router = useRouter();
 
   const removeBranch = async () => {
-    const confirmed = confirm("Are you sure you want to remove this Branch?");
+    const confirmed = confirm("Are you sure you want to archive this Branch?");
 
     if (confirmed) {
       const res = await fetch(`/api/branch?id=${id}`, {
@@ -28,7 +28,7 @@ export default function RemoveButton({ id }) {
       id="delete-button"
       href="/role/admin/branches"
     >
-      Delete
+      Archive
     </Button>
   );
   }

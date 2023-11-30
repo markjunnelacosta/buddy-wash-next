@@ -1,6 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Branch from "@/models/branch";
 import { NextResponse } from "next/server";
+import archiveBranch from "@/models/archiveData/archiveBranch";
 
 export const GET = async (req, res) => {
 try {
@@ -31,12 +32,41 @@ export const POST = async (req) => {
   }
 };
 
+// export async function DELETE(request) {
+//   const id = request.nextUrl.searchParams.get("id");
+//   await connectToDB();
+//   await Branch.findByIdAndDelete(id);
+//   return NextResponse.json(
+//     { message: "Deleted a branch Record" },
+//     { status: 201 }
+//   );
+// }
+
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
-  await connectToDB();
-  await Branch.findByIdAndDelete(id);
-  return NextResponse.json(
-    { message: "Deleted a branch Record" },
-    { status: 201 }
-  );
+  try {
+    await connectToDB();
+
+    const archivedBranch = await Branch.findById(id);
+
+    const newArchivedBranch = new archiveBranch({
+      branchNumber: archivedBranch.branchNumber,
+      branchAddress: archivedBranch.branchAddress,
+      deletedAt: new Date(),
+    });
+
+    await newArchivedBranch.save();
+
+    await Branch.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { message: "Deleted a Record and added details to archived table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to delete and add details to archived table" },
+      { status: 500 }
+    );
+  }
 }
