@@ -1,7 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import MachineReport from "@/models/machineReport";
 import { NextResponse } from "next/server";
-
+import { Types } from "mongoose";
 export async function GET() {
   await connectToDB();
   const machineReport = await MachineReport.find();
@@ -10,12 +10,14 @@ export async function GET() {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { date, machineNumber, useCount } = body;
+  const { date, type, machineNumber, useCount } = body;
 
   try {
     await connectToDB();
     const newMachineReport = new MachineReport({
+      _id: new Types.ObjectId(),
       date,
+      type,
       machineNumber,
       useCount,
     });
