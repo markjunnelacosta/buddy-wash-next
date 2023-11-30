@@ -46,37 +46,14 @@ export async function DELETE(request) {
   return NextResponse.json({ message: "Deleted a machine." }, { status: 201 });
 }
 
-// export async function PATCH(request) {
-//   const id = request.nextUrl.searchParams.get("id");
-//   const body = await request.json();
-//   const { availableStock } = body;
-//   try {
-//     await connectToDB();
-//     await Supply.findByIdAndUpdate(id, { availableStock });
-//     console.log(id);
-//     return NextResponse.json(
-//       { message: "Updated  Supply Record" },
-//       { status: 201 }
-//     );
-//   } catch (error) {
-//     return new Response(error, { status: 500 });
-//   }
-// }
-
 export async function PATCH(request) {
   const id = request.nextUrl.searchParams.get("id");
   const body = await request.json();
-
   try {
     await connectToDB();
 
     // Update the document with all fields from the request body
     await Machine.findByIdAndUpdate(id, body);
-
-    // Increment useCount if timer reaches 0
-    if (parseInt(body.timer) === 0) {
-       await Machine.findByIdAndUpdate(id, { $inc: { useCount: 1 } });
-    }
 
     console.log(id);
     return NextResponse.json(
