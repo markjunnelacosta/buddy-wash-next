@@ -55,11 +55,6 @@ export async function PATCH(request) {
     // Update the document with all fields from the request body
     await Dryer.findByIdAndUpdate(id, body);
 
-     // Increment useCount if timer reaches 0
-     if (parseInt(body.timer) === 0) {
-      await Dryer.findByIdAndUpdate(id, { $inc: { useCount: 1 } });
-   }
-
     console.log(id);
     return NextResponse.json(
       { message: "Updated Dryer Table" },
