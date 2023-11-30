@@ -30,6 +30,10 @@ const DryerSchema = new Schema({
     enum: ["Operational", "Under Maintenance"],
     default: "Operational",
   },
+  lastUsed: {
+    type: String,
+    default: "0",
+  },
 });
 
 const Dryer = models.Dryer || model("Dryer", DryerSchema);

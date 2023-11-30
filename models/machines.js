@@ -30,6 +30,10 @@ const MachineSchema = new Schema({
     enum: ["Operational", "Under Maintenance"],
     default: "Operational",
   },
+  lastUsed: {
+    type: String,
+    default: "0",
+  },
 });
 
 const Machine = models.Machine || model("Machine", MachineSchema);

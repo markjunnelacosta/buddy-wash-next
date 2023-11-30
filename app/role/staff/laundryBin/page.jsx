@@ -230,12 +230,48 @@ const LaundryBin = () => {
 
     // console.log("Start Time:", getOrderStartTime(selectedMachine));
   };
+  const updateMachineLastUsedTime = async (selectedMachine, date) => {
+    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
+      method: "PATCH",
+      body: JSON.stringify({ lastUsed: date }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Machine timer updated successfully");
+    } else {
+      console.error("Failed to update Machine timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
 
   const updateDryerTimer = async (selectedDryer, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
       method: "PATCH",
       body: JSON.stringify({ timer: date }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Dryer timer updated successfully");
+    } else {
+      console.error("Failed to update Dryer timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
+
+  const updateDryerLastUsedTime = async (selectedDryer, date) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+      method: "PATCH",
+      body: JSON.stringify({ lastUsed: date }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -269,6 +305,7 @@ const LaundryBin = () => {
     console.log("*****mIndex", mIndex);
     console.log("*****selectedMachine", selectedMachine);
     updateMachineTimer(selectedMachine, timers[index].startTime);
+    updateMachineLastUsedTime(selectedMachine, timers[index].startTime);
   };
 
   const onDryerToggleChange = async (orderId) => {
@@ -287,6 +324,7 @@ const LaundryBin = () => {
     );
     const selectedDryer = dData[dIndex]._id;
     updateDryerTimer(selectedDryer, timers[index].dryerStartTime);
+    updateDryerLastUsedTime(selectedDryer, timers[index].dryerStartTime);
   };
 
   const getOrderStartTime = (orderId) => {
