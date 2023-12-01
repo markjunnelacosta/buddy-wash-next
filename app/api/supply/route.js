@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import Supply from "@/models/supply";
+import archiveSupply from "@/models/archiveData/archiveSupply";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -27,16 +28,6 @@ export const POST = async (req) => {
   }
 };
 
-export async function DELETE(request) {
-  const id = request.nextUrl.searchParams.get("id");
-  await connectToDB();
-  await Supply.findByIdAndDelete(id);
-  return NextResponse.json(
-    { message: "Deleted a Supply Record" },
-    { status: 201 }
-  );
-}
-
 export async function PATCH(request) {
   const id = request.nextUrl.searchParams.get("id");
   const body = await request.json();
@@ -51,5 +42,35 @@ export async function PATCH(request) {
     );
   } catch (error) {
     return new Response(error, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  try {
+    await connectToDB();
+
+    const archivedSupply = await Supply.findById(id);
+
+    const newArchivedSupply = new archiveSupply({
+      supplyName: archivedSupply.supplyName,
+      availableStock: archivedSupply.availableStock,
+      productPrice: archivedSupply.productPrice,
+      deletedAt: new Date(),
+    });
+
+    await newArchivedSupply.save();
+
+    await Supply.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { message: "Deleted a Record and added details to archived table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to delete and add details to archived table" },
+      { status: 500 }
+    );
   }
 }
