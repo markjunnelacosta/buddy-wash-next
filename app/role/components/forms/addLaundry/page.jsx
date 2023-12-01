@@ -681,8 +681,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       !dryMode ||
       !fold ||
       !colored ||
-      !detergent ||
-      !fabCon ||
       !paymentMethod
     ) {
       alert("Please fill in all required fields.");
@@ -708,6 +706,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       refNum
     );
 
+    calculateTotalAmount();
+
     const response = await fetch("/api/laundrybin", {
       method: "POST",
       body: JSON.stringify({
@@ -724,32 +724,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         fabconQty: fabConQty,
         paymentMethod: paymentMethod,
         refNum: refNum,
-      }),
-    });
-
-    setLaundryOrderSummary({
-      customerName,
-      orderDate,
-      weight,
-      washMode,
-      dryMode,
-      fold,
-      colored,
-      detergent,
-      fabCon,
-      detergentQty,
-      fabConQty,
-      paymentMethod,
-      refNum,
-      totalAmount,
-    });
-
-    const res = await fetch("/api/report", {
-      method: "POST",
-      body: JSON.stringify({
-        customerName: customerName,
-        reportDate: orderDate,
-        totalAmount: totalAmount,
+        total: totalAmount
       }),
     });
 
@@ -769,8 +744,36 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     });
 
     console.log(response);
-    console.log(res);
     console.log("orderszzzzzz" + orderRes);
+
+    const res = await fetch("/api/report", {
+      method: "POST",
+      body: JSON.stringify({
+        customerName: customerName,
+        reportDate: orderDate,
+        totalAmount: totalAmount,
+        paymentMethod: paymentMethod
+      }),
+    });
+    console.log(res);
+
+
+    setLaundryOrderSummary({
+      customerName,
+      orderDate,
+      weight,
+      washMode,
+      dryMode,
+      fold,
+      colored,
+      detergent,
+      fabCon,
+      detergentQty,
+      fabConQty,
+      paymentMethod,
+      refNum,
+      totalAmount,
+    });
 
     if (detergent && detergentQty) {
       const selectedDetergent = supplyData.find(
@@ -814,7 +817,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         } else {
           console.error("Failed to update supply record");
         }
-        window.location.reload();
       }
     }
 
@@ -860,9 +862,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         } else {
           console.error("Failed to update supply record");
         }
-        window.location.reload();
       }
     }
+
 
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(detergentQty)) {
@@ -879,8 +881,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       return;
     }
 
+
+
     onSaveData();
     onClose();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -1005,6 +1010,30 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     const selectedFoldMode = foldMode.find((mode) => mode.modeName === fold);
     if (selectedFoldMode) {
       total += selectedFoldMode.price;
+    }
+
+    if (supplyData.length > 0) {
+      if (detergent && detergentQty) {
+        const selectedDetergent = supplyData.find(
+          (supply) => supply.supplyName === detergent
+        );
+        if (selectedDetergent && selectedDetergent.productPrice) {
+          total += parseInt(detergentQty, 10) * +selectedDetergent.productPrice;
+        } else {
+          console.error("Invalid detergent data or productPrice is missing");
+        }
+      }
+
+      if (fabCon && fabConQty) {
+        const selectedFabCon = supplyData.find(
+          (supply) => supply.supplyName === fabCon
+        );
+        if (selectedFabCon && selectedFabCon.productPrice) {
+          total += parseInt(fabConQty, 10) * +selectedFabCon.productPrice;
+        } else {
+          console.error("Invalid fabric conditioner data or productPrice is missing");
+        }
+      }
     }
 
     setTotalAmount(total);

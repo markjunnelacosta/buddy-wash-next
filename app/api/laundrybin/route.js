@@ -27,7 +27,8 @@ export const POST = async (req) => {
         fabcon,
         detergentQty,
         fabconQty,
-        paymentMethod
+        paymentMethod,
+        total
     } = body;
     try {
         await connectToDB();
@@ -43,7 +44,8 @@ export const POST = async (req) => {
             fabcon,
             detergentQty,
             fabconQty,
-            paymentMethod
+            paymentMethod,
+            total
         });
         console.log(newOrder);
         await newOrder.save();
