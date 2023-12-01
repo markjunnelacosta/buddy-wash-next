@@ -641,6 +641,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
+        console.log(data.machineData.filter((m) => m.branchNumber == "1"));
         setMachineData(data.machineData || []); // Update machineData state
       })
       .catch((error) => {
@@ -651,15 +652,60 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   useEffect(() => {
     fetchMachines();
   }, []);
+  console.log("********machine data", machineData);
+
+  const updateMachineTimer = async (selectedMachine) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    const currDate = new Date();
+    const res = await fetch(`/api/machine?id=${selectedMachine._id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ timer: "tempValue" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("Machine timer updated successfully");
+    } else {
+      console.error("Failed to update Machine timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
+
+  // const findLongestLastUsedTimeMachine = () => {
+  //   if (!machineData || machineData.length === 0) {
+  //     return null; // Return null or handle empty machineData case
+  //   }
+
+  //   let longestLastUsedMachine = machineData[0]; // Assume the first machine has the longest last used time
+
+  //   for (let i = 1; i < machineData.length; i++) {
+  //     const currentMachine = machineData[i];
+  //     const currentLastUsed = currentMachine.lastUsed;
+  //     const longestLastUsed = longestLastUsedMachine.lastUsed;
+
+  //     if (currentLastUsed > longestLastUsed) {
+  //       longestLastUsedMachine = currentMachine;
+  //     }
+  //   }
+
+  //   return longestLastUsedMachine;
+  // };
+  // const longestLastUsedMachine = findLongestLastUsedTimeMachine();
 
   const assignMachine = () => {
     console.log(machineData);
-    const availableMachine = machineData.find((m) => m.timer === "00:00");
+    const availableMachine = machineData.find(
+      (m) => m.timer == "0" || m.timer == "00:00"
+    );
     console.log("available machines" + availableMachine);
+    updateMachineTimer(availableMachine);
     return +availableMachine.machineNumber;
   };
 
-  const fetchDryers = () => {
+  const fetchDryer = () => {
     fetch("/api/dryer", {
       cache: "no-store",
     })
@@ -670,7 +716,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        setDryerData(data.dryerData || []); // Update dryerData state
+        console.log(data.dryerData.filter((d) => d.branchNumber == "1"));
+        setDryerData(data.dryerData || []); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
@@ -678,13 +725,61 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   useEffect(() => {
-    fetchDryers();
+    fetchDryer();
   }, []);
+  console.log("********dryer data", dryerData);
+
+  const updateDryerTimer = async (availableDryer) => {
+    // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
+    // const currDate = new Date();
+    const res = await fetch(`/api/dryer?id=${availableDryer._id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ timer: "tempValue" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      console.log("dryer timer updated successfully");
+    } else {
+      console.error("Failed to update dryer timer ");
+    }
+
+    // console.log("Start Time:", getOrderStartTime(selectedMachine));
+  };
+  // const findLongestLastUsedTimeDryer = () => {
+  //   if (!dryerData || dryerData.length === 0) {
+  //     return null; // Return null or handle empty machineData case
+  //   }
+
+  //   let longestLastUsedDryer = dryerData[0]; // Assume the first machine has the longest last used time
+
+  //   for (let i = 1; i < dryerData.length; i++) {
+  //     const currentMachine = dryerData[i];
+  //     const currentLastUsed = currentMachine.lastUsed;
+  //     const longestLastUsed = longestLastUsedDryer.lastUsed;
+
+  //     console.log("currentMachine", currentMachine);
+  //     console.log("currentLastUsed", currentLastUsed);
+  //     console.log("longestLastUsed", longestLastUsed);
+  //     if (currentLastUsed > longestLastUsed) {
+  //       longestLastUsedDryer = currentMachine;
+  //     }
+  //   }
+  //   console.log("longestLastUsedDryer", longestLastUsedDryer);
+  //   return longestLastUsedDryer;
+  // };
+  // const longestLastUsedDryer = findLongestLastUsedTimeDryer();
 
   const assignDryer = () => {
     console.log(dryerData);
-    const availableDryer = dryerData.find((d) => d.timer === "00:00");
+    const availableDryer = dryerData.find(
+      (d) => d.timer == "00:00" || d.timer == "0"
+    );
     console.log("available dryers" + availableDryer);
+    updateDryerTimer(availableDryer);
+
     return +availableDryer.dryerNumber;
   };
 
