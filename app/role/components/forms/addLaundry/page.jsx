@@ -584,7 +584,7 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-// import Receipt from "@/app/role/staff/laundryBin/orderSummary";
+import Receipt from "@/app/role/staff/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
@@ -727,22 +727,22 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       }),
     });
 
-    // setLaundryOrderSummary({
-    //   customerName,
-    //   orderDate,
-    //   weight,
-    //   washMode,
-    //   dryMode,
-    //   fold,
-    //   colored,
-    //   detergent,
-    //   fabCon,
-    //   detergentQty,
-    //   fabConQty,
-    //   paymentMethod,
-    //   refNum,
-    //   totalAmount,
-    // });
+    setLaundryOrderSummary({
+      customerName,
+      orderDate,
+      weight,
+      washMode,
+      dryMode,
+      fold,
+      colored,
+      detergent,
+      fabCon,
+      detergentQty,
+      fabConQty,
+      paymentMethod,
+      refNum,
+      totalAmount,
+    });
 
     const res = await fetch("/api/report", {
       method: "POST",
@@ -799,7 +799,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
 
         const res = await fetch(
-          `http://localhost:3000/api/supply?id=${selectedDetergent._id}`,
+          `/api/supply?id=${selectedDetergent._id}`,
           {
             method: "PATCH",
             body: JSON.stringify({ availableStock: stock }),
@@ -845,7 +845,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
 
         const res = await fetch(
-          `http://localhost:3000/api/supply?id=${selectedFabCon._id}`,
+          `/api/supply?id=${selectedFabCon._id}`,
           {
             method: "PATCH",
             body: JSON.stringify({ availableStock: stock }),
@@ -1014,6 +1014,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     calculateTotalAmount();
   }, [weight, washMode, dryMode, fold]);
 
+  const closeReceipt = () => {
+    setLaundryOrderSummary(null);
+  };
+
   return (
     <>
       {isOpen && (
@@ -1168,9 +1172,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           </div>
         </div>
       )}
-      {/* <Receipt
-      selectedOrder={setLaundryOrderSummary}
-      /> */}
+      {laundryOrderSummary && (
+        <Receipt selectedOrder={laundryOrderSummary} onClose={closeReceipt} />
+      )}
     </>
   );
 };
