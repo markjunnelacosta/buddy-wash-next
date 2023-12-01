@@ -80,8 +80,8 @@ function ManageCustomer() {
     const fetchCustomers = async () => {
       try {
         const customerData = await getCustomers();
-
-        setCustomers(sortedCustomers);
+        
+        setCustomers(customerData);
       } catch (error) {
         console.error("Error fetching customers:", error);
       }
