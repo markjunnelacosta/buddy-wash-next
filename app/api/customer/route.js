@@ -1,16 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Customer from "@/models/customer";
 import { NextResponse } from "next/server";
-
-// export const GET = async (req, res) => {
-//   try {
-//     await connectToDB();
-//     const customers = await Customer.find({}).populate("customerName");
-//     return new Response(JSON.stringify(customers), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed get customer", { status: 500 });
-//   }
-// };
+import archiveCustomer from "@/models/archiveData/archiveCustomer";
 
 export async function GET() {
   await connectToDB();
@@ -38,10 +29,29 @@ export const POST = async (req) => {
 
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
-  await connectToDB();
-  await Customer.findByIdAndDelete(id);
-  return NextResponse.json(
-    { message: "Deleted a customer Record" },
-    { status: 201 }
-  );
+  try {
+    await connectToDB();
+
+    const archivedCustomer = await Customer.findById(id);
+
+    const newArchivedCustomer = new archiveCustomer({
+      customerName: archivedCustomer.customerName,
+      customerNumber: archivedCustomer.customerNumber,
+      deletedAt: new Date(),
+    });
+
+    await newArchivedCustomer.save();
+
+    await Customer.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { message: "Deleted a Record and added details to archived table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to delete and add details to archived table" },
+      { status: 500 }
+    );
+  }
 }
