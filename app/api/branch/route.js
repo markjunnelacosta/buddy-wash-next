@@ -32,16 +32,6 @@ export const POST = async (req) => {
   }
 };
 
-// export async function DELETE(request) {
-//   const id = request.nextUrl.searchParams.get("id");
-//   await connectToDB();
-//   await Branch.findByIdAndDelete(id);
-//   return NextResponse.json(
-//     { message: "Deleted a branch Record" },
-//     { status: 201 }
-//   );
-// }
-
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
   try {

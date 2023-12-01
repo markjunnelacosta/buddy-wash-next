@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import BranchesStaff from "@/models/branch-staff";
+import archiveBranchStaff from "@/models/archiveData/archiveBranchStaff";
 import { NextResponse } from "next/server";
 
 
@@ -55,10 +56,33 @@ export const POST = async (req) => {
 
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
-  await connectToDB();
-  await BranchesStaff.findByIdAndDelete(id);
-  return NextResponse.json(
-    { message: "Deleted a branch staff" },
-    { status: 201 }
-  );
+  try {
+    await connectToDB();
+
+    const archivedBranchStaff = await BranchesStaff.findById(id);
+
+    const newArchivedBranchStaff = new archiveBranchStaff({
+      staffName: archivedBranchStaff.staffName,
+      staffAddress: archivedBranchStaff.staffAddress,
+      phoneNumber: archivedBranchStaff.phoneNumber,
+      staffPosition: archivedBranchStaff.staffPosition,
+      selectedBranch: archivedBranchStaff.selectedBranch,
+      staffBranchId: archivedBranchStaff.staffBranchId,
+      deletedAt: new Date(),
+    });
+
+    await newArchivedBranchStaff.save();
+
+    await BranchesStaff.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { message: "Deleted a Record and added details to archived table" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to delete and add details to archived table" },
+      { status: 500 }
+    );
+  }
 }
