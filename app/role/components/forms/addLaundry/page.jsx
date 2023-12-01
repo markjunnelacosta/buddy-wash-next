@@ -614,6 +614,22 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
   let stock = 0;
 
+  // var today = new Date();
+  // var date =
+  //   today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
+  // var time = today.getHours() + ":" + today.getMinutes();
+  // var dateTime = date + " (" + time + ")";
+
+  var today = new Date();
+  var date =
+    today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
+  var hours = today.getHours();
+  var minutes = today.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // Handle midnight (12:00 AM)
+  var time = hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + ampm;
+  var dateTime = date + " (" + time + ")";
   const fetchMachines = () => {
     fetch("/api/machine", {
       cache: "no-store",
@@ -724,7 +740,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         fabconQty: fabConQty,
         paymentMethod: paymentMethod,
         refNum: refNum,
-        total: totalAmount
+        total: totalAmount,
       }),
     });
 
@@ -752,11 +768,10 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         customerName: customerName,
         reportDate: orderDate,
         totalAmount: totalAmount,
-        paymentMethod: paymentMethod
+        paymentMethod: paymentMethod,
       }),
     });
     console.log(res);
-
 
     setLaundryOrderSummary({
       customerName,
@@ -784,7 +799,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         const inventoryResponse = await fetch("/api/inventory", {
           method: "POST",
           body: JSON.stringify({
-            date: orderDate,
+            date: dateTime,
             supplyName: detergent,
             supplyId: selectedDetergent._id,
             quantity: detergentQty,
@@ -801,16 +816,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           console.error("Failed to update inventory record");
         }
 
-        const res = await fetch(
-          `/api/supply?id=${selectedDetergent._id}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({ availableStock: stock }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`/api/supply?id=${selectedDetergent._id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ availableStock: stock }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (res.ok) {
           console.log("Supply record updated successfully");
@@ -829,7 +841,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         const inventoryResponse = await fetch("/api/inventory", {
           method: "POST",
           body: JSON.stringify({
-            date: orderDate,
+            date: dateTime,
             supplyName: fabCon,
             supplyId: selectedFabCon._id,
             quantity: fabConQty,
@@ -846,16 +858,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           console.error("Failed to update inventory record");
         }
 
-        const res = await fetch(
-          `/api/supply?id=${selectedFabCon._id}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({ availableStock: stock }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`/api/supply?id=${selectedFabCon._id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ availableStock: stock }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (res.ok) {
           console.log("Supply record updated successfully");
@@ -864,7 +873,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         }
       }
     }
-
 
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(detergentQty)) {
@@ -880,8 +888,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       );
       return;
     }
-
-
 
     onSaveData();
     onClose();
@@ -1031,7 +1037,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         if (selectedFabCon && selectedFabCon.productPrice) {
           total += parseInt(fabConQty, 10) * +selectedFabCon.productPrice;
         } else {
-          console.error("Invalid fabric conditioner data or productPrice is missing");
+          console.error(
+            "Invalid fabric conditioner data or productPrice is missing"
+          );
         }
       }
     }
