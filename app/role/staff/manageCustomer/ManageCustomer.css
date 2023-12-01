@@ -17,24 +17,20 @@
 }
 
 .table-container {
-  background-color: white;
-  margin: 30px;
+  margin: 25px;
   padding: 10px;
-  flex-grow: 1; /* Allow the table container to expand to fill available space */
-  overflow: auto; /* Enable scrolling when the content overflows */
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .searchContainer {
   display: flex;
   flex-direction: row;
-  /* margin-left: 30px; */
   justify-content: space-between;
   height: 50px;
   align-items: baseline;
 }
-/* .searchContainer-left {
-  display: flex;
-} */
+
 .searchContainer-right {
   display: flex;
   line-height: 25px;
@@ -57,9 +53,14 @@
   padding: 2px;
 }
 
-/* Add this CSS to make the table header sticky */
 .MuiTableHead-root {
   position: sticky;
   top: 0;
-  background-color: white; /* Set the background color of the sticky header */
+  background-color: white;
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

@@ -22,6 +22,8 @@ import Paper from "@mui/material/Paper";
 import RemoveButton from "./RemoveButton";
 import AddCustomer from "../../components/forms/addCustomer/page";
 import EditCustomerPopup from "./editButton";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getCustomers = async () => {
   try {
@@ -44,9 +46,26 @@ const getCustomers = async () => {
 function ManageCustomer() {
   const [customers, setCustomers] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] =
-    useState(false);
+  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(customers.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, customers.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const handleEditCustomer = (customer) => {
     setSelectedCustomer(customer);
@@ -61,7 +80,8 @@ function ManageCustomer() {
     const fetchCustomers = async () => {
       try {
         const customerData = await getCustomers();
-        setCustomers(customerData);
+
+        setCustomers(sortedCustomers);
       } catch (error) {
         console.error("Error fetching customers:", error);
       }
@@ -99,7 +119,7 @@ function ManageCustomer() {
           </div>
           <div className="table-container">
             <TableContainer component={Paper}>
-              {/* <Paper style={{ height: 630, width: "100%" }}> */}
+              <Paper style={{ height: 'auto', width: "100%" }}>
               <Table
                 stickyHeader
                 aria-label="sticky table"
@@ -120,7 +140,12 @@ function ManageCustomer() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredCustomers.map((customer) => (
+                  {filteredCustomers
+                   .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  ).
+                  map((customer) => (
                     <TableRow
                       key={customer._id}
                       sx={{
@@ -147,9 +172,21 @@ function ManageCustomer() {
                   ))}
                 </TableBody>
               </Table>
-              {/* </Paper> */}
+              </Paper>
             </TableContainer>
           </div>
+          <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${filteredCustomers.length}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
+        </div>
         </div>
       </div>
       <EditCustomerPopup
