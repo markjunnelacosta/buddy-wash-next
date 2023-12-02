@@ -20,7 +20,7 @@ import Countdown from "react-countdown";
 
 const getOrderDetails = async () => {
   try {
-    const res = await fetch("/api/order", {
+    const res = await fetch("/api/BRANCH2/order", {
       cache: "no-store",
     });
 
@@ -129,7 +129,7 @@ const LaundryBin = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/laundrybin", {
+      const res = await fetch("/api/BRANCH2/laundrybin", {
         cache: "no-store",
       });
 
@@ -172,7 +172,7 @@ const LaundryBin = () => {
 
   const updateOrderTimer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/BRANCH2/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ machineTimer: date }),
       headers: {
@@ -191,7 +191,7 @@ const LaundryBin = () => {
 
   const updateOrderTimerForDryer = async (orderId, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/BRANCH2/order?id=${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({ dryerTimer: date }),
       headers: {
@@ -388,7 +388,7 @@ const LaundryBin = () => {
     }
   };
   const deleteOrder = async (orderId) => {
-    const res = await fetch(`/api/order?id=${orderId}`, {
+    const res = await fetch(`/api/BRANCH2/order?id=${orderId}`, {
       method: "DELETE",
     });
 
