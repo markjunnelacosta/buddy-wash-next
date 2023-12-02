@@ -25,7 +25,7 @@ import * as XLSX from "xlsx";
 
 const getReport = async () => {
   try {
-    const res = await fetch("/api/BRANCH2/report", {
+    const res = await fetch("/api/BRANCH2/branch2Report", {
       cache: "no-store",
     });
 
@@ -48,7 +48,7 @@ const getReport = async () => {
 const getFilteredReport = async (dateFrom, dateTo, selectedDataPeriod) => {
   try {
     const res = await fetch(
-      `/api/BRANCH2/report?dateFrom=${dateFrom}&dateTo=${dateTo}`,
+      `/api/BRANCH2/branch2Report?dateFrom=${dateFrom}&dateTo=${dateTo}`,
       {
         cache: "no-store",
       }
