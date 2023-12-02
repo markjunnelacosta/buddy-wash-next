@@ -12,6 +12,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
@@ -134,6 +136,25 @@ const Reports = () => {
     const [totalAmount, setTotalAmount] = useState(0);
     const faviconUrl = '/favicon.png';
 
+    const [entriesPerPage, setEntriesPerPage] = useState(8);
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(reportData.length / entriesPerPage);
+    const startRange = (currentPage - 1) * entriesPerPage + 1;
+    const endRange = Math.min(currentPage * entriesPerPage, reportData.length);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+
     const handleFilter = async () => {
         try {
             const filteredData = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
@@ -171,84 +192,84 @@ const Reports = () => {
         if (dateFrom && dateTo) {
             handleFilter();
         }
-    }, [selectedDataPeriod]); 
+    }, [selectedDataPeriod]);
 
     const handleExportToPDF = async () => {
         try {
-          const table = tableRef.current;
-    
-          if (!table) {
-            console.error("Table reference not found");
-            return;
-          }
-    
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          pdf.setFontSize(12);
-    
-          const logoImage = new Image();
-          logoImage.src = faviconUrl;
-          logoImage.onload = function () {
-            const logoSize = 50;
-            pdf.addImage(logoImage, 'JPEG', pdf.internal.pageSize.width - logoSize - 10, 5, logoSize, logoSize);
-            
-            // pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+            const table = tableRef.current;
 
-                    // pdf.text('Date', 10, imgHeight + 40);
-                    // pdf.text('Customer Name', 50, imgHeight + 40);
-                    // pdf.text('Total Amount', 100, imgHeight + 40);
-                    // pdf.text('Payment Method', 150, imgHeight + 40);
-                    // reportData.forEach((report, index) => {
-                    //     const yPos = imgHeight + 50 + index * 10;
-                    //     pdf.text(new Date(report.reportDate).toLocaleDateString(), 10, yPos);
-                    //     pdf.text(report.customerName, 50, yPos);
-                    //     pdf.text(report.totalAmount.toString(), 100, yPos);
-                    //     pdf.text(report.paymentMethod, 150, yPos);
-                    // });
-
-            pdf.setFont('times', 'bold');
-            pdf.text('TRANSACTION HISTORY', 20, 20);
-            pdf.setFont('times', 'normal');
-            pdf.text(`Requested Date: ${dateFrom} to ${dateTo}`, 20, 25);
-            // pdf.text(`Printed by: ${getserID()}`, 20, pdf.internal.pageSize.height - 30);
-            pdf.text('Corporation: WASHAF LAUNDRY SHOP', 20, 30);
-            const formattedTotalAmount = totalAmount.toFixed(2);
-            pdf.text(`Total Amount: Php ${formattedTotalAmount}`, 20, 35);
-            pdf.setFontSize(10);
-            pdf.text('This report contains detailed information about transactions of the business.', 20, 45); //specify branch based on account
-    
-            const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
-            const rows = filteredData
-              .map((report) => [
-                new Date(report.reportDate).toLocaleDateString(),
-                report.customerName,
-                report.totalAmount,
-                report.paymentMethod,
-              ]);
-    
-            pdf.autoTable({
-              head: [header],
-              body: rows,
-              startY: 55,
-              styles: { fontSize: 8 },
-              margin: { bottom: 40 },
-            });
-    
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-            pdf.setFontSize(10);
-            pdf.text(`Date Accessed: ${formattedDate}`, 20, pdf.internal.pageSize.height - 10);
-            const pageCount = pdf.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) {
-              pdf.setPage(i);
-              pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.width - 40, pdf.internal.pageSize.height - 10);
+            if (!table) {
+                console.error("Table reference not found");
+                return;
             }
-    
-            pdf.save('table.pdf');
-          };
+
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            pdf.setFontSize(12);
+
+            const logoImage = new Image();
+            logoImage.src = faviconUrl;
+            logoImage.onload = function () {
+                const logoSize = 50;
+                pdf.addImage(logoImage, 'JPEG', pdf.internal.pageSize.width - logoSize - 10, 5, logoSize, logoSize);
+
+                // pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+
+                // pdf.text('Date', 10, imgHeight + 40);
+                // pdf.text('Customer Name', 50, imgHeight + 40);
+                // pdf.text('Total Amount', 100, imgHeight + 40);
+                // pdf.text('Payment Method', 150, imgHeight + 40);
+                // reportData.forEach((report, index) => {
+                //     const yPos = imgHeight + 50 + index * 10;
+                //     pdf.text(new Date(report.reportDate).toLocaleDateString(), 10, yPos);
+                //     pdf.text(report.customerName, 50, yPos);
+                //     pdf.text(report.totalAmount.toString(), 100, yPos);
+                //     pdf.text(report.paymentMethod, 150, yPos);
+                // });
+
+                pdf.setFont('times', 'bold');
+                pdf.text('TRANSACTION HISTORY', 20, 20);
+                pdf.setFont('times', 'normal');
+                pdf.text(`Requested Date: ${dateFrom} to ${dateTo}`, 20, 25);
+                // pdf.text(`Printed by: ${getserID()}`, 20, pdf.internal.pageSize.height - 30);
+                pdf.text('Corporation: WASHAF LAUNDRY SHOP', 20, 30);
+                const formattedTotalAmount = totalAmount.toFixed(2);
+                pdf.text(`Total Amount: Php ${formattedTotalAmount}`, 20, 35);
+                pdf.setFontSize(10);
+                pdf.text('This report contains detailed information about transactions of the business.', 20, 45); //specify branch based on account
+
+                const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+                const rows = filteredData
+                    .map((report) => [
+                        new Date(report.reportDate).toLocaleDateString(),
+                        report.customerName,
+                        report.totalAmount,
+                        report.paymentMethod,
+                    ]);
+
+                pdf.autoTable({
+                    head: [header],
+                    body: rows,
+                    startY: 55,
+                    styles: { fontSize: 8 },
+                    margin: { bottom: 40 },
+                });
+
+                const currentDate = new Date();
+                const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+                pdf.setFontSize(10);
+                pdf.text(`Date Accessed: ${formattedDate}`, 20, pdf.internal.pageSize.height - 10);
+                const pageCount = pdf.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    pdf.setPage(i);
+                    pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.width - 40, pdf.internal.pageSize.height - 10);
+                }
+
+                pdf.save('table.pdf');
+            };
         } catch (error) {
-          console.error("Error exporting to PDF:", error);
+            console.error("Error exporting to PDF:", error);
         }
-      };
+    };
 
     const handleExportToExcel = () => {
         try {
@@ -382,19 +403,35 @@ const Reports = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {reportData && reportData.map((report) => (
-                                    <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
-                                        <TableCell className="table-body">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
-                                        <TableCell className="table-body">{report.customerName}</TableCell>
-                                        <TableCell className="table-body">{report.totalAmount}</TableCell>
-                                        <TableCell className="table-body">{report.paymentMethod}</TableCell>
-                                    </TableRow>
-                                ))}
+                                {reportData && reportData
+                                    .slice(
+                                        (currentPage - 1) * entriesPerPage,
+                                        currentPage * entriesPerPage
+                                    ).
+                                    map((report) => (
+                                        <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
+                                            <TableCell className="table-body">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
+                                            <TableCell className="table-body">{report.customerName}</TableCell>
+                                            <TableCell className="table-body">{report.totalAmount}</TableCell>
+                                            <TableCell className="table-body">{report.paymentMethod}</TableCell>
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </div>
-
+                <div className="pagination">
+                    <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        <ArrowBackIosRoundedIcon />
+                    </button>
+                    <span>{`Showing entries ${startRange}-${endRange} of ${reportData.length}`}</span>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                    >
+                        <ArrowForwardIosRoundedIcon />
+                    </button>
+                </div>
             </div>
         </div>
     )
