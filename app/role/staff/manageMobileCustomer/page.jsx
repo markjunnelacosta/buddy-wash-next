@@ -9,7 +9,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getMobileUsers = async () => {
   try {
@@ -31,6 +32,24 @@ const getMobileUsers = async () => {
 const MobileUser = () => {
   const [mobileUserData, setMobileUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [entriesPerPage, setEntriesPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(mobileUserData.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, mobileUserData.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   useEffect(() => {
     const fetchMobileUSers = async () => {
@@ -84,22 +103,39 @@ const MobileUser = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredUsers.map((mobile) => (
-                    <TableRow
-                      key={mobile._id}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell className="table-body">{mobile.firstName}</TableCell>
-                      <TableCell className="table-body">{mobile.lastName}</TableCell>
-                      <TableCell className="table-body">{mobile.email}</TableCell>
-                      <TableCell className="table-body">{mobile.phoneNumber}</TableCell>
-                    </TableRow>
-                  ))}
+                  {filteredUsers
+                    .slice(
+                      (currentPage - 1) * entriesPerPage,
+                      currentPage * entriesPerPage
+                    ).
+                    map((mobile) => (
+                      <TableRow
+                        key={mobile._id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell className="table-body">{mobile.firstName}</TableCell>
+                        <TableCell className="table-body">{mobile.lastName}</TableCell>
+                        <TableCell className="table-body">{mobile.email}</TableCell>
+                        <TableCell className="table-body">{mobile.phoneNumber}</TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
+          </div>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <ArrowBackIosRoundedIcon />
+            </button>
+            <span>{`Showing entries ${startRange}-${endRange} of ${filteredUsers.length}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <ArrowForwardIosRoundedIcon />
+            </button>
           </div>
         </div>
       </div>
