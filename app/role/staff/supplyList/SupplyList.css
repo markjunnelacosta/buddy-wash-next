@@ -40,8 +40,20 @@
   width: 200px;
 }
 
-.pagination{
+.pagination {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+.legend {
+  height: 30px;
+  /* background-color: wheat; */
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  align-items: center;
+  margin-right: 40px;
+  font-size: x-small;
+  font-weight: 400;
+  font-style: italic;
 }

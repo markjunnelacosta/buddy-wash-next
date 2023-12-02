@@ -112,6 +112,17 @@ function SupplyList() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+          <div className="legend">
+            <p>
+              LEGEND : &nbsp; &nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "green" }} />{" "}
+              Marami pa &nbsp; &nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />{" "}
+              Pwede pa &nbsp;&nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Paubos
+              na
+            </p>
+          </div>
         </div>
         <div className="table-container">
           <TableContainer component={Paper}>
@@ -143,8 +154,8 @@ function SupplyList() {
                   .slice(
                     (currentPage - 1) * entriesPerPage,
                     currentPage * entriesPerPage
-                  ).
-                  map((supply) => (
+                  )
+                  .map((supply) => (
                     <TableRow
                       key={supply._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -161,7 +172,6 @@ function SupplyList() {
                       <TableCell align="center">
                         {getStatusIcon(supply.availableStock)}
                       </TableCell>
-
                     </TableRow>
                   ))}
               </TableBody>
