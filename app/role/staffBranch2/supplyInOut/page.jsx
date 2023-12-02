@@ -20,7 +20,7 @@ import { Add } from "@mui/icons-material";
 import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
 const getInventory = async () => {
   try {
-    const res = await fetch("/api/inventory", {
+    const res = await fetch("/api/BRANCH2/inventory", {
       cache: "no-store",
     });
 
@@ -114,7 +114,7 @@ function SupplyInOut() {
                 </TableRow>
               </TableHead>
               <TableBody>
-              {sortedInventory.map((inventory) => (
+                {sortedInventory.map((inventory) => (
                   <TableRow
                     key={inventory._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

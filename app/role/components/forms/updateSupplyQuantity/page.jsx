@@ -17,7 +17,7 @@ import AddLaundry from "../addLaundry/page";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/supply", {
+    const res = await fetch("/api/BRANCH2/supply", {
       cache: "no-store",
     });
 
@@ -83,7 +83,7 @@ export default function UpdateSupply() {
   const onClickSave = async () => {
     console.log(selectedSupply);
     console.log(time, name, quantity, type);
-    const response = await fetch("/api/inventory", {
+    const response = await fetch("/api/BRANCH2/inventory", {
       method: "POST",
       body: JSON.stringify({
         date: dateTime,
@@ -111,7 +111,7 @@ export default function UpdateSupply() {
     }
     console.log(stock);
 
-    const res = await fetch(`/api/supply?id=${supplyId}`, {
+    const res = await fetch(`/api/BRANCH2/supply?id=${supplyId}`, {
       method: "PATCH",
       body: JSON.stringify({ availableStock: stock }),
       headers: {
