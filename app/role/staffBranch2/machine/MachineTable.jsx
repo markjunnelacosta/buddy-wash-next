@@ -28,7 +28,9 @@ function MachineTable() {
       })
       .then((data) => {
         setMachineData(
-          data.machineData.filter((m) => m.branchNumber == "2") || []
+          data.machineData.filter(
+            (m) => m.branchNumber == 2 || m.branchNumber == "2"
+          ) || []
         ); // Update machineData state
       })
       .catch((error) => {

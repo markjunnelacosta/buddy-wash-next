@@ -27,7 +27,7 @@ function DryerTable() {
       .then((data) => {
         setDryerData(
           data.dryerData.filter(
-            (d) => d.branchNumber == 1 || d.branchNumber == "2"
+            (d) => d.branchNumber == 2 || d.branchNumber == "2"
           ) || []
         ); // Update dryer state
       })

@@ -95,7 +95,7 @@ const Reset = () => {
 
   const postMachineData = () => {
     machineInfo.forEach(async (m) => {
-      const response = await fetch("/api/BRANCH2/machineReport", {
+      const response = await fetch("/api/BRANCH2/branch2MachineReport", {
         method: "POST",
         body: JSON.stringify({
           date: m.date,
@@ -111,7 +111,7 @@ const Reset = () => {
 
   const postDryerData = () => {
     dryerInfo.forEach(async (d) => {
-      const response = await fetch("/api/BRANCH2/dryerReport", {
+      const response = await fetch("/api/BRANCH2/branch2DryerReport", {
         method: "POST",
         body: JSON.stringify({
           date: d.date,
@@ -171,7 +171,7 @@ const Reset = () => {
       }}
       variant="contained"
       onClick={onReset}
-      href="/role/staff/machine"
+      href="/role/staffBranch2/machine"
     >
       Reset Machines
     </Button>
