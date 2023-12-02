@@ -22,7 +22,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/supply", {
+    const res = await fetch("/api/BRANCH2/supply", {
       cache: "no-store",
     });
 
@@ -136,7 +136,6 @@ function SupplyList() {
                     <TableCell align="center">
                       {getStatusIcon(supply.availableStock)}
                     </TableCell>
-                    
                   </TableRow>
                 ))}
               </TableBody>
