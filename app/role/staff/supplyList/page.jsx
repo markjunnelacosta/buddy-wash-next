@@ -45,6 +45,7 @@ function SupplyList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState("");
   const [availableStock, setAvailableStock] = useState();
+  const [alertShown, setAlertShown] = useState(false);
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -91,11 +92,17 @@ function SupplyList() {
     }
   };
 
+  const showAlertForSupply = () => {
+    alert("Low stock alert!");
+    setAlertShown(true);
+  };
+
   const setAlertForSupply = () => {
     if (stock < 10) {
       return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
     }
   };
+
   const filteredSupplies = supplies.filter((supply) =>
     supply.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
