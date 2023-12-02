@@ -13,7 +13,8 @@ import EditPopup from "./EditButton";
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
-  const [isEditMachinePopupVisible, setEditMachinePopupVisible] = useState(false);
+  const [isEditMachinePopupVisible, setEditMachinePopupVisible] =
+    useState(false);
 
   const fetchMachines = () => {
     fetch("/api/machine", {
@@ -27,7 +28,7 @@ function MachineTable() {
       })
       .then((data) => {
         setMachineData(
-          data.machineData.filter((m) => m.branchNumber == "1") || []
+          data.machineData.filter((m) => m.branchNumber == "2") || []
         ); // Update machineData state
       })
       .catch((error) => {
@@ -56,60 +57,60 @@ function MachineTable() {
 
   return (
     <div>
-        <TableContainer component={Paper}>
-          <Table stickyHeader aria-label="sticky table" size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" className="table-header-bold">
-                  Washer No.
+      <TableContainer component={Paper}>
+        <Table stickyHeader aria-label="sticky table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" className="table-header-bold">
+                Washer No.
+              </TableCell>
+              <TableCell align="center" className="table-header-bold">
+                Action
+              </TableCell>
+              <TableCell align="center" className="table-header-bold">
+                Queue
+              </TableCell>
+              <TableCell align="center" className="table-header-bold">
+                Use Count
+              </TableCell>
+              <TableCell align="center" className="table-header-bold">
+                Status
+              </TableCell>
+              <TableCell align="center" className="table-header-bold">
+                Set-up
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {machineData.map((machine, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">{machine.machineNumber}</TableCell>
+
+                <TableCell align="center">
+                  {machine.timer == "00:00" || machine.timer == 0
+                    ? "Off"
+                    : "Running"}
                 </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Action
+                <TableCell align="center">{machine.queue}</TableCell>
+                <TableCell align="center">{machine.useCount}</TableCell>
+                <TableCell align="center">
+                  {machine.status === "Operational"
+                    ? "Operational"
+                    : "Under Maintenance"}
                 </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Queue
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Use Count
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Status
-                </TableCell>
-                <TableCell align="center" className="table-header-bold">
-                  Set-up
+                <TableCell align="center">
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleEditMachine(machine)}
+                  >
+                    Edit
+                  </Button>
                 </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {machineData.map((machine, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{machine.machineNumber}</TableCell>
-
-                  <TableCell align="center">
-                    {machine.timer == "00:00" || machine.timer == 0
-                      ? "Off"
-                      : "Running"}
-                  </TableCell>
-                  <TableCell align="center">{machine.queue}</TableCell>
-                  <TableCell align="center">{machine.useCount}</TableCell>
-                  <TableCell align="center">
-                    {machine.status === "Operational"
-                      ? "Operational"
-                      : "Under Maintenance"}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleEditMachine(machine)}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <EditPopup
         isOpen={isEditMachinePopupVisible}
         item={selectedMachine}

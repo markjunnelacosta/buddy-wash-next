@@ -30,7 +30,8 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const mData = data.machineData.filter((m) => m.branchNumber == 1) || [];
+        const mData =
+          data.machineData.filter((m) => m.branchNumber == "2") || [];
         setMachineData(mData);
 
         // Update machine state
@@ -68,7 +69,7 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const dData = data.dryerData.filter((d) => d.branchNumber == 1) || [];
+        const dData = data.dryerData.filter((d) => d.branchNumber == "2") || [];
         setDryerData(dData);
         const dryerUseCount = [];
         dData.forEach((d) => {
@@ -94,7 +95,7 @@ const Reset = () => {
 
   const postMachineData = () => {
     machineInfo.forEach(async (m) => {
-      const response = await fetch("/api/machineReport", {
+      const response = await fetch("/api/BRANCH2/machineReport", {
         method: "POST",
         body: JSON.stringify({
           date: m.date,
@@ -110,7 +111,7 @@ const Reset = () => {
 
   const postDryerData = () => {
     dryerInfo.forEach(async (d) => {
-      const response = await fetch("/api/dryerReport", {
+      const response = await fetch("/api/BRANCH2/dryerReport", {
         method: "POST",
         body: JSON.stringify({
           date: d.date,
