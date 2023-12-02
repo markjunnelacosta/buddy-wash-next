@@ -18,7 +18,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/BRANCH2/report");
+        const res = await fetch("/api/BRANCH2/branch2Report");
         const data = await res.json();
 
         setReportData(data.reportData);
