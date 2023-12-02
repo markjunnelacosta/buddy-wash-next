@@ -91,6 +91,11 @@ function SupplyList() {
     }
   };
 
+  const setAlertForSupply = () => {
+    if (stock < 10) {
+      return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
+    }
+  };
   const filteredSupplies = supplies.filter((supply) =>
     supply.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -114,7 +119,8 @@ function SupplyList() {
           </div>
           <div className="legend">
             <p>
-              LEGEND : &nbsp; &nbsp;
+              <span style={{ fontWeight: "bolder" }}>LEGEND :</span>
+              &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "green" }} />{" "}
               Marami pa &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />{" "}
