@@ -15,12 +15,12 @@ const ReportSchema = new Schema({
     required: [true, "Date is required"],
     set: function (date) {
       if (typeof date === "string") {
-          return new Date(date); // Parse the string as a Date
+        return new Date(date); // Parse the string as a Date
       } else if (date instanceof Date) {
-          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
       }
       return date;
-  },
+    },
   },
 
   totalAmount: {
@@ -28,11 +28,11 @@ const ReportSchema = new Schema({
     required: [true, "Phone Number is required"],
   },
   paymentMethod: {
-    type: String
-  }
-
+    type: String,
+  },
 });
 
-const Reports = models.Reports || model('Reports', ReportSchema);
+const Branch2Reports =
+  models.Branch2Reports || model("Branch2Reports", ReportSchema);
 
-export default Reports; 
+export default Branch2Reports;
