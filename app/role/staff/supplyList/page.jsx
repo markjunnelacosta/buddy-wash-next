@@ -118,15 +118,14 @@ function SupplyList() {
             />
           </div>
           <div className="legend">
-            <p>
-              <span style={{ fontWeight: "bolder" }}>LEGEND :</span>
+            <p style={{ fontWeight: "bolder", fontSize: "larger" }}>
+              <span style={{ fontWeight: "bolder", fontSize: "larger" }}>LEGEND :</span>
               &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "green" }} />{" "}
-              Marami pa &nbsp; &nbsp;
+              Plenty &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />{" "}
-              Pwede pa &nbsp;&nbsp;
-              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Paubos
-              na
+              Still Available &nbsp;&nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Running Low
             </p>
           </div>
         </div>
