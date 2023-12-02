@@ -45,7 +45,7 @@ export default function UpdateCustomerForm({
     }
 
     try {
-      const res = await fetch(`/api/BRANCH2/customer/${id}`, {
+      const res = await fetch(`/api/BRANCH2/branch2Customer/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
@@ -110,7 +110,10 @@ export default function UpdateCustomerForm({
         </div>
         <div className="btns">
           <button className="dialog-button">Save</button>
-          <button className="dialog-button" href="/role/staff/manageCustomer">
+          <button
+            className="dialog-button"
+            href="/role/staffBranch2/manageCustomer"
+          >
             Cancel
           </button>
         </div>

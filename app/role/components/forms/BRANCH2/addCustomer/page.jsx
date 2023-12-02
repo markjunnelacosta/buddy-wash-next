@@ -37,7 +37,7 @@ export default function AddCustomer() {
 
     console.log(customerName, customerNumber);
 
-    const response = await fetch("/api/BRANCH2/customer", {
+    const response = await fetch("/api/BRANCH2/branch2Customer", {
       method: "POST",
       body: JSON.stringify({
         customerName: customerName,
@@ -103,7 +103,7 @@ export default function AddCustomer() {
         </DialogContent>
         <DialogActions>
           <Button
-            href="/role/staff/manageCustomer"
+            href="/role/staffBranch2/manageCustomer"
             className="dialog-button"
             onClick={() => {
               onClickSave();

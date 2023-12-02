@@ -1,6 +1,6 @@
 // EditUserPopup.js
 import React from "react";
-import UpdateCustomerForm from "../../components/forms/updateCustomer/page";
+import UpdateCustomerForm from "../../components/forms/BRANCH2/updateCustomer/page";
 
 const EditCustomerPopup = ({ isOpen, customer, onClose }) => {
   if (!isOpen) {

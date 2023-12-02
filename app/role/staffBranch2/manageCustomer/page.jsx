@@ -20,14 +20,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import RemoveButton from "./RemoveButton";
-import AddCustomer from "../../components/forms/addCustomer/page";
+import AddCustomer from "../../components/forms/BRANCH2/addCustomer/page";
 import EditCustomerPopup from "./editButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getCustomers = async () => {
   try {
-    const res = await fetch("/api/BRANCH2/customer", {
+    const res = await fetch("/api/BRANCH2/branch2Customer", {
       cache: "no-store",
     });
 
