@@ -15,7 +15,7 @@ const DryerReportSchema = new Schema({
   },
 });
 
-const DryerReport =
-  models.DryerReport || model("DryerReport", DryerReportSchema);
+const Branch2DryerReport =
+  models.Branch2DryerReport || model("Branch2DryerReport", DryerReportSchema);
 
-export default DryerReport;
+export default Branch2DryerReport;
