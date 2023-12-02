@@ -27,7 +27,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const getCustomers = async () => {
   try {
-    const res = await fetch("/api/customer", {
+    const res = await fetch("/api/BRANCH2/customer", {
       cache: "no-store",
     });
 
@@ -46,7 +46,8 @@ const getCustomers = async () => {
 function ManageCustomer() {
   const [customers, setCustomers] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] = useState(false);
+  const [isUpdateCustomerPopupVisible, setUpdateCustomerPopupVisible] =
+    useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,7 +81,7 @@ function ManageCustomer() {
     const fetchCustomers = async () => {
       try {
         const customerData = await getCustomers();
-        
+
         setCustomers(customerData);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -119,74 +120,74 @@ function ManageCustomer() {
           </div>
           <div className="table-container">
             <TableContainer component={Paper}>
-              <Paper style={{ height: 'auto', width: "100%" }}>
-              <Table
-                stickyHeader
-                aria-label="sticky table"
-                sx={{ minWidth: 600 }}
-                size="small"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>
-                      Name
-                    </TableCell>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>
-                      Number
-                    </TableCell>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>
-                      Action
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredCustomers
-                   .slice(
-                    (currentPage - 1) * entriesPerPage,
-                    currentPage * entriesPerPage
-                  ).
-                  map((customer) => (
-                    <TableRow
-                      key={customer._id}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell align="center" component="th" scope="row">
-                        {customer.customerName}
+              <Paper style={{ height: "auto", width: "100%" }}>
+                <Table
+                  stickyHeader
+                  aria-label="sticky table"
+                  sx={{ minWidth: 600 }}
+                  size="small"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" style={{ fontWeight: "bold" }}>
+                        Name
                       </TableCell>
-                      <TableCell align="center">
-                        {customer.customerNumber}
+                      <TableCell align="center" style={{ fontWeight: "bold" }}>
+                        Number
                       </TableCell>
-                      <TableCell className="action-cell" align="center">
-                        <Button
-                          id="edit-button"
-                          variant="outlined"
-                          onClick={() => handleEditCustomer(customer)}
-                        >
-                          Edit
-                        </Button>
-                        <RemoveButton id={customer._id} />
+                      <TableCell align="center" style={{ fontWeight: "bold" }}>
+                        Action
                       </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHead>
+                  <TableBody>
+                    {filteredCustomers
+                      .slice(
+                        (currentPage - 1) * entriesPerPage,
+                        currentPage * entriesPerPage
+                      )
+                      .map((customer) => (
+                        <TableRow
+                          key={customer._id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell align="center" component="th" scope="row">
+                            {customer.customerName}
+                          </TableCell>
+                          <TableCell align="center">
+                            {customer.customerNumber}
+                          </TableCell>
+                          <TableCell className="action-cell" align="center">
+                            <Button
+                              id="edit-button"
+                              variant="outlined"
+                              onClick={() => handleEditCustomer(customer)}
+                            >
+                              Edit
+                            </Button>
+                            <RemoveButton id={customer._id} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
               </Paper>
             </TableContainer>
           </div>
           <div className="pagination">
-          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-            <ArrowBackIosRoundedIcon />
-          </button>
-          <span>{`Showing entries ${startRange}-${endRange} of ${filteredCustomers.length}`}</span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            <ArrowForwardIosRoundedIcon />
-          </button>
-        </div>
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <ArrowBackIosRoundedIcon />
+            </button>
+            <span>{`Showing entries ${startRange}-${endRange} of ${filteredCustomers.length}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <ArrowForwardIosRoundedIcon />
+            </button>
+          </div>
         </div>
       </div>
       <EditCustomerPopup
