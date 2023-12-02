@@ -26,6 +26,7 @@ const InventorySchema = new Schema({
   },
 });
 
-const Inventory = models.Inventory || model("Inventory", InventorySchema);
+const Branch2Inventory =
+  models.Branch2Inventory || model("Branch2Inventory", InventorySchema);
 
-export default Inventory;
+export default Branch2Inventory;
