@@ -18,10 +18,10 @@
 }
 
 .table-container {
-  background-color: white;
   margin: 10px 30px;
   height: 100%;
 }
+
 .searchContainer {
   display: flex;
   flex-direction: row;
@@ -38,4 +38,10 @@
   border-color: white;
   margin: 10px 35px 10px 10px;
   width: 200px;
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

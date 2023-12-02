@@ -19,6 +19,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircleIcon from "@mui/icons-material/Circle";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getSupplies = async () => {
   try {
@@ -43,6 +45,24 @@ function SupplyList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState("");
   const [availableStock, setAvailableStock] = useState();
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(supplies.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, supplies.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -119,30 +139,47 @@ function SupplyList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredSupplies.map((supply) => (
-                  <TableRow
-                    key={supply._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center" component="th" scope="row">
-                      {supply.supplyName}
-                    </TableCell>
-                    <TableCell align="center" component="th" scope="row">
-                      {supply.productPrice}
-                    </TableCell>
-                    <TableCell align="center">
-                      {supply.availableStock}
-                    </TableCell>
-                    <TableCell align="center">
-                      {getStatusIcon(supply.availableStock)}
-                    </TableCell>
-                    
-                  </TableRow>
-                ))}
+                {filteredSupplies
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  ).
+                  map((supply) => (
+                    <TableRow
+                      key={supply._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center" component="th" scope="row">
+                        {supply.supplyName}
+                      </TableCell>
+                      <TableCell align="center" component="th" scope="row">
+                        {supply.productPrice}
+                      </TableCell>
+                      <TableCell align="center">
+                        {supply.availableStock}
+                      </TableCell>
+                      <TableCell align="center">
+                        {getStatusIcon(supply.availableStock)}
+                      </TableCell>
+
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
             {/* </Paper> */}
           </TableContainer>
+        </div>
+        <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${filteredSupplies.length}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
         </div>
       </div>
     </div>
