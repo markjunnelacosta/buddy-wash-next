@@ -18,6 +18,7 @@ const SupplySchema = new Schema({
   },
 });
 
-const Supply = models.Supply || model("Supply", SupplySchema);
+const Branch2Supply =
+  models.Branch2Supply || model("Branch2Supply", SupplySchema);
 
-export default Supply;
+export default Branch2Supply;
