@@ -1,0 +1,71 @@
+.reports-container {
+    background-color: #ececec;
+    width: 80%;
+    display: flex;
+    height: 89.5vh;
+    float: right;
+    justify-content: space-between;   
+}
+
+.blue-container {
+    display:flex;
+    flex-direction: column;
+    background-color: #54BCBC;
+    width: calc(100% - 40px);
+    margin :20px;
+    gap: 10px;
+    border-radius: 10px;
+
+}
+
+
+.report-table-container {
+    background-color: white;
+    margin: 0px 30px 30px;
+    padding: 10px;
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.table-head {
+    text-align: center;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-body {
+    text-align: center;
+}
+
+.table-cell {
+    text-align: center;
+    font-weight: bold;
+}
+
+.searchContainer {
+    display:flex;
+    flex-direction: row;
+    margin-left: 30px;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.searchContainer-left {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.searchContainer-right {
+    display: flex;
+
+}
+
+.inputDate {
+    border-color: white;
+    margin: 10px 35px 10px 10px;
+    width: 200px;
+    height: 30px;
+}

@@ -42,11 +42,22 @@ export default function UpdateSupply() {
   let stock = 0;
   const [selectedSupply, setSelectedSupply] = useState([]);
 
+  // var today = new Date();
+  // var date =
+  //   today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
+  // var time = today.getHours() + ":" + today.getMinutes();
+  // var dateTime = date + " (" + time + ")";
+
   var today = new Date();
   var date =
     today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
-  var time = today.getHours() + ":" + today.getMinutes();
-  var dateTime = date;
+  var hours = today.getHours();
+  var minutes = today.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // Handle midnight (12:00 AM)
+  var time = hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + ampm;
+  var dateTime = date + " (" + time + ")";
 
   //gets supplies list
   React.useEffect(() => {
