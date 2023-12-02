@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { Grid, Paper } from "@mui/material";
 import Counter from "./Counter";
 import Chart from "./Chart";
 import ForecastChart from "./forecastChart";
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem } from "@mui/material";
 
 const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
@@ -18,7 +18,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/report");
+        const res = await fetch("/api/BRANCH2/report");
         const data = await res.json();
 
         setReportData(data.reportData);
@@ -28,7 +28,9 @@ const Dashboard = () => {
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
-              const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              const isCorrectPaymentMethod =
+                paymentMethod === "all" ||
+                report.paymentMethod === paymentMethod;
 
               switch (range) {
                 case "daily":
@@ -40,7 +42,10 @@ const Dashboard = () => {
                 case "weekly":
                   const firstDayOfWeek = new Date(currentDate);
                   const dayOfWeek = currentDate.getDay();
-                  const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+                  const diff =
+                    currentDate.getDate() -
+                    dayOfWeek +
+                    (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
                   firstDayOfWeek.setDate(diff);
                   return (
                     reportDate >= firstDayOfWeek && reportDate <= currentDate
@@ -54,7 +59,9 @@ const Dashboard = () => {
                   return reportDate.getFullYear() === currentDate.getFullYear();
                 case "semi-annually":
                   const halfYear = Math.floor(reportDate.getMonth() / 6);
-                  const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
+                  const currentHalfYear = Math.floor(
+                    currentDate.getMonth() / 6
+                  );
                   return (
                     halfYear === currentHalfYear &&
                     reportDate.getFullYear() === currentDate.getFullYear()
@@ -66,7 +73,8 @@ const Dashboard = () => {
             .reduce(
               (acc, report) => {
                 const isCorrectPaymentMethod =
-                  paymentMethod === "all" || report.paymentMethod === paymentMethod;
+                  paymentMethod === "all" ||
+                  report.paymentMethod === paymentMethod;
 
                 if (isCorrectPaymentMethod) {
                   acc.totalProfit += report.totalAmount;
@@ -81,7 +89,12 @@ const Dashboard = () => {
 
                 return acc;
               },
-              { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
+              {
+                totalProfit: 0,
+                customerCount: 0,
+                gcashProfit: 0,
+                cashProfit: 0,
+              }
             );
         };
 
@@ -92,7 +105,8 @@ const Dashboard = () => {
         // };
 
         // Update state hooks with calculated values based on the selected date range
-        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
+        const { totalProfit, customerCount, gcashProfit, cashProfit } =
+          calculateDataForDateRange(dateRange, paymentMethod);
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
 
@@ -106,7 +120,9 @@ const Dashboard = () => {
     fetchData();
   }, [dateRange, paymentMethod]);
 
-  const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
+  const lastReportDate = new Date(
+    Math.max(...reportData.map((report) => new Date(report.reportDate)))
+  );
 
   // Calculate future dates (4 days ahead) for forecasting
   const futureDates = Array.from({ length: 4 }, (_, index) => {
@@ -116,7 +132,7 @@ const Dashboard = () => {
   });
 
   // Generate forecast data for the calculated future dates
-  const forecastData = futureDates.map(forecastDate => {
+  const forecastData = futureDates.map((forecastDate) => {
     const pastReports = reportData;
     const averageTotalAmount =
       pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) /
@@ -133,7 +149,7 @@ const Dashboard = () => {
   });
 
   console.log("Forecast Data:", forecastData);
-  
+
   return (
     <div className="dashboard-container-owner">
       <div className="graphs-container">
@@ -147,7 +163,7 @@ const Dashboard = () => {
               width: "200px",
               height: "40px",
               fontWeight: "bold",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
           >
             <MenuItem disabled>Select Data Period</MenuItem>
@@ -167,7 +183,7 @@ const Dashboard = () => {
               width: "200px",
               height: "40px",
               fontWeight: "bold",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
           >
             <MenuItem disabled>Select Payment Data</MenuItem>
@@ -195,7 +211,11 @@ const Dashboard = () => {
         </div>
         <div className="top-container">
           <div className="counters-container">
-            <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />
+            <Counter
+              title="Sales"
+              value={totalProfit.toFixed(2)}
+              currency="₱"
+            />
             <Counter title="Customers" value={customerCount} />
           </div>
 
@@ -210,7 +230,11 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} />
+                  <Chart
+                    data={reportData}
+                    dateRange={dateRange}
+                    paymentMethod={paymentMethod}
+                  />
                 </Paper>
               </Grid>
 
@@ -223,7 +247,10 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData} dateRange={dateRange} />
+                  <ForecastChart
+                    forecastData={forecastData}
+                    dateRange={dateRange}
+                  />
                 </Paper>
               </Grid>
             </Grid>
