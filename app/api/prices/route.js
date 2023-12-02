@@ -2,16 +2,6 @@ import { connectToDB } from "@/utils/database";
 import prices from "@/models/prices";
 import { NextResponse } from "next/server";
 
-// export const GET = async (req, res) => {
-//   try {
-//     await connectToDB();
-//     const customers = await Customer.find({}).populate("customerName");
-//     return new Response(JSON.stringify(customers), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed get customer", { status: 500 });
-//   }
-// };
-
 export async function GET() {
   await connectToDB();
   const prices = await prices.find();

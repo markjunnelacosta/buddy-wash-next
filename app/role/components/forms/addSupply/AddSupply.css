@@ -4,6 +4,7 @@
 p {
   font-weight: bold;
 }
+
 /* .__className_e66fe9 {
     font-family: "__Inter_e66fe9", "__Inter_Fallback_e66fe9";
     font-style: normal;
@@ -20,13 +21,16 @@ p {
   padding: 30px;
   border-radius: 20px;
 }
+
 .new-supply-text {
   border-bottom: solid gray 2px;
 }
+
 .input {
   display: flex;
   gap: 30px;
 }
+
 .text-box {
   border: solid lightgray;
   line-height: 30px;
@@ -34,12 +38,14 @@ p {
   border-width: thin;
   font-weight: bold;
 }
-.buttons {
+
+/* .buttons {
   display: flex;
   justify-content: flex-end;
   margin-top: 30px;
   height: 50px;
-}
+} */
+
 .dialog-button {
   background-color: #54bcbc;
   height: 40px;
@@ -49,14 +55,17 @@ p {
   border-radius: 5px;
   margin: 5px;
 }
+
 .button:hover {
   background-color: #bee5e5;
 }
+
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
   padding-top: 20px;
   padding-left: 20px;
   font-weight: bold;
 }
+
 .css-ypiqx9-MuiDialogContent-root {
   padding: 10px;
 }

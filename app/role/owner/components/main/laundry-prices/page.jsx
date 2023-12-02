@@ -101,7 +101,7 @@ const LaundryPrice = () => {
             <div className="price-container">
                 <div className="blue-container">
                     <div className="add-mode">
-                        <button className="save" onClick={openLaundryMode}>
+                        <button className="new-mode" onClick={openLaundryMode}>
                             <AddRoundedIcon className="add-icon" />
                             <span>LAUNDRY MODE</span>
                         </button>

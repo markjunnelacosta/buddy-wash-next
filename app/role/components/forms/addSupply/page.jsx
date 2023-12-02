@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Add } from "@mui/icons-material";
+import './addSupply.css'
 
 export default function AddSupply() {
   const [supplyName, setSupplyName] = useState("");
@@ -80,7 +81,7 @@ export default function AddSupply() {
           height: "50px",
           fontWeight: "bold",
           alignSelf: "flex-start",
-          margin: "30px",
+          margin: "30px 30px 20px 0px",
           borderRadius: "10px",
         }}
         variant="contained"

@@ -17,7 +17,7 @@ export const POST = async (req) => {
     const newSupply = new Supply({
       supplyName,
       availableStock,
-      productPrice,
+      productPrice
     });
     console.log(newSupply);
     await newSupply.save();
@@ -46,7 +46,7 @@ export async function PATCH(request) {
     await Supply.findByIdAndUpdate(id, { availableStock });
     console.log(id);
     return NextResponse.json(
-      { message: "Updated  Supply Record" },
+      { message: "Updated Supply Record" },
       { status: 201 }
     );
   } catch (error) {

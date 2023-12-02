@@ -16,6 +16,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import SellIcon from "@mui/icons-material/Sell";
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
 
@@ -42,6 +43,13 @@ function NavBar() {
             <SettingsSuggestRoundedIcon className="navbar-text"/>
           </ListItemIcon>
           <ListItemText primary="Laundry Modes" className="navbar-text"/>
+        </ListItemButton>
+
+        <ListItemButton className="button" href="/role/owner/components/main/promotions">
+          <ListItemIcon className="button-content">
+            <ConfirmationNumberIcon className="navbar-text"/>
+          </ListItemIcon>
+          <ListItemText primary="Promotions" className="navbar-text"/>
         </ListItemButton>
 
         <p className="white-space"> </p>
