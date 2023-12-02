@@ -45,59 +45,45 @@ const Users = () => {
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
 
-  // Calculate total number of pages based on the data and entries per page
   const totalPages = Math.ceil(userData.length / entriesPerPage);
-
-  // Calculate the start and end range for displayed entries
   const startRange = (currentPage - 1) * entriesPerPage + 1;
   const endRange = Math.min(currentPage * entriesPerPage, userData.length);
 
-  // Function to handle going to the previous page
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  // Function to handle going to the next page
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // Function to handle changing the number of entries per page
-  const handleEntriesPerPageChange = (event) => {
-    setEntriesPerPage(event.target.value);
-  };
-
-  // Function to open the admin page
   const openAdminPage = () => {
     setShowAdminPage(true);
   };
 
-  // Function to close the admin page
   const closeAdminPage = () => {
     setShowAdminPage(false);
   };
 
-  // Function to handle editing a user
+
   const handleEditUser = (user) => {
     setSelectedUser(user);
-    setUpdateUserPopupVisible(true); // Show the popup
+    setUpdateUserPopupVisible(true);
   };
 
-  // Function to close the edit user popup
+
   const handleClose = () => {
-    setUpdateUserPopupVisible(false); // Hide the popup
+    setUpdateUserPopupVisible(false); 
   };
 
-  // Filter users based on search query
   const filteredUsers = userData.filter((user) =>
     user.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Use an effect to fetch user data when the component mounts
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -111,12 +97,11 @@ const Users = () => {
     fetchUser();
   }, []);
 
-  // Log the user data for debugging
+
   useEffect(() => {
     console.log(userData);
   }, [userData]);
 
-  // Function to fetch data from the server
   const fetchData = async () => {
     try {
       const res = await fetch("/api/user", {
@@ -129,15 +114,14 @@ const Users = () => {
 
       const response = await res.json();
       const users = response.userData || [];
-      setUserData(users); // Assuming you want to update the user data in your component state
+      setUserData(users);
     } catch (error) {
       console.log("Error loading users: ", error);
     }
   };
 
-  // Function to handle saving data after adding or editing a user
   const handleSaveData = () => {
-    closeAdminPage(); // Close the AdminPage
+    closeAdminPage();
     fetchData();
   };
 

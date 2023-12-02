@@ -18,10 +18,10 @@
 }
 
 .table-container {
-  background-color: white;
   margin: 10px 30px;
   height: 100%;
 }
+
 .searchContainer {
   display: flex;
   flex-direction: row;
@@ -38,4 +38,22 @@
   border-color: white;
   margin: 10px 35px 10px 10px;
   width: 200px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.legend {
+  height: 30px;
+  /* background-color: wheat; */
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  align-items: center;
+  margin-right: 40px;
+  font-size: x-small;
+  font-weight: 400;
+  font-style: italic;
 }

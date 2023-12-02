@@ -14,7 +14,7 @@ export default function RemoveButton({ id }) {
       });
 
       if (res.ok) {
-        onDelete(); // Trigger a callback to update the supply data after deletion
+        router.refresh();
       }
     }
   };
@@ -24,9 +24,9 @@ export default function RemoveButton({ id }) {
       onClick={removeSupply}
       variant="outlined"
       id="delete-button"
-      href="/role/owner/components/main/branch1/prices"
+      href="/role/owner/components/main/branch3/prices"
     >
-      Delete
+     Archive
     </Button>
   );
 }

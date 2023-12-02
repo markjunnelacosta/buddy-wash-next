@@ -1,0 +1,43 @@
+.side-nav-bar-container {
+  width: 20%;
+  overflow-y: auto;
+  flex-direction: column;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  height: auto;
+
+  .MuiListItemText-primary {
+    font-size: 14px !important;
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 30px;
+  }
+}
+.nav-section-text {
+  padding-left: 16px;
+  font-size: 18px !important;
+}
+.button {
+  height: 50px;
+  padding-left: 50px;
+  color: black;
+}
+.button-content {
+  margin-left: 10px;
+  color: black;
+}
+
+.dropdown-item {
+  border: solid gray 0.5px;
+  list-style-type: none;
+  background-color: white;
+  padding: 0;
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.navbar-text {
+  color: black;
+}

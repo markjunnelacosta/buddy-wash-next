@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import "./priceTable.css";
+
 export default function RemoveButton({ id }) {
   const router = useRouter();
 
@@ -14,7 +15,7 @@ export default function RemoveButton({ id }) {
       });
 
       if (res.ok) {
-        onDelete();
+       router.refresh();
       }
     }
   };
@@ -26,7 +27,7 @@ export default function RemoveButton({ id }) {
       id="delete-button"
       href="/role/owner/components/main/branch1/prices"
     >
-      Delete
+      Archive
     </Button>
   );
 }

@@ -9,12 +9,12 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/supply?id=${id}`, {
+      const res = await fetch(`/api/supply?id=${id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
-        onDelete(); // Trigger a callback to update the supply data after deletion
+        router.refresh();
       }
     }
   };
@@ -24,9 +24,9 @@ export default function RemoveButton({ id }) {
       onClick={removeSupply}
       variant="outlined"
       id="delete-button"
-      href="/role/owner/components/main/branch1/prices"
+      href="/role/owner/components/main/branch2/prices"
     >
-      Delete
+      Archive
     </Button>
   );
 }

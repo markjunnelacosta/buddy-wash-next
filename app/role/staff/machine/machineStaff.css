@@ -6,10 +6,12 @@
   float: right;
   justify-content: space-between;
 }
+
 .button-container {
   height: 60px;
   align-self: center;
 }
+
 .blue-container {
   display: flex;
   flex-direction: column;
@@ -21,12 +23,14 @@
 }
 
 .machineTableContainer {
-  background-color: white;
+  /* background-color: white; */
   margin-right: 10px;
+  overflow: auto;
 }
 
 .dryerTable-container {
-  background-color: white;
+  /* background-color: white; */
+  overflow: auto;
 }
 
 .top {
@@ -39,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .table-header-bold {

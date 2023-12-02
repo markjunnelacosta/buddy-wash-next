@@ -18,11 +18,10 @@
 }
 
 .table-container {
-  background-color: white;
   margin: 30px 30px;
   padding: 10px;
   flex-grow: 1; /* Allow the table container to expand to fill available space */
-  overflow: auto; /* Enable scrolling when the content overflows */
+  overflow: hidden;
 }
 .searchContainer {
   display: flex;
@@ -43,4 +42,10 @@
   border-color: white;
   margin: 10px 35px 10px 10px;
   width: 200px;
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

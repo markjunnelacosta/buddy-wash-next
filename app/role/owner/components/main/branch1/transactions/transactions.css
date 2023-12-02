@@ -17,13 +17,11 @@
 
 }
 .table-container{
-    background-color: white;
     margin: 0px 30px 30px;
     padding: 10px;
     flex-grow: 1;
-    overflow: auto;
-    
 }
+
 .searchContainer{
     display:flex;
     flex-direction: row;
@@ -46,3 +44,10 @@
     width: 200px;
     height: 30px;
 }
+
+.pagination{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }

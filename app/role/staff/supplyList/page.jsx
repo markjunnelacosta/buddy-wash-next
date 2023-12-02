@@ -19,6 +19,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircleIcon from "@mui/icons-material/Circle";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getSupplies = async () => {
   try {
@@ -43,6 +45,25 @@ function SupplyList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState("");
   const [availableStock, setAvailableStock] = useState();
+  const [alertShown, setAlertShown] = useState(false);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(supplies.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, supplies.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -71,6 +92,17 @@ function SupplyList() {
     }
   };
 
+  const showAlertForSupply = () => {
+    alert("Low stock alert!");
+    setAlertShown(true);
+  };
+
+  const setAlertForSupply = () => {
+    if (stock < 10) {
+      return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
+    }
+  };
+
   const filteredSupplies = supplies.filter((supply) =>
     supply.supplyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -91,6 +123,17 @@ function SupplyList() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+          </div>
+          <div className="legend">
+            <p style={{ fontWeight: "bolder", fontSize: "larger" }}>
+              <span style={{ fontWeight: "bolder", fontSize: "larger" }}>LEGEND :</span>
+              &nbsp; &nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "green" }} />{" "}
+              Plenty &nbsp; &nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />{" "}
+              Still Available &nbsp;&nbsp;
+              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Running Low
+            </p>
           </div>
         </div>
         <div className="table-container">
@@ -119,30 +162,46 @@ function SupplyList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredSupplies.map((supply) => (
-                  <TableRow
-                    key={supply._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center" component="th" scope="row">
-                      {supply.supplyName}
-                    </TableCell>
-                    <TableCell align="center" component="th" scope="row">
-                      {supply.productPrice}
-                    </TableCell>
-                    <TableCell align="center">
-                      {supply.availableStock}
-                    </TableCell>
-                    <TableCell align="center">
-                      {getStatusIcon(supply.availableStock)}
-                    </TableCell>
-                    
-                  </TableRow>
-                ))}
+                {filteredSupplies
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  )
+                  .map((supply) => (
+                    <TableRow
+                      key={supply._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center" component="th" scope="row">
+                        {supply.supplyName}
+                      </TableCell>
+                      <TableCell align="center" component="th" scope="row">
+                        {supply.productPrice}
+                      </TableCell>
+                      <TableCell align="center">
+                        {supply.availableStock}
+                      </TableCell>
+                      <TableCell align="center">
+                        {getStatusIcon(supply.availableStock)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
             {/* </Paper> */}
           </TableContainer>
+        </div>
+        <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${filteredSupplies.length}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
         </div>
       </div>
     </div>
