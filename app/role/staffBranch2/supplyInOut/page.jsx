@@ -20,7 +20,7 @@ import { Add } from "@mui/icons-material";
 import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
 const getInventory = async () => {
   try {
-    const res = await fetch("/api/BRANCH2/inventory", {
+    const res = await fetch("/api/BRANCH2/branch2Inventory", {
       cache: "no-store",
     });
 

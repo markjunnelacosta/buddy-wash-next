@@ -22,7 +22,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/BRANCH2/supply", {
+    const res = await fetch("/api/BRANCH2/branch2Supply", {
       cache: "no-store",
     });
 
