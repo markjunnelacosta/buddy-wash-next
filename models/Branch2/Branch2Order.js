@@ -26,7 +26,7 @@ const OrderSchema = new Schema({
   },
   machine: {
     type: Schema.Types.ObjectId,
-    ref: 'Machine',
+    ref: "Machine",
   },
   dryerNo: {
     type: Number,
@@ -42,7 +42,7 @@ const OrderSchema = new Schema({
   },
   dryer: {
     type: Schema.Types.ObjectId,
-    ref: 'Dryer',
+    ref: "Dryer",
   },
   status: {
     type: String,
@@ -50,6 +50,6 @@ const OrderSchema = new Schema({
   },
 });
 
-const Order = models.Order || model("Order", OrderSchema);
+const Branch2Order = models.Branch2Order || model("Branch2Order", OrderSchema);
 
-export default Order;
+export default Branch2Order;
