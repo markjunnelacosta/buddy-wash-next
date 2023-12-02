@@ -6,6 +6,8 @@ import { Add } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 
 const getBranchStaff = async () => {
@@ -29,6 +31,24 @@ const getBranchStaff = async () => {
 
 const Staff = () => {
   const [branchStaffData, setBranchStaffData] = useState([]);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(branchStaffData.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, branchStaffData.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   useEffect(() => {
     const fetchBranchStaff = async () => {
@@ -57,7 +77,7 @@ const Staff = () => {
         </div>
         <div className="table-container">
           <TableContainer component={Paper}>
-            <Paper style={{ height: 500, width: "100%" }}>
+            <Paper style={{ height: 300, width: "100%" }}>
               <Table stickyHeader aria-label="sticky table" size="small">
                 <TableHead>
                   <TableRow>
@@ -69,6 +89,10 @@ const Staff = () => {
                 </TableHead>
                 <TableBody>
                   {branchStaffData
+                    .slice(
+                      (currentPage - 1) * entriesPerPage,
+                      currentPage * entriesPerPage
+                    )
                     .filter((staff) => staff.selectedBranch === "Branch 1")
                     .map((staff) => (
                       <TableRow key={staff._id}>
@@ -84,6 +108,18 @@ const Staff = () => {
               </Table>
             </Paper>
           </TableContainer>
+        </div>
+        <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${branchStaffData.length}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
         </div>
       </div>
     </div>

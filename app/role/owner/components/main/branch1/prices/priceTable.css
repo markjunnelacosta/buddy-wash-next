@@ -9,3 +9,9 @@
     border: solid red 0.5px;
     padding: 2px;
 }
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }

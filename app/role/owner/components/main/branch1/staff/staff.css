@@ -18,11 +18,9 @@
 }
 
 .table-container {
-    background-color: white;
     margin: 0px 30px 30px;
     padding: 10px;
     flex-grow: 1;
-    overflow: auto;
 
 }
 
@@ -30,3 +28,9 @@
     display: flex;
 
 }
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
