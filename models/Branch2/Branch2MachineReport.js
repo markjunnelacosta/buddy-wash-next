@@ -19,7 +19,8 @@ const MachineReportSchema = new Schema({
   },
 });
 
-const MachineReport =
-  models.MachineReport || model("MachineReport", MachineReportSchema);
+const Branch2MachineReport =
+  models.Branch2MachineReport ||
+  model("Branch2MachineReport", MachineReportSchema);
 
-export default MachineReport;
+export default Branch2MachineReport;
