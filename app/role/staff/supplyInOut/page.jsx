@@ -8,16 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./SupplyInOut.css";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { Add } from "@mui/icons-material";
 import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+
+
 const getInventory = async () => {
   try {
     const res = await fetch("/api/inventory", {
@@ -39,6 +34,24 @@ const getInventory = async () => {
 function SupplyInOut() {
   const [inventory, setInventory] = React.useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [entriesPerPage, setEntriesPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(inventory.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, inventory.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   React.useEffect(() => {
     const fetchInventory = async () => {
@@ -114,23 +127,40 @@ function SupplyInOut() {
                 </TableRow>
               </TableHead>
               <TableBody>
-              {sortedInventory.map((inventory) => (
-                  <TableRow
-                    key={inventory._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center" component="th" scope="row">
-                      {inventory.date}
-                    </TableCell>
-                    <TableCell align="center">{inventory.supplyName}</TableCell>
-                    <TableCell align="center"> {inventory.quantity}</TableCell>
-                    <TableCell align="center"> {inventory.type}</TableCell>
-                  </TableRow>
-                ))}
+                {sortedInventory
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  ).
+                  map((inventory) => (
+                    <TableRow
+                      key={inventory._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="center" component="th" scope="row">
+                        {inventory.date}
+                      </TableCell>
+                      <TableCell align="center">{inventory.supplyName}</TableCell>
+                      <TableCell align="center"> {inventory.quantity}</TableCell>
+                      <TableCell align="center"> {inventory.type}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
             {/* </Paper> */}
           </TableContainer>
+        </div>
+        <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${sortedInventory.length}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
         </div>
       </div>
     </div>
