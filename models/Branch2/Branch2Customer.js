@@ -11,10 +11,10 @@ const CustomerSchema = new Schema({
   customerNumber: {
     type: String,
     required: [true, "Phone Number is required"],
-  }
-  
+  },
 });
 
-const Customer = models.Customer || model("Customer", CustomerSchema);
+const Branch2Customer =
+  models.Branch2Customer || model("Branch2Customer", CustomerSchema);
 
-export default Customer;
+export default Branch2Customer;
