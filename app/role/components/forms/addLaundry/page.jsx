@@ -675,7 +675,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                   <option value="">None</option>
                   {getConditionerSupplies()}
                 </select>
-                <p>Fabric Conditioner Qty.</p>
+                <p>FabCon Qty.</p>
                 <input
                   type="number"
                   value={fabConQty}

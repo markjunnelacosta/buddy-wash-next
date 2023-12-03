@@ -1,6 +1,4 @@
 import { connectToDB } from "@/utils/database";
-// import MobileUsers from "@/models/mobile-users";
-import { NextResponse } from "next/server";
 
 const MobileUsers = require("@/models/mobile-users");
 export const GET = async (req, res) => {

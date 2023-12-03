@@ -20,7 +20,7 @@ import Countdown from "react-countdown";
 
 const getOrderDetails = async () => {
   try {
-    const res = await fetch("/api/order", {
+    const res = await fetch("/api/mobile-orders", {
       cache: "no-store",
     });
 
@@ -29,15 +29,14 @@ const getOrderDetails = async () => {
     }
 
     const response = await res.json();
-    return response.orders;
+    return response.mobileOrders;
   } catch (error) {
     console.log("Error loading orders: ", error);
   }
 };
 
 const LaundryBin = () => {
-  const [laundryData, setLaundryData] = useState([]);
-  const [showAddLaundry, setShowAddLaundry] = useState(false);
+  const [mobileOrders, setMobileOrders] = useState([]);
   const [machineTimer, setMachineTimer] = useState([]);
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
@@ -89,14 +88,6 @@ const LaundryBin = () => {
   }, []);
   console.log("********dryer data", dryerData);
 
-  const openAddLaundry = () => {
-    setShowAddLaundry(true);
-  };
-
-  const closeAddLaundry = () => {
-    setShowAddLaundry(false);
-  };
-
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -125,7 +116,7 @@ const LaundryBin = () => {
 
   useEffect(() => {
     // console.log(laundryData);
-  }, [laundryData]);
+  }, [mobileOrders]);
 
   const fetchData = async () => {
     try {
@@ -492,7 +483,7 @@ const LaundryBin = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {laundryData.map((order) => (
+                  {mobileOrders.map((order) => (
                     <TableRow
                       key={order._id}
                       sx={{
@@ -545,12 +536,6 @@ const LaundryBin = () => {
           </div>
         </div>
       </div>
-
-      <AddLaundry
-        isOpen={showAddLaundry}
-        onClose={closeAddLaundry}
-        onSaveData={handleSaveData}
-      />
     </>
   );
 };
