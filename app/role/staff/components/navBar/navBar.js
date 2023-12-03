@@ -69,7 +69,7 @@ function NavBar() {
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                //  href="/role/staff/manageMobileCustomer"
+                  href="/role/staff/laundryBinMobile"
                 >
                   <ListItemText primary="Manage Mobile Orders" className="navbar-text"/>
                 </ListItemButton>

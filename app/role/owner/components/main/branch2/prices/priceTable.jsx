@@ -15,7 +15,7 @@ import RemoveButton from "./removeButton";
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/supply", {
+    const res = await fetch("/api/supplyz", {
       cache: "no-store",
     });
 
