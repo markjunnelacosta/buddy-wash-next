@@ -60,7 +60,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.machineData.filter((m) => m.branchNumber == "2"));
+        console.log(
+          data.machineData.filter(
+            (m) => m.branchNumber == "2" || m.branchNumber == 2
+          )
+        );
         setMachineData(data.machineData || []); // Update machineData state
       })
       .catch((error) => {
@@ -135,7 +139,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.dryerData.filter((d) => d.branchNumber == "2"));
+        console.log(
+          data.dryerData.filter(
+            (d) => d.branchNumber == "2" || d.branchNumber == 2
+          )
+        );
         setDryerData(data.dryerData || []); // Update dryer state
       })
       .catch((error) => {

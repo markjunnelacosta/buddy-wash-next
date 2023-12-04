@@ -53,8 +53,10 @@ const LaundryBin = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.machineData.filter((m) => m.branchNumber == 1));
-        setMachineData(data.machineData || []); // Update machineData state
+        console.log();
+        setMachineData(
+          data.machineData.filter((m) => m.branchNumber == "2") || []
+        ); // Update machineData state
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
@@ -76,8 +78,8 @@ const LaundryBin = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.dryerData.filter((d) => d.branchNumber == 1));
-        setDryerData(data.dryerData || []); // Update dryer state
+        console.log();
+        setDryerData(data.dryerData.filter((d) => d.branchNumber == "2") || []); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);

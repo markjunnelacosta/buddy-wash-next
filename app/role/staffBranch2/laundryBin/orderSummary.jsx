@@ -26,7 +26,6 @@ function Receipt({ selectedOrder, onClose }) {
     });
   };
 
-
   return (
     <div className="container-receipt">
       <div className="receipt-box">
@@ -89,11 +88,8 @@ function Receipt({ selectedOrder, onClose }) {
         </div>
       </div>
       <div className="buttons">
-      <div className="dl-cancel">
-          <button
-            className="cancel-button"
-            onClick={() => onClose}
-          >
+        <div className="dl-cancel">
+          <button className="cancel-button" onClick={() => onClose}>
             Cancel
           </button>
         </div>

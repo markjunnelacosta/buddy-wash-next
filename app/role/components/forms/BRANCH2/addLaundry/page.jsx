@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./addLaundry.css";
 import { Select } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-import Receipt from "@/app/role/staff/laundryBin/orderSummary";
+import Receipt from "@/app/role/staffBranch2/laundryBin/orderSummary";
 
 const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const [customerData, setCustomerData] = useState([]); // State for customers
@@ -238,7 +238,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
     calculateTotalAmount();
 
-    const response = await fetch("/api/BRANCH2/Branch2Laundrybin", {
+    const response = await fetch("/api/BRANCH2/branch2LaundryBin", {
       method: "POST",
       body: JSON.stringify({
         customerName: customerName,
