@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import "./voucherTable.css";
 import EditVoucherPopup from "./editButton";
 import RemoveButton from "./removeButton";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 const getVouchers = async () => {
     try {
@@ -52,6 +54,24 @@ const VoucherTable = (voucherFilter) => {
     const [vouchers, setVouchers] = React.useState([]);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
     const [isUpdateVoucherPopupVisible, setUpdateVoucherPopupVisible] = useState(false);
+    const [entriesPerPage, setEntriesPerPage] = useState(7);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(vouchers.length / entriesPerPage);
+    const startRange = (currentPage - 1) * entriesPerPage + 1;
+    const endRange = Math.min(currentPage * entriesPerPage, vouchers.length);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     const handleEditVoucher = (voucher) => {
         setSelectedVoucher(voucher);
@@ -120,7 +140,7 @@ const VoucherTable = (voucherFilter) => {
     return (
         <>
             <TableContainer component={Paper}>
-                <Paper style={{ height: 500, width: "100%" }}>
+                <Paper style={{ height: 345, width: "100%" }}>
                     <Table
                         stickyHeader
                         aria-label="sticky table"
@@ -159,34 +179,51 @@ const VoucherTable = (voucherFilter) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredVouchers.map((voucher) => (
-                                <TableRow
-                                    key={voucher._id}
-                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                >
-                                    <TableCell align="center" component="th" scope="row">
-                                        {voucher.voucherName}
-                                    </TableCell>
-                                    <TableCell align="center">{`${voucher.percentageOff}%`}</TableCell>
-                                    <TableCell align="center">{formatCurrency(voucher.minSpend, "₱")}</TableCell>
-                                    <TableCell align="center">{formatCurrency(voucher.discountCap, "₱")}</TableCell>
-                                    <TableCell align="center">{voucher.usageQuantity}</TableCell>
-                                    <TableCell align="center">{formatDate(voucher.startTime)}</TableCell>
-                                    <TableCell align="center">{formatDate(voucher.endTime)}</TableCell>
-                                    <TableCell align="center">{voucher.voucherCode}</TableCell>
-                                    <TableCell align="center">
-                                        <Button variant="outlined" id="edit-button" onClick={() => handleEditVoucher(voucher)}>
-                                            Edit
-                                        </Button>
-                                        <RemoveButton id={voucher._id} />
-                                    </TableCell>
-                                </TableRow>
-                            ))
+                            {filteredVouchers
+                                .slice(
+                                    (currentPage - 1) * entriesPerPage,
+                                    currentPage * entriesPerPage
+                                )
+                                .map((voucher) => (
+                                    <TableRow
+                                        key={voucher._id}
+                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                    >
+                                        <TableCell align="center" component="th" scope="row">
+                                            {voucher.voucherName}
+                                        </TableCell>
+                                        <TableCell align="center">{`${voucher.percentageOff}%`}</TableCell>
+                                        <TableCell align="center">{formatCurrency(voucher.minSpend, "₱")}</TableCell>
+                                        <TableCell align="center">{formatCurrency(voucher.discountCap, "₱")}</TableCell>
+                                        <TableCell align="center">{voucher.usageQuantity}</TableCell>
+                                        <TableCell align="center">{formatDate(voucher.startTime)}</TableCell>
+                                        <TableCell align="center">{formatDate(voucher.endTime)}</TableCell>
+                                        <TableCell align="center">{voucher.voucherCode}</TableCell>
+                                        <TableCell align="center">
+                                            <Button variant="outlined" id="edit-button" onClick={() => handleEditVoucher(voucher)}>
+                                                Edit
+                                            </Button>
+                                            <RemoveButton id={voucher._id} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))
                             }
                         </TableBody>
                     </Table>
                 </Paper>
             </TableContainer>
+            <div className="pagination">
+                <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                    <ArrowBackIosRoundedIcon />
+                </button>
+                <span>{`Showing entries ${startRange}-${endRange} of ${vouchers.length}`}</span>
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                >
+                    <ArrowForwardIosRoundedIcon />
+                </button>
+            </div>
             <EditVoucherPopup
                 isOpen={isUpdateVoucherPopupVisible}
                 voucher={selectedVoucher}

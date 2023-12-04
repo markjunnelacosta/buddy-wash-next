@@ -15,16 +15,12 @@
     margin: 20px;
     gap: 10px;
     border-radius: 10px;
-
 }
 
 .table-container {
-    background-color: white;
     margin: 0px 30px 30px;
     padding: 10px;
     flex-grow: 1;
-    overflow: auto;
-
 }
 
 .searchContainer-right {

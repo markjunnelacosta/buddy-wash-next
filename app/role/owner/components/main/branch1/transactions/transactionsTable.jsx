@@ -110,7 +110,6 @@ const calculateDataForDateRange = (data, dateRange) => {
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
-
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -152,7 +151,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Paper style={{ height: 290, width: "100%" }}>
+        <Paper style={{ height: 345, width: "100%" }}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
@@ -165,11 +164,11 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
             </TableHead>
             <TableBody>
               {reportData
-                .filter((report) => report.branchNumber === "b1")
                 .slice(
                   (currentPage - 1) * entriesPerPage,
                   currentPage * entriesPerPage
                 )
+                .filter((report) => report.branchNumber === "b1")
                 .map((report) => (
                   <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
                     <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
