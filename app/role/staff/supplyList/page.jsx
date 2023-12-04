@@ -83,12 +83,14 @@ function SupplyList() {
   }, [supplies]);
 
   const getStatusIcon = (stock) => {
-    if (stock < 10 && !alertShown) {
-      showAlertForSupply();
-      setAlertShown(true);
-    }
+    // if (stock < 10 && !alertShown) {
+    //   showAlertForSupply();
+    //   setAlertShown(true);
+    // }
 
     if (stock < 10) {
+      // showAlertForSupply();
+      alert("Low stock alert!");
       return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
     } else if (stock >= 10 && stock < 20) {
       return <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />;
@@ -99,12 +101,6 @@ function SupplyList() {
 
   const showAlertForSupply = () => {
     alert("Low stock alert!");
-  };
-
-  const setAlertForSupply = () => {
-    if (stock < 10) {
-      return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
-    }
   };
 
   const filteredSupplies = supplies.filter((supply) =>
@@ -130,13 +126,16 @@ function SupplyList() {
           </div>
           <div className="legend">
             <p style={{ fontWeight: "bolder", fontSize: "larger" }}>
-              <span style={{ fontWeight: "bolder", fontSize: "larger" }}>LEGEND :</span>
+              <span style={{ fontWeight: "bolder", fontSize: "larger" }}>
+                LEGEND :
+              </span>
               &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "green" }} />{" "}
               Plenty &nbsp; &nbsp;
               <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />{" "}
               Still Available &nbsp;&nbsp;
-              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Running Low
+              <CircleIcon fontSize="smaller" style={{ color: "red" }} /> Running
+              Low
             </p>
           </div>
         </div>
