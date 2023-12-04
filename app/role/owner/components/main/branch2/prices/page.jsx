@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
 import DownloadIcon from "@mui/icons-material/Download";
 import editPrices from "./priceTable";
-import AddSupply from "@/app/role/components/forms/addSupply/page";
+import AddSupply from "@/app/role/components/forms/BRANCH2/addSupply/page";
 
 function Prices() {
   return (

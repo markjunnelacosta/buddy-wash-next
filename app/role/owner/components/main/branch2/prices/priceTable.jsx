@@ -17,7 +17,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/supply", {
+    const res = await fetch("/api/BRANCH2/branch2Supply", {
       cache: "no-store",
     });
 
@@ -36,25 +36,8 @@ const getSupplies = async () => {
 const SupplyTable = () => {
   const [supplies, setSupplies] = React.useState([]);
   const [selectedSupply, setSelectedSupply] = useState(null);
-  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] = useState(false);
-  const [entriesPerPage, setEntriesPerPage] = useState(7);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(supplies.length / entriesPerPage);
-  const startRange = (currentPage - 1) * entriesPerPage + 1;
-  const endRange = Math.min(currentPage * entriesPerPage, supplies.length);
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] =
+    useState(false);
 
   const handleEditSupply = (supply) => {
     setSelectedSupply(supply);
@@ -64,7 +47,6 @@ const SupplyTable = () => {
   const handleClose = () => {
     setUpdateSupplyPopupVisible(false); // Hide the popup
   };
-
 
   React.useEffect(() => {
     const fetchSupplies = async () => {
@@ -85,7 +67,7 @@ const SupplyTable = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/supply", {
+      const res = await fetch("/api/BRANCH2/branch2Supply", {
         cache: "no-store",
       });
 
@@ -105,11 +87,10 @@ const SupplyTable = () => {
     fetchData();
   };
 
-
   return (
     <>
       <TableContainer component={Paper}>
-        <Paper style={{ height: 345, width: "100%" }}>
+        <Paper style={{ height: 500, width: "100%" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -131,44 +112,31 @@ const SupplyTable = () => {
             </TableHead>
             <TableBody>
               {supplies.length > 0 &&
-                supplies
-                  .slice(
-                    (currentPage - 1) * entriesPerPage,
-                    currentPage * entriesPerPage
-                  )
-                  .map((supply) => (
-                    <TableRow
-                      key={supply._id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="center" component="th" scope="row">
-                        {supply.supplyName}
-                      </TableCell>
-                      <TableCell align="center">{supply.productPrice}</TableCell>
-                      <TableCell align="center">
-                        <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
-                          Edit
-                        </Button>
-                        <RemoveButton id={supply._id} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                supplies.map((supply) => (
+                  <TableRow
+                    key={supply._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center" component="th" scope="row">
+                      {supply.supplyName}
+                    </TableCell>
+                    <TableCell align="center">{supply.productPrice}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        variant="outlined"
+                        id="edit-button"
+                        onClick={() => handleEditSupply(supply)}
+                      >
+                        Edit
+                      </Button>
+                      <RemoveButton id={supply._id} />
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Paper>
       </TableContainer>
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-          <ArrowBackIosRoundedIcon />
-        </button>
-        <span>{`Showing entries ${startRange}-${endRange} of ${supplies.length}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          <ArrowForwardIosRoundedIcon />
-        </button>
-      </div>
       <EditSupplyPopup
         isOpen={isUpdateSupplyPopupVisible}
         supply={selectedSupply}
