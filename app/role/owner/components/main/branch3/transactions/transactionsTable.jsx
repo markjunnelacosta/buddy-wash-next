@@ -69,7 +69,7 @@ const calculateDataForDateRange = (data, dateRange) => {
         case "weekly":
           const firstDayOfWeek = new Date(currentDate);
           const dayOfWeek = currentDate.getDay();
-          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is Sunday
           firstDayOfWeek.setDate(diff);
           if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
             acc.push(report);

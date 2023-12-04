@@ -62,7 +62,7 @@ const SupplyTable = () => {
   };
 
   const handleClose = () => {
-    setUpdateSupplyPopupVisible(false); // Hide the popup
+    setUpdateSupplyPopupVisible(false); // hide popup
   };
 
 

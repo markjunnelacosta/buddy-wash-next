@@ -77,7 +77,7 @@ function MachineTable() {
         return response.json();
       })
       .then((data) => {
-        setMachineData(data.machineData || []); // Update machineData state
+        setMachineData(data.machineData || []); // update machineData state
       })
       .catch((error) => {
         console.error('Error fetching machine data:', error);
@@ -107,7 +107,7 @@ function MachineTable() {
             }
           }}
           inputProps={{
-            maxLength: 2, // Maximum 2 digits
+            maxLength: 2, // maximum 2 digits
           }}
         />
         <Button variant="outlined" color="primary" onClick={addNewMachine} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>

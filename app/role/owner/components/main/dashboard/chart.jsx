@@ -35,7 +35,7 @@ function Chart({ data, dateRange, paymentMethod }) {
             reportDate.getHours() === currentDate.getHours()
           );
         case "weekly":
-          const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // Calculate days since the start of the week
+          const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
         const startOfWeek = new Date(currentDate);
         startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
         const endOfWeek = new Date(startOfWeek);

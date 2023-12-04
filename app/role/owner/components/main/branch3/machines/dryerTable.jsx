@@ -76,7 +76,7 @@ function DryerTable() {
         return response.json();
       })
       .then((data) => {
-        setDryerData(data.dryerData || []); // Update dryerData state
+        setDryerData(data.dryerData || []); // update dryerData state
       })
       .catch((error) => {
         console.error('Error fetching dryer data:', error);
@@ -106,7 +106,7 @@ function DryerTable() {
             }
           }}
           inputProps={{
-            maxLength: 2, // Maximum 2 digits
+            maxLength: 2, // maximum 2 digits
           }}
         />
         <Button variant="outlined" color="primary" onClick={addNewDryer} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>

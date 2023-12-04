@@ -44,7 +44,7 @@ const Dashboard = () => {
                 case "weekly":
                   const firstDayOfWeek = new Date(currentDate);
                   const dayOfWeek = currentDate.getDay();
-                  const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
+                  const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is Sunday
                   firstDayOfWeek.setDate(diff);
                   return (
                     reportDate >= firstDayOfWeek && reportDate <= currentDate
@@ -110,7 +110,7 @@ const Dashboard = () => {
         //   return weekNumber;
         // };
 
-        // Update state hooks with calculated values based on the selected date range
+        // update state hooks with calculated values based on selected date range
         const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
@@ -135,27 +135,27 @@ const Dashboard = () => {
 
   const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
 
-  // Calculate future dates (4 days ahead) for forecasting
+  // calculate future dates (4 days ahead) for forecasting
   const futureDates = Array.from({ length: 4 }, (_, index) => {
     const date = new Date(lastReportDate);
-    date.setDate(lastReportDate.getDate() + index + 1); // Add 1 to skip the last date in reportData
+    date.setDate(lastReportDate.getDate() + index + 1); // add 1 to skip last date in reportData
     return date;
   });
 
-  // Generate forecast data for the calculated future dates
+  // forecast data for calculated future dates
   const forecastData = futureDates.map(forecastDate => {
     const pastReports = reportData;
     const averageTotalAmount =
       pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) /
       (pastReports.length || 1);
 
-    // Introduce variability by adding a random factor
-    const variabilityFactor = Math.random() * 0.2 + 0.9; // Adjust the range and factor as needed
+    // introduce variability by adding random factor
+    const variabilityFactor = Math.random() * 0.2 + 0.9; // adjust range and factor as needed
     const forecastedAmount = averageTotalAmount * variabilityFactor;
 
     return {
       forecastDate: forecastDate.toLocaleDateString(),
-      forecastedAmount: forecastedAmount.toFixed(2), // Adjust as needed
+      forecastedAmount: forecastedAmount.toFixed(2), // adjust as needed
     };
   });
 
@@ -220,6 +220,7 @@ const Dashboard = () => {
             <MenuItem value="mobile">Mobile</MenuItem>
           </Select> */}
         </div>
+
         <div className="top-container">
           <div className="counters-container">
             <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />

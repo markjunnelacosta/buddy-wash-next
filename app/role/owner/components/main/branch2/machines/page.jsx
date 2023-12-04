@@ -5,7 +5,7 @@ import MachineTable from './machineTable';
 import DryerTable from './dryerTable';
 
 function Machines() {
-  const [machines, setMachines] = useState([]); // Store the list of machines
+  const [machines, setMachines] = useState([]); // store list of machines
 
   return (
     <div className="machines-container">
