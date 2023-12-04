@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -42,8 +42,8 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setPercentageOff(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setPercentageOffError('Please enter valid numbers');
+        if (!/^\d*\.?\d*$/.test(newValue) || newValue < 0 || newValue > 100) {
+            setPercentageOffError('Please enter a valid percentage between 0 and 100');
         } else {
             setPercentageOffError('');
         }
@@ -53,10 +53,11 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setMinSpend(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setMinSpendError('Please enter valid numbers');
+        if (!/^(?:₱\s?)?[0-9]+(?:\.[0-9]{1,2})?$/.test(newValue)) {
+            setMinSpendError('Please enter a valid currency amount');
         } else {
             setMinSpendError('');
+            setMinSpend(formatAsCurrency(newValue));
         }
     };
 
@@ -64,11 +65,27 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setDiscountCap(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setDiscountCapError('Please enter valid numbers');
+        if (!/^(?:₱\s?)?[0-9]+(?:\.[0-9]{1,2})?$/.test(newValue)) {
+            setDiscountCapError('Please enter a valid currency amount');
         } else {
             setDiscountCapError('');
+            setDiscountCap(formatAsCurrency(newValue));
         }
+    };
+
+    const formatAsCurrency = (value) => {
+        if (isNaN(value) || value === null) {
+            return value; // Return the original value if not a number
+        }
+        // Use Intl.NumberFormat for currency formatting
+        const formatter = new Intl.NumberFormat('en-PH', {
+            style: 'currency',
+            currency: 'PHP',
+            minimumFractionDigits: 2, // Minimum number of decimal places
+            maximumFractionDigits: 2, // Maximum number of decimal places
+        });
+
+        return formatter.format(value); // Placeholder, replace with actual formatting logic
     };
 
     const handleUsageQuantityChange = (e) => {
@@ -86,8 +103,8 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setStartTime(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setStartTimeError('Please enter valid numbers');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
+            setStartTimeError('Please enter a valid date in the format YYYY-MM-DD');
         } else {
             setStartTimeError('');
         }
@@ -97,8 +114,8 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setEndTime(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setEndTimeError('Please enter valid numbers');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
+            setEndTimeError('Please enter a valid date in the format YYYY-MM-DD');
         } else {
             setEndTimeError('');
         }
@@ -109,11 +126,20 @@ export default function AddVoucher() {
         setVoucherCode(newValue);
 
         if (!/^[a-zA-Z\s]*$/.test(newValue)) {
-            setVoucherNameError('Please enter valid characters (letters and spaces)');
+            setVoucherCodeError('Please enter valid characters (letters and spaces)');
         } else {
             setVoucherCodeError('');
         }
     };
+
+    const generateRandomCode = () => {
+        const randomCode = Math.floor(100000 + Math.random() * 900000);
+        setVoucherCode(randomCode.toString());
+    };
+
+    useEffect(() => {
+        generateRandomCode();
+    }, []);
 
     //   const handleVoucherPriceChange = (e) => {
     //     const newValue = e.target.value;
@@ -256,7 +282,7 @@ export default function AddVoucher() {
                             <div className="start-time">
                                 <p>Start Time</p>
                                 <TextField
-                                    className="text-box"
+                                    type="date"
                                     value={startTime}
                                     onChange={handleStartTimeChange}
                                     error={!!startTimeError}
@@ -266,7 +292,7 @@ export default function AddVoucher() {
                             <div className="end-time">
                                 <p>End Time</p>
                                 <TextField
-                                    className="text-box"
+                                    type="date"
                                     value={endTime}
                                     onChange={handleEndTimeChange}
                                     error={!!endTimeError}

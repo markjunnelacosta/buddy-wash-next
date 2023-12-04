@@ -27,7 +27,8 @@ const getVouchers = async () => {
         const response = await res.json();
         return response.vouchers;
     } catch (error) {
-        console.log("Error loading vouchers: ", error);
+        console.error("Error loading vouchers:", error);
+        throw error;
     }
 };
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./editVoucher.css";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -54,8 +54,8 @@ export default function UpdateVoucher({
         const newValue = e.target.value;
         setNewPercentageOff(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setPercentageOffError('Please enter valid numbers');
+        if (!/^\d*\.?\d*$/.test(newValue) || newValue < 0 || newValue > 100) {
+            setPercentageOffError('Please enter a valid percentage between 0 and 100');
         } else {
             setPercentageOffError('');
         }
@@ -69,6 +69,7 @@ export default function UpdateVoucher({
             setMinSpendError('Please enter valid numbers');
         } else {
             setMinSpendError('');
+            setNewMinSpend(formatAsCurrency(newValue));
         }
     };
 
@@ -80,7 +81,24 @@ export default function UpdateVoucher({
             setDiscountCapError('Please enter valid numbers');
         } else {
             setDiscountCapError('');
+            setNewDiscountCap(formatAsCurrency(newValue));
         }
+    };
+
+    const formatAsCurrency = (value) => {
+        if (isNaN(value) || value === null) {
+            return value; // Return the original value if not a number
+        }
+
+        // Use Intl.NumberFormat for currency formatting
+        const formatter = new Intl.NumberFormat('en-PH', {
+            style: 'currency',
+            currency: 'PHP',
+            minimumFractionDigits: 2, // Minimum number of decimal places
+            maximumFractionDigits: 2, // Maximum number of decimal places
+        });
+
+        return formatter.format(value); // Placeholder, replace with actual formatting logic
     };
 
     const handleUsageQuantityChange = (e) => {
@@ -126,6 +144,16 @@ export default function UpdateVoucher({
             setVoucherCodeError('');
         }
     };
+
+    const generateRandomCode = () => {
+        const randomCode = Math.floor(100000 + Math.random() * 900000);
+        setNewVoucherCode(randomCode.toString());
+    };
+
+    useEffect(() => {
+        generateRandomCode();
+    }, []);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -173,86 +201,86 @@ export default function UpdateVoucher({
             <DialogContent>
                 <div className="add-voucher-form">
                     <div className="input">
-                    <div className="voucher-name">
-                                <p>Voucher Name</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newVoucherName}
-                                    onChange={handleVoucherNameChange}
-                                    error={!!voucherNameError}
-                                    helperText={voucherNameError}
-                                />
-                            </div>
-                            <div className="percentage-off">
-                                <p>Percentage Off</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newPercentageOff}
-                                    onChange={handlePercentageOffChange}
-                                    error={!!percentageOffError}
-                                    helperText={percentageOffError}
-                                />
-                            </div>
-                            <div className="min-spend">
-                                <p>Min. Spend</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newMinSpend}
-                                    onChange={handleMinSpendChange}
-                                    error={!!minSpendError}
-                                    helperText={minSpendError}
-                                />
-                            </div>
-                            <div className="discount-cap">
-                                <p>Discount Cap</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newDiscountCap}
-                                    onChange={handleDiscountCapChange}
-                                    error={!!discountCapError}
-                                    helperText={discountCapError}
-                                />
-                            </div>
-                            <div className="usage-quantity">
-                                <p>Usage Quantity</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newUsageQuantity}
-                                    onChange={handleUsageQuantityChange}
-                                    error={!!usageQuantityError}
-                                    helperText={usageQuantityError}
-                                />
-                            </div>
-                            <div className="start-time">
-                                <p>Start Time</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newStartTime}
-                                    onChange={handleStartTimeChange}
-                                    error={!!startTimeError}
-                                    helperText={startTimeError}
-                                />
-                            </div>
-                            <div className="end-time">
-                                <p>End Time</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newEndTime}
-                                    onChange={handleEndTimeChange}
-                                    error={!!endTimeError}
-                                    helperText={endTimeError}
-                                />
-                            </div>
-                            <div className="voucher-code">
-                                <p>Voucher Code</p>
-                                <TextField
-                                    className="text-box"
-                                    value={newVoucherCode}
-                                    onChange={handleVoucherCodeChange}
-                                    error={!!voucherCodeError}
-                                    helperText={voucherCodeError}
-                                />
-                            </div>
+                        <div className="voucher-name">
+                            <p>Voucher Name</p>
+                            <TextField
+                                className="text-box"
+                                value={newVoucherName}
+                                onChange={handleVoucherNameChange}
+                                error={!!voucherNameError}
+                                helperText={voucherNameError}
+                            />
+                        </div>
+                        <div className="percentage-off">
+                            <p>Percentage Off</p>
+                            <TextField
+                                className="text-box"
+                                value={newPercentageOff}
+                                onChange={handlePercentageOffChange}
+                                error={!!percentageOffError}
+                                helperText={percentageOffError}
+                            />
+                        </div>
+                        <div className="min-spend">
+                            <p>Min. Spend</p>
+                            <TextField
+                                className="text-box"
+                                value={newMinSpend}
+                                onChange={handleMinSpendChange}
+                                error={!!minSpendError}
+                                helperText={minSpendError}
+                            />
+                        </div>
+                        <div className="discount-cap">
+                            <p>Discount Cap</p>
+                            <TextField
+                                className="text-box"
+                                value={newDiscountCap}
+                                onChange={handleDiscountCapChange}
+                                error={!!discountCapError}
+                                helperText={discountCapError}
+                            />
+                        </div>
+                        <div className="usage-quantity">
+                            <p>Usage Quantity</p>
+                            <TextField
+                                className="text-box"
+                                value={newUsageQuantity}
+                                onChange={handleUsageQuantityChange}
+                                error={!!usageQuantityError}
+                                helperText={usageQuantityError}
+                            />
+                        </div>
+                        <div className="start-time">
+                            <p>Start Time</p>
+                            <input
+                                type="date"
+                                value={newStartTime}
+                                onChange={handleStartTimeChange}
+                                error={!!startTimeError}
+                                helperText={startTimeError}
+                            />
+                        </div>
+                        <div className="end-time">
+                            <p>End Time</p>
+                            <input
+                                type="date"
+                                value={newEndTime}
+                                onChange={handleEndTimeChange}
+                                error={!!endTimeError}
+                                helperText={endTimeError}
+                            />
+                        </div>
+                        <div className="voucher-code">
+                            <p>Voucher Code</p>
+                            <TextField
+                                className="text-box"
+                                value={newVoucherCode}
+                                onChange={handleVoucherCodeChange}
+                                error={!!voucherCodeError}
+                                helperText={voucherCodeError}
+                            />
+                        </div>
                     </div>
                 </div>
             </DialogContent>
