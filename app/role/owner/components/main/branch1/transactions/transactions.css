@@ -70,3 +70,9 @@
 .pagination button:hover {
     background-color: #526c74;
 }
+
+#view-button {
+    padding: 1px;
+    color: blue;
+    margin: 0px 0px 0px 0px;
+}

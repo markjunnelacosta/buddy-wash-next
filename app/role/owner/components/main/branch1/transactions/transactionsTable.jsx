@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Button } from '@mui/material';
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import Receipt from "app/role/staff/laundryBin/orderSummary.jsx";
 // import { getFilteredReport } from './role/owner/components/main/branch1/transactions/page.jsx';
 
 export const getReport = async () => {
@@ -112,6 +113,8 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
   const [entriesPerPage, setEntriesPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
 
   const totalPages = Math.ceil(reportData.length / entriesPerPage);
   const startRange = (currentPage - 1) * entriesPerPage + 1;
@@ -127,6 +130,11 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
+  };
+
+  const openReceiptModal = (order) => {
+    setSelectedOrder(order);
+    setReceiptModalOpen(true);
   };
 
   useEffect(() => {
@@ -175,16 +183,25 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                     <TableCell align="center">{report.customerName}</TableCell>
                     <TableCell align="center">{report.totalAmount}</TableCell>
                     <TableCell align="center">{report.paymentMethod}</TableCell>
+                    <TableCell align="center">
+                      <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(report)}>View</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
+            {isReceiptModalOpen && (
+              <Receipt
+                selectedOrder={selectedOrder}
+                onClose={() => setReceiptModalOpen(false)}
+              />
+            )}
           </Table>
         </Paper>
       </TableContainer>
       <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+        <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
           <ArrowBackIosRoundedIcon />
-        </button>
+        </Button>
         <span>{`Showing entries ${startRange}-${endRange} of ${reportData.length}`}</span>
         <button
           onClick={handleNextPage}
