@@ -29,7 +29,8 @@ function ForecastChart({ forecastData, dateRange }) {
           return (
             forecastDate.getDate() === currentDate.getDate() &&
             forecastDate.getMonth() === currentDate.getMonth() &&
-            forecastDate.getFullYear() === currentDate.getFullYear()
+            forecastDate.getFullYear() === currentDate.getFullYear() &&
+            reportDate.getHours() === currentDate.getHours()
           );
         case "weekly":
           const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week

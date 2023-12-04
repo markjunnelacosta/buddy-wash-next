@@ -39,16 +39,17 @@ const Dashboard = () => {
                   return (
                     reportDate.getDate() === currentDate.getDate() &&
                     reportDate.getMonth() === currentDate.getMonth() &&
-                    reportDate.getFullYear() === currentDate.getFullYear()
+                    reportDate.getFullYear() === currentDate.getFullYear() &&
+                    reportDate.getHours() === currentDate.getHours()
                   );
                 case "weekly":
-                  const firstDayOfWeek = new Date(currentDate);
-                  const dayOfWeek = currentDate.getDay();
-                  const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is Sunday
-                  firstDayOfWeek.setDate(diff);
-                  return (
-                    reportDate >= firstDayOfWeek && reportDate <= currentDate
-                  );
+                  const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+                  const startOfWeek = new Date(currentDate);
+                  startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+                  const endOfWeek = new Date(startOfWeek);
+                  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                  return reportDate >= startOfWeek && reportDate <= endOfWeek;
                 case "monthly":
                   return (
                     reportDate.getMonth() === currentDate.getMonth() &&
@@ -67,6 +68,7 @@ const Dashboard = () => {
                   return isCorrectPaymentMethod;
               }
             })
+            .sort((a, b) => new Date(a.reportDate) - new Date(b.reportDate))
             .reduce(
               (acc, report) => {
                 const isCorrectPaymentMethod =

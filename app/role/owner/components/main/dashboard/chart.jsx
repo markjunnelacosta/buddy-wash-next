@@ -36,12 +36,12 @@ function Chart({ data, dateRange, paymentMethod }) {
           );
         case "weekly":
           const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
-        const startOfWeek = new Date(currentDate);
-        startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
+          const startOfWeek = new Date(currentDate);
+          startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-        return reportDate >= startOfWeek && reportDate <= endOfWeek;
+          return reportDate >= startOfWeek && reportDate <= endOfWeek;
         case "monthly":
           return (
             reportDate.getMonth() === currentDate.getMonth() &&
