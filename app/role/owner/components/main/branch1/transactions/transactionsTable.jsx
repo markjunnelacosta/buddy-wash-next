@@ -110,7 +110,7 @@ const calculateDataForDateRange = (data, dateRange) => {
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
-  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [entriesPerPage, setEntriesPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(reportData.length / entriesPerPage);

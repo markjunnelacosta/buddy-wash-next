@@ -106,8 +106,6 @@ const Staff = () => {
                         <TableCell align="center">{staff.staffAddress}</TableCell>
                         <TableCell align="center">{staff.phoneNumber}</TableCell>
                         <TableCell align="center">{staff.staffPosition}</TableCell>
-                        <TableCell align="center">
-                        </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
