@@ -138,6 +138,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Payment Method</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Receipt</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
