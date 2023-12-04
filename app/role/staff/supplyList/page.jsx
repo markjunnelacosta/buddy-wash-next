@@ -83,7 +83,9 @@ function SupplyList() {
   }, [supplies]);
 
   const getStatusIcon = (stock) => {
-    if (stock < 10) {
+    if (stock < 10 && !alertShown) {
+      showAlertForSupply();
+      setAlertShown(true);
       return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
     } else if (stock >= 10 && stock < 20) {
       return <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />;
@@ -94,7 +96,6 @@ function SupplyList() {
 
   const showAlertForSupply = () => {
     alert("Low stock alert!");
-    setAlertShown(true);
   };
 
   const setAlertForSupply = () => {
