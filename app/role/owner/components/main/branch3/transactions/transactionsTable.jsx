@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 // import { getFilteredReport } from './role/owner/components/main/branch1/transactions/page.jsx';
 
 export const getReport = async () => {
@@ -108,6 +110,24 @@ const calculateDataForDateRange = (data, dateRange) => {
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(reportData.length / entriesPerPage);
+  const startRange = (currentPage - 1) * entriesPerPage + 1;
+  const endRange = Math.min(currentPage * entriesPerPage, reportData.length);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -124,13 +144,14 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
         console.error("Error fetching transactions:", error);
       }
     };
-    
-      fetchReport();
-    }, [dateFrom, dateTo, dateRange, filteredData]);
 
-    return (
+    fetchReport();
+  }, [dateFrom, dateTo, dateRange, filteredData]);
+
+  return (
+    <>
       <TableContainer component={Paper}>
-        <Paper style={{ height: 500, width: "100%" }}>
+        <Paper style={{ height: 345, width: "100%" }}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
@@ -144,6 +165,10 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
             <TableBody>
               {reportData
                 .filter((report) => report.branchNumber === "b3")
+                .slice(
+                  (currentPage - 1) * entriesPerPage,
+                  currentPage * entriesPerPage
+                )
                 .map((report) => (
                   <TableRow key={report._id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}>
                     <TableCell align="center">{new Date(report.reportDate).toLocaleDateString()}</TableCell>
@@ -156,7 +181,20 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
           </Table>
         </Paper>
       </TableContainer>
-    );
-  };
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          <ArrowBackIosRoundedIcon />
+        </button>
+        <span>{`Showing entries ${startRange}-${endRange} of ${reportData.length}`}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <ArrowForwardIosRoundedIcon />
+        </button>
+      </div>
+    </>
+  );
+};
 
-  export default TransactionTable;
+export default TransactionTable;

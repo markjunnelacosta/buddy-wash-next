@@ -71,13 +71,19 @@ const Staff = () => {
     <div className="staff-container">
       <div className="blue-container">
         <div className="searchContainer-right">
-          <p style={{ color: "black", fontWeight: "bold", alignSelf: "right", margin: "30px" }} variant="contained">
+          <p
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              margin: "30px"
+            }}
+            variant="contained">
             Staff Branch 1
           </p>
         </div>
         <div className="table-container">
           <TableContainer component={Paper}>
-            <Paper style={{ height: 300, width: "100%" }}>
+            <Paper style={{ height: 345, width: "100%" }}>
               <Table stickyHeader aria-label="sticky table" size="small">
                 <TableHead>
                   <TableRow>
@@ -108,18 +114,18 @@ const Staff = () => {
               </Table>
             </Paper>
           </TableContainer>
-        </div>
-        <div className="pagination">
-          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-            <ArrowBackIosRoundedIcon />
-          </button>
-          <span>{`Showing entries ${startRange}-${endRange} of ${branchStaffData.length}`}</span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            <ArrowForwardIosRoundedIcon />
-          </button>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <ArrowBackIosRoundedIcon />
+            </button>
+            <span>{`Showing entries ${startRange}-${endRange} of ${branchStaffData.length}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <ArrowForwardIosRoundedIcon />
+            </button>
+          </div>
         </div>
       </div>
     </div>

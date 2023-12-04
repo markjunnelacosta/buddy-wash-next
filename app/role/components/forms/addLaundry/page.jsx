@@ -238,7 +238,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
 
     calculateTotalAmount();
 
-    const response = await fetch("/api/BRANCH2/laundrybin", {
+    const response = await fetch("/api/laundrybin", {
       method: "POST",
       body: JSON.stringify({
         customerName: customerName,
@@ -258,7 +258,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       }),
     });
 
-    const orderRes = await fetch("/api/BRANCH2/order", {
+    const orderRes = await fetch("/api/order", {
       method: "POST",
       body: JSON.stringify({
         date: orderDate,
@@ -276,7 +276,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log(response);
     console.log("orderszzzzzz" + orderRes);
 
-    const res = await fetch("/api/BRANCH2/report", {
+    const res = await fetch("/api/report", {
       method: "POST",
       body: JSON.stringify({
         customerName: customerName,
@@ -310,7 +310,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       );
       stock = parseInt(selectedDetergent.availableStock, 10) - +detergentQty;
       if (selectedDetergent) {
-        const inventoryResponse = await fetch("/api/BRANCH2/inventory", {
+        const inventoryResponse = await fetch("/api/inventory", {
           method: "POST",
           body: JSON.stringify({
             date: dateTime,
@@ -330,16 +330,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           console.error("Failed to update inventory record");
         }
 
-        const res = await fetch(
-          `/api/BRANCH2/supply?id=${selectedDetergent._id}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({ availableStock: stock }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`/api/supply?id=${selectedDetergent._id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ availableStock: stock }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (res.ok) {
           console.log("Supply record updated successfully");
@@ -355,7 +352,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       );
       stock = parseInt(selectedFabCon.availableStock, 10) - +fabConQty;
       if (selectedFabCon) {
-        const inventoryResponse = await fetch("/api/BRANCH2/inventory", {
+        const inventoryResponse = await fetch("/api/inventory", {
           method: "POST",
           body: JSON.stringify({
             date: dateTime,
@@ -375,16 +372,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           console.error("Failed to update inventory record");
         }
 
-        const res = await fetch(
-          `/api/BRANCH2/supply?id=${selectedFabCon._id}`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({ availableStock: stock }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`/api/supply?id=${selectedFabCon._id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ availableStock: stock }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (res.ok) {
           console.log("Supply record updated successfully");
@@ -417,7 +411,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const res = await fetch("/api/BRANCH2/customer", {
+        const res = await fetch("/api/customer", {
           cache: "no-store",
         });
 
@@ -444,7 +438,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   useEffect(() => {
     const fetchSupplies = async () => {
       try {
-        const res = await fetch("/api/BRANCH2/supply", {
+        const res = await fetch("/api/supply", {
           cache: "no-store",
         });
 

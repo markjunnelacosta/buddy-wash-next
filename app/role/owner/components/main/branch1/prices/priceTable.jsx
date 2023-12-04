@@ -36,8 +36,7 @@ const getSupplies = async () => {
 const SupplyTable = () => {
   const [supplies, setSupplies] = React.useState([]);
   const [selectedSupply, setSelectedSupply] = useState(null);
-  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] = useState(false);
-
+  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] = useState(false)
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -96,7 +95,7 @@ const SupplyTable = () => {
 
       const response = await res.json();
       const supplies = response.userData || [];
-      setSupplies(supplies);
+      setSupplies(supplies); // update the supply data in component state
     } catch (error) {
       console.log("Error loading supplies: ", error);
     }
@@ -136,8 +135,8 @@ const SupplyTable = () => {
                   .slice(
                     (currentPage - 1) * entriesPerPage,
                     currentPage * entriesPerPage
-                  ).
-                  map((supply) => (
+                  )
+                  .map((supply) => (
                     <TableRow
                       key={supply._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -174,7 +173,7 @@ const SupplyTable = () => {
         isOpen={isUpdateSupplyPopupVisible}
         supply={selectedSupply}
         onClose={handleClose}
-        onSave={handleSaveData}
+        onSave={handleSaveData} // implement save function
       />
     </>
   );

@@ -6,6 +6,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import AddTransactions from './transactionsTable';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
 import { getFilteredReport } from './transactionsTable';
 import { Select, MenuItem } from '@mui/material';
