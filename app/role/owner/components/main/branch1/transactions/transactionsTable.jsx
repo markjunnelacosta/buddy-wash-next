@@ -199,10 +199,10 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
         </Paper>
       </TableContainer>
       <div className="pagination">
-        <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           <ArrowBackIosRoundedIcon />
-        </Button>
-        <span>{`Showing entries ${startRange}-${endRange} of ${reportData.length}`}</span>
+        </button>
+        <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}

@@ -146,7 +146,11 @@ const SupplyTable = () => {
                       </TableCell>
                       <TableCell align="center">{supply.productPrice}</TableCell>
                       <TableCell align="center">
-                        <Button variant="outlined" id="edit-button" onClick={() => handleEditSupply(supply)}>
+                        <Button
+                          variant="outlined"
+                          id="edit-button"
+                          onClick={() => handleEditSupply(supply)}
+                        >
                           Edit
                         </Button>
                         <RemoveButton id={supply._id} />
@@ -161,7 +165,7 @@ const SupplyTable = () => {
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           <ArrowBackIosRoundedIcon />
         </button>
-        <span>{`Showing entries ${startRange}-${endRange} of ${supplies.length}`}</span>
+        <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}

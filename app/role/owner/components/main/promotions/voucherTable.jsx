@@ -54,7 +54,7 @@ const VoucherTable = (voucherFilter) => {
     const [vouchers, setVouchers] = React.useState([]);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
     const [isUpdateVoucherPopupVisible, setUpdateVoucherPopupVisible] = useState(false);
-    const [entriesPerPage, setEntriesPerPage] = useState(7);
+    const [entriesPerPage, setEntriesPerPage] = useState(3);
     const [currentPage, setCurrentPage] = useState(1);
 
     const totalPages = Math.ceil(vouchers.length / entriesPerPage);
@@ -216,7 +216,7 @@ const VoucherTable = (voucherFilter) => {
                 <button onClick={handlePreviousPage} disabled={currentPage === 1}>
                     <ArrowBackIosRoundedIcon />
                 </button>
-                <span>{`Showing entries ${startRange}-${endRange} of ${vouchers.length}`}</span>
+                <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
