@@ -66,10 +66,9 @@ export default function UpdateVoucher({
         setNewMinSpend(newValue);
 
         if (!/^\d*\.?\d*$/.test(newValue)) {
-            setMinSpendError('Please enter valid numbers');
+            setMinSpendError("Please enter a valid numeric amount");
         } else {
             setMinSpendError('');
-            setNewMinSpend(formatAsCurrency(newValue));
         }
     };
 
@@ -78,27 +77,10 @@ export default function UpdateVoucher({
         setNewDiscountCap(newValue);
 
         if (!/^\d*\.?\d*$/.test(newValue)) {
-            setDiscountCapError('Please enter valid numbers');
+            setDiscountCapError("Please enter a valid numeric amount");
         } else {
             setDiscountCapError('');
-            setNewDiscountCap(formatAsCurrency(newValue));
         }
-    };
-
-    const formatAsCurrency = (value) => {
-        if (isNaN(value) || value === null) {
-            return value; // Return the original value if not a number
-        }
-
-        // Use Intl.NumberFormat for currency formatting
-        const formatter = new Intl.NumberFormat('en-PH', {
-            style: 'currency',
-            currency: 'PHP',
-            minimumFractionDigits: 2, // Minimum number of decimal places
-            maximumFractionDigits: 2, // Maximum number of decimal places
-        });
-
-        return formatter.format(value); // Placeholder, replace with actual formatting logic
     };
 
     const handleUsageQuantityChange = (e) => {
@@ -116,8 +98,8 @@ export default function UpdateVoucher({
         const newValue = e.target.value;
         setNewStartTime(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setStartTimeError('Please enter valid numbers');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
+            setStartTimeError('Please enter a valid date in the format YYYY-MM-DD');
         } else {
             setStartTimeError('');
         }
@@ -127,8 +109,8 @@ export default function UpdateVoucher({
         const newValue = e.target.value;
         setNewEndTime(newValue);
 
-        if (!/^\d*\.?\d*$/.test(newValue)) {
-            setEndTimeError('Please enter valid numbers');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
+            setEndTimeError('Please enter a valid date in the format YYYY-MM-DD');
         } else {
             setEndTimeError('');
         }
@@ -138,22 +120,12 @@ export default function UpdateVoucher({
         const newValue = e.target.value;
         setNewVoucherCode(newValue);
 
-        if (!/^[a-zA-Z\s]*$/.test(newValue)) {
-            setVoucherNameError('Please enter valid characters (letters and spaces)');
+        if (!/^[a-zA-Z0-9]*$/.test(newValue)) {
+            setVoucherCodeError('Please enter valid characters (letters and numbers)');
         } else {
             setVoucherCodeError('');
         }
     };
-
-    const generateRandomCode = () => {
-        const randomCode = Math.floor(100000 + Math.random() * 900000);
-        setNewVoucherCode(randomCode.toString());
-    };
-
-    useEffect(() => {
-        generateRandomCode();
-    }, []);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -253,7 +225,7 @@ export default function UpdateVoucher({
                         </div>
                         <div className="start-time">
                             <p>Start Time</p>
-                            <input
+                            <TextField
                                 type="date"
                                 value={newStartTime}
                                 onChange={handleStartTimeChange}
@@ -263,7 +235,7 @@ export default function UpdateVoucher({
                         </div>
                         <div className="end-time">
                             <p>End Time</p>
-                            <input
+                            <TextField
                                 type="date"
                                 value={newEndTime}
                                 onChange={handleEndTimeChange}

@@ -53,11 +53,10 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setMinSpend(newValue);
 
-        if (!/^(?:₱\s?)?[0-9]+(?:\.[0-9]{1,2})?$/.test(newValue)) {
-            setMinSpendError('Please enter a valid currency amount');
+        if (!/^\d*\.?\d*$/.test(newValue)) {
+            setMinSpendError("Please enter a valid numeric amount");
         } else {
             setMinSpendError('');
-            setMinSpend(formatAsCurrency(newValue));
         }
     };
 
@@ -65,27 +64,11 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setDiscountCap(newValue);
 
-        if (!/^(?:₱\s?)?[0-9]+(?:\.[0-9]{1,2})?$/.test(newValue)) {
-            setDiscountCapError('Please enter a valid currency amount');
+        if (!/^\d*\.?\d*$/.test(newValue)) {
+            setDiscountCapError("Please enter a valid numeric amount");
         } else {
             setDiscountCapError('');
-            setDiscountCap(formatAsCurrency(newValue));
         }
-    };
-
-    const formatAsCurrency = (value) => {
-        if (isNaN(value) || value === null) {
-            return value; // Return the original value if not a number
-        }
-        // Use Intl.NumberFormat for currency formatting
-        const formatter = new Intl.NumberFormat('en-PH', {
-            style: 'currency',
-            currency: 'PHP',
-            minimumFractionDigits: 2, // Minimum number of decimal places
-            maximumFractionDigits: 2, // Maximum number of decimal places
-        });
-
-        return formatter.format(value); // Placeholder, replace with actual formatting logic
     };
 
     const handleUsageQuantityChange = (e) => {
@@ -123,7 +106,7 @@ export default function AddVoucher() {
 
     const handleVoucherCodeChange = (e) => {
         const newValue = e.target.value;
-        setVoucherCode(newValue);
+        setNewVoucherCode(newValue);
 
         if (!/^[a-zA-Z0-9]*$/.test(newValue)) {
             setVoucherCodeError('Please enter valid characters (letters and numbers)');
@@ -143,7 +126,7 @@ export default function AddVoucher() {
     
         setVoucherCode(randomCode);
     };
-    
+
     useEffect(() => {
         generateRandomCode();
     }, []);

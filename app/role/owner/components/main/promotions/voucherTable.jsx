@@ -32,6 +32,22 @@ const getVouchers = async () => {
     }
 };
 
+const formatCurrency = (value, currencySymbol) => {
+    const formatter = new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP",
+        minimumFractionDigits: 2,
+    });
+
+    return formatter.format(value);
+};
+
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString("en-US", options);
+    return formattedDate;
+};
+
 const VoucherTable = () => {
     const [vouchers, setVouchers] = React.useState([]);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
@@ -62,7 +78,7 @@ const VoucherTable = () => {
 
     React.useEffect(() => {
         console.log(vouchers);
-}, [vouchers]);
+    }, [vouchers]);
 
     const fetchData = async () => {
         try {
@@ -127,28 +143,28 @@ const VoucherTable = () => {
                         </TableHead>
                         <TableBody>
                             {vouchers.map((voucher) => (
-                                    <TableRow
-                                        key={voucher._id}
-                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                    >
-                                        <TableCell align="center" component="th" scope="row">
-                                            {voucher.voucherName}
-                                        </TableCell>
-                                        <TableCell align="center">{voucher.percentageOff}</TableCell>
-                                        <TableCell align="center">{voucher.minSpend}</TableCell>
-                                        <TableCell align="center">{voucher.discountCap}</TableCell>
-                                        <TableCell align="center">{voucher.usageQuantity}</TableCell>
-                                        <TableCell align="center">{voucher.startTime}</TableCell>
-                                        <TableCell align="center">{voucher.endTime}</TableCell>
-                                        <TableCell align="center">{voucher.voucherCode}</TableCell>
-                                        <TableCell align="center">
-                                            <Button variant="outlined" id="edit-button" onClick={() => handleEditVoucher(voucher)}>
-                                                Edit
-                                            </Button>
-                                            <RemoveButton id={voucher._id} />
-                                        </TableCell>
-                                    </TableRow>
-                                ))
+                                <TableRow
+                                    key={voucher._id}
+                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                >
+                                    <TableCell align="center" component="th" scope="row">
+                                        {voucher.voucherName}
+                                    </TableCell>
+                                    <TableCell align="center">{`${voucher.percentageOff}%`}</TableCell>
+                                    <TableCell align="center">{formatCurrency(voucher.minSpend, "₱")}</TableCell>
+                                    <TableCell align="center">{formatCurrency(voucher.discountCap, "₱")}</TableCell>
+                                    <TableCell align="center">{voucher.usageQuantity}</TableCell>
+                                    <TableCell align="center">{formatDate(voucher.startTime)}</TableCell>
+                                    <TableCell align="center">{formatDate(voucher.endTime)}</TableCell>
+                                    <TableCell align="center">{voucher.voucherCode}</TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="outlined" id="edit-button" onClick={() => handleEditVoucher(voucher)}>
+                                            Edit
+                                        </Button>
+                                        <RemoveButton id={voucher._id} />
+                                    </TableCell>
+                                </TableRow>
+                            ))
                             }
                         </TableBody>
                     </Table>

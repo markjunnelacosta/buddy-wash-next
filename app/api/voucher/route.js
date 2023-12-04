@@ -14,21 +14,29 @@ export const POST = async (req) => {
 
   try {
     await connectToDB();
+    const existingVoucher = await Voucher.findOne({ voucherName });
+    if (existingVoucher) {
+      return new Response("Voucher with the same name already exists", { status: 400 });
+    }
+
     const newVoucher = new Voucher({
-      voucherName, 
-      percentageOff, 
-      minSpend, 
-      discountCap, 
-      usageQuantity, 
-      startTime, 
-      endTime, 
+      voucherName,
+      percentageOff,
+      minSpend,
+      discountCap,
+      usageQuantity,
+      startTime,
+      endTime,
       voucherCode
     });
-    console.log(newVoucher);
+    console.log('New Voucher Object:', newVoucher);
     await newVoucher.save();
+    
+    console.log('Voucher Saved Successfully:', newVoucher);
     return new Response(JSON.stringify(newVoucher), { status: 201 });
   } catch (error) {
-    return new Response(error, { status: 500 });
+    console.error('Error adding voucher:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
 };
 
@@ -44,8 +52,8 @@ export async function DELETE(request) {
 
 export async function PATCH(request) {
   const id = request.nextUrl.searchParams.get("id");
-//   const body = await request.json();
-//   const { availableStock } = body;
+  //   const body = await request.json();
+  //   const { availableStock } = body;
   try {
     await connectToDB();
     await Voucher.findByIdAndUpdate(id);

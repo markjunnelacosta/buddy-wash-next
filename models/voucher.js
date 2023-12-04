@@ -14,12 +14,11 @@ const VoucherSchema = new Schema({
     required: [true, "Percentage of voucher is required"],
   },
   minSpend: {
-    type: Decimal128,
+    type: Number,
     required: [true, "Minimum spend is required"],
   },
   discountCap: {
-    type: Decimal128,
-    required: [true, "Discount cap is required"],
+    type: Number,
   },
   usageQuantity: {
     type: Number,
@@ -35,7 +34,6 @@ const VoucherSchema = new Schema({
   },
   voucherCode: {
     type: String,
-    required: [true, "Voucher code is required"],
   },
 });
 
