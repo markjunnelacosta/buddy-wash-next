@@ -34,7 +34,7 @@ export async function PATCH(request) {
   const { availableStock } = body;
   try {
     await connectToDB();
-    await Supply.findByIdAndUpdate(id, { availableStock });
+    await Branch2Supply.findByIdAndUpdate(id, { availableStock });
     console.log(id);
     return NextResponse.json(
       { message: "Updated  Supply Record" },
