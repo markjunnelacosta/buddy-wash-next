@@ -1,3 +1,4 @@
+import { Decimal128 } from "mongodb";
 import { Schema, model, models } from "mongoose";
 
 const VoucherSchema = new Schema({
@@ -13,11 +14,11 @@ const VoucherSchema = new Schema({
     required: [true, "Percentage of voucher is required"],
   },
   minSpend: {
-    type: Schema.Types.Decimal128,
+    type: Decimal128,
     required: [true, "Minimum spend is required"],
   },
   discountCap: {
-    type: Schema.Types.Decimal128,
+    type: Decimal128,
     required: [true, "Discount cap is required"],
   },
   usageQuantity: {
@@ -33,7 +34,7 @@ const VoucherSchema = new Schema({
     required: [true, "End time is required"],
   },
   voucherCode: {
-    type: Number,
+    type: String,
     required: [true, "Voucher code is required"],
   },
 });

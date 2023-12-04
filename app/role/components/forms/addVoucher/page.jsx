@@ -125,18 +125,25 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setVoucherCode(newValue);
 
-        if (!/^[a-zA-Z\s]*$/.test(newValue)) {
-            setVoucherCodeError('Please enter valid characters (letters and spaces)');
+        if (!/^[a-zA-Z0-9]*$/.test(newValue)) {
+            setVoucherCodeError('Please enter valid characters (letters and numbers)');
         } else {
             setVoucherCodeError('');
         }
     };
 
     const generateRandomCode = () => {
-        const randomCode = Math.floor(100000 + Math.random() * 900000);
-        setVoucherCode(randomCode.toString());
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let randomCode = '';
+    
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            randomCode += characters.charAt(randomIndex);
+        }
+    
+        setVoucherCode(randomCode);
     };
-
+    
     useEffect(() => {
         generateRandomCode();
     }, []);
