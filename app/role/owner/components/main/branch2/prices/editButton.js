@@ -1,10 +1,10 @@
 import React from "react";
-import UpdateSupply from "@/app/role/components/forms/updateSupply/page";
+import UpdateSupply from "@/app/role/components/forms/BRANCH2/updateSupply/page";
 
 const EditSupplyPopup = ({ isOpen, supply, onClose, onSave }) => {
-    if (!isOpen) {
-        return null; // If not open, don't render anything
-      }
+  if (!isOpen) {
+    return null; // If not open, don't render anything
+  }
   return (
     <div className="popup-container">
       <div className="popup">

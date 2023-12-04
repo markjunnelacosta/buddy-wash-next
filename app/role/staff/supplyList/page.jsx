@@ -86,6 +86,9 @@ function SupplyList() {
     if (stock < 10 && !alertShown) {
       showAlertForSupply();
       setAlertShown(true);
+    }
+
+    if (stock < 10) {
       return <CircleIcon fontSize="smaller" style={{ color: "red" }} />;
     } else if (stock >= 10 && stock < 20) {
       return <CircleIcon fontSize="smaller" style={{ color: "yellow" }} />;
