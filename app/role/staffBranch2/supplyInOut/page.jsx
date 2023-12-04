@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Add } from "@mui/icons-material";
-import UpdateSupply from "../../components/forms/updateSupplyQuantity/page";
+import UpdateSupply from "../../components/forms/BRANCH2/updateSupplyQuantity/page";
 const getInventory = async () => {
   try {
     const res = await fetch("/api/BRANCH2/branch2Inventory", {
