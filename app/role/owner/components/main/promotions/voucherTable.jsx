@@ -139,6 +139,9 @@ const VoucherTable = () => {
                                 <TableCell align="center" style={{ fontWeight: "bold" }}>
                                     Voucher Code
                                 </TableCell>
+                                <TableCell align="center" style={{ fontWeight: "bold" }}>
+                                    Action
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

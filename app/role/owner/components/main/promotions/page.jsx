@@ -6,14 +6,14 @@ import AddVoucher from "@/app/role/components/forms/addVoucher/page";
 
 function Promotions() {
   return (
-    <div className="promotions-container">
+    <div className="voucher-container">
       <div className="blue-container">
         <div className="searchContainer-right">
           <p
             style={{
               color: "black",
               fontWeight: "bold",
-              margin: "30px",
+              margin: "20px 0px 0px 0px",
             }}
             variant="contained"
           >

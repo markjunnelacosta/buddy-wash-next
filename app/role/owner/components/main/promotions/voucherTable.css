@@ -1,11 +1,12 @@
 #edit-button {
     padding: 2px;
     color: blue;
-    margin-right: 10px;
+    margin: 0px 0px 0px 0px;
 }
 
 #delete-button {
     color: red;
     border: solid red 0.5px;
     padding: 2px;
+    margin: 5px 0px 0px 0px;
 }

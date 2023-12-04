@@ -205,7 +205,7 @@ export default function AddVoucher() {
                     height: "50px",
                     fontWeight: "bold",
                     alignSelf: "flex-start",
-                    margin: "30px 30px 20px 0px",
+                    margin: "10px 30px 20px 0px",
                     borderRadius: "10px",
                 }}
                 variant="contained"
