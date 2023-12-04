@@ -48,7 +48,7 @@ const formatDate = (dateString) => {
     return formattedDate;
 };
 
-const VoucherTable = () => {
+const VoucherTable = (voucherFilter) => {
     const [vouchers, setVouchers] = React.useState([]);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
     const [isUpdateVoucherPopupVisible, setUpdateVoucherPopupVisible] = useState(false);
@@ -62,6 +62,20 @@ const VoucherTable = () => {
         setUpdateVoucherPopupVisible(false); // Hide the popup
     };
 
+    const filterVouchers = (vouchers, filter) => {
+        const currentDate = new Date();
+
+        return vouchers.filter((voucher) => {
+            if (filter === "active") {
+                return new Date(voucher.endTime) > currentDate;
+            } else if (filter === "expired") {
+                return new Date(voucher.endTime) <= currentDate;
+            }
+            return true;
+        });
+    };
+
+    const filteredVouchers = filterVouchers(vouchers, voucherFilter);
 
     React.useEffect(() => {
         const fetchVouchers = async () => {
@@ -145,7 +159,7 @@ const VoucherTable = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {vouchers.map((voucher) => (
+                            {filteredVouchers.map((voucher) => (
                                 <TableRow
                                     key={voucher._id}
                                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
