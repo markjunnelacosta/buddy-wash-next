@@ -89,10 +89,10 @@ function Receipt({ selectedOrder, onClose }) {
         </div>
       </div>
       <div className="buttons">
-      <div className="dl-cancel">
+        <div className="dl-cancel">
           <button
             className="cancel-button"
-            onClick={() => onClose}
+            onClick={() => onClose()}
           >
             Cancel
           </button>

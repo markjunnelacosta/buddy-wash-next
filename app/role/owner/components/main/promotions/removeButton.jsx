@@ -26,7 +26,7 @@ export default function RemoveButton({ id }) {
       id="delete-button"
       href="/role/owner/components/main/promotions"
     >
-      Delete
+      Archive
     </Button>
   );
 }
