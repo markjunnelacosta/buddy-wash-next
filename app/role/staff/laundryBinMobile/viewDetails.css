@@ -1,0 +1,68 @@
+.details-container-box {
+    background-color: white;
+    width: 50vw;
+    height: auto;
+    display: flex;
+    /* overflow-y: auto; */
+    padding: 10px;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #header{
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  .customer-info{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .form-group {
+    display: flex;
+  }
+
+  #first {
+    width: 20vw;
+    flex: 20%;
+    float: left;
+  }
+  
+  #second {
+    flex: 20%;
+  }
+  
+  #third{
+    flex: 20%;
+  }
+
+  .cancel-button {
+    float: right;
+    padding: 5px 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid;
+    border-color: #D9D9D9;
+    margin-left: 5px;
+    background-color: #D9D9D9;
+    font-weight: 600;
+    height: 40px;
+    width: 80px;
+    cursor: pointer;
+  }
+
+  #title {
+    font-weight: bold;
+  }
+
+  #text {
+    margin: 0;
+  }
