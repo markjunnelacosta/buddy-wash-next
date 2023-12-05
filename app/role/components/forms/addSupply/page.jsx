@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Add } from "@mui/icons-material";
-import './addSupply.css'
+import './AddSupply.css'
 
 export default function AddSupply() {
   const [supplyName, setSupplyName] = useState("");
