@@ -30,8 +30,7 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const mData =
-          data.machineData.filter((m) => m.branchNumber == "2") || [];
+        const mData = data.machineData.filter((m) => m.branchNumber == 2) || [];
         setMachineData(mData);
 
         // Update machine state
@@ -69,7 +68,7 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const dData = data.dryerData.filter((d) => d.branchNumber == "2") || [];
+        const dData = data.dryerData.filter((d) => d.branchNumber == 2) || [];
         setDryerData(dData);
         const dryerUseCount = [];
         dData.forEach((d) => {
@@ -93,7 +92,7 @@ const Reset = () => {
   }, []);
   console.log("********dryer data", dryerData);
 
-  const postMachineData = () => {
+  const postMachineData = async () => {
     machineInfo.forEach(async (m) => {
       const response = await fetch("/api/BRANCH2/branch2MachineReport", {
         method: "POST",
@@ -109,7 +108,7 @@ const Reset = () => {
     });
   };
 
-  const postDryerData = () => {
+  const postDryerData = async () => {
     dryerInfo.forEach(async (d) => {
       const response = await fetch("/api/BRANCH2/branch2DryerReport", {
         method: "POST",
@@ -125,7 +124,7 @@ const Reset = () => {
     });
   };
 
-  const patchMachineUseCount = () => {
+  const patchMachineUseCount = async () => {
     machineData.forEach(async (m) => {
       const res = await fetch(`/api/machine?id=${m._id}`, {
         method: "PATCH",
@@ -138,9 +137,9 @@ const Reset = () => {
     });
   };
 
-  const patchDryerUseCount = () => {
-    dryerData.forEach(async (d) => {
-      const res = await fetch(`/api/dryer?id=${d._id}`, {
+  const patchDryerUseCount = async () => {
+    dryerData.forEach(async (m) => {
+      const res = await fetch(`/api/dryer?id=${m._id}`, {
         method: "PATCH",
         body: JSON.stringify({ useCount: +0 }),
         headers: {
@@ -150,11 +149,12 @@ const Reset = () => {
       console.log("UseCount is updated");
     });
   };
+
   const onReset = async () => {
-    postMachineData();
-    postDryerData();
-    patchMachineUseCount();
-    patchDryerUseCount();
+    await patchDryerUseCount();
+    await patchMachineUseCount();
+    await postMachineData();
+    await postDryerData();
   };
 
   return (
@@ -170,9 +170,11 @@ const Reset = () => {
         borderRadius: "10px",
       }}
       variant="contained"
+      // onClick={onReset}
       onClick={onReset}
       href="/role/staffBranch2/machine"
     >
+      {" "}
       Reset Machines
     </Button>
   );
