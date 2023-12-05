@@ -87,7 +87,9 @@ function DryerTable() {
                 <TableRow key={index}>
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
-                    {dryer.timer == "00:00" || dryer.timer == 0
+                    {dryer.timer == "00:00" ||
+                    dryer.timer == "0" ||
+                    dryer.timer == "tempValue"
                       ? "Off"
                       : "Running"}
                   </TableCell>
