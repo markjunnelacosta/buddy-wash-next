@@ -154,7 +154,7 @@ function DryerTable() {
             </TableHead>
             <tbody>
               {dryerData
-                .filter((dryer) => dryer.branchNumber === "1")
+                .filter((dryer) => dryer.branchNumber == "1")
                 .map((dryer, index) => (
                   <TableRow key={index}>
                     <TableCell align="center">{dryer.dryerNumber}</TableCell>

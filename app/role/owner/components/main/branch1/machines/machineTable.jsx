@@ -156,7 +156,7 @@ function MachineTable() {
             </TableHead>
             <tbody>
               {machineData
-                .filter((machine) => machine.branchNumber === "1")
+                .filter((machine) => machine.branchNumber == "1")
                 .map((machine, index) => (
                   <TableRow key={index}>
                     <TableCell align="center">
