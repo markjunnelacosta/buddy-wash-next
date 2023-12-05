@@ -26,7 +26,7 @@ export default function RemoveButton({ id }) {
       id="delete-button"
       href="/role/owner/components/main/laundry-prices"
     >
-      Delete
+      Archive
     </Button>
   );
 }
