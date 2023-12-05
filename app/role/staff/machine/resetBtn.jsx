@@ -137,9 +137,22 @@ const Reset = () => {
     });
   };
 
+  // const patchDryerUseCount = () => {
+  //   dryerData.forEach(async (d) => {
+  //     const res = await fetch(`/api/dryer?id=${d._id}`, {
+  //       method: "PATCH",
+  //       body: JSON.stringify({ useCount: +0 }),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     console.log("UseCount is updated");
+  //   });
+  // };
+
   const patchDryerUseCount = () => {
-    dryerData.forEach(async (d) => {
-      const res = await fetch(`/api/dryer?id=${d._id}`, {
+    dryerData.forEach(async (m) => {
+      const res = await fetch(`/api/dryer?id=${m._id}`, {
         method: "PATCH",
         body: JSON.stringify({ useCount: +0 }),
         headers: {
@@ -154,6 +167,8 @@ const Reset = () => {
     postDryerData();
     patchMachineUseCount();
     patchDryerUseCount();
+
+    window.location.reload();
   };
 
   return (
@@ -170,7 +185,6 @@ const Reset = () => {
       }}
       variant="contained"
       onClick={onReset}
-      href="/role/staff/machine"
     >
       Reset Machines
     </Button>
