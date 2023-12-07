@@ -17,11 +17,10 @@
 }
 
 .table-container {
-  background-color: white;
-  margin: 30px 30px 30px 30px;
+  margin: 30px 30px 0px 30px;
   padding: 20px;
-  flex-grow: 1; /* Allow the table container to expand to fill available space */
-  overflow: auto; /* Enable scrolling when the content overflows */
+  flex-grow: 1;
+  /* overflow: auto; */
 }
 
 .table-header {
@@ -33,4 +32,21 @@
 .table-body {
   text-align: center;
   align-items: center;
+}
+
+#view-button {
+  padding: 2px;
+  color: blue;
+}
+
+#status-button {
+  padding: 2px;
+  color: orange;
+}
+
+.pagination{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 10px;
 }

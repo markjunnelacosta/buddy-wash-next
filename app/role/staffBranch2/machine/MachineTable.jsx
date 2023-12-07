@@ -89,7 +89,9 @@ function MachineTable() {
                 <TableCell align="center">{machine.machineNumber}</TableCell>
 
                 <TableCell align="center">
-                  {machine.timer == "00:00" || machine.timer == 0
+                  {machine.timer == "00:00" ||
+                  machine.timer == 0 ||
+                  machine.timer == "tempValue"
                     ? "Off"
                     : "Running"}
                 </TableCell>
