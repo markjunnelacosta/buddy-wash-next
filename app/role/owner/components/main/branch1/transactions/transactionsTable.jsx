@@ -111,7 +111,7 @@ const calculateDataForDateRange = (data, dateRange) => {
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
-  const [entriesPerPage, setEntriesPerPage] = useState(9);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
@@ -172,7 +172,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
             </TableHead>
             <TableBody>
               {reportData
-                .filter((report) => report.branchNumber === "b1")
+                // .filter((report) => report.branchNumber === "b1")
                 .slice(
                   (currentPage - 1) * entriesPerPage,
                   currentPage * entriesPerPage

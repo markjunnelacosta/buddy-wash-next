@@ -1,15 +1,14 @@
 "use client";
 import React, { useRef, useState } from 'react';
 import './transactions.css';
-import { Button } from '@mui/material';
+import { Button, Select, MenuItem } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import AddTransactions from './transactionsTable';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
 import { getFilteredReport } from './transactionsTable';
-import { Select, MenuItem } from '@mui/material';
+import AddTransactions from './transactionsTable';
 
 
 function Transactions() {
@@ -28,12 +27,12 @@ function Transactions() {
         console.log("No records found for the specified period.");
       } else {
 
-        const branch2Data = data.filter(report => report.branchNumber === "b2");
-        console.log("Filtered data:", branch2Data);
-        setFilteredData(branch2Data);
+        // const branch2Data = data.filter(report => report.Branch2Reports === "Branch2Reports");
+        // console.log("Filtered data:", branch2Data);
+        setFilteredData(data);
 
-        const totalForBranch2 = branch2Data.reduce((sum, report) => sum + report.totalAmount, 0);
-        setTotalAmount(totalForBranch2);
+        const total = data.reduce((sum, report) => sum + report.totalAmount, 0);
+        setTotalAmount(total);
       }
     } catch (error) {
       console.error("Error filtering transactions:", error);
@@ -70,7 +69,7 @@ function Transactions() {
 
         const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
         const rows = filteredData
-          .filter((report) => report.branchNumber === "b2")
+          // .filter((report) => report.branchNumber === "b2")
           .map((report) => [
             new Date(report.reportDate).toLocaleDateString(),
             report.customerName,

@@ -8,7 +8,7 @@ import Receipt from "app/role/staff/laundryBin/orderSummary.jsx";
 
 export const getReport = async () => {
   try {
-    const res = await fetch("/api/report", {
+    const res = await fetch("/api/BRANCH2/branch2Report", {
       cache: "no-store",
     });
 
@@ -25,7 +25,7 @@ export const getReport = async () => {
 
 export const getFilteredReport = async (dateFrom, dateTo, dateRange) => {
   try {
-    const res = await fetch("/api/report", {
+    const res = await fetch("/api/BRANCH2/branch2Report", {
       cache: "no-store",
     });
 
@@ -111,7 +111,7 @@ const calculateDataForDateRange = (data, dateRange) => {
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [reportData, setReportData] = useState([]);
-  const [entriesPerPage, setEntriesPerPage] = useState(9);
+  const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
@@ -172,7 +172,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
             </TableHead>
             <TableBody>
               {reportData
-                .filter((report) => report.branchNumber === "b2")
+                // .filter((report) => report.branchNumber === "b2")
                 .slice(
                   (currentPage - 1) * entriesPerPage,
                   currentPage * entriesPerPage

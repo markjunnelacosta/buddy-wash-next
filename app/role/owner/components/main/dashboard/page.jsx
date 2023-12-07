@@ -22,13 +22,18 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/report");
-        const data = await res.json();
+        const [b1Data, b2Data, b3Data] = await Promise.all([
+          fetch("/api/report").then(res => res.json()),
+          fetch("/api/BRANCH2/branch2Report").then(res => res.json()),
+          fetch("/api/report").then(res => res.json())
+        ]);
 
-        setReportData(data.reportData);
+        const allReportData = [...b1Data.reportData, ...b2Data.reportData, ...b3Data.reportData];
+
+        setReportData(allReportData);
 
         const calculateDataForDateRange = (range, paymentMethod) => {
-          return data.reportData
+          return allReportData
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
