@@ -43,24 +43,24 @@ const LaundryBin = () => {
   const [machineData, setMachineData] = useState([]);
   const [dryerData, setDryerData] = useState([]);
   const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
-  const [entriesPerPage, setEntriesPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [entriesPerPage, setEntriesPerPage] = useState(5);
+  // const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(mobileOrders.length / entriesPerPage);
-  const startRange = (currentPage - 1) * entriesPerPage + 1;
-  const endRange = Math.min(currentPage * entriesPerPage, mobileOrders.length);
+  // const totalPages = Math.ceil(mobileOrders.length / entriesPerPage);
+  // const startRange = (currentPage - 1) * entriesPerPage + 1;
+  // const endRange = Math.min(currentPage * entriesPerPage, mobileOrders.length);
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  // const handlePreviousPage = () => {
+  //   if (currentPage > 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
 
   const fetchMachines = () => {
     fetch("/api/machine", {
@@ -529,11 +529,11 @@ const LaundryBin = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {mobileOrders
-                    .slice(
-                      (currentPage - 1) * entriesPerPage,
-                      currentPage * entriesPerPage
-                    ).
+                  {mobileOrders.
+                    // .slice(
+                    //   (currentPage - 1) * entriesPerPage,
+                    //   currentPage * entriesPerPage
+                    // ).
                     map((order) => (
                       <TableRow
                         key={order._id}
@@ -602,7 +602,7 @@ const LaundryBin = () => {
               </Table>
             </TableContainer>
           </div>
-          <div className="pagination">
+          {/* <div className="pagination">
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               <ArrowBackIosRoundedIcon />
             </button>
@@ -613,7 +613,7 @@ const LaundryBin = () => {
             >
               <ArrowForwardIosRoundedIcon />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       {laundryOrderSummary && (
