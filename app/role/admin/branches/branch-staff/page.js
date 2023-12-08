@@ -222,29 +222,28 @@ const BranchStaff = ({ onClose, branchId, selectedBranchAddress }) => {
             </Table>
           </TableContainer>
         </div>
+        <div className="pagination">
+          <button
+            className="entries-button"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            <ArrowBackIosRoundedIcon />
+          </button>
+          <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
+          <button
+            className="entries-button"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowForwardIosRoundedIcon />
+          </button>
+        </div>
         <div className="footer">
           <div className="cancel-button">
             <Button className="back-button" onClick={onClose}>
               Back
             </Button>
-          </div>
-
-          <div className="pagination">
-            <button
-              className="entries-button"
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              <ArrowBackIosRoundedIcon />
-            </button>
-            <span>{`Showing entries ${startRange}-${endRange} of ${filteredStaff.length}`}</span>
-            <button
-              className="entries-button"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              <ArrowForwardIosRoundedIcon />
-            </button>
           </div>
         </div>
       </div>

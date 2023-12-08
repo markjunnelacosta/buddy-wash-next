@@ -269,9 +269,8 @@ const Reports = () => {
         });
 
         const currentDate = new Date();
-        const formattedDate = `${currentDate.getFullYear()}-${
-          currentDate.getMonth() + 1
-        }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+        const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+          }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
         pdf.setFontSize(10);
         pdf.text(
           `Date Accessed: ${formattedDate}`,
@@ -454,6 +453,18 @@ const Reports = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <ArrowBackIosRoundedIcon />
+            </button>
+            <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <ArrowForwardIosRoundedIcon />
+            </button>
+          </div>
         </div>
       </div>
     </div>

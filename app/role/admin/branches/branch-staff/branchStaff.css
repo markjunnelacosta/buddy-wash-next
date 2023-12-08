@@ -9,7 +9,8 @@
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
+    justify-content: center;
+    /* Center vertically */
     border: 2px solid #54BCBC;
     z-index: 1000;
     position: fixed;
@@ -28,18 +29,18 @@
     /* flex-grow: 1; */
 }
 
-.table-header{
+.table-header {
     align-items: center;
     font-weight: bold;
     justify-content: center;
     text-align: center;
 }
 
-.table-border{
+.table-border {
     border: 1px solid #54BCBC;
 }
 
-.table-body{
+.table-body {
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -88,52 +89,69 @@
     padding: 2px;
 }
 
-.searchContainer{
+.searchContainer {
 
-    display:flex;
+    display: flex;
     flex-direction: row;
     /* margin-left: 30px; */
     justify-content: space-between;
     padding: 5px;
 }
 
-.searchContainer-right{
-    display:flex;
+.searchContainer-right {
+    display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 300px;
 
 }
-#searchName{
+
+#searchName {
     border-color: gray;
     margin: 10px 35px 10px 10px;
     width: 200px;
 }
 
-.pagination{
+.pagination {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-left: 65%;
+    margin-top: 20px;
+    /* Add some spacing from the table */
 }
 
-.b-container{
+.pagination button {
+    background-color: #A9DDDD;
+    color: white;
+    border: 1px solid #A9DDDD;
+    padding: 1px 2px;
+    margin: 0 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button:hover {
+    background-color: #526c74;
+}
+
+.b-container {
     display: inline-block;
     justify-content: center;
     align-items: center;
 }
-.footer{
+
+.footer {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.cancel-button{
+.cancel-button {
     display: flex;
     align-items: center;
 }
 
-.back-button{
+.back-button {
     color: black;
     padding: 5px 10px;
     font-size: 18px;
@@ -145,7 +163,7 @@
     color: black;
 }
 
-.entries-button{
+.entries-button {
     background-color: #54BCBC;
 }
 
@@ -155,7 +173,7 @@
     flex-shrink: 0;
 }
 
-.search-bar{
+.search-bar {
     display: flex;
     margin-left: 20px;
     flex-shrink: 0;

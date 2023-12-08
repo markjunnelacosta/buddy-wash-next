@@ -419,18 +419,18 @@ const Reports = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
-                <div className="pagination">
-                    <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                        <ArrowBackIosRoundedIcon />
-                    </button>
-                    <span>{`Showing entries ${startRange}-${endRange} of ${reportData.length}`}</span>
-                    <button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                    >
-                        <ArrowForwardIosRoundedIcon />
-                    </button>
+                    <div className="pagination">
+                        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                            <ArrowBackIosRoundedIcon />
+                        </button>
+                        <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
+                        <button
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            <ArrowForwardIosRoundedIcon />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

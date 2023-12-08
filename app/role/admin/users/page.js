@@ -77,7 +77,7 @@ const Users = () => {
 
 
   const handleClose = () => {
-    setUpdateUserPopupVisible(false); 
+    setUpdateUserPopupVisible(false);
   };
 
   const filteredUsers = userData.filter((user) =>
@@ -201,7 +201,7 @@ const Users = () => {
                       </TableCell>
                     </TableRow>
                   ))
-                  }
+                }
               </TableBody>
             </Table>
           </TableContainer>
@@ -210,7 +210,7 @@ const Users = () => {
           <button onClick={handlePreviousPage} disabled={currentPage === 1}>
             <ArrowBackIosRoundedIcon />
           </button>
-          <span>{`Showing entries ${startRange}-${endRange} of ${filteredUsers.length}`}</span>
+          <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
