@@ -101,7 +101,9 @@ const MobileUser = () => {
               </Table>
             </TableContainer>
             <div className="pagination">
-              <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <button 
+              // onClick={handlePreviousPage} 
+              disabled={currentPage === 1}>
                 <ArrowBackIosRoundedIcon />
               </button>
               <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
