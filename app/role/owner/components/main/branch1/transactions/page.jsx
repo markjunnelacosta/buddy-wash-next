@@ -111,11 +111,22 @@ function Transactions() {
         return;
       }
       
-
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.table_to_sheet(table);
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      const filteredRows = filteredData.map((report) => [
+        new Date(report.reportDate).toLocaleDateString(),
+        report.customerName,
+        report.totalAmount,
+        report.paymentMethod,
+      ]);
 
+      const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+      filteredRows.unshift(header);
+
+      XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });
+  
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
       XLSX.writeFile(wb, 'table.xlsx');
     } catch (error) {
       console.error("Error exporting to Excel:", error);

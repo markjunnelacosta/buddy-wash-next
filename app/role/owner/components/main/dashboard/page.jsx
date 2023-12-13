@@ -38,6 +38,7 @@ const Dashboard = () => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              const isCorrectApiPath = report.apiPath === "/api/report" || report.apiPath === "/api/BRANCH2/branch2Report" || report.apiPath === "/api/report";
 
               switch (range) {
                 case "daily":
@@ -83,19 +84,13 @@ const Dashboard = () => {
                   acc.totalProfit += report.totalAmount;
                   acc.customerCount += 1;
 
-                  switch (report.branchNumber) {
-                    case "b1":
-                      acc.b1Profit += report.totalAmount;
-                      break;
-                    case "b2":
-                      acc.b2Profit += report.totalAmount;
-                      break;
-                    case "b3":
-                      acc.b3Profit += report.totalAmount;
-                      break;
 
-                    default:
-                      break;
+                  if (report.apiPath === "/api/report") {
+                    acc.b1Profit += report.totalAmount;
+                  } else if (report.apiPath === "/api/BRANCH2/branch2Report") {
+                    acc.b2Profit += report.totalAmount;
+                  } else if (report.apiPath === "/api/BRANCH3/branch3Report") {
+                    acc.b3Profit += report.totalAmount;
                   }
 
                   if (report.paymentMethod === "GCash") {
@@ -130,6 +125,9 @@ const Dashboard = () => {
         setB2Profit(b2Profit);
         setB3Profit(b3Profit);
 
+        console.log("Branch1 Profit:", b1Profit);
+        console.log("Branch2 Profit:", b2Profit);
+        console.log("Branch3 Profit:", b3Profit);
         console.log("GCash Profit:", gcashProfit);
         console.log("Cash Profit:", cashProfit);
       } catch (error) {
