@@ -519,7 +519,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const getDetergentSupplies = () => {
     const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
     return detergentSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
+      <option key={i}>{supplies.supplyName} - ₱{supplies.productPrice}</option>
     ));
   };
 
@@ -529,7 +529,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       "conditioner"
     );
     return conditionerSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
+      <option key={i}>{supplies.supplyName} - ₱{supplies.productPrice}</option>
     ));
   };
 
