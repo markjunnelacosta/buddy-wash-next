@@ -131,7 +131,7 @@ function SupplyInOut() {
             </Table>
             {/* </Paper> */}
           </TableContainer>
-          <div className="pagination">
+          {/* <div className="pagination">
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               <ArrowBackIosRoundedIcon />
             </button>
@@ -142,7 +142,7 @@ function SupplyInOut() {
             >
               <ArrowForwardIosRoundedIcon />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
