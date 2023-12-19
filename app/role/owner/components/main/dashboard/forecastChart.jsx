@@ -11,8 +11,10 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function ForecastChart({ forecastData, dateRange }) {
+function ForecastChart({ forecastData, dateRange, paymentMethod }) {
   const theme = useTheme();
+
+  console.log("ForecastChart Component Rendered");
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -30,7 +32,7 @@ function ForecastChart({ forecastData, dateRange }) {
             forecastDate.getDate() === currentDate.getDate() &&
             forecastDate.getMonth() === currentDate.getMonth() &&
             forecastDate.getFullYear() === currentDate.getFullYear() &&
-            reportDate.getHours() === currentDate.getHours()
+            forecastDate.getHours() === currentDate.getHours()
           );
         case "weekly":
           const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
@@ -60,9 +62,28 @@ function ForecastChart({ forecastData, dateRange }) {
     });
   };
 
-  const filteredForecastData = filterForecastDataByDateRange(forecastData, dateRange);
+  const filterForecastDataByPaymentMethod = (data, method) => {
+    if (method === "all") {
+      return data;
+    } else {
+      return data.filter((report) => report.paymentMethod === method);
+    }
+  };
+
+  const filteredForecastData = filterForecastDataByPaymentMethod(
+    filterForecastDataByDateRange(forecastData, dateRange),
+    paymentMethod
+    );
 
   console.log("Filtered Forecast Data:", filteredForecastData);
+
+  if (!forecastData.length || !filteredForecastData.length) {
+    return (
+      <Typography variant="body2" color="textSecondary">
+        No forecast data available for the selected criteria.
+      </Typography>
+    );
+  }
 
   return (
     <React.Fragment>

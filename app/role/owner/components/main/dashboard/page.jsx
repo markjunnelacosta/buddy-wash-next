@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import { Grid, Paper } from "@mui/material";
@@ -6,6 +6,10 @@ import Counter from "./counter";
 import Chart from "./chart";
 import ForecastChart from "./forecastChart";
 import { Select, MenuItem } from '@mui/material';
+
+const API_PATH_REPORT = "/api/report";
+const API_PATH_BRANCH2 = "/api/BRANCH2/branch2Report";
+const API_PATH_BRANCH3 = "/api/report";
 
 const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
@@ -18,27 +22,39 @@ const Dashboard = () => {
   const [paymentMethod, setPaymentMethod] = useState("all");
   // const [customerData, setCustomerData] = useState("walk-in");
 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [b1Data, b2Data, b3Data] = await Promise.all([
-          fetch("/api/report").then(res => res.json()),
-          fetch("/api/BRANCH2/branch2Report").then(res => res.json()),
-          fetch("/api/report").then(res => res.json())
+          fetch(API_PATH_REPORT).then(res => res.json()),
+          fetch(API_PATH_BRANCH2).then(res => res.json()),
+          fetch(API_PATH_BRANCH3).then(res => res.json())
         ]);
 
-        const allReportData = [...b1Data.reportData, ...b2Data.reportData, ...b3Data.reportData];
+        console.log("Data from API_PATH_REPORT:", b1Data.reportData);
+        console.log("Data from API_PATH_BRANCH2:", b2Data.reportData);
+        console.log("Data from API_PATH_BRANCH3:", b3Data.reportData);
 
+        const allReportData = [...b1Data.reportData, ...b2Data.reportData, ...b3Data.reportData];
         setReportData(allReportData);
 
-        const calculateDataForDateRange = (range, paymentMethod) => {
-          return allReportData
+        console.log("Fetched Report Data:", allReportData);
+
+        const calculateDataForDateRange = (range, paymentMethod) => { // check if allReportData is empty
+          if (allReportData.length === 0) {
+            return { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
+          }
+
+          console.log("Original allReportData:", allReportData);
+
+          const filteredData = allReportData
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
-              const isCorrectApiPath = report.apiPath === "/api/report" || report.apiPath === "/api/BRANCH2/branch2Report" || report.apiPath === "/api/report";
+              const isCorrectApiPath = [API_PATH_REPORT, API_PATH_BRANCH2, API_PATH_BRANCH3].includes(report.apiPath);
 
               switch (range) {
                 case "daily":
@@ -71,39 +87,45 @@ const Dashboard = () => {
                     reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 default:
-                  return isCorrectPaymentMethod;
+                  const passFilter = isCorrectPaymentMethod && isCorrectApiPath;
+                  console.log("Filtered report:", report);
+                  console.log("Pass filter?", passFilter);
+                  return passFilter;
               }
-            })
-            .sort((a, b) => new Date(a.reportDate) - new Date(b.reportDate))
-            .reduce(
-              (acc, report) => {
-                const isCorrectPaymentMethod =
-                  paymentMethod === "all" || report.paymentMethod === paymentMethod;
+            });
 
-                if (isCorrectPaymentMethod) {
-                  acc.totalProfit += report.totalAmount;
-                  acc.customerCount += 1;
+          console.log("Filtered allReportData:", filteredData);
 
+          const calculatedData = filteredData.reduce(
+            (acc, report) => {
+              const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
 
-                  if (report.apiPath === "/api/report") {
-                    acc.b1Profit += report.totalAmount;
-                  } else if (report.apiPath === "/api/BRANCH2/branch2Report") {
-                    acc.b2Profit += report.totalAmount;
-                  } else if (report.apiPath === "/api/BRANCH3/branch3Report") {
-                    acc.b3Profit += report.totalAmount;
-                  }
+              if (isCorrectPaymentMethod) {
+                acc.totalProfit += report.totalAmount;
+                acc.customerCount += 1;
 
-                  if (report.paymentMethod === "GCash") {
-                    acc.gcashProfit += report.totalAmount;
-                  } else if (report.paymentMethod === "Cash") {
-                    acc.cashProfit += report.totalAmount;
-                  }
+                if (report.apiPath === API_PATH_REPORT) {
+                  acc.b1Profit += report.totalAmount;
+                } else if (report.apiPath === API_PATH_BRANCH2) {
+                  acc.b2Profit += report.totalAmount;
+                } else if (report.apiPath === API_PATH_BRANCH3) {
+                  acc.b3Profit += report.totalAmount;
                 }
 
-                return acc;
-              },
-              { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0, }
-            );
+                if (report.paymentMethod === "GCash") {
+                  acc.gcashProfit += report.totalAmount;
+                } else if (report.paymentMethod === "Cash") {
+                  acc.cashProfit += report.totalAmount;
+                }
+              }
+
+              return acc;
+            },
+            { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0, }
+          );
+          console.log("Calculated data:", calculatedData);
+
+          return calculatedData;
         };
 
         // const getWeekNumber = (date) => {
@@ -114,22 +136,15 @@ const Dashboard = () => {
 
         // update state hooks with calculated values based on selected date range
         const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
+        console.log("Calculated Data:", { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit });
+
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
-
-        // setB1Profit(b1Profit("b1Amount"));
-        // setB2Profit(b2Profit("b2Amount"));
-        // setB3Profit(b3Profit("b3Amount"));
-
         setB1Profit(b1Profit);
         setB2Profit(b2Profit);
         setB3Profit(b3Profit);
 
-        console.log("Branch1 Profit:", b1Profit);
-        console.log("Branch2 Profit:", b2Profit);
-        console.log("Branch3 Profit:", b3Profit);
-        console.log("GCash Profit:", gcashProfit);
-        console.log("Cash Profit:", cashProfit);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -138,33 +153,40 @@ const Dashboard = () => {
     fetchData();
   }, [dateRange, paymentMethod]);
 
+  if (isLoading) {
+    return <p>Loading...</p>; // display loading state while fetching data
+  }
+
   const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
 
-  // calculate future dates (4 days ahead) for forecasting
-  const futureDates = Array.from({ length: 4 }, (_, index) => {
-    const date = new Date(lastReportDate);
+  const futureDates = Array.from({ length: 4 }, (_, index) => { // calculate future dates (4 days ahead) for forecasting
+    const date = new Date(lastReportDate.getTime());
     date.setDate(lastReportDate.getDate() + index + 1); // add 1 to skip last date in reportData
     return date;
   });
 
-  // forecast data for calculated future dates
-  const forecastData = futureDates.map(forecastDate => {
+  const forecastData = futureDates.map(forecastDate => { // forecast data for calculated future dates
     const pastReports = reportData;
-    const averageTotalAmount =
-      pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) /
-      (pastReports.length || 1);
+    const averageTotalAmount = pastReports.length > 0
+      ? pastReports.reduce((acc, pastReport) => acc + pastReport.totalAmount, 0) / pastReports.length
+      : 0;
 
     // introduce variability by adding random factor
     const variabilityFactor = Math.random() * 0.2 + 0.9; // adjust range and factor as needed
     const forecastedAmount = averageTotalAmount * variabilityFactor;
+
+    console.log("Variability Factor:", variabilityFactor);
+    console.log("Forecast Data:", forecastedAmount);
+    console.log("Average Total Amount:", averageTotalAmount);
+    console.log("Forecasted Amount:", forecastedAmount);
+    console.log("Past Reports:", pastReports);
+    console.log("Number of Past Reports:", pastReports.length);
 
     return {
       forecastDate: forecastDate.toLocaleDateString(),
       forecastedAmount: forecastedAmount.toFixed(2), // adjust as needed
     };
   });
-
-  console.log("Forecast Data:", forecastData);
 
   return (
     <div className="dashboard-container-owner">
@@ -207,8 +229,9 @@ const Dashboard = () => {
             <MenuItem value="Cash">Cash</MenuItem>
             <MenuItem value="GCash">GCash</MenuItem>
           </Select>
+        </div>
 
-          {/* <Select
+        {/* <Select
             value={customerData}
             onChange={(e) => setCustomerData(e.target.value)}
             style={{
@@ -224,7 +247,6 @@ const Dashboard = () => {
             <MenuItem value="walk-in">Walk-in</MenuItem>
             <MenuItem value="mobile">Mobile</MenuItem>
           </Select> */}
-        </div>
 
         <div className="top-container">
           <div className="counters-container">
@@ -259,7 +281,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData} dateRange={dateRange} />
+                  <ForecastChart forecastData={forecastData || []} dateRange={dateRange} />
                 </Paper>
               </Grid>
             </Grid>
