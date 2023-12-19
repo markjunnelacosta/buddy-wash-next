@@ -453,7 +453,7 @@ const Reports = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div className="pagination">
+          {/* <div className="pagination">
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               <ArrowBackIosRoundedIcon />
             </button>
@@ -464,7 +464,7 @@ const Reports = () => {
             >
               <ArrowForwardIosRoundedIcon />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

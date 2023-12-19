@@ -516,22 +516,41 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     fetchSupplies();
   }, []);
 
+  // const getDetergentSupplies = () => {
+  //   const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
+  //   return detergentSupplies.map((supplies, i) => (
+  //     <option key={i}>{supplies.supplyName}</option>
+  //   ));
+  // };
+
+  // const getConditionerSupplies = () => {
+  //   const conditionerSupplies = filterSuppliesByKeyword(
+  //     supplyData,
+  //     "conditioner"
+  //   );
+  //   return conditionerSupplies.map((supplies, i) => (
+  //     <option key={i}>{supplies.supplyName}</option>
+  //   ));
+  // };
+
   const getDetergentSupplies = () => {
     const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
     return detergentSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
+      <option key={i} value={supplies.supplyName}>
+        {supplies.supplyName} - ₱{supplies.productPrice}
+      </option>
     ));
   };
-
+  
   const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(
-      supplyData,
-      "conditioner"
-    );
+    const conditionerSupplies = filterSuppliesByKeyword(supplyData, "conditioner");
     return conditionerSupplies.map((supplies, i) => (
-      <option key={i}>{supplies.supplyName}</option>
+      <option key={i} value={supplies.supplyName}>
+        {supplies.supplyName} - ₱{supplies.productPrice}
+      </option>
     ));
   };
+  
 
   useEffect(() => {
     const fetchLaundryMode = async () => {
@@ -592,7 +611,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       total += selectedFoldMode.price;
     }
 
-    if (supplyData.length > 0) {
+
       if (detergent && detergentQty) {
         const selectedDetergent = supplyData.find(
           (supply) => supply.supplyName === detergent
@@ -616,14 +635,13 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           );
         }
       }
-    }
 
     setTotalAmount(total);
   };
 
   useEffect(() => {
     calculateTotalAmount();
-  }, [weight, washMode, dryMode, fold]);
+  }, [weight, washMode, dryMode, fold, detergent, detergentQty, fabCon, fabConQty]);
 
   const closeReceipt = () => {
     setLaundryOrderSummary(null);
