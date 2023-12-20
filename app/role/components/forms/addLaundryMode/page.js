@@ -26,6 +26,11 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
             return;
           }
 
+          if (!numberRegex.test(timer)) {
+            alert("Invalid characters in timer. Please enter a valid number.");
+            return;
+          }
+
         console.log(category, modeName, price);
         const response = await fetch("/api/laundry-price", {
             method: "POST",
