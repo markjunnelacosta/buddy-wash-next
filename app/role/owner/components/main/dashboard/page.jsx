@@ -15,9 +15,9 @@ const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
   const [totalProfit, setTotalProfit] = useState(0);
   const [customerCount, setCustomerCount] = useState(0);
-  const [b1Profit, setB1Profit] = useState(0);
-  const [b2Profit, setB2Profit] = useState(0);
-  const [b3Profit, setB3Profit] = useState(0);
+  const [branch1Sales, setBranch1Sales] = useState(0);
+  const [branch2Sales, setBranch2Sales] = useState(0);
+  const [branch3Sales, setBranch3Sales] = useState(0);
   const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
   // const [customerData, setCustomerData] = useState("walk-in");
@@ -41,9 +41,62 @@ const Dashboard = () => {
 
         console.log("Fetched Report Data:", allReportData);
 
+        const calculateBranchSales = (branchData, setBranchSalesSetter, dateRange, paymentMethod) => {
+          const branchTotal = branchData.reportData.reduce((acc, report) => {
+            const reportDate = new Date(report.reportDate);
+            const currentDate = new Date();
+            const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+
+            const isCorrectDateRange = (() => {
+              switch (dateRange) {
+                case "daily":
+                  return (
+                    reportDate.getDate() === currentDate.getDate() &&
+                    reportDate.getMonth() === currentDate.getMonth() &&
+                    reportDate.getFullYear() === currentDate.getFullYear() &&
+                    reportDate.getHours() === currentDate.getHours()
+                  );
+                case "weekly":
+                  const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+                  const startOfWeek = new Date(currentDate);
+                  startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+                  const endOfWeek = new Date(startOfWeek);
+                  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                  return reportDate >= startOfWeek && reportDate <= endOfWeek;
+                case "monthly":
+                  return (
+                    reportDate.getMonth() === currentDate.getMonth() &&
+                    reportDate.getFullYear() === currentDate.getFullYear()
+                  );
+                case "annually":
+                  return reportDate.getFullYear() === currentDate.getFullYear();
+                case "semi-annually":
+                  const halfYear = Math.floor(reportDate.getMonth() / 6);
+                  const currentHalfYear = Math.floor(currentDate.getMonth() / 6);
+                  return (
+                    halfYear === currentHalfYear &&
+                    reportDate.getFullYear() === currentDate.getFullYear()
+                  );
+
+                default:
+                  return true;
+              }
+            })();
+
+            return isCorrectPaymentMethod && isCorrectDateRange ? acc + report.totalAmount : acc;
+          }, 0);
+
+          setBranchSalesSetter(branchTotal);
+        };
+
+        calculateBranchSales(b1Data, setBranch1Sales, dateRange, paymentMethod);
+        calculateBranchSales(b2Data, setBranch2Sales, dateRange, paymentMethod);
+        calculateBranchSales(b3Data, setBranch3Sales, dateRange, paymentMethod);
+
         const calculateDataForDateRange = (range, paymentMethod) => { // check if allReportData is empty
           if (allReportData.length === 0) {
-            return { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
+            return { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
           }
 
           console.log("Original allReportData:", allReportData);
@@ -104,11 +157,11 @@ const Dashboard = () => {
                 acc.customerCount += 1;
 
                 if (report.apiPath === API_PATH_REPORT) {
-                  acc.b1Profit += report.totalAmount;
+                  acc.branch1Sales += report.totalAmount;
                 } else if (report.apiPath === API_PATH_BRANCH2) {
-                  acc.b2Profit += report.totalAmount;
+                  acc.branch2Sales += report.totalAmount;
                 } else if (report.apiPath === API_PATH_BRANCH3) {
-                  acc.b3Profit += report.totalAmount;
+                  acc.branch3Sales += report.totalAmount;
                 }
 
                 if (report.paymentMethod === "GCash") {
@@ -120,7 +173,7 @@ const Dashboard = () => {
 
               return acc;
             },
-            { totalProfit: 0, customerCount: 0, b1Profit: 0, b2Profit: 0, b3Profit: 0, gcashProfit: 0, cashProfit: 0, }
+            { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0, }
           );
           console.log("Calculated data:", calculatedData);
 
@@ -134,14 +187,11 @@ const Dashboard = () => {
         // };
 
         // update state hooks with calculated values based on selected date range
-        const { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
-        console.log("Calculated Data:", { totalProfit, b1Profit, b2Profit, b3Profit, customerCount, gcashProfit, cashProfit });
+        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
+        console.log("Calculated Data:", { totalProfit, customerCount, gcashProfit, cashProfit });
 
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
-        setB1Profit(b1Profit);
-        setB2Profit(b2Profit);
-        setB3Profit(b3Profit);
 
         setIsLoading(false);
       } catch (error) {
@@ -151,10 +201,6 @@ const Dashboard = () => {
 
     fetchData();
   }, [dateRange, paymentMethod]);
-
-  if (isLoading) {
-    return <p>Loading...</p>; // display loading state while fetching data
-  }
 
   const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
 
@@ -252,9 +298,9 @@ const Dashboard = () => {
           <div className="counters-container">
             <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />
             <Counter title="Customers" value={customerCount} />
-            <Counter title="Branch 1 Sales" value={b1Profit.toFixed(2)} currency="₱" />
-            <Counter title="Branch 2 Sales" value={b2Profit.toFixed(2)} currency="₱" />
-            <Counter title="Branch 3 Sales" value={b3Profit.toFixed(2)} currency="₱" />
+            <Counter title="Branch 1 Sales" value={branch1Sales.toFixed(2)} currency="₱" />
+            <Counter title="Branch 2 Sales" value={branch2Sales.toFixed(2)} currency="₱" />
+            <Counter title="Branch 3 Sales" value={branch3Sales.toFixed(2)} currency="₱" />
           </div>
 
           <div className="customers-container">

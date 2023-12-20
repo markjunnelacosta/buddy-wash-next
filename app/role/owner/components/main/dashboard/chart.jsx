@@ -70,9 +70,20 @@ function Chart({ data, dateRange, paymentMethod }) {
     }
   };
 
-  const filteredData = filterDataByPaymentMethod(filterDataByDateRange(data, dateRange), paymentMethod);
+  const filteredData = filterDataByPaymentMethod(
+    filterDataByDateRange(data, dateRange),
+    paymentMethod
+  );
 
   console.log("Filtered Data:", filteredData);
+
+  if (!data.length || !filteredData.length) {
+    return (
+      <Typography variant="body2" color="textSecondary">
+        No data available for the selected criteria.
+      </Typography>
+    );
+  }
 
   return (
     <React.Fragment>
