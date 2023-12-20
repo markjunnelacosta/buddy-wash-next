@@ -19,12 +19,6 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
             alert("Please fill in all required fields.");
             return;
           }
-
-          const nameRegex = /^[a-zA-Z ]+$/;
-          if (!nameRegex.test(modeName)) {
-            alert("Invalid characters in mode name. Please enter a valid name.");
-            return;
-          }
       
           const numberRegex = /^\d+$/;
           if (!numberRegex.test(price)) {
