@@ -29,6 +29,9 @@ const ReportSchema = new Schema({
   },
   paymentMethod: {
     type: String
+  },
+  typeOfCustomer: {
+    type: String
   }
 
 });

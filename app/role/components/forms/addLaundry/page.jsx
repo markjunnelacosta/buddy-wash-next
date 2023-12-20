@@ -293,7 +293,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       detergentQty,
       fabConQty,
       paymentMethod,
-      refNum
+      refNum,
+      totalAmount
     );
 
     calculateTotalAmount();
@@ -343,6 +344,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         reportDate: orderDate,
         totalAmount: totalAmount,
         paymentMethod: paymentMethod,
+        typeOfCustomer: "Walk in"
       }),
     });
     console.log(res);

@@ -400,6 +400,7 @@ const Reports = () => {
                                     <TableCell className='table-cell'>Customer Name</TableCell>
                                     <TableCell className='table-cell'>Total Amount </TableCell>
                                     <TableCell className='table-cell'>Payment Method</TableCell>
+                                    <TableCell className='table-cell'>Type</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -414,6 +415,7 @@ const Reports = () => {
                                             <TableCell className="table-body">{report.customerName}</TableCell>
                                             <TableCell className="table-body">{report.totalAmount}</TableCell>
                                             <TableCell className="table-body">{report.paymentMethod}</TableCell>
+                                            <TableCell className="table-body">{report.typeOfCustomer}</TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
