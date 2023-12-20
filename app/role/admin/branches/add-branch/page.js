@@ -10,6 +10,27 @@ const AddBranch = ({ isOpen, closeAddBranch, onSaveData }) => {
   const [branchNumber, setBranchNumber] = useState("");
 
   const onClick = async () => {
+    if (
+      !branchAddress ||
+      !branchNumber
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!nameRegex.test(branchAddress)) {
+      alert("Invalid characters in branch address. Please enter a valid name.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(branchNumber)) {
+      alert("Invalid characters in branch number. Please enter a valid number.");
+      return;
+    }
+
+
     console.log(branchAddress, branchNumber);
     const response = await fetch("/api/branch", {
       method: "POST",
