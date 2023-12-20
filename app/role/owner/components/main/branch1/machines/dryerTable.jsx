@@ -8,11 +8,49 @@ import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import TableSortLabel from "@mui/material/TableSortLabel";
+
+const API_PATHS = {
+  DRYER: "/api/dryer",
+  // BRANCH2: "/api/BRANCH2/branch2Dryer",
+  // BRANCH3: "/api/BRANCH3/branch3Dryer",
+};
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
   const [newDryer, setNewDryer] = useState("");
   const [inputError, setInputError] = useState("");
+  const [orderBy, setOrderBy] = useState("dryerNumber");
+  const [order, setOrder] = useState("asc");
+  const [currentApiPath, setCurrentApiPath] = useState(API_PATHS.DRYER);
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const descendingComparator = (a, b, orderBy) => {
+    if (b[orderBy] < a[orderBy]) return -1;
+    if (b[orderBy] > a[orderBy]) return 1;
+    return 0;
+  };
 
   const addNewDryer = () => {
     if (isValidInput(newDryer)) {
@@ -26,7 +64,7 @@ function DryerTable() {
           // status: 'Operational',
         };
 
-        fetch("/api/dryer", {
+        fetch(currentApiPath, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -63,11 +101,14 @@ function DryerTable() {
   };
 
   const isNumberRepeated = (number) => {
-    return dryerData.some((dryer) => dryer.dryerNumber === parseInt(number));
+    const inputDryerNumber = parseInt(number);
+    return dryerData.some(
+      (dryer) => dryer.dryerNumber.toString() === inputDryerNumber.toString()
+    );
   };
 
   const fetchData = () => {
-    fetch("/api/dryer", {
+    fetch(currentApiPath, {
       cache: "no-store",
     })
       .then((response) => {
@@ -78,6 +119,9 @@ function DryerTable() {
       })
       .then((data) => {
         setDryerData(data.dryerData || []); // update dryerData state
+
+        const dryerNumbers = data.dryerData.map((dryer) => dryer.dryerNumber);
+        console.log("Dryer numbers in the database:", dryerNumbers);
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
@@ -86,7 +130,7 @@ function DryerTable() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentApiPath]);
 
   return (
     <div>
@@ -153,15 +197,17 @@ function DryerTable() {
               </TableRow>
             </TableHead>
             <tbody>
-              {dryerData
-                .filter((dryer) => dryer.branchNumber == "1")
+              {stableSort(dryerData, getComparator(order, orderBy))
+                // .filter((dryer) => dryer.branchNumber == "1")
                 .map((dryer, index) => (
                   <TableRow key={index}>
-                    <TableCell align="center">{dryer.dryerNumber}</TableCell>
+                    <TableCell align="center">
+                      {dryer.dryerNumber}
+                    </TableCell>
                     <TableCell align="center">
                       {dryer.timer == "00:00" ||
-                      dryer.timer == "0" ||
-                      dryer.timer == "tempValue"
+                        dryer.timer == "0" ||
+                        dryer.timer == "tempValue"
                         ? "Off"
                         : "Running"}
                     </TableCell>
