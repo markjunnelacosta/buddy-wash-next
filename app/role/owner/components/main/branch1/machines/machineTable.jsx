@@ -8,11 +8,49 @@ import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import TableSortLabel from "@mui/material/TableSortLabel";
+
+const API_PATHS = {
+  MACHINE: "/api/machine",
+  // BRANCH2: "/api/BRANCH2/branch2Machine",
+  // BRANCH3: "/api/BRANCH3/branch3Machine",
+};
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [newMachine, setNewMachine] = useState("");
   const [inputError, setInputError] = useState("");
+  const [orderBy, setOrderBy] = useState("machineNumber");
+  const [order, setOrder] = useState("asc");
+  const [currentApiPath, setCurrentApiPath] = useState(API_PATHS.MACHINE);
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const descendingComparator = (a, b, orderBy) => {
+    if (b[orderBy] < a[orderBy]) return -1;
+    if (b[orderBy] > a[orderBy]) return 1;
+    return 0;
+  };
 
   const addNewMachine = () => {
     if (isValidInput(newMachine)) {
@@ -26,7 +64,7 @@ function MachineTable() {
           // status: 'Operational',
         };
 
-        fetch("/api/machine", {
+        fetch(currentApiPath, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +91,7 @@ function MachineTable() {
         setInputError("The number already exists");
       }
     } else {
-      setInputError("Please enter a valid integer between 1 and 25");
+      setInputError("Please enter a valid number between 1 and 25");
     }
   };
 
@@ -63,13 +101,14 @@ function MachineTable() {
   };
 
   const isNumberRepeated = (number) => {
+    const inputMachineNumber = parseInt(number);
     return machineData.some(
-      (machine) => machine.machineNumber === parseInt(number)
+      (machine) => machine.machineNumber.toString() === inputMachineNumber.toString()
     );
   };
 
   const fetchData = () => {
-    fetch("/api/machine", {
+    fetch(currentApiPath, {
       cache: "no-store",
     })
       .then((response) => {
@@ -80,6 +119,9 @@ function MachineTable() {
       })
       .then((data) => {
         setMachineData(data.machineData || []); // update machineData state
+
+        const machineNumbers = data.machineData.map((machine) => machine.machineNumber);
+        console.log("Machine numbers in the database:", machineNumbers);
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
@@ -88,7 +130,7 @@ function MachineTable() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentApiPath]);
 
   return (
     <div>
@@ -155,8 +197,8 @@ function MachineTable() {
               </TableRow>
             </TableHead>
             <tbody>
-              {machineData
-                .filter((machine) => machine.branchNumber == "1")
+              {stableSort(machineData, getComparator(order, orderBy))
+                // .filter((machine) => machine.useClient === "1")
                 .map((machine, index) => (
                   <TableRow key={index}>
                     <TableCell align="center">
@@ -164,8 +206,8 @@ function MachineTable() {
                     </TableCell>
                     <TableCell align="center">
                       {machine.timer == "00:00" ||
-                      machine.timer == "0" ||
-                      machine.timer == "tempValue"
+                        machine.timer == "0" ||
+                        machine.timer == "tempValue"
                         ? "Off"
                         : "Running"}
                     </TableCell>

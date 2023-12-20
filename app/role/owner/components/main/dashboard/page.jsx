@@ -21,7 +21,6 @@ const Dashboard = () => {
   const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
   // const [customerData, setCustomerData] = useState("walk-in");
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -176,7 +175,6 @@ const Dashboard = () => {
     const forecastedAmount = averageTotalAmount * variabilityFactor;
 
     console.log("Variability Factor:", variabilityFactor);
-    console.log("Forecast Data:", forecastedAmount);
     console.log("Average Total Amount:", averageTotalAmount);
     console.log("Forecasted Amount:", forecastedAmount);
     console.log("Past Reports:", pastReports);
@@ -187,6 +185,8 @@ const Dashboard = () => {
       forecastedAmount: forecastedAmount.toFixed(2), // adjust as needed
     };
   });
+
+  console.log("Forecast Data:", forecastData);
 
   return (
     <div className="dashboard-container-owner">

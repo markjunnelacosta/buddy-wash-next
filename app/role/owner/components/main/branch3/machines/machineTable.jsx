@@ -8,11 +8,49 @@ import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import TableSortLabel from "@mui/material/TableSortLabel";
+
+const API_PATHS = {
+  MACHINE: "/api/BRANCH3/branch3Machine",
+  // BRANCH1: "/api/machine",
+  // BRANCH2: "/api/BRANCH2/branch2Machine",
+};
 
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [newMachine, setNewMachine] = useState('');
   const [inputError, setInputError] = useState('');
+  const [orderBy, setOrderBy] = useState("machineNumber");
+  const [order, setOrder] = useState("asc");
+  const [currentApiPath, setCurrentApiPath] = useState(API_PATHS.MACHINE);
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const descendingComparator = (a, b, orderBy) => {
+    if (b[orderBy] < a[orderBy]) return -1;
+    if (b[orderBy] > a[orderBy]) return 1;
+    return 0;
+  };
 
   const addNewMachine = () => {
     if (isValidInput(newMachine)) {
@@ -26,7 +64,7 @@ function MachineTable() {
           // status: 'Operational',
         };
 
-        fetch('/api/machine', {
+        fetch(currentApiPath, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -63,11 +101,14 @@ function MachineTable() {
   };
 
   const isNumberRepeated = (number) => {
-    return machineData.some((machine) => machine.machineNumber === parseInt(number));
+    const inputMachineNumber = parseInt(number);
+    return machineData.some(
+      (machine) => machine.machineNumber.toString() === inputMachineNumber.toString()
+    );
   };
 
   const fetchData = () => {
-    fetch('/api/machine', {
+    fetch(currentApiPath, {
       cache: 'no-store',
     })
       .then((response) => {
@@ -78,6 +119,9 @@ function MachineTable() {
       })
       .then((data) => {
         setMachineData(data.machineData || []); // update machineData state
+
+        const machineNumbers = data.machineData.map((machine) => machine.machineNumber);
+        console.log("Machine numbers in the database:", machineNumbers);
       })
       .catch((error) => {
         console.error('Error fetching machine data:', error);
@@ -86,11 +130,18 @@ function MachineTable() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentApiPath]);
 
   return (
     <div>
-      <div className="add-machine-form" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div
+        className="add-machine-form"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
         <TextField
           label="Washer Number"
           value={newMachine}
@@ -102,7 +153,11 @@ function MachineTable() {
           helperText={inputError}
           onInput={(e) => {
             const inputValue = e.target.value;
-            if (!/^\d*$/.test(inputValue) || inputValue < 1 || inputValue > 25) {
+            if (
+              !/^\d*$/.test(inputValue) ||
+              inputValue < 1 ||
+              inputValue > 25
+            ) {
               e.preventDefault();
             }
           }}
@@ -110,17 +165,18 @@ function MachineTable() {
             maxLength: 2, // maximum 2 digits
           }}
         />
-        <Button variant="outlined" color="primary" onClick={addNewMachine} style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={addNewMachine}
+          style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}
+        >
           Add
         </Button>
       </div>
       <div style={{ height: '400px', overflow: 'auto' }}>
         <TableContainer component={Paper}>
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            size="small"
-          >
+          <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" className="table-header-bold">
@@ -129,9 +185,6 @@ function MachineTable() {
                 <TableCell align="center" className="table-header-bold">
                   Action
                 </TableCell>
-                {/* <TableCell align="center" className="table-header-bold">
-                  Timer
-                </TableCell> */}
                 <TableCell align="center" className="table-header-bold">
                   Queue
                 </TableCell>
@@ -144,22 +197,29 @@ function MachineTable() {
               </TableRow>
             </TableHead>
             <tbody>
-            {machineData
-                .filter((machine) => machine.branchNumber === "3")
+            {stableSort(machineData, getComparator(order, orderBy))
+                // .filter((machine) => machine.branchNumber === "3")
                 .map((machine, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{machine.machineNumber}</TableCell>
-                  <TableCell align="center">
-                    {machine.action === 'Running' ? 'Running' : 'Off'}
-                  </TableCell>
-                  {/* <TableCell align="center">{machine.timer}</TableCell> */}
-                  <TableCell align="center">{machine.queue}</TableCell>
-                  <TableCell align="center">{machine.useCount}</TableCell>
-                  <TableCell align="center">
-                    {machine.status === 'Operational' ? 'Operational' : 'Under Maintenance'}
-                  </TableCell>
-                </TableRow>
-              ))}
+                  <TableRow key={index}>
+                    <TableCell align="center">
+                      {machine.machineNumber}
+                    </TableCell>
+                    <TableCell align="center">
+                      {machine.timer == "00:00" ||
+                        machine.timer == "0" ||
+                        machine.timer == "tempValue"
+                        ? "Off"
+                        : "Running"}
+                    </TableCell>
+                    <TableCell align="center">{machine.queue}</TableCell>
+                    <TableCell align="center">{machine.useCount}</TableCell>
+                    <TableCell align="center">
+                      {machine.status === 'Operational'
+                        ? 'Operational'
+                        : 'Under Maintenance'}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </tbody>
           </Table>
         </TableContainer>
