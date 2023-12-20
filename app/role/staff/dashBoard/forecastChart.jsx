@@ -11,8 +11,10 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function ForecastChart({ forecastData, dateRange }) {
+function ForecastChart({ forecastData, dateRange, paymentMethod }) {
   const theme = useTheme();
+
+  console.log("ForecastChart Component Rendered");
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -29,14 +31,17 @@ function ForecastChart({ forecastData, dateRange }) {
           return (
             forecastDate.getDate() === currentDate.getDate() &&
             forecastDate.getMonth() === currentDate.getMonth() &&
-            forecastDate.getFullYear() === currentDate.getFullYear()
+            forecastDate.getFullYear() === currentDate.getFullYear() &&
+            forecastDate.getHours() === currentDate.getHours()
           );
         case "weekly":
-          const firstDayOfWeek = new Date(currentDate);
-          const dayOfWeek = currentDate.getDay();
-          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
-          firstDayOfWeek.setDate(diff);
-          return forecastDate >= firstDayOfWeek && forecastDate <= currentDate;
+          const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+          const startOfWeek = new Date(currentDate);
+          startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+          return forecastDate >= startOfWeek && forecastDate <= endOfWeek;
         case "monthly":
           return (
             forecastDate.getMonth() === currentDate.getMonth() &&
@@ -57,9 +62,28 @@ function ForecastChart({ forecastData, dateRange }) {
     });
   };
 
-  const filteredForecastData = filterForecastDataByDateRange(forecastData, dateRange);
+  const filterForecastDataByPaymentMethod = (data, method) => {
+    if (method === "all") {
+      return data;
+    } else {
+      return data.filter((report) => report.paymentMethod === method);
+    }
+  };
+
+  const filteredForecastData = filterForecastDataByPaymentMethod(
+    filterForecastDataByDateRange(forecastData, dateRange),
+    paymentMethod
+  );
 
   console.log("Filtered Forecast Data:", filteredForecastData);
+
+  if (!forecastData.length || !filteredForecastData.length) {
+    return (
+      <Typography variant="body2" color="textSecondary">
+        No forecast data available for the selected criteria.
+      </Typography>
+    );
+  }
 
   return (
     <React.Fragment>
