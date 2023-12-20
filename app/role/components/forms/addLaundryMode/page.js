@@ -11,6 +11,27 @@ const AddLaundryMode = ({ isOpen, onClose, onSaveData }) => {
     const [showTimerInput, setShowTimerInput] = useState(false);
 
     const onClick = async () => {
+        if (
+            !category ||
+            !modeName ||
+            !price
+          ) { 
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          const nameRegex = /^[a-zA-Z ]+$/;
+          if (!nameRegex.test(modeName)) {
+            alert("Invalid characters in mode name. Please enter a valid name.");
+            return;
+          }
+      
+          const numberRegex = /^\d+$/;
+          if (!numberRegex.test(price)) {
+            alert("Invalid characters in price. Please enter a valid number.");
+            return;
+          }
+
         console.log(category, modeName, price);
         const response = await fetch("/api/laundry-price", {
             method: "POST",
