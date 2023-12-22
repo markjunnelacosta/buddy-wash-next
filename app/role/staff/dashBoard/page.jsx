@@ -4,7 +4,7 @@ import "./Dashboard.css";
 import { Grid, Paper } from "@mui/material";
 import Counter from "./Counter";
 import Chart from "./Chart";
-import ForecastChart from "./ForecastChart";
+import ForecastChart from "./forecastChart";
 import { Select, MenuItem } from '@mui/material';
 
 const Dashboard = () => {
