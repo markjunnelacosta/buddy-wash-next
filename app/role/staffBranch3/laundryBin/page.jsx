@@ -43,7 +43,7 @@ const LaundryBin = () => {
   const [dryerData, setDryerData] = useState([]);
 
   const fetchMachines = () => {
-    fetch("/api/machine", {
+    fetch("/api/BRANCH3/branch3Machine", {
       cache: "no-store",
     })
       .then((response) => {
@@ -54,9 +54,7 @@ const LaundryBin = () => {
       })
       .then((data) => {
         console.log();
-        setMachineData(
-          data.machineData.filter((m) => m.branchNumber == "3") || []
-        ); // Update machineData state
+        setMachineData(data.machineData); // Update machineData state
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
@@ -68,7 +66,7 @@ const LaundryBin = () => {
   }, []);
   console.log("********machine data", machineData);
   const fetchDryer = () => {
-    fetch("/api/dryer", {
+    fetch("/api/BRANCH3/branch3Dryer", {
       cache: "no-store",
     })
       .then((response) => {
@@ -79,7 +77,7 @@ const LaundryBin = () => {
       })
       .then((data) => {
         console.log();
-        setDryerData(data.dryerData.filter((d) => d.branchNumber == "3") || []); // Update dryer state
+        setDryerData(data.dryerData); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
@@ -216,13 +214,16 @@ const LaundryBin = () => {
 
   const updateMachineTimer = async (selectedMachine, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
-      method: "PATCH",
-      body: JSON.stringify({ timer: date }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH3/branch3Machine?id=${selectedMachine}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ timer: date }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("Machine timer updated successfully");
@@ -233,13 +234,16 @@ const LaundryBin = () => {
     // console.log("Start Time:", getOrderStartTime(selectedMachine));
   };
   const updateMachineLastUsedTime = async (selectedMachine, date) => {
-    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
-      method: "PATCH",
-      body: JSON.stringify({ lastUsed: date }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH3/branch3Machine?id=${selectedMachine}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ lastUsed: date }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("Machine timer updated successfully");
@@ -252,7 +256,7 @@ const LaundryBin = () => {
 
   const updateDryerTimer = async (selectedDryer, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+    const res = await fetch(`/api/BRANCH3/branch3Dryer?id=${selectedDryer}`, {
       method: "PATCH",
       body: JSON.stringify({ timer: date }),
       headers: {
@@ -271,7 +275,7 @@ const LaundryBin = () => {
 
   const updateDryerLastUsedTime = async (selectedDryer, date) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
-    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+    const res = await fetch(`/api/BRANCH3/branch3Dryer?id=${selectedDryer}`, {
       method: "PATCH",
       body: JSON.stringify({ lastUsed: date }),
       headers: {
@@ -339,13 +343,16 @@ const LaundryBin = () => {
     return machineTimer[index].dryerStartTime;
   };
   const updateUseCountMachine = async (selectedMachine, useCount) => {
-    const res = await fetch(`/api/machine?id=${selectedMachine}`, {
-      method: "PATCH",
-      body: JSON.stringify({ useCount: useCount + 1 }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH3/branch3Machine?id=${selectedMachine}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ useCount: useCount + 1 }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   const getCountDownTimer = (orderId) => {
@@ -400,7 +407,7 @@ const LaundryBin = () => {
     window.location.reload();
   };
   const updateUseCountDryer = async (selectedDryer, useCount) => {
-    const res = await fetch(`/api/dryer?id=${selectedDryer}`, {
+    const res = await fetch(`/api/BRANCH3/branch3Dryer?id=${selectedDryer}`, {
       method: "PATCH",
       body: JSON.stringify({ useCount: useCount + 1 }),
       headers: {
