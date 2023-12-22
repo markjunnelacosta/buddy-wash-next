@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function ForecastChart({ forecastData, dateRange, paymentMethod }) {
+function ForecastChart({ forecastData, dateRange, paymentMethod, typeOfCustomer }) {
   const theme = useTheme();
 
   console.log("ForecastChart Component Rendered");
@@ -31,8 +31,7 @@ function ForecastChart({ forecastData, dateRange, paymentMethod }) {
           return (
             forecastDate.getDate() === currentDate.getDate() &&
             forecastDate.getMonth() === currentDate.getMonth() &&
-            forecastDate.getFullYear() === currentDate.getFullYear() &&
-            forecastDate.getHours() === currentDate.getHours()
+            forecastDate.getFullYear() === currentDate.getFullYear()
           );
         case "weekly":
           const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
@@ -70,9 +69,20 @@ function ForecastChart({ forecastData, dateRange, paymentMethod }) {
     }
   };
 
-  const filteredForecastData = filterForecastDataByPaymentMethod(
-    filterForecastDataByDateRange(forecastData, dateRange),
-    paymentMethod
+  const filterForecastDataByTypeOfCustomer = (forecastData, method) => {
+    if (method === "both") {
+      return forecastData;
+    } else {
+      return forecastData.filter((forecast) => forecast.typeOfCustomer === method);
+    }
+  };
+
+  const filteredForecastData = filterForecastDataByTypeOfCustomer(
+    filterForecastDataByPaymentMethod(
+      filterForecastDataByDateRange(forecastData, dateRange),
+      paymentMethod
+    ),
+    typeOfCustomer
   );
 
   console.log("Filtered Forecast Data:", filteredForecastData);

@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [customerCount, setCustomerCount] = useState(0);
   const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
-  // const [customerData, setCustomerData] = useState("walk-in");
+  const [typeOfCustomer, setTypeOfCustomer] = useState("both");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,12 +23,13 @@ const Dashboard = () => {
 
         setReportData(data.reportData);
 
-        const calculateDataForDateRange = (range, paymentMethod) => {
+        const calculateDataForDateRange = (range, paymentMethod, typeOfCustomer) => {
           return data.reportData
             .filter((report) => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              const isCorrectTypeOfCustomer = typeOfCustomer === "both" || report.typeOfCustomer === typeOfCustomer;
 
               switch (range) {
                 case "daily":
@@ -38,13 +39,13 @@ const Dashboard = () => {
                     reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 case "weekly":
-                  const firstDayOfWeek = new Date(currentDate);
-                  const dayOfWeek = currentDate.getDay();
-                  const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
-                  firstDayOfWeek.setDate(diff);
-                  return (
-                    reportDate >= firstDayOfWeek && reportDate <= currentDate
-                  );
+                  const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+                  const startOfWeek = new Date(currentDate);
+                  startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+                  const endOfWeek = new Date(startOfWeek);
+                  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                  return reportDate >= startOfWeek && reportDate <= endOfWeek;
                 case "monthly":
                   return (
                     reportDate.getMonth() === currentDate.getMonth() &&
@@ -60,15 +61,15 @@ const Dashboard = () => {
                     reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 default:
-                  return isCorrectPaymentMethod;
+                  return isCorrectPaymentMethod && isCorrectTypeOfCustomer;
               }
             })
             .reduce(
               (acc, report) => {
-                const isCorrectPaymentMethod =
-                  paymentMethod === "all" || report.paymentMethod === paymentMethod;
+                const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+                const isCorrectTypeOfCustomer = typeOfCustomer === "both" || report.typeOfCustomer === typeOfCustomer;
 
-                if (isCorrectPaymentMethod) {
+                if (isCorrectPaymentMethod && isCorrectTypeOfCustomer) {
                   acc.totalProfit += report.totalAmount;
                   acc.customerCount += 1;
                 }
@@ -92,7 +93,9 @@ const Dashboard = () => {
         // };
 
         // Update state hooks with calculated values based on the selected date range
-        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
+        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod, typeOfCustomer);
+        console.log("Calculated Data:", { totalProfit, customerCount, gcashProfit, cashProfit });
+        
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
 
@@ -104,7 +107,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [dateRange, paymentMethod]);
+  }, [dateRange, paymentMethod, typeOfCustomer]);
 
   const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
 
@@ -176,9 +179,9 @@ const Dashboard = () => {
             <MenuItem value="GCash">GCash</MenuItem>
           </Select>
 
-          {/* <Select
-            value={customerData}
-            onChange={(e) => setCustomerData(e.target.value)}
+          <Select
+            value={typeOfCustomer}
+            onChange={(e) => setTypeOfCustomer(e.target.value)}
             style={{
               backgroundColor: "white",
               color: "black",
@@ -189,10 +192,13 @@ const Dashboard = () => {
             }}
           >
             <MenuItem disabled>Select Customer Data</MenuItem>
-            <MenuItem value="walk-in">Walk-in</MenuItem>
-            <MenuItem value="mobile">Mobile</MenuItem>
-          </Select> */}
+            <MenuItem value="both">All Customers</MenuItem>
+            <MenuItem value="Walk in">Walk-in</MenuItem>
+            <MenuItem value="Mobile">Mobile</MenuItem>
+          </Select>
+
         </div>
+
         <div className="top-container">
           <div className="counters-container">
             <Counter title="Sales" value={totalProfit.toFixed(2)} currency="₱" />
@@ -210,7 +216,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} />
+                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} typeOfCustomer={typeOfCustomer} />
                 </Paper>
               </Grid>
 
@@ -223,7 +229,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData} dateRange={dateRange} paymentMethod={paymentMethod} />
+                  <ForecastChart forecastData={forecastData} dateRange={dateRange} paymentMethod={paymentMethod} typeOfCustomer={typeOfCustomer} />
                 </Paper>
               </Grid>
             </Grid>

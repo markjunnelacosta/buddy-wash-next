@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [branch3Sales, setBranch3Sales] = useState(0);
   const [dateRange, setDateRange] = useState("annually");
   const [paymentMethod, setPaymentMethod] = useState("all");
-  // const [customerData, setCustomerData] = useState("walk-in");
+  const [typeOfCustomer, setTypeOfCustomer] = useState("both");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -41,11 +41,12 @@ const Dashboard = () => {
 
         console.log("Fetched Report Data:", allReportData);
 
-        const calculateBranchSales = (branchData, setBranchSalesSetter, dateRange, paymentMethod) => {
+        const calculateBranchSales = (branchData, setBranchSalesSetter, dateRange, paymentMethod, typeOfCustomer) => {
           const branchTotal = branchData.reportData.reduce((acc, report) => {
             const reportDate = new Date(report.reportDate);
             const currentDate = new Date();
             const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+            const isCorrectTypeOfCustomer = typeOfCustomer === "both" || report.typeOfCustomer === typeOfCustomer;
 
             const isCorrectDateRange = (() => {
               switch (dateRange) {
@@ -53,8 +54,7 @@ const Dashboard = () => {
                   return (
                     reportDate.getDate() === currentDate.getDate() &&
                     reportDate.getMonth() === currentDate.getMonth() &&
-                    reportDate.getFullYear() === currentDate.getFullYear() &&
-                    reportDate.getHours() === currentDate.getHours()
+                    reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 case "weekly":
                   const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
@@ -84,17 +84,17 @@ const Dashboard = () => {
               }
             })();
 
-            return isCorrectPaymentMethod && isCorrectDateRange ? acc + report.totalAmount : acc;
+            return isCorrectPaymentMethod && isCorrectTypeOfCustomer && isCorrectDateRange ? acc + report.totalAmount : acc;
           }, 0);
 
           setBranchSalesSetter(branchTotal);
         };
 
-        calculateBranchSales(b1Data, setBranch1Sales, dateRange, paymentMethod);
-        calculateBranchSales(b2Data, setBranch2Sales, dateRange, paymentMethod);
-        calculateBranchSales(b3Data, setBranch3Sales, dateRange, paymentMethod);
+        calculateBranchSales(b1Data, setBranch1Sales, dateRange, paymentMethod, typeOfCustomer);
+        calculateBranchSales(b2Data, setBranch2Sales, dateRange, paymentMethod, typeOfCustomer);
+        calculateBranchSales(b3Data, setBranch3Sales, dateRange, paymentMethod. typeOfCustomer);
 
-        const calculateDataForDateRange = (range, paymentMethod) => { // check if allReportData is empty
+        const calculateDataForDateRange = (range, paymentMethod, typeOfCustomer) => { // check if allReportData is empty
           if (allReportData.length === 0) {
             return { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
           }
@@ -106,6 +106,7 @@ const Dashboard = () => {
               const reportDate = new Date(report.reportDate);
               const currentDate = new Date();
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              const isCorrectTypeOfCustomer = typeOfCustomer === "both" || report.typeOfCustomer === typeOfCustomer;
               const isCorrectApiPath = [API_PATH_REPORT, API_PATH_BRANCH2, API_PATH_BRANCH3].includes(report.apiPath);
 
               switch (range) {
@@ -113,8 +114,7 @@ const Dashboard = () => {
                   return (
                     reportDate.getDate() === currentDate.getDate() &&
                     reportDate.getMonth() === currentDate.getMonth() &&
-                    reportDate.getFullYear() === currentDate.getFullYear() &&
-                    reportDate.getHours() === currentDate.getHours()
+                    reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 case "weekly":
                   const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
@@ -139,7 +139,7 @@ const Dashboard = () => {
                     reportDate.getFullYear() === currentDate.getFullYear()
                   );
                 default:
-                  const passFilter = isCorrectPaymentMethod && isCorrectApiPath;
+                  const passFilter = isCorrectPaymentMethod && isCorrectApiPath && isCorrectTypeOfCustomer;
                   console.log("Filtered report:", report);
                   console.log("Pass filter?", passFilter);
                   return passFilter;
@@ -151,8 +151,9 @@ const Dashboard = () => {
           const calculatedData = filteredData.reduce(
             (acc, report) => {
               const isCorrectPaymentMethod = paymentMethod === "all" || report.paymentMethod === paymentMethod;
+              const isCorrectTypeOfCustomer = typeOfCustomer === "both" || report.typeOfCustomer === typeOfCustomer;
 
-              if (isCorrectPaymentMethod) {
+              if (isCorrectPaymentMethod && isCorrectTypeOfCustomer) {
                 acc.totalProfit += report.totalAmount;
                 acc.customerCount += 1;
 
@@ -186,7 +187,7 @@ const Dashboard = () => {
         // };
 
         // update state hooks with calculated values based on selected date range
-        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod);
+        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod, typeOfCustomer);
         console.log("Calculated Data:", { totalProfit, customerCount, gcashProfit, cashProfit });
 
         setTotalProfit(totalProfit);
@@ -199,7 +200,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [dateRange, paymentMethod]);
+  }, [dateRange, paymentMethod, typeOfCustomer]);
 
   const lastReportDate = new Date(Math.max(...reportData.map(report => new Date(report.reportDate))));
 
@@ -274,11 +275,10 @@ const Dashboard = () => {
             <MenuItem value="Cash">Cash</MenuItem>
             <MenuItem value="GCash">GCash</MenuItem>
           </Select>
-        </div>
 
-        {/* <Select
-            value={customerData}
-            onChange={(e) => setCustomerData(e.target.value)}
+          <Select
+            value={typeOfCustomer}
+            onChange={(e) => setTypeOfCustomer(e.target.value)}
             style={{
               backgroundColor: "white",
               color: "black",
@@ -290,9 +290,11 @@ const Dashboard = () => {
           >
             <MenuItem disabled>Select Customer Data</MenuItem>
             <MenuItem value="both">All Customers</MenuItem>
-            <MenuItem value="walk-in">Walk-in</MenuItem>
-            <MenuItem value="mobile">Mobile</MenuItem>
-          </Select> */}
+            <MenuItem value="Walk in">Walk in</MenuItem>
+            <MenuItem value="Mobile">Mobile</MenuItem>
+          </Select>
+
+        </div>
 
         <div className="top-container">
           <div className="counters-container">
@@ -314,7 +316,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} />
+                  <Chart data={reportData} dateRange={dateRange} paymentMethod={paymentMethod} typeOfCustomer={typeOfCustomer} />
                 </Paper>
               </Grid>
 
@@ -327,7 +329,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData} dateRange={dateRange} paymentMethod={paymentMethod} />
+                  <ForecastChart forecastData={forecastData} dateRange={dateRange} paymentMethod={paymentMethod} typeOfCustomer={typeOfCustomer} />
                 </Paper>
               </Grid>
             </Grid>

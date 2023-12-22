@@ -62,8 +62,7 @@ const calculateDataForDateRange = (data, dateRange) => {
           if (
             reportDate.getDate() === currentDate.getDate() &&
             reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear() &&
-            reportDate.getHours() === currentDate.getHours()
+            reportDate.getFullYear() === currentDate.getFullYear()
           ) {
             acc.push(report);
           }
@@ -204,7 +203,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                   </TableCell>
                 </TableRow>
               )}
-              {reportData.length > 0 && reportData
+              {reportData
                 // .filter((report) => report.branchNumber === "b3")
                 .slice(
                   (currentPage - 1) * entriesPerPage,

@@ -85,11 +85,13 @@ const filterDataByPeriod = (data, selectedDataPeriod) => {
                     }
                     break;
                 case "weekly":
-                    const firstDayOfWeek = new Date(currentDate);
-                    const dayOfWeek = currentDate.getDay();
-                    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when the day is Sunday
-                    firstDayOfWeek.setDate(diff);
-                    if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
+                    const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+                    const startOfWeek = new Date(currentDate);
+                    startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+                    const endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                    if (reportDate >= startOfWeek && reportDate <= endOfWeek) {
                         acc.push(report);
                     }
                     break;
@@ -237,13 +239,14 @@ const Reports = () => {
                 pdf.setFontSize(10);
                 pdf.text('This report contains detailed information about transactions of the business.', 20, 45); //specify branch based on account
 
-                const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+                const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
                 const rows = filteredData
                     .map((report) => [
                         new Date(report.reportDate).toLocaleDateString(),
                         report.customerName,
                         report.totalAmount,
                         report.paymentMethod,
+                        report.typeOfCustomer,
                     ]);
 
                 pdf.autoTable({
@@ -272,23 +275,36 @@ const Reports = () => {
     };
 
     const handleExportToExcel = () => {
-        try {
-            const table = tableRef.current;
+    try {
+      const table = tableRef.current;
 
-            if (!table) {
-                console.error("Table reference not found");
-                return;
-            }
+      if (!table) {
+        console.error("Table reference not found");
+        return;
+      }
 
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.table_to_sheet(table);
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.table_to_sheet(table);
+      const filteredRows = filteredData.map((report) => [
+        new Date(report.reportDate).toLocaleDateString(),
+        report.customerName,
+        report.totalAmount,
+        report.paymentMethod,
+        report.typeOfCustomer,
+      ]);
 
-            XLSX.writeFile(wb, 'table.xlsx');
-        } catch (error) {
-            console.error("Error exporting to Excel:", error);
-        }
-    };
+      const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
+      filteredRows.unshift(header);
+
+      XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      XLSX.writeFile(wb, 'table.xlsx');
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
+    }
+  };
 
     return (
         <div className="reports-container">

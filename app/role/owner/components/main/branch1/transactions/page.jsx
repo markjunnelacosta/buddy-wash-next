@@ -66,7 +66,7 @@ function Transactions() {
         pdf.setFontSize(10);
         pdf.text('This report contains detailed information about transactions from Branch 1.', 20, 45);
 
-        const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+        const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
         const rows = filteredData
           // .filter((report) => report.branchNumber === "b1")
           .map((report) => [
@@ -74,6 +74,7 @@ function Transactions() {
             report.customerName,
             report.totalAmount,
             report.paymentMethod,
+            report.typeOfCustomer,
           ]);
 
         pdf.autoTable({
@@ -117,9 +118,10 @@ function Transactions() {
         report.customerName,
         report.totalAmount,
         report.paymentMethod,
+        report.typeOfCustomer,
       ]);
 
-      const header = ["Dates", "Customer Name", "Total Amount", "Payment Method"];
+      const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
       filteredRows.unshift(header);
 
       XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });

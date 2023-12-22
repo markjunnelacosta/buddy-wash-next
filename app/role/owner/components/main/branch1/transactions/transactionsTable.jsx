@@ -62,8 +62,7 @@ const calculateDataForDateRange = (data, dateRange) => {
           if (
             reportDate.getDate() === currentDate.getDate() &&
             reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear() &&
-            reportDate.getHours() === currentDate.getHours()
+            reportDate.getFullYear() === currentDate.getFullYear()
           ) {
             acc.push(report);
           }
@@ -149,14 +148,14 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
       const response = await res.json();
       const laundryData = response.laundryData || [];
 
-      // find the selected order in laundryData based on report data
+      // find the selected order in laundryData based on the report data
       const selectedOrder = laundryData.find((order) => order._id === order._id);
 
       setSelectedOrder(selectedOrder);
       setReceiptModalOpen(true);
-
+      
     } catch (error) {
-      console.log("Error loading orders: ", error);
+      console.error("Error loading orders: ", error);
     }
   };
 

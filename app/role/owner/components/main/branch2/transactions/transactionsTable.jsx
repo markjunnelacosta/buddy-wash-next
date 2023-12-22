@@ -62,8 +62,7 @@ const calculateDataForDateRange = (data, dateRange) => {
           if (
             reportDate.getDate() === currentDate.getDate() &&
             reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear() &&
-            reportDate.getHours() === currentDate.getHours()
+            reportDate.getFullYear() === currentDate.getFullYear()
           ) {
             acc.push(report);
           }

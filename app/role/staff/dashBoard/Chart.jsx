@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 
-function Chart({ data, dateRange, paymentMethod }) {
+function Chart({ data, dateRange, paymentMethod, typeOfCustomer }) {
   const theme = useTheme();
 
   console.log("Chart Component Rendered");
@@ -31,8 +31,7 @@ function Chart({ data, dateRange, paymentMethod }) {
           return (
             reportDate.getDate() === currentDate.getDate() &&
             reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear() &&
-            reportDate.getHours() === currentDate.getHours()
+            reportDate.getFullYear() === currentDate.getFullYear()
           );
         case "weekly":
           const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
@@ -70,9 +69,20 @@ function Chart({ data, dateRange, paymentMethod }) {
     }
   };
 
-  const filteredData = filterDataByPaymentMethod(
-    filterDataByDateRange(data, dateRange),
-    paymentMethod
+  const filterDataByTypeOfCustomer = (data, method) => {
+    if (method === "both") {
+      return data;
+    } else {
+      return data.filter((report) => report.typeOfCustomer === method);
+    }
+  };
+
+  const filteredData = filterDataByTypeOfCustomer(
+    filterDataByPaymentMethod(
+      filterDataByDateRange(data, dateRange),
+      paymentMethod
+    ),
+    typeOfCustomer
   );
 
   console.log("Filtered Data:", filteredData);
