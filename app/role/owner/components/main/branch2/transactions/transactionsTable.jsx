@@ -62,17 +62,20 @@ const calculateDataForDateRange = (data, dateRange) => {
           if (
             reportDate.getDate() === currentDate.getDate() &&
             reportDate.getMonth() === currentDate.getMonth() &&
-            reportDate.getFullYear() === currentDate.getFullYear()
+            reportDate.getFullYear() === currentDate.getFullYear() &&
+            reportDate.getHours() === currentDate.getHours()
           ) {
             acc.push(report);
           }
           break;
         case "weekly":
-          const firstDayOfWeek = new Date(currentDate);
-          const dayOfWeek = currentDate.getDay();
-          const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is Sunday
-          firstDayOfWeek.setDate(diff);
-          if (reportDate >= firstDayOfWeek && reportDate <= currentDate) {
+          const daysSinceStartOfWeek = (currentDate.getDay() + 6) % 7; // calculate days since start of the week
+          const startOfWeek = new Date(currentDate);
+          startOfWeek.setDate(currentDate.getDate() - daysSinceStartOfWeek);
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+          if (reportDate >= startOfWeek && reportDate <= endOfWeek) {
             acc.push(report);
           }
           break;

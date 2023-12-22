@@ -289,6 +289,7 @@ const Dashboard = () => {
             }}
           >
             <MenuItem disabled>Select Customer Data</MenuItem>
+            <MenuItem value="both">All Customers</MenuItem>
             <MenuItem value="walk-in">Walk-in</MenuItem>
             <MenuItem value="mobile">Mobile</MenuItem>
           </Select> */}
