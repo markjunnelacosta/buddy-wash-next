@@ -21,8 +21,8 @@ function ForecastChart({ forecastData, dateRange, paymentMethod }) {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const filterForecastDataByDateRange = (data, range) => {
-    return data.filter((forecast) => {
+  const filterForecastDataByDateRange = (forecastData, range) => {
+    return forecastData.filter((forecast) => {
       const forecastDate = new Date(forecast.forecastDate);
       const currentDate = new Date();
 
@@ -62,11 +62,11 @@ function ForecastChart({ forecastData, dateRange, paymentMethod }) {
     });
   };
 
-  const filterForecastDataByPaymentMethod = (data, method) => {
+  const filterForecastDataByPaymentMethod = (forecastData, method) => {
     if (method === "all") {
-      return data;
+      return forecastData;
     } else {
-      return data.filter((report) => report.paymentMethod === method);
+      return forecastData.filter((forecast) => forecast.paymentMethod === method);
     }
   };
 
