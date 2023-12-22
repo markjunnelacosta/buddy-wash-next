@@ -8,7 +8,7 @@ import Receipt from "app/role/staff/laundryBin/orderSummary.jsx";
 
 export const getReport = async () => {
   try {
-    const res = await fetch("/api/report", {
+    const res = await fetch("/api/BRANCH3/branch3Report", {
       cache: "no-store",
     });
 
@@ -25,7 +25,7 @@ export const getReport = async () => {
 
 export const getFilteredReport = async (dateFrom, dateTo, dateRange) => {
   try {
-    const res = await fetch("/api/report", {
+    const res = await fetch("/api/BRANCH3/branch3Report", {
       cache: "no-store",
     });
 
