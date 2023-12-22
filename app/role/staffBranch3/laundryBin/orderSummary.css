@@ -1,0 +1,91 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: aliceblue;
+}
+#text {
+  margin: 0px;
+  margin-left: 10px;
+  font-size: 10px;
+  font-family: "Courier New", monospace;
+}
+#h6 {
+  margin: 2px;
+  font-family: "Courier New", monospace;
+  font-weight: bolder;
+}
+.container-receipt {
+  background-color: #54BCBC;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  flex-direction: column;
+}
+
+.receipt-box {
+  border: solid black 2px;
+  padding: 20px;
+  width: 250px;
+  background-color: white;
+}
+.header {
+  margin: 0px;
+  padding-bottom: 10px;
+  border-bottom: solid black 2px;
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
+.with-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.download-button {
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: white;
+  margin-left: 5px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-button {
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: white;
+  margin-left: 5px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buttons {
+  margin-left: 80px;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+}
+
+#receipt {
+  text-align: center;
+  margin: 0;
+  font-family: "Courier New", monospace;
+}
+
+#asterisk {
+  margin: 0;
+  padding: 0;
+}
