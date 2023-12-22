@@ -60,16 +60,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(
-          data.machineData.filter(
-            (m) => m.branchNumber == "1" || m.branchNumber == 1
-          )
-        );
-        setMachineData(
-          data.machineData.filter(
-            (m) => m.branchNumber == "1" || m.branchNumber == 1
-          ) || []
-        ); // Update machineData state
+        console.log(data.machineData);
+        setMachineData(data.machineData); // Update machineData state
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
@@ -165,16 +157,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(
-          data.dryerData.filter(
-            (d) => d.branchNumber == "1" || d.branchNumber == 1
-          )
-        );
-        setDryerData(
-          data.dryerData.filter(
-            (d) => d.branchNumber == "1" || d.branchNumber == 1
-          ) || []
-        ); // Update dryer state
+        console.log(data.dryerData);
+        setDryerData(data.dryerData); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
@@ -344,7 +328,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         reportDate: orderDate,
         totalAmount: totalAmount,
         paymentMethod: paymentMethod,
-        typeOfCustomer: "Walk in"
+        typeOfCustomer: "Walk in",
       }),
     });
     console.log(res);
@@ -543,16 +527,18 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       </option>
     ));
   };
-  
+
   const getConditionerSupplies = () => {
-    const conditionerSupplies = filterSuppliesByKeyword(supplyData, "conditioner");
+    const conditionerSupplies = filterSuppliesByKeyword(
+      supplyData,
+      "conditioner"
+    );
     return conditionerSupplies.map((supplies, i) => (
       <option key={i} value={supplies.supplyName}>
         {supplies.supplyName} - ₱{supplies.productPrice}
       </option>
     ));
   };
-  
 
   useEffect(() => {
     const fetchLaundryMode = async () => {
@@ -613,37 +599,45 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       total += selectedFoldMode.price;
     }
 
-
-      if (detergent && detergentQty) {
-        const selectedDetergent = supplyData.find(
-          (supply) => supply.supplyName === detergent
-        );
-        if (selectedDetergent && selectedDetergent.productPrice) {
-          total += parseInt(detergentQty, 10) * +selectedDetergent.productPrice;
-        } else {
-          console.error("Invalid detergent data or productPrice is missing");
-        }
+    if (detergent && detergentQty) {
+      const selectedDetergent = supplyData.find(
+        (supply) => supply.supplyName === detergent
+      );
+      if (selectedDetergent && selectedDetergent.productPrice) {
+        total += parseInt(detergentQty, 10) * +selectedDetergent.productPrice;
+      } else {
+        console.error("Invalid detergent data or productPrice is missing");
       }
+    }
 
-      if (fabCon && fabConQty) {
-        const selectedFabCon = supplyData.find(
-          (supply) => supply.supplyName === fabCon
+    if (fabCon && fabConQty) {
+      const selectedFabCon = supplyData.find(
+        (supply) => supply.supplyName === fabCon
+      );
+      if (selectedFabCon && selectedFabCon.productPrice) {
+        total += parseInt(fabConQty, 10) * +selectedFabCon.productPrice;
+      } else {
+        console.error(
+          "Invalid fabric conditioner data or productPrice is missing"
         );
-        if (selectedFabCon && selectedFabCon.productPrice) {
-          total += parseInt(fabConQty, 10) * +selectedFabCon.productPrice;
-        } else {
-          console.error(
-            "Invalid fabric conditioner data or productPrice is missing"
-          );
-        }
       }
+    }
 
     setTotalAmount(total);
   };
 
   useEffect(() => {
     calculateTotalAmount();
-  }, [weight, washMode, dryMode, fold, detergent, detergentQty, fabCon, fabConQty]);
+  }, [
+    weight,
+    washMode,
+    dryMode,
+    fold,
+    detergent,
+    detergentQty,
+    fabCon,
+    fabConQty,
+  ]);
 
   const closeReceipt = () => {
     setLaundryOrderSummary(null);
