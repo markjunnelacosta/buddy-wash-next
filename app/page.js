@@ -77,8 +77,10 @@ export default function Home() {
             case "staff":
               if (data.selectedBranch === "Branch 1") {
                 router.push("/role/staff/dashBoard");
-              } else {
+              } else if (data.selectedBranch === "Branch 1") {
                 router.push("/role/staffBranch2/dashBoard");
+              } else {
+                router.push("/role/staffBranch3/dashBoard");
               }
               break;
             default:
