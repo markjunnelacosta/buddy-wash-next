@@ -17,7 +17,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const getSupplies = async () => {
   try {
-    const res = await fetch("/api/supply", {
+    const res = await fetch("/api/BRANCH3/branch3Supply", {
       cache: "no-store",
     });
 
@@ -36,7 +36,8 @@ const getSupplies = async () => {
 const SupplyTable = () => {
   const [supplies, setSupplies] = React.useState([]);
   const [selectedSupply, setSelectedSupply] = useState(null);
-  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] = useState(false);
+  const [isUpdateSupplyPopupVisible, setUpdateSupplyPopupVisible] =
+    useState(false);
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -65,7 +66,6 @@ const SupplyTable = () => {
     setUpdateSupplyPopupVisible(false); // hide popup
   };
 
-
   React.useEffect(() => {
     const fetchSupplies = async () => {
       try {
@@ -85,7 +85,7 @@ const SupplyTable = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/supply", {
+      const res = await fetch("/api/BRANCH3/branch3Supply", {
         cache: "no-store",
       });
 
@@ -104,7 +104,6 @@ const SupplyTable = () => {
   const handleSaveData = () => {
     fetchData();
   };
-
 
   return (
     <>
@@ -144,7 +143,9 @@ const SupplyTable = () => {
                       <TableCell align="center" component="th" scope="row">
                         {supply.supplyName}
                       </TableCell>
-                      <TableCell align="center">{supply.productPrice}</TableCell>
+                      <TableCell align="center">
+                        {supply.productPrice}
+                      </TableCell>
                       <TableCell align="center">
                         <Button
                           variant="outlined"
@@ -166,10 +167,7 @@ const SupplyTable = () => {
           <ArrowBackIosRoundedIcon />
         </button>
         <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
           <ArrowForwardIosRoundedIcon />
         </button>
       </div>
