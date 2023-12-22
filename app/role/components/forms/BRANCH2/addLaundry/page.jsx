@@ -50,7 +50,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   var time = hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + ampm;
   var dateTime = date + " (" + time + ")";
   const fetchMachines = () => {
-    fetch("/api/machine", {
+    fetch("/api/BRANCH2/branch2Machine", {
       cache: "no-store",
     })
       .then((response) => {
@@ -60,10 +60,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.machineData.filter((m) => m.branchNumber == "2"));
-        setMachineData(
-          data.machineData.filter((m) => m.branchNumber == "2") || []
-        ); // Update machineData state
+        console.log(data.machineData);
+        setMachineData(data.machineData); // Update machineData state
       })
       .catch((error) => {
         console.error("Error fetching machine data:", error);
@@ -78,13 +76,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const updateMachineTimer = async (selectedMachine, assignTime) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const currDate = new Date();
-    const res = await fetch(`/api/machine?id=${selectedMachine._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ timer: "tempValue" }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH2/branch2Machine?id=${selectedMachine._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ timer: "tempValue" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("Machine timer updated successfully");
@@ -97,13 +98,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const updateMachineLastUsed = async (selectedMachine, assignTime) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     const currDate = new Date();
-    const res = await fetch(`/api/machine?id=${selectedMachine._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ lastUsed: assignTime }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH2/branch2Machine?id=${selectedMachine._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ lastUsed: assignTime }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("Machine timer updated successfully");
@@ -149,7 +153,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   };
 
   const fetchDryer = () => {
-    fetch("/api/dryer", {
+    fetch("/api/BRANCH2/branch2Dryer", {
       cache: "no-store",
     })
       .then((response) => {
@@ -159,16 +163,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(
-          data.dryerData.filter(
-            (d) => d.branchNumber == "2" || d.branchNumber == 2
-          )
-        );
-        setDryerData(
-          data.dryerData.filter(
-            (d) => d.branchNumber == "2" || d.branchNumber == 2
-          ) || []
-        ); // Update dryer state
+        console.log(data.dryerData);
+        setDryerData(data.dryerData); // Update dryer state
       })
       .catch((error) => {
         console.error("Error fetching dryer data:", error);
@@ -183,13 +179,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const updateDryerTimer = async (availableDryer) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     // const currDate = new Date();
-    const res = await fetch(`/api/dryer?id=${availableDryer._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ timer: "tempValue" }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH2/branch2Dryer?id=${availableDryer._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ timer: "tempValue" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("dryer timer updated successfully");
@@ -202,13 +201,16 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const updateDryerLastUsed = async (availableDryer, assignTime) => {
     // /************DITO ILALAGAY ANG PAG PATCH NG TIMER SA DB
     // const currDate = new Date();
-    const res = await fetch(`/api/dryer?id=${availableDryer._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ lastUsed: assignTime }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `/api/BRANCH2/branch2Dryer?id=${availableDryer._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ lastUsed: assignTime }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (res.ok) {
       console.log("dryer timer updated successfully");
