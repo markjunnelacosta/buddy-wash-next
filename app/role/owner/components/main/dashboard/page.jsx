@@ -175,7 +175,6 @@ const Dashboard = () => {
             },
             { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0, }
           );
-          console.log("Calculated data:", calculatedData);
 
           return calculatedData;
         };
@@ -327,7 +326,7 @@ const Dashboard = () => {
                     height: 230,
                   }}
                 >
-                  <ForecastChart forecastData={forecastData || []} dateRange={dateRange} />
+                  <ForecastChart forecastData={forecastData} dateRange={dateRange} paymentMethod={paymentMethod} />
                 </Paper>
               </Grid>
             </Grid>

@@ -4,7 +4,6 @@
   display: flex;
   height: 89.5vh;
   float: right;
-  justify-content: space-between;
 }
 
 .button-container {
@@ -23,14 +22,19 @@
 }
 
 .machineTableContainer {
-  /* background-color: white; */
-  margin-right: 10px;
-  overflow: auto;
+  background-color: white;
+  margin: 0px 10px 20px 0px;
+  padding: 5px;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .dryerTable-container {
-  /* background-color: white; */
-  overflow: auto;
+  background-color: white;
+  margin: 0px 10px 20px 0px;
+  padding: 5px;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .top {
@@ -43,9 +47,43 @@
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  /* overflow: auto; */
+  overflow: auto;
 }
 
 .table-header-bold {
   font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  /* Add some spacing from the table */
+}
+
+.pagination button {
+  background-color: #A9DDDD;
+  color: white;
+  border: 0px solid #A9DDDD;
+  padding: 1px 0px;
+  margin: 0 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.pagination button svg {
+  width: 15px;
+  height: 15px;
+  margin: 0 auto;
+}
+
+.pagination button:hover {
+  background-color: #526c74;
+}
+
+.pagination span {
+  font-size: 12px;
 }
