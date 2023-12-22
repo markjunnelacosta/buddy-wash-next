@@ -86,8 +86,8 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setStartTime(newValue);
 
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
-            setStartTimeError('Please enter a valid date in the format YYYY-MM-DD');
+        if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(newValue)) {
+            setStartTimeError('Please enter a valid date and time in the format DD-MMM-YYYY HH:mm');
         } else {
             setStartTimeError('');
         }
@@ -97,8 +97,8 @@ export default function AddVoucher() {
         const newValue = e.target.value;
         setEndTime(newValue);
 
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(newValue)) {
-            setEndTimeError('Please enter a valid date in the format YYYY-MM-DD');
+        if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(newValue)) {
+            setEndTimeError('Please enter a valid date and time in the format DD-MMM-YYYY HH:mm');
         } else {
             setEndTimeError('');
         }
@@ -118,12 +118,12 @@ export default function AddVoucher() {
     const generateRandomCode = () => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let randomCode = '';
-    
+
         for (let i = 0; i < 6; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
             randomCode += characters.charAt(randomIndex);
         }
-    
+
         setVoucherCode(randomCode);
     };
 
@@ -272,7 +272,7 @@ export default function AddVoucher() {
                             <div className="start-time">
                                 <p>Start Time</p>
                                 <TextField
-                                    type="date"
+                                    type="datetime-local"
                                     value={startTime}
                                     onChange={handleStartTimeChange}
                                     error={!!startTimeError}
@@ -282,7 +282,7 @@ export default function AddVoucher() {
                             <div className="end-time">
                                 <p>End Time</p>
                                 <TextField
-                                    type="date"
+                                    type="datetime-local"
                                     value={endTime}
                                     onChange={handleEndTimeChange}
                                     error={!!endTimeError}

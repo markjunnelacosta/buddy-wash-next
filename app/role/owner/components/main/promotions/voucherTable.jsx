@@ -46,7 +46,7 @@ const formatCurrency = (value, currencySymbol) => {
 };
 
 const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    const options = { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", };
     const formattedDate = new Date(dateString).toLocaleDateString("en-US", options);
     return formattedDate;
 };
