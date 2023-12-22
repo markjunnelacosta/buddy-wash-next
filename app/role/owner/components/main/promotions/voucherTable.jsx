@@ -14,6 +14,7 @@ import EditVoucherPopup from "./editButton";
 import RemoveButton from "./removeButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { Typography } from "@mui/material";
 
 const getVouchers = async () => {
     try {
@@ -179,6 +180,15 @@ const VoucherTable = (voucherFilter) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {filteredVouchers.length === 0 && (
+                                <TableRow>
+                                    <TableCell colSpan={9} align="center">
+                                        <Typography variant="body2" color="textSecondary">
+                                            No voucher data available for the selected criteria.
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
                             {filteredVouchers
                                 .slice(
                                     (currentPage - 1) * entriesPerPage,
