@@ -15,6 +15,7 @@ export default function Home() {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [remainingTime, setRemainingTime] = useState(120);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const router = useRouter();
 
@@ -87,6 +88,7 @@ export default function Home() {
               router.push("/");
               break;
           }
+          setButtonClicked(true);
           localStorage.removeItem("loginAttempts");
           localStorage.removeItem("isTimerActive");
           localStorage.removeItem("remainingTime");
@@ -181,10 +183,14 @@ export default function Home() {
                 id="login-button"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ 
+                  mt: 3, 
+                  mb: 2 ,
+                  backgroundColor: buttonClicked ? "#87b5e0" : "#4b9ae3",
+                }}
                 onClick={onClick}
               >
-                Login
+                {buttonClicked ? "Logging in" : "Login"}
               </Button>
               {error && <div className="error-message">{error}</div>}
             </Box>
