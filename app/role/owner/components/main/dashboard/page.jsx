@@ -9,7 +9,7 @@ import { Select, MenuItem } from '@mui/material';
 
 const API_PATH_REPORT = "/api/report";
 const API_PATH_BRANCH2 = "/api/BRANCH2/branch2Report";
-const API_PATH_BRANCH3 = "/api/report";
+const API_PATH_BRANCH3 = "/api/BRANCH3/branch3Report";
 
 const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
