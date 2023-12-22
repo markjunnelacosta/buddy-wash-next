@@ -5,6 +5,7 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import Receipt from "app/role/staff/laundryBin/orderSummary.jsx";
 // import { getFilteredReport } from './role/owner/components/main/branch1/transactions/page.jsx';
+import { Typography } from "@mui/material";
 
 export const getReport = async () => {
   try {
@@ -132,9 +133,28 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
     }
   };
 
-  const openReceiptModal = (order) => {
-    setSelectedOrder(order);
-    setReceiptModalOpen(true);
+  const openReceiptModal = async (order) => {
+    try {
+      const res = await fetch("/api/BRANCH3/branch3LaundryBin", {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+
+      const response = await res.json();
+      const laundryData = response.laundryData || [];
+
+      // find the selected order in laundryData based on report data
+      const selectedOrder = laundryData.find((order) => order._id === order._id);
+
+      setSelectedOrder(selectedOrder);
+      setReceiptModalOpen(true);
+
+    } catch (error) {
+      console.log("Error loading orders: ", error);
+    }
   };
 
   useEffect(() => {
@@ -167,11 +187,21 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Customer Name</TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Total Amount</TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Payment Method</TableCell>
+                <TableCell align="center" style={{ fontWeight: "bold" }}>Type</TableCell>
                 <TableCell align="center" style={{ fontWeight: "bold" }}>Receipt</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {reportData
+              {reportData.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    <Typography variant="body2" color="textSecondary">
+                      No report data available for the selected criteria.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
+              {reportData.length > 0 && reportData
                 // .filter((report) => report.branchNumber === "b3")
                 .slice(
                   (currentPage - 1) * entriesPerPage,
@@ -183,6 +213,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                     <TableCell align="center">{report.customerName}</TableCell>
                     <TableCell align="center">{report.totalAmount}</TableCell>
                     <TableCell align="center">{report.paymentMethod}</TableCell>
+                    <TableCell align="center">{report.typeOfCustomer}</TableCell>
                     <TableCell align="center">
                       <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(report)}>View</Button>
                     </TableCell>

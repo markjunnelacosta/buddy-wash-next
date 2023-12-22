@@ -10,7 +10,6 @@ import * as XLSX from 'xlsx';
 import { getFilteredReport } from './transactionsTable';
 import AddTransactions from './transactionsTable';
 
-
 function Transactions() {
   const tableRef = useRef(null);
   const [dateFrom, setDateFrom] = useState('');
@@ -110,7 +109,7 @@ function Transactions() {
         console.error("Table reference not found");
         return;
       }
-      
+
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.table_to_sheet(table);
       const filteredRows = filteredData.map((report) => [
@@ -124,9 +123,9 @@ function Transactions() {
       filteredRows.unshift(header);
 
       XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });
-  
+
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  
+
       XLSX.writeFile(wb, 'table.xlsx');
     } catch (error) {
       console.error("Error exporting to Excel:", error);

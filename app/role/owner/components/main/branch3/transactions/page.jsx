@@ -10,8 +10,6 @@ import * as XLSX from 'xlsx';
 import { getFilteredReport } from './transactionsTable';
 import AddTransactions from './transactionsTable';
 
-
-
 function Transactions() {
   const tableRef = useRef(null);
   const [dateFrom, setDateFrom] = useState('');
