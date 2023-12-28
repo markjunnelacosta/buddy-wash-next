@@ -502,23 +502,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     fetchSupplies();
   }, []);
 
-  // const getDetergentSupplies = () => {
-  //   const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
-  //   return detergentSupplies.map((supplies, i) => (
-  //     <option key={i}>{supplies.supplyName}</option>
-  //   ));
-  // };
-
-  // const getConditionerSupplies = () => {
-  //   const conditionerSupplies = filterSuppliesByKeyword(
-  //     supplyData,
-  //     "conditioner"
-  //   );
-  //   return conditionerSupplies.map((supplies, i) => (
-  //     <option key={i}>{supplies.supplyName}</option>
-  //   ));
-  // };
-
   const getDetergentSupplies = () => {
     const detergentSupplies = filterSuppliesByKeyword(supplyData, "detergent");
     return detergentSupplies.map((supplies, i) => (
@@ -773,7 +756,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                     value="Cash"
                     checked={paymentMethod === "Cash"}
                     onChange={(e) => setPaymentMethod(e.currentTarget.value)}
-                  />{" "}
+                  />
                   Cash
                   <input
                     id="radiob"
@@ -784,6 +767,15 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                     onChange={(e) => setPaymentMethod(e.currentTarget.value)}
                   />
                   Gcash
+                  <input
+                    id="radiob"
+                    type="radio"
+                    name="paymentMethod"
+                    value="PayMaya"
+                    checked={paymentMethod === "PayMaya"}
+                    onChange={(e) => setPaymentMethod(e.currentTarget.value)}
+                  />
+                  PayMaya
                 </div>
               </div>
             </div>
