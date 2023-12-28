@@ -45,6 +45,7 @@ const Users = () => {
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const [isUpdateUserPopupVisible, setUpdateUserPopupVisible] = useState(false);
 
+
   const totalPages = Math.ceil(userData.length / entriesPerPage);
   const startRange = (currentPage - 1) * entriesPerPage + 1;
   const endRange = Math.min(currentPage * entriesPerPage, userData.length);
@@ -88,7 +89,9 @@ const Users = () => {
     const fetchUser = async () => {
       try {
         const users = await getUsers();
-        setUserData(users);
+        const sortedUsers = users.slice().sort((a, b) => a.userName.localeCompare(b.userName));
+        
+        setUserData(sortedUsers);
       } catch (error) {
         console.error("Error fetching user:", error);
       }

@@ -62,7 +62,8 @@ const MobileUser = () => {
     const fetchMobileUSers = async () => {
       try {
         const mobileUsers = await getMobileUsers();
-        setMobileUserData(mobileUsers);
+        const sortedMobileUsers = mobileUsers.slice().sort((a, b) => a.firstName.localeCompare(b.firstName));
+        setMobileUserData(sortedMobileUsers);
       } catch (error) {
         console.error("Error fetching mobile users:", error);
       }
