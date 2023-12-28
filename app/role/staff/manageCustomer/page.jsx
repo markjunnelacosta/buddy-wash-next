@@ -80,8 +80,8 @@ function ManageCustomer() {
     const fetchCustomers = async () => {
       try {
         const customerData = await getCustomers();
-
-        setCustomers(customerData);
+        const sortedCustomer = customerData.slice().sort((a, b) => a.customerName.localeCompare(b.customerName));
+        setCustomers(sortedCustomer);
       } catch (error) {
         console.error("Error fetching customers:", error);
       }

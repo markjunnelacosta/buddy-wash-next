@@ -62,6 +62,13 @@ export default function AddCustomer() {
     setOpen(false);
   };
 
+  const handlePhoneNumberChange = (e) => {
+    const input = e.currentTarget.value;
+    // Limit the input to a maximum of 11 characters
+    const limitedInput = input.slice(0, 11);
+    setCustomerNumber(limitedInput);
+  };
+
   return (
     <div>
       <Button
@@ -100,7 +107,7 @@ export default function AddCustomer() {
                 <input
                   className="text-box"
                   value={customerNumber}
-                  onChange={(e) => setCustomerNumber(e.currentTarget.value)}
+                  onChange={handlePhoneNumberChange}
                 ></input>
               </div>
             </div>
