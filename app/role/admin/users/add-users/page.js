@@ -61,6 +61,14 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
     onClose();
   };
 
+  const handlePhoneNumberChange = (e) => {
+    const input = e.currentTarget.value;
+    // Limit the input to a maximum of 11 characters
+    const limitedInput = input.slice(0, 11);
+    setPhoneNumber(limitedInput);
+  };
+
+
   useEffect(() => {
     const fetchBranch = async () => {
       try {
@@ -128,7 +136,7 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
                 <input
                   type="text"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                  onChange={handlePhoneNumberChange}
                 ></input>
                 <p>Position</p>
                  <select
