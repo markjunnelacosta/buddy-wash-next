@@ -144,7 +144,7 @@ const AdminPage = ({ isOpen, onClose, onSaveData }) => {
                   onChange={(e) => setUserRole(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="admin">Admin</option>
+                  <option value="admin">Manager</option>
                   <option value="staff">Staff</option>
                   <option value="owner">Owner</option>
                 </select>
