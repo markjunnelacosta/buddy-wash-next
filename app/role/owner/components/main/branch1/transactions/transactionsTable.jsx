@@ -109,7 +109,7 @@ const calculateDataForDateRange = (data, dateRange) => {
       return acc;
     },
     []
-  );
+  ).sort((a, b) => a.customerName.localeCompare(b.customerName));
 };
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
@@ -153,7 +153,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
 
       setSelectedOrder(selectedOrder);
       setReceiptModalOpen(true);
-      
+
     } catch (error) {
       console.error("Error loading orders: ", error);
     }

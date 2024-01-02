@@ -54,6 +54,7 @@ const Staff = () => {
     const fetchBranchStaff = async () => {
       try {
         const branchStaff = await getBranchStaff();
+        const sortedBranchStaff = branchStaff.sort((a, b) => a.staffName.localeCompare(b.staffName));
         setBranchStaffData(branchStaff);
       } catch (error) {
         console.error("Error fetching report:", error);

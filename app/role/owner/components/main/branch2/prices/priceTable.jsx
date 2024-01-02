@@ -69,6 +69,9 @@ const SupplyTable = () => {
     const fetchSupplies = async () => {
       try {
         const suppliesData = await getSupplies();
+        const sortedSupplies = suppliesData.sort((a, b) =>
+          a.supplyName.localeCompare(b.supplyName)
+        );
         setSupplies(suppliesData);
       } catch (error) {
         console.error("Error fetching supplies:", error);

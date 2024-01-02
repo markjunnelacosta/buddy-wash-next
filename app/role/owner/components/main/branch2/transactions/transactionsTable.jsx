@@ -109,7 +109,7 @@ const calculateDataForDateRange = (data, dateRange) => {
       return acc;
     },
     []
-  );
+  ).sort((a, b) => a.customerName.localeCompare(b.customerName));
 };
 
 const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
