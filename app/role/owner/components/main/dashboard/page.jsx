@@ -96,7 +96,7 @@ const Dashboard = () => {
 
         const calculateDataForDateRange = (range, paymentMethod, typeOfCustomer) => { // check if allReportData is empty
           if (allReportData.length === 0) {
-            return { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
+            return { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, mayaProfit: 0, gcashProfit: 0, cashProfit: 0 }; // handle the case when there is no report data
           }
 
           console.log("Original allReportData:", allReportData);
@@ -169,12 +169,14 @@ const Dashboard = () => {
                   acc.gcashProfit += report.totalAmount;
                 } else if (report.paymentMethod === "Cash") {
                   acc.cashProfit += report.totalAmount;
+                } else if (report.paymentMethod === "Maya") {
+                  acc.mayaProfit += report.totalAmount;
                 }
               }
 
               return acc;
             },
-            { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, gcashProfit: 0, cashProfit: 0, }
+            { totalProfit: 0, customerCount: 0, branch1Sales: 0, branch2Sales: 0, branch3Sales: 0, mayaProfit: 0, gcashProfit: 0, cashProfit: 0, }
           );
 
           return calculatedData;
@@ -187,8 +189,8 @@ const Dashboard = () => {
         // };
 
         // update state hooks with calculated values based on selected date range
-        const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod, typeOfCustomer);
-        console.log("Calculated Data:", { totalProfit, customerCount, gcashProfit, cashProfit });
+        const { totalProfit, customerCount, mayaProfit, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod, typeOfCustomer);
+        console.log("Calculated Data:", { totalProfit, customerCount, mayaProfit, gcashProfit, cashProfit });
 
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
@@ -274,6 +276,7 @@ const Dashboard = () => {
             <MenuItem value="all">All Payments</MenuItem>
             <MenuItem value="Cash">Cash</MenuItem>
             <MenuItem value="GCash">GCash</MenuItem>
+            <MenuItem value="Maya">Maya</MenuItem>
           </Select>
 
           <Select
