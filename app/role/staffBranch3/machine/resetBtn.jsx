@@ -1,5 +1,3 @@
-// for each Machine, get the date & use count tappos ipost sa machine reports table
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -20,7 +18,7 @@ const Reset = () => {
   var dateTime = date;
 
   const fetchMachines = () => {
-    fetch("/api/machine", {
+    fetch("/api/BRANCH3/branch3Machine", {
       cache: "no-store",
     })
       .then((response) => {
@@ -30,7 +28,7 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const mData = data.machineData.filter((m) => m.branchNumber == 3) || [];
+        const mData = data.machineData || [];
         setMachineData(mData);
 
         // Update machine state
@@ -58,7 +56,7 @@ const Reset = () => {
   console.log("********machine data", machineData);
 
   const fetchDryer = () => {
-    fetch("/api/dryer", {
+    fetch("/api/BRANCH3/branch3Dryer", {
       cache: "no-store",
     })
       .then((response) => {
@@ -68,7 +66,7 @@ const Reset = () => {
         return response.json();
       })
       .then((data) => {
-        const dData = data.dryerData.filter((d) => d.branchNumber == 3) || [];
+        const dData = data.dryerData || [];
         setDryerData(dData);
         const dryerUseCount = [];
         dData.forEach((d) => {
@@ -92,7 +90,7 @@ const Reset = () => {
   }, []);
   console.log("********dryer data", dryerData);
 
-  const postMachineData = async () => {
+  const postMachineData = () => {
     machineInfo.forEach(async (m) => {
       const response = await fetch("/api/BRANCH3/branch3MachineReport", {
         method: "POST",
@@ -108,7 +106,7 @@ const Reset = () => {
     });
   };
 
-  const postDryerData = async () => {
+  const postDryerData = () => {
     dryerInfo.forEach(async (d) => {
       const response = await fetch("/api/BRANCH3/branch3DryerReport", {
         method: "POST",
@@ -124,9 +122,9 @@ const Reset = () => {
     });
   };
 
-  const patchMachineUseCount = async () => {
+  const patchMachineUseCount = () => {
     machineData.forEach(async (m) => {
-      const res = await fetch(`/api/machine?id=${m._id}`, {
+      const res = await fetch(`/api/BRANCH3/branch3Machine?id=${m._id}`, {
         method: "PATCH",
         body: JSON.stringify({ useCount: +0 }),
         headers: {
@@ -137,9 +135,9 @@ const Reset = () => {
     });
   };
 
-  const patchDryerUseCount = async () => {
-    dryerData.forEach(async (m) => {
-      const res = await fetch(`/api/dryer?id=${m._id}`, {
+  const patchDryerUseCount = () => {
+    dryerData.forEach(async (d) => {
+      const res = await fetch(`/api/BRANCH3/branch3Dryer?id=${d._id}`, {
         method: "PATCH",
         body: JSON.stringify({ useCount: +0 }),
         headers: {
@@ -147,14 +145,14 @@ const Reset = () => {
         },
       });
       console.log("UseCount is updated");
+      window.location.reload();
     });
   };
-
   const onReset = async () => {
-    await patchDryerUseCount();
-    await patchMachineUseCount();
-    await postMachineData();
-    await postDryerData();
+    postMachineData();
+    postDryerData();
+    patchMachineUseCount();
+    patchDryerUseCount();
   };
 
   return (
@@ -170,11 +168,9 @@ const Reset = () => {
         borderRadius: "10px",
       }}
       variant="contained"
-      // onClick={onReset}
       onClick={onReset}
-      href="/role/staffBranch3/machine"
+      // href="/role/staff/machine"
     >
-      {" "}
       Reset Machines
     </Button>
   );
