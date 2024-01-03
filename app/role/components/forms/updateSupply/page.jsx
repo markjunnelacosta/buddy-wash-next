@@ -50,6 +50,10 @@ export default function UpdateSupply({
     if (supplyNameError || productPriceError) {
       return; // Don't submit if there are input errors
     }
+    if (!newSupplyName || !newProductPrice) {
+      alert("Please fill in all required fields.");
+      return;
+    }
 
     try {
       const res = await fetch(`/api/supply/${id}`, {

@@ -14,6 +14,7 @@ import EditSupplyPopup from "./editButton";
 import RemoveButton from "./removeButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { Typography } from "@mui/material";
 
 const getSupplies = async () => {
   try {
@@ -133,6 +134,15 @@ const SupplyTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {supplies.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={3} align="center">
+                    <Typography variant="body2" color="textSecondary">
+                      No staff data available for the selected branch.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
               {supplies.length > 0 &&
                 supplies
                   .slice(

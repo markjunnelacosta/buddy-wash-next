@@ -18,7 +18,7 @@ export default function AddSupply() {
   const handleSupplyNameChange = (e) => {
     const newValue = e.target.value;
     setSupplyName(newValue);
-    
+
     if (!/^[a-zA-Z\s]*$/.test(newValue)) {
       setSupplyNameError('Please enter valid characters (letters and spaces)');
     } else {
@@ -29,7 +29,7 @@ export default function AddSupply() {
   const handleProductPriceChange = (e) => {
     const newValue = e.target.value;
     setProductPrice(newValue);
-    
+
     if (!/^\d*\.?\d*$/.test(newValue)) {
       setProductPriceError('Please enter valid numbers');
     } else {
@@ -40,6 +40,10 @@ export default function AddSupply() {
   const onClickSave = async () => {
     if (supplyNameError || productPriceError) {
       return; // Don't submit if there are input errors
+    }
+    if (!supplyName || !productPrice) {
+      alert("Please fill in all required fields.");
+      return;
     }
 
     const response = await fetch("/api/supply", {

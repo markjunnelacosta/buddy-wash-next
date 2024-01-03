@@ -14,6 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { Typography } from "@mui/material";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
@@ -125,7 +126,7 @@ const filterDataByPeriod = (data, selectedDataPeriod) => {
             return acc;
         },
         []
-    );
+    ).sort((a, b) => a.customerName.localeCompare(b.customerName));
 };
 
 const Reports = () => {
@@ -159,7 +160,7 @@ const Reports = () => {
 
     const handleFilter = async () => {
         try {
-            const filteredData = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
+            const filteredData = await getFilteredReport(dateFrom, dateTo);
             if (filteredData.length === 0) {
                 console.log("No records found for the specified period.");
             } else {
@@ -180,21 +181,21 @@ const Reports = () => {
     useEffect(() => {
         const fetchReport = async () => {
             try {
-                const report = await getReport();
-                setReportData(report);
+                if (filteredData.length > 0) {
+                    setReportData(filteredData);
+                } else {
+                    console.log("Effect triggered with dateFrom:", dateFrom, "and dateTo:", dateTo, "and dataPeriod:", selectedDataPeriod);
+                    const report = await getFilteredReport(dateFrom, dateTo, selectedDataPeriod);
+                    console.log("Fetched report data:", report);
+                    setReportData(report);
+                }
             } catch (error) {
-                console.error("Error fetching report:", error);
+                console.error("Error fetching transactions:", error);
             }
         };
 
         fetchReport();
-    }, []);
-
-    useEffect(() => {
-        if (dateFrom && dateTo) {
-            handleFilter();
-        }
-    }, [selectedDataPeriod]);
+    }, [dateFrom, dateTo, selectedDataPeriod, filteredData]);
 
     const handleExportToPDF = async () => {
         try {
@@ -275,36 +276,36 @@ const Reports = () => {
     };
 
     const handleExportToExcel = () => {
-    try {
-      const table = tableRef.current;
+        try {
+            const table = tableRef.current;
 
-      if (!table) {
-        console.error("Table reference not found");
-        return;
-      }
+            if (!table) {
+                console.error("Table reference not found");
+                return;
+            }
 
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.table_to_sheet(table);
-      const filteredRows = filteredData.map((report) => [
-        new Date(report.reportDate).toLocaleDateString(),
-        report.customerName,
-        report.totalAmount,
-        report.paymentMethod,
-        report.typeOfCustomer,
-      ]);
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(table);
+            const filteredRows = filteredData.map((report) => [
+                new Date(report.reportDate).toLocaleDateString(),
+                report.customerName,
+                report.totalAmount,
+                report.paymentMethod,
+                report.typeOfCustomer,
+            ]);
 
-      const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
-      filteredRows.unshift(header);
+            const header = ["Dates", "Customer Name", "Total Amount", "Payment Method", "Type"];
+            filteredRows.unshift(header);
 
-      XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });
+            XLSX.utils.sheet_add_aoa(ws, filteredRows.slice(1), { origin: 'A2' });
 
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'table.xlsx');
-    } catch (error) {
-      console.error("Error exporting to Excel:", error);
-    }
-  };
+            XLSX.writeFile(wb, 'table.xlsx');
+        } catch (error) {
+            console.error("Error exporting to Excel:", error);
+        }
+    };
 
     return (
         <div className="reports-container">
@@ -420,6 +421,15 @@ const Reports = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                {reportData.length === 0 && (
+                                    <TableRow>
+                                        <TableCell colSpan={6} align="center">
+                                            <Typography variant="body2" color="textSecondary">
+                                                No report data available for the selected criteria.
+                                            </Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
                                 {reportData && reportData
                                     .slice(
                                         (currentPage - 1) * entriesPerPage,
