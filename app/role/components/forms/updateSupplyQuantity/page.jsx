@@ -91,7 +91,7 @@ export default function UpdateSupply() {
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(quantity)) {
       alert(
-        "Invalid characters in Detergent Qty. Please enter a valid number."
+        "Invalid characters. Please enter a valid number."
       );
       return;
     }
