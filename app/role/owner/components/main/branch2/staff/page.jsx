@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-
+import { Typography } from "@mui/material";
 
 const getBranchStaff = async () => {
   try {
@@ -96,6 +96,15 @@ const Staff = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {branchStaffData.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={4} align="center">
+                        <Typography variant="body2" color="textSecondary">
+                          No staff data available for the selected branch.
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {branchStaffData
                     .slice(
                       (currentPage - 1) * entriesPerPage,

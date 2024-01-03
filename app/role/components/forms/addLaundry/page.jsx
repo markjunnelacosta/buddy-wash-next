@@ -771,11 +771,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
                     id="radiob"
                     type="radio"
                     name="paymentMethod"
-                    value="PayMaya"
-                    checked={paymentMethod === "PayMaya"}
+                    value="Maya"
+                    checked={paymentMethod === "Maya"}
                     onChange={(e) => setPaymentMethod(e.currentTarget.value)}
                   />
-                  PayMaya
+                  Maya
                 </div>
               </div>
             </div>

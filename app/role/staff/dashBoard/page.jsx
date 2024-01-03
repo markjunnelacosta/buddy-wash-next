@@ -78,11 +78,13 @@ const Dashboard = () => {
                   acc.gcashProfit += report.totalAmount;
                 } else if (report.paymentMethod === "Cash") {
                   acc.cashProfit += report.totalAmount;
+                } else if (report.paymentMethod === "Maya") {
+                  acc.mayaProfit += report.totalAmount;
                 }
 
                 return acc;
               },
-              { totalProfit: 0, customerCount: 0, gcashProfit: 0, cashProfit: 0, }
+              { totalProfit: 0, customerCount: 0, mayaProfit: 0, gcashProfit: 0, cashProfit: 0, }
             );
         };
 
@@ -95,7 +97,7 @@ const Dashboard = () => {
         // Update state hooks with calculated values based on the selected date range
         const { totalProfit, customerCount, gcashProfit, cashProfit, } = calculateDataForDateRange(dateRange, paymentMethod, typeOfCustomer);
         console.log("Calculated Data:", { totalProfit, customerCount, gcashProfit, cashProfit });
-        
+
         setTotalProfit(totalProfit);
         setCustomerCount(customerCount);
 
@@ -177,6 +179,7 @@ const Dashboard = () => {
             <MenuItem value="all">All Payments</MenuItem>
             <MenuItem value="Cash">Cash</MenuItem>
             <MenuItem value="GCash">GCash</MenuItem>
+            <MenuItem value="Maya">Maya</MenuItem>
           </Select>
 
           <Select
