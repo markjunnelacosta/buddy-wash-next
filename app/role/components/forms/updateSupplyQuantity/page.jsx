@@ -81,6 +81,21 @@ export default function UpdateSupply() {
   }, [selectedSupply]);
 
   const onClickSave = async () => {
+    if (
+      !quantity
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const numberRegex = /^\d+$/;
+    if (!numberRegex.test(quantity)) {
+      alert(
+        "Invalid characters in Detergent Qty. Please enter a valid number."
+      );
+      return;
+    }
+
     console.log(selectedSupply);
     console.log(time, name, quantity, type);
     const response = await fetch("/api/inventory", {
