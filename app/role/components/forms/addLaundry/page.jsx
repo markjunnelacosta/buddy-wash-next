@@ -303,6 +303,8 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       }),
     });
 
+
+
     const orderRes = await fetch("/api/order", {
       method: "POST",
       body: JSON.stringify({
@@ -321,17 +323,36 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log(response);
     console.log("orderszzzzzz" + orderRes);
 
-    const res = await fetch("/api/report", {
-      method: "POST",
-      body: JSON.stringify({
-        customerName: customerName,
-        reportDate: orderDate,
-        totalAmount: totalAmount,
-        paymentMethod: paymentMethod,
-        typeOfCustomer: "Walk in",
-      }),
-    });
-    console.log(res);
+    // const res = await fetch("/api/report", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     customerName: customerName,
+    //     reportDate: orderDate,
+    //     totalAmount: totalAmount,
+    //     paymentMethod: paymentMethod,
+    //     typeOfCustomer: "Walk in",
+    //   }),
+    // });
+    // console.log(res);
+
+    if (response.ok) {
+      const laundryBinData = await response.json();
+      const laundryBinId = laundryBinData._id; // Assuming the ID field is '_id', modify it based on your actual data structure
+  
+      // Update the report with the laundry bin ID
+      const reportResponse = await fetch("/api/report", {
+        method: "POST",
+        body: JSON.stringify({
+          customerName: customerName,
+          reportDate: orderDate,
+          totalAmount: totalAmount,
+          paymentMethod: paymentMethod,
+          typeOfCustomer: "Walk in",
+          reportBranchId: laundryBinId, // Reference to the laundry bin
+        }),
+      });
+  console.log(reportResponse);
+    }
 
     setLaundryOrderSummary({
       customerName,

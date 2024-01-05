@@ -16,7 +16,7 @@ export const GET = async (req, res) => {
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { customerName, reportDate, totalAmount, paymentMethod, typeOfCustomer } = body;
+  const { customerName, reportDate, totalAmount, paymentMethod, typeOfCustomer, reportBranchId } = body;
 
   try {
     await connectToDB();
@@ -25,7 +25,8 @@ export const POST = async (req) => {
       reportDate,
       totalAmount,
       paymentMethod,
-      typeOfCustomer
+      typeOfCustomer,
+      reportBranchId
     });
     console.log(newReport);
     await newReport.save();

@@ -148,9 +148,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
 
       const response = await res.json();
       const laundryData = response.laundryData || [];
-
-      // find the selected order in laundryData based on the report data
-      const selectedOrder = laundryData.find((order) => order._id === order._id);
+      const selectedOrder = laundryData.find((laundryOrder) => laundryOrder._id === order.reportBranchId);
 
       setSelectedOrder(selectedOrder);
       setReceiptModalOpen(true);
@@ -218,7 +216,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                     <TableCell align="center">{report.paymentMethod}</TableCell>
                     <TableCell align="center">{report.typeOfCustomer}</TableCell>
                     <TableCell align="center">
-                      <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(reportBranchId)}>View</Button>
+                      <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(report)}>View</Button>
                     </TableCell>
                   </TableRow>
                 ))}
