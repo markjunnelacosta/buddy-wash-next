@@ -1,11 +1,26 @@
 "use client";
 import React, { useState } from "react";
 import "./editMachine.css";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useRouter } from "next/navigation";
 import { TextField, MenuItem } from "@mui/material";
 
-const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, status }) => {
+const UpdateMachine = ({
+  id,
+  machineNumber,
+  action,
+  timer,
+  queue,
+  useCount,
+  status,
+}) => {
   const [newMachineNumber, setNewMachineNumber] = useState(machineNumber);
   const [newAction, setNewAction] = useState(action);
   const [newTimer, setNewTimer] = useState(timer);
@@ -68,7 +83,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
       setUseCountError("");
     }
   };
-  
+
   const handleStatusChange = (e) => {
     const newValue = e.target.value;
     setNewStatus(newValue);
@@ -143,6 +158,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
                 className="text-box"
                 value={newAction}
                 onChange={handleActionChange}
+                disabled
               >
                 <MenuItem value="Off">Off</MenuItem>
                 <MenuItem value="Running">Running</MenuItem>
@@ -156,6 +172,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
                 onChange={handleTimerChange}
                 error={!!timerError}
                 helperText={timerError}
+                disabled
               />
             </div>
           </div>
@@ -170,6 +187,7 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
                 onChange={handleQueueChange}
                 error={!!queueError}
                 helperText={queueError}
+                disabled
               />
             </div>
             <div className="use-count">
@@ -204,7 +222,11 @@ const UpdateMachine = ({ id, machineNumber, action, timer, queue, useCount, stat
         >
           Save
         </Button>
-        <Button className="dialog-button" onClick={handleClose} href="/role/staff/machine">
+        <Button
+          className="dialog-button"
+          onClick={handleClose}
+          href="/role/staff/machine"
+        >
           Cancel
         </Button>
       </DialogActions>
