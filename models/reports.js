@@ -27,13 +27,19 @@ const ReportSchema = new Schema({
     type: Number,
     required: [true, "Phone Number is required"],
   },
+
   paymentMethod: {
     type: String
   },
+
   typeOfCustomer: {
     type: String
-  }
+  },
 
+  reportBranchId:{
+    type: Schema.Types.ObjectId,
+    ref: "LaundryBin",
+  }
 });
 
 const Reports = models.Reports || model('Reports', ReportSchema);

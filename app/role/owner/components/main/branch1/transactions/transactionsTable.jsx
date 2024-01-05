@@ -118,6 +118,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
+  const [reportBranchId, setReportBranchId] = useState(null);
 
   const totalPages = Math.ceil(reportData.length / entriesPerPage);
   const startRange = (currentPage - 1) * entriesPerPage + 1;
@@ -217,7 +218,7 @@ const TransactionTable = ({ dateFrom, dateTo, filteredData, dateRange }) => {
                     <TableCell align="center">{report.paymentMethod}</TableCell>
                     <TableCell align="center">{report.typeOfCustomer}</TableCell>
                     <TableCell align="center">
-                      <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(report)}>View</Button>
+                      <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(reportBranchId)}>View</Button>
                     </TableCell>
                   </TableRow>
                 ))}
