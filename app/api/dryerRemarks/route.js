@@ -1,11 +1,11 @@
 import { connectToDB } from "@/utils/database";
-import MachineRemarks from "@/models/machineRemarks";
+import DryerRemarks from "@/models/dryerRemarks";
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 export async function GET() {
   await connectToDB();
-  const machineRemarks = await MachineRemarks.find();
-  return NextResponse.json({ machineRemarks });
+  const dryerRemarks = await DryerRemarks.find();
+  return NextResponse.json({ dryerRemarks });
 }
 
 export const POST = async (req) => {
@@ -14,14 +14,14 @@ export const POST = async (req) => {
 
   try {
     await connectToDB();
-    const newMachineRemarks = new MachineRemarks({
+    const newDryerRemarks = new DryerRemarks({
       date,
       number,
       remarks,
     });
-    console.log(newMachineRemarks);
-    await newMachineRemarks.save();
-    return new Response(JSON.stringify(newMachineRemarks), { status: 201 });
+    console.log(newDryerRemarks);
+    await newDryerRemarks.save();
+    return new Response(JSON.stringify(newDryerRemarks), { status: 201 });
   } catch (error) {
     return new Response(error, { status: 500 });
   }
@@ -30,9 +30,9 @@ export const POST = async (req) => {
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
   await connectToDB();
-  await MachineRemarks.findByIdAndDelete(id);
+  await DryerRemarks.findByIdAndDelete(id);
   return NextResponse.json(
-    { message: "Delated a machine remarks Record" },
+    { message: "Delated a dryer remarks Record" },
     { status: 201 }
   );
 }

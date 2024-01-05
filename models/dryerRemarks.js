@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const MachineRemarksSchema = new Schema({
+const DryerRemarksSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
   },
@@ -18,7 +18,7 @@ const MachineRemarksSchema = new Schema({
   },
 });
 
-const MachineRemarks =
-  models.MachineRemarks || model("MachineRemarks", MachineRemarksSchema);
+const DryerRemarks =
+  models.DryerRemarks || model("DryerRemarks", DryerRemarksSchema);
 
-export default MachineRemarks;
+export default DryerRemarks;
