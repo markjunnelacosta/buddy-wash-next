@@ -294,12 +294,11 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
         fold: fold,
         colored: colored,
         detergent: detergent,
-        fabcon: fabCon,
+        fabCon: fabCon,
         detergentQty: detergentQty,
-        fabconQty: fabConQty,
+        fabConQty: fabConQty,
         paymentMethod: paymentMethod,
-        refNum: refNum,
-        total: totalAmount,
+        totalAmount: totalAmount,
       }),
     });
 

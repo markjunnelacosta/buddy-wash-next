@@ -24,11 +24,11 @@ export const POST = async (req) => {
         fold,
         colored,
         detergent,
-        fabcon,
+        fabCon,
         detergentQty,
-        fabconQty,
+        fabConQty,
         paymentMethod,
-        total
+        totalAmount
     } = body;
     try {
         await connectToDB();
@@ -41,11 +41,11 @@ export const POST = async (req) => {
             fold,
             colored,
             detergent,
-            fabcon,
+            fabCon,
             detergentQty,
-            fabconQty,
+            fabConQty,
             paymentMethod,
-            total
+            totalAmount
         });
         console.log(newOrder);
         await newOrder.save();

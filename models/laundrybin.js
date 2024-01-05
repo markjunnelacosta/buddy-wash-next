@@ -41,20 +41,20 @@ const LaundryBinSchema = new Schema({
     detergent: {
         type: String
     },
-    fabcon: {
+    fabCon: {
         type: String
     },
     detergentQty: {
         type: Number
     },
-    fabconQty: {
+    fabConQty: {
         type: Number
     },
     paymentMethod: {
         type: String,
         required: [true, "Payment Method is required"]
     },
-    total: {
+    totalAmount: {
         type: Number,
     }
 });
