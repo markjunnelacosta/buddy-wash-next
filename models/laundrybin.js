@@ -4,6 +4,9 @@ const LaundryBinSchema = new Schema({
     id: {
         type: Schema.Types.ObjectId,
     },
+    type: {
+        type: String
+    },
     customerName: {
         type: String,
         required: [true, "Date is required"]

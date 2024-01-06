@@ -50,6 +50,6 @@ const OrderMobileSchema = new Schema({
   },
 });
 
-const OrderMobile = models.OrderMobile || model("Order", OrderMobileSchema);
+const OrderMobile = models.OrderMobile || model("OrderMobile", OrderMobileSchema);
 
 export default OrderMobile;

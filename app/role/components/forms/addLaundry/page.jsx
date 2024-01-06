@@ -286,6 +286,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     const response = await fetch("/api/laundrybin", {
       method: "POST",
       body: JSON.stringify({
+        type: "Walk-in",
         customerName: customerName,
         orderDate: orderDate,
         weight: weight,

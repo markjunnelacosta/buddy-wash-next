@@ -16,6 +16,7 @@ export const GET = async (req, res) => {
 export const POST = async (req) => {
     const body = await req.json();
     const {
+        type,
         customerName,
         orderDate,
         weight,
@@ -33,6 +34,7 @@ export const POST = async (req) => {
     try {
         await connectToDB();
         const newOrder = new LaundryBin({
+            type,
             customerName,
             orderDate,
             weight,
