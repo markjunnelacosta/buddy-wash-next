@@ -14,7 +14,7 @@ import EditSupplyPopup from "./editButton";
 import RemoveButton from "./removeButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { Typography } from "@mui/material"; v
+import { Typography } from "@mui/material";
 
 const getSupplies = async () => {
   try {
