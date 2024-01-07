@@ -81,18 +81,14 @@ export default function UpdateSupply() {
   }, [selectedSupply]);
 
   const onClickSave = async () => {
-    if (
-      !quantity
-    ) {
+    if (!quantity) {
       alert("Please fill in all required fields.");
       return;
     }
 
     const numberRegex = /^\d+$/;
     if (!numberRegex.test(quantity)) {
-      alert(
-        "Invalid characters. Please enter a valid number."
-      );
+      alert("Invalid characters. Please enter a valid number.");
       return;
     }
 

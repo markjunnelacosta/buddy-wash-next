@@ -15,6 +15,7 @@ export const POST = async (req) => {
   try {
     await connectToDB();
     const newDryerRemarks = new DryerRemarks({
+      _id: new Types.ObjectId(),
       date,
       number,
       remarks,

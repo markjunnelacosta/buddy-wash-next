@@ -15,6 +15,7 @@ export const POST = async (req) => {
   try {
     await connectToDB();
     const newMachineRemarks = new MachineRemarks({
+      _id: new Types.ObjectId(),
       date,
       number,
       remarks,

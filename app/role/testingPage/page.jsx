@@ -1,13 +1,15 @@
 import React from "react";
-// import App from "../staff/laundryBin/orderSummary";
-import MachineToggle from "../staff/laundryBin/machineToggle";
-import DryerToggle from "../staff/laundryBin/dryerToggle";
+import MachineRemarksTable from "../staff/machine/MachineRemarksTable";
+import DryerRemarksTable from "../staff/machine/DryerRemarksTable";
+import AddMachineRemarks from "../components/forms/addMachineRemarks/page";
+import AddDryerRemarks from "../components/forms/addDryerRemarks/page";
 const TestingPage = () => {
   return (
     <div>
-      {/* <App /> */}
-      <MachineToggle />
-      <DryerToggle />
+      <AddMachineRemarks />
+      <MachineRemarksTable />
+      <AddDryerRemarks />
+      <DryerRemarksTable />
     </div>
   );
 };
