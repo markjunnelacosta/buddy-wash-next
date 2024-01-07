@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 export async function GET() {
   await connectToDB();
-  const machineReport = await MachineReport.find();
-  return NextResponse.json({ machineReport });
+  const machineReports = await MachineReport.find();
+  return NextResponse.json({ machineReports });
 }
 
 export const POST = async (req) => {

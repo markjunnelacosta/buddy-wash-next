@@ -8,6 +8,8 @@ import MachineRemarksTable from "./MachineRemarksTable";
 import DryerRemarksTable from "./DryerRemarksTable";
 import AddMachineRemarks from "../../components/forms/addMachineRemarks/page";
 import AddDryerRemarks from "../../components/forms/addDryerRemarks/page";
+import MachineReportsTable from "./MachineReportsTable";
+import DryerReportsTable from "./DryerReportsTable";
 const getMachineRemarks = async () => {
   try {
     const res = await fetch("/api/machineRemarks", {
@@ -117,7 +119,7 @@ function Machines() {
           <div className="machineTableContainer">
             <MachineTable machines={machines} />
           </div>
-          <div className="dryerTable-container">
+          <div className="dryerTableContainer">
             <DryerTable />
           </div>
         </div>
@@ -144,6 +146,28 @@ function Machines() {
           </div>
           <div className="dryerRemarksContainer">
             <DryerRemarksTable />
+          </div>
+        </div>
+        <div className="top-reports">
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Machines Report
+          </p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Dryers Report
+          </p>
+        </div>
+        <div className="reports-container">
+          <div className="machineReportsContainer">
+            <MachineReportsTable />
+          </div>
+          <div className="dryerReportsContainer">
+            <DryerReportsTable />
           </div>
         </div>
       </div>

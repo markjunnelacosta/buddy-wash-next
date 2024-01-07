@@ -24,22 +24,27 @@
 }
 
 .machineTableContainer,
-.machineRemarksContainer {
+.machineRemarksContainer,
+.machineReportsContainer,
+.dryerTableContainer,
+.dryerRemarksContainer,
+.dryerReportsContainer {
   background-color: white;
   margin: 0px 10px 20px 0px;
   padding: 5px;
   flex-grow: 1;
 }
 
-.dryerTable-container,
+/* .dryerTableContainer,
 .dryerRemarksContainer {
   background-color: white;
   margin: 0px 10px 20px 0px;
   padding: 5px;
   flex-grow: 1;
-}
+} */
 
-.top {
+.top,
+.top-reports {
   display: flex;
   justify-content: space-around;
   height: 30px;
@@ -51,7 +56,8 @@
   height: 30px;
 }
 .tables-container,
-.remarks-container {
+.remarks-container,
+.reports-container {
   display: flex;
   justify-content: space-between;
   margin: 10px;
