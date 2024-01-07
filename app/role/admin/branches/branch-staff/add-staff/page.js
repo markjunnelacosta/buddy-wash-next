@@ -123,7 +123,7 @@ const StaffPage = ({ isOpen, onClose, onSaveData, branchId }) => {
                   onChange={(e) => setStaffPosition(e.currentTarget.value)}
                 >
                   <option value=""></option>
-                  <option value="Staff">Owner</option>
+                  <option value="Owner">Owner</option>
                   <option value="Staff">Staff</option>
                   <option value="Guard">Guard</option>
                   <option value="Technician">Technician</option>
