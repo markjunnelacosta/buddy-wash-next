@@ -123,33 +123,17 @@ function Machines() {
         </div>
         <div className="remarks-top">
           <div className="searchContainer">
-            <p style={{ fontWeight: "bold", marginRight: "100px" }}>
+            <p style={{ fontWeight: "bold", marginRight: "80px" }}>
               MACHINE REMARKS
             </p>
-            <input
-              type="text"
-              id="searchNumber"
-              name="machineNumber"
-              value={searchQuery}
-              placeholder="Search"
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
 
             <AddMachineRemarks />
           </div>
 
           <div className="searchContainer">
-            <p style={{ fontWeight: "bold", marginRight: "100px" }}>
+            <p style={{ fontWeight: "bold", marginRight: "80px" }}>
               DRYER REMARKS
             </p>
-            <input
-              type="text"
-              id="dryerSearchNumber"
-              name="dryerNumber"
-              value={dryerSearchQuery}
-              placeholder="Search"
-              onChange={(e) => setDryerSearchQuery(e.target.value)}
-            />
 
             <AddDryerRemarks />
           </div>

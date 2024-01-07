@@ -82,6 +82,7 @@ export default function AddMachineRemarks() {
           alignSelf: "flex-end",
 
           borderRadius: "10px",
+          // marginLeft: "70%",
         }}
         variant="contained"
         onClick={handleClickOpen}

@@ -100,6 +100,23 @@ function MachineRemarksTable() {
 
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: "5px",
+        }}
+        className="searchMachine"
+      >
+        <input
+          type="text"
+          id="searchNumber"
+          name="machineNumber"
+          value={searchQuery}
+          placeholder="Search"
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <div style={{ height: "400px", overflow: "auto" }}>
         <div className="table-container">
           <TableContainer component={Paper}>

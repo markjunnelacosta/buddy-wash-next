@@ -99,6 +99,7 @@
   line-height: 25px;
   align-items: center;
   gap: 10px;
+  padding-left: 15%;
 }
 #searchNumber,
 #dryerSearchNumber {
