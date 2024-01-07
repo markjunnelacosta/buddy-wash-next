@@ -19,6 +19,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx';
+import Receipt from "app/role/staff/laundryBin/orderSummary.jsx";
 
 const getReport = async () => {
     try {
@@ -138,8 +139,9 @@ const Reports = () => {
     const [selectedDataPeriod, setSelectedDataPeriod] = useState('annually');
     const [totalAmount, setTotalAmount] = useState(0);
     const faviconUrl = '/favicon.png';
-
-    const [entriesPerPage, setEntriesPerPage] = useState(8);
+    const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [entriesPerPage, setEntriesPerPage] = useState(6);
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = Math.ceil(reportData.length / entriesPerPage);
     const startRange = (currentPage - 1) * entriesPerPage + 1;
@@ -307,6 +309,28 @@ const Reports = () => {
         }
     };
 
+    const openReceiptModal = async (order) => {
+        try {
+            const res = await fetch("/api/laundrybin", {
+                cache: "no-store",
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch orders");
+            }
+
+            const response = await res.json();
+            const laundryData = response.laundryData || [];
+            const selectedOrder = laundryData.find((laundryOrder) => laundryOrder._id === order.reportBranchId);
+
+            setSelectedOrder(selectedOrder);
+            setReceiptModalOpen(true);
+
+        } catch (error) {
+            console.error("Error loading orders: ", error);
+        }
+    };
+
     return (
         <div className="reports-container">
             <div className="blue-container">
@@ -418,6 +442,7 @@ const Reports = () => {
                                     <TableCell className='table-cell'>Total Amount </TableCell>
                                     <TableCell className='table-cell'>Payment Method</TableCell>
                                     <TableCell className='table-cell'>Type</TableCell>
+                                    <TableCell className='table-cell'>Receipt</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -442,9 +467,13 @@ const Reports = () => {
                                             <TableCell className="table-body">{report.totalAmount}</TableCell>
                                             <TableCell className="table-body">{report.paymentMethod}</TableCell>
                                             <TableCell className="table-body">{report.typeOfCustomer}</TableCell>
+                                            <TableCell className="table-body">
+                                                <Button variant="outlined" id="view-button" onClick={() => openReceiptModal(report)}>View</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
+
                         </Table>
                     </TableContainer>
                     <div className="pagination">
@@ -461,6 +490,12 @@ const Reports = () => {
                     </div>
                 </div>
             </div>
+            {isReceiptModalOpen && (
+                <Receipt
+                    selectedOrder={selectedOrder}
+                    onClose={() => setReceiptModalOpen(false)}
+                />
+            )}
         </div>
     )
 }
