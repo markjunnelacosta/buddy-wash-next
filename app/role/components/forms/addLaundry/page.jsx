@@ -143,7 +143,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log("available machines" + availableMachine);
     updateMachineLastUsed(availableMachine, currDate.toLocaleTimeString());
     updateMachineTimer(availableMachine);
-    return +availableMachine.machineNumber;
+    if (availableMachine.status == "Operational") {
+      return +availableMachine.machineNumber;
+    }
   };
 
   const fetchDryer = () => {
@@ -242,8 +244,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log("available dryers" + availableDryer);
     updateDryerTimer(availableDryer);
     updateDryerLastUsed(availableDryer, currDate.toLocaleTimeString());
-
-    return +availableDryer.dryerNumber;
+    if (availableDryer.status == "Operational") {
+      return +availableDryer.dryerNumber;
+    }
   };
 
   const onClick = async () => {
@@ -303,8 +306,6 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
       }),
     });
 
-
-
     const orderRes = await fetch("/api/order", {
       method: "POST",
       body: JSON.stringify({
@@ -338,7 +339,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     if (response.ok) {
       const laundryBinData = await response.json();
       const laundryBinId = laundryBinData._id; // Assuming the ID field is '_id', modify it based on your actual data structure
-  
+
       // Update the report with the laundry bin ID
       const reportResponse = await fetch("/api/report", {
         method: "POST",
@@ -351,7 +352,7 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
           reportBranchId: laundryBinId, // Reference to the laundry bin
         }),
       });
-  console.log(reportResponse);
+      console.log(reportResponse);
     }
 
     setLaundryOrderSummary({
