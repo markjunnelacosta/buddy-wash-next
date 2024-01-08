@@ -20,6 +20,7 @@ import Paper from "@mui/material/Paper";
 // import EditCustomerPopup from "./editButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import RemoveButton from "./RemoveButton";
 
 const getDryerRemarks = async () => {
   try {
@@ -129,6 +130,9 @@ function DryerRemarksTable() {
                   <TableCell align="center" className="table-header-bold">
                     Remarks
                   </TableCell>
+                  <TableCell align="center" className="table-header-bold">
+                    Action
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -152,6 +156,9 @@ function DryerRemarksTable() {
                       </TableCell>
                       <TableCell align="center">
                         {dryerRemarks.remarks}
+                      </TableCell>
+                      <TableCell align="center">
+                        <RemoveButton id={dryerRemarks._id} />
                       </TableCell>
                     </TableRow>
                   ))}

@@ -20,6 +20,7 @@ import Paper from "@mui/material/Paper";
 // import EditCustomerPopup from "./editButton";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import RemoveButton from "./RemoveButton";
 
 const getMachineRemarks = async () => {
   try {
@@ -132,6 +133,9 @@ function MachineRemarksTable() {
                   <TableCell align="center" className="table-header-bold">
                     Remarks
                   </TableCell>
+                  <TableCell align="center" className="table-header-bold">
+                    Action
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -155,6 +159,10 @@ function MachineRemarksTable() {
                       </TableCell>
                       <TableCell align="center">
                         {machineRemarks.remarks}
+                      </TableCell>
+
+                      <TableCell align="center">
+                        <RemoveButton id={machineRemarks._id} />
                       </TableCell>
                     </TableRow>
                   ))}
