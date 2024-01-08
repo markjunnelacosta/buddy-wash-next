@@ -23,6 +23,7 @@ export async function GET() {
 export const POST = async (req) => {
   const body = await req.json();
   const {
+    laundryBinId,
     date,
     name,
     machineNo,
@@ -44,6 +45,7 @@ export const POST = async (req) => {
       return new Response("Machine not found", { status: 404 });
     }
     const newOrder = new OrderMobile({
+      laundryBinId,
       date,
       name,
       machine: machine._id,

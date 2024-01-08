@@ -4,6 +4,10 @@ const OrderMobileSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
   },
+  laundryBinId: {
+    type: Schema.Types.ObjectId,
+    ref: "LaundryBin",
+  },
   date: {
     type: String,
     required: [true, "Date is required"],
