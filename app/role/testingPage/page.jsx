@@ -1,11 +1,15 @@
 import React from "react";
-import MachineReportsTable from "../staff/machine/MachineReportsTable";
-import DryerReportsTable from "../staff/machine/DryerReportsTable";
+import MachineRemarksTable from "../staffBranch2/machine/MachineRemarksTable";
+import DryerRemarksTable from "../staffBranch2/machine/DryerRemarksTable";
+import AddMachineRemarks from "../components/forms/BRANCH2/addMachineRemarks/page";
+import AddDryerRemarks from "../components/forms/BRANCH2/addDryerRemarks/page";
 const TestingPage = () => {
   return (
     <div>
-      <MachineReportsTable />
-      <DryerReportsTable />
+      <AddMachineRemarks />
+      <MachineRemarksTable />
+      <AddDryerRemarks />
+      <DryerRemarksTable />
     </div>
   );
 };

@@ -10,7 +10,7 @@ export default function RemoveButton({ id }) {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-      const res = await fetch(`/api/dryerRemarks?id=${id}`, {
+      const res = await fetch(`/api/BRANCH2/branch2MachineRemarks?id=${id}`, {
         method: "DELETE",
       });
 
@@ -25,7 +25,7 @@ export default function RemoveButton({ id }) {
       onClick={removeRemarks}
       variant="outlined"
       id="delete-button"
-      href="/role/staff/machine"
+      href="/role/staffBranch2/machine"
     >
       Archive
     </Button>
