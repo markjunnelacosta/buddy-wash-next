@@ -4,10 +4,15 @@ import "./machineStaff.css";
 import MachineTable from "./MachineTable";
 import DryerTable from "./DryerTable";
 import Reset from "./resetBtn";
+import MachineRemarksTable from "./MachineRemarksTable";
+import DryerRemarksTable from "./DryerRemarksTable";
+import AddMachineRemarks from "../../components/forms/BRANCH3/addMachineRemarks/page";
+import AddDryerRemarks from "../../components/forms/BRANCH3/addDryerRemarks/page";
+// import MachineReportsTable from "./MachineReportsTable";
+// import DryerReportsTable from "./DryerReportsTable";
 
 function Machines() {
   const [machines, setMachines] = useState([]); // Store the list of machines
-
   return (
     <div className="machines-container">
       <div className="blue-container">
@@ -33,10 +38,57 @@ function Machines() {
           <div className="machineTableContainer">
             <MachineTable machines={machines} />
           </div>
-          <div className="dryerTable-container">
+          <div className="dryerTableContainer">
             <DryerTable />
           </div>
         </div>
+        <div className="remarks-top">
+          <div className="searchContainer">
+            <p style={{ fontWeight: "bold", marginRight: "80px" }}>
+              MACHINE REMARKS
+            </p>
+
+            <AddMachineRemarks />
+          </div>
+
+          <div className="searchContainer">
+            <p style={{ fontWeight: "bold", marginRight: "80px" }}>
+              DRYER REMARKS
+            </p>
+
+            <AddDryerRemarks />
+          </div>
+        </div>
+        <div className="remarks-container">
+          <div className="machineRemarksContainer">
+            <MachineRemarksTable />
+          </div>
+          <div className="dryerRemarksContainer">
+            <DryerRemarksTable />
+          </div>
+        </div>
+        {/* <div className="top-reports">
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Machines Report
+          </p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Dryers Report
+          </p>
+        </div>
+        <div className="reports-container">
+          <div className="machineReportsContainer">
+            <MachineReportsTable />
+          </div>
+          <div className="dryerReportsContainer">
+            <DryerReportsTable />
+          </div>
+        </div> */}
       </div>
     </div>
   );

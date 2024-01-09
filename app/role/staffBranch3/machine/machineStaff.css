@@ -4,12 +4,13 @@
   display: flex;
   height: 89.5vh;
   float: right;
-  justify-content: space-between;
 }
+
 .button-container {
   height: 60px;
   align-self: center;
 }
+
 .blue-container {
   display: flex;
   flex-direction: column;
@@ -18,30 +19,102 @@
   margin: 20px;
   gap: 10px;
   border-radius: 10px;
+  height: 85vh;
+  overflow-y: auto;
 }
 
-.machineTableContainer {
+.machineTableContainer,
+.machineRemarksContainer,
+.machineReportsContainer,
+.dryerTableContainer,
+.dryerRemarksContainer,
+.dryerReportsContainer {
   background-color: white;
-  margin-right: 10px;
+  /* margin: 0px 10px 20px 0px; */
+  padding: 5px;
+  flex-grow: 1;
+  width: 48.5%;
 }
 
-.dryerTable-container {
+/* .dryerTableContainer,
+.dryerRemarksContainer {
   background-color: white;
-}
+  margin: 0px 10px 20px 0px;
+  padding: 5px;
+  flex-grow: 1;
+} */
 
-.top {
+.top,
+.top-reports {
   display: flex;
   justify-content: space-around;
   height: 30px;
 }
 
-.tables-container {
+.remarks-top {
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+}
+.tables-container,
+.remarks-container,
+.reports-container {
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  overflow: auto;
+  gap: 1%;
 }
 
 .table-header-bold {
   font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  /* Add some spacing from the table */
+}
+
+.pagination button {
+  background-color: #a9dddd;
+  color: white;
+  border: 0px solid #a9dddd;
+  padding: 1px 0px;
+  margin: 0 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.pagination button svg {
+  width: 15px;
+  height: 15px;
+  margin: 0 auto;
+}
+
+.pagination button:hover {
+  background-color: #526c74;
+}
+
+.pagination span {
+  font-size: 12px;
+}
+.searchContainer {
+  display: flex;
+  line-height: 25px;
+  align-items: center;
+  gap: 10px;
+  padding-left: 15%;
+}
+#searchNumber,
+#dryerSearchNumber {
+  width: 50px;
+  line-height: 20px;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: 0px 10px;
+  border: solid lightgray 1px;
 }
