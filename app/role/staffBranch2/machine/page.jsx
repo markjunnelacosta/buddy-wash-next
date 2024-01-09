@@ -8,8 +8,8 @@ import MachineRemarksTable from "./MachineRemarksTable";
 import DryerRemarksTable from "./DryerRemarksTable";
 import AddMachineRemarks from "../../components/forms/BRANCH2/addMachineRemarks/page";
 import AddDryerRemarks from "../../components/forms/BRANCH2/addDryerRemarks/page";
-// import MachineReportsTable from "./MachineReportsTable";
-// import DryerReportsTable from "./DryerReportsTable";
+import MachineReportsTable from "./MachineReportsTable";
+import DryerReportsTable from "./DryerReportsTable";
 
 function Machines() {
   const [machines, setMachines] = useState([]); // Store the list of machines
@@ -67,7 +67,7 @@ function Machines() {
             <DryerRemarksTable />
           </div>
         </div>
-        {/* <div className="top-reports">
+        <div className="top-reports">
           <p
             className="table-header"
             style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
@@ -88,7 +88,7 @@ function Machines() {
           <div className="dryerReportsContainer">
             <DryerReportsTable />
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
