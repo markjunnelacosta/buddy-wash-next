@@ -14,6 +14,8 @@
     margin: 20px;
     gap: 10px;
     border-radius: 10px;
+    height: 85vh;
+    overflow-y: auto;
 }
 
 .machineTable-container {
@@ -21,7 +23,7 @@
     margin: 10px 5px 30px;
     padding: 10px;
     flex-grow: 1;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .dryerTable-container {
@@ -29,7 +31,7 @@
     margin: 10px 5px 30px;
     padding: 10px;
     flex-grow: 1;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .top {
@@ -81,4 +83,14 @@
 
 .pagination span {
     font-size: 12px;
+}
+
+#searchNumber,
+#dryerSearchNumber {
+    width: 50px;
+    line-height: 20px;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: 0px 10px;
+    border: solid lightgray 1px;
 }
