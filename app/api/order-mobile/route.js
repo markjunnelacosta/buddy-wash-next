@@ -4,20 +4,10 @@ import { NextResponse } from "next/server";
 import Machine from "@/models/machines";
 import Dryer from "@/models/dryers";
 
-// export const GET = async (req, res) => {
-//   try {
-//     await connectToDB();
-//     const customers = await Customer.find({}).populate("customerName");
-//     return new Response(JSON.stringify(customers), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed get customer", { status: 500 });
-//   }
-// };
-
 export async function GET() {
   await connectToDB();
   const orders = await OrderMobile.find().populate("machine");
-  return NextResponse.json({ orders });
+  return NextResponse.json({ mobileOrders: orders });
 }
 
 export const POST = async (req) => {

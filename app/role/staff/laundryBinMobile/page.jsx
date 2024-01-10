@@ -22,7 +22,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const getOrderDetails = async () => {
   try {
-    const res = await fetch("/api/mobile-orders", {
+    const res = await fetch("/api/order-mobile", {
       cache: "no-store",
     });
 
@@ -45,6 +45,7 @@ const LaundryBin = () => {
   const [laundryOrderSummary, setLaundryOrderSummary] = useState(null);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const totalPages = Math.ceil(mobileOrders.length / entriesPerPage);
   const startRange = (currentPage - 1) * entriesPerPage + 1;
@@ -499,8 +500,27 @@ const LaundryBin = () => {
     setLaundryOrderSummary(null);
   }
 
-  const handleViewDetails = (order) => {
-    setLaundryOrderSummary(order);
+  const handleViewDetails = async (order) => {
+    // setLaundryOrderSummary(order);
+    try {
+      const res = await fetch("/api/laundrybin", {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+
+      const response = await res.json();
+      const laundryData = response.laundryData || [];
+      const selectedOrder = laundryData.find((laundryOrder) => laundryOrder._id === order.laundryBinId);
+
+      setSelectedOrder(selectedOrder);
+      setLaundryOrderSummary(true);
+
+    } catch (error) {
+      console.error("Error loading orders: ", error);
+    }
   };
 
   return (
@@ -541,8 +561,8 @@ const LaundryBin = () => {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell className="table-body">Date</TableCell>
-                        <TableCell className="table-body">name</TableCell>
+                        <TableCell className="table-body">{order.date}</TableCell>
+                        <TableCell className="table-body">{order.name}</TableCell>
                         <TableCell className="">{order.machineNo}</TableCell>
                         <TableCell className="">
                           <MachineToggle
@@ -616,9 +636,15 @@ const LaundryBin = () => {
           </div>
         </div>
       </div>
-      {laundryOrderSummary && (
+      {/* {laundryOrderSummary && (
         <Details selectedOrder={laundryOrderSummary} onClose={closeDetails} />
-      )}
+      )} */}
+        {laundryOrderSummary && (
+              <Details
+                selectedOrder={selectedOrder}
+                onClose={() => setLaundryOrderSummary(false)}
+              />
+            )}
     </>
   );
 };
