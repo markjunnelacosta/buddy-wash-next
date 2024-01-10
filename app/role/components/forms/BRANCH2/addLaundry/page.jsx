@@ -149,7 +149,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log("available machines" + availableMachine);
     updateMachineLastUsed(availableMachine, currDate.toLocaleTimeString());
     updateMachineTimer(availableMachine);
-    return +availableMachine.machineNumber;
+    if (availableMachine.status == "Operational") {
+      return +availableMachine.machineNumber;
+    }
   };
 
   const fetchDryer = () => {
@@ -253,7 +255,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
     console.log("available dryers" + availableDryer);
     updateDryerTimer(availableDryer);
 
-    return +availableDryer.dryerNumber;
+    if (availableDryer.status == "Operational") {
+      return +availableDryer.dryerNumber;
+    }
   };
 
   const onClick = async () => {
