@@ -4,81 +4,100 @@
     display: flex;
     height: 89.5vh;
     float: right;
-}
-
-.blue-container {
+  }
+  
+  .blue-container {
     display: flex;
     flex-direction: column;
-    background-color: #54BCBC;
+    background-color: #54bcbc;
     width: calc(100% - 40px);
     margin: 20px;
     gap: 10px;
     border-radius: 10px;
-}
-
-.machineTable-container {
+    height: 85vh;
+    overflow-y: auto;
+  }
+  
+  .machineTable-container,
+  .machineRemarksContainer,
+  .machineReportsContainer,
+  .dryerTable-container,
+  .dryerRemarksContainer,
+  .dryerReportsContainer {
     background-color: white;
-    margin: 10px 5px 30px;
-    padding: 10px;
+    /* margin: 0px 10px 20px 0px; */
+    padding: 5px;
     flex-grow: 1;
-    overflow: hidden;
-}
-
-.dryerTable-container {
-    background-color: white;
-    margin: 10px 5px 30px;
-    padding: 10px;
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-.top {
+    width: 48.5%;
+  }
+  
+  .top,
+  .top-reports {
     display: flex;
     justify-content: space-around;
-    margin-top: 30px;
-}
-
-.tables-container {
+    height: 30px;
+  }
+  
+  .remarks-top {
+    display: flex;
+    justify-content: space-around;
+    height: 30px;
+  }
+  
+  .tables-container,
+  .remarks-container,
+  .reports-container {
     display: flex;
     justify-content: space-between;
     margin: 10px;
-    overflow: auto;
-}
-
-.table-header-bold {
+    gap: 1%;
+  }
+  
+  .table-header-bold {
     font-weight: bold;
-}
-
-.pagination {
+  }
+  
+  .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 15px;
     /* Add some spacing from the table */
-}
-
-.pagination button {
-    background-color: #A9DDDD;
+  }
+  
+  .pagination button {
+    background-color: #a9dddd;
     color: white;
-    border: 0px solid #A9DDDD;
+    border: 0px solid #a9dddd;
     padding: 1px 0px;
     margin: 0 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 4px;
-}
-
-.pagination button svg {
+  }
+  
+  .pagination button svg {
     width: 15px;
     height: 15px;
     margin: 0 auto;
-}
-
-.pagination button:hover {
+  }
+  
+  .pagination button:hover {
     background-color: #526c74;
-}
-
-.pagination span {
+  }
+  
+  .pagination span {
     font-size: 12px;
-}
+  }
+  
+  #searchNumber,
+  #dryerSearchNumber {
+    width: 50px;
+    line-height: 20px;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: 0px 10px;
+    border: solid lightgray 1px;
+  }
+  
