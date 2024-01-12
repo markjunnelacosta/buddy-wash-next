@@ -51,7 +51,7 @@ function NavBar() {
 
           <p className="white-space"> </p>
           <span className="nav-section-text">Laundry Service</span>
-          <Dropdown>
+          {/* <Dropdown>
             <DropdownTrigger>
               <ListItemButton className="button">
                 <ListItemIcon className="button-content">
@@ -84,7 +84,16 @@ function NavBar() {
                 </ListItemButton>
               </DropdownItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown> */}
+          <ListItemButton
+            className="button"
+            href="/role/staffBranch3/laundryBin"
+          >
+            <ListItemIcon className="button-content">
+              <ShoppingCartIcon className="navbar-text" />
+            </ListItemIcon>
+            <ListItemText primary="Laundry Bin" className="navbar-text" />
+          </ListItemButton>
 
           <Dropdown>
             <DropdownTrigger>

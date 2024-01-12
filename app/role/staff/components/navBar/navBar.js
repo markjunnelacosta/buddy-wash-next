@@ -34,21 +34,21 @@ function NavBar() {
         <React.Fragment>
           <ListItemButton className="button" href="/role/staff/dashBoard">
             <ListItemIcon className="button-content">
-              <QueryStatsIcon className="navbar-text"/>
+              <QueryStatsIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" className="navbar-text"/>
+            <ListItemText primary="Dashboard" className="navbar-text" />
           </ListItemButton>
 
           <ListItemButton className="button" href="/role/staff/reports">
             <ListItemIcon className="button-content">
-              <BarChartIcon className="navbar-text"/>
+              <BarChartIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Reports" className="navbar-text"/>
+            <ListItemText primary="Reports" className="navbar-text" />
           </ListItemButton>
 
           <p className="white-space"> </p>
           <span className="nav-section-text">Laundry Service</span>
-          <Dropdown>
+          {/* <Dropdown>
             <DropdownTrigger>
               <ListItemButton className="button">
                 <ListItemIcon className="button-content">
@@ -75,15 +75,25 @@ function NavBar() {
                 </ListItemButton>
               </DropdownItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown> */}
+
+          <ListItemButton className="button" href="/role/staff/laundryBin">
+            <ListItemIcon className="button-content">
+              <ShoppingCartIcon className="navbar-text" />
+            </ListItemIcon>
+            <ListItemText primary="Laundry Bin" className="navbar-text" />
+          </ListItemButton>
 
           <Dropdown>
             <DropdownTrigger>
               <ListItemButton className="button">
                 <ListItemIcon className="button-content">
-                  <PeopleIcon className="navbar-text"/>
+                  <PeopleIcon className="navbar-text" />
                 </ListItemIcon>
-                <ListItemText primary="Manage Customer" className="navbar-text"/>
+                <ListItemText
+                  primary="Manage Customer"
+                  className="navbar-text"
+                />
               </ListItemButton>
             </DropdownTrigger>
             <DropdownMenu className="dropdown-item" aria-label="Static Actions">
@@ -92,24 +102,30 @@ function NavBar() {
                   className="button"
                   href="/role/staff/manageCustomer"
                 >
-                  <ListItemText primary="Manage Walk-In Customer" className="navbar-text"/>
+                  <ListItemText
+                    primary="Manage Walk-In Customer"
+                    className="navbar-text"
+                  />
                 </ListItemButton>
               </DropdownItem>
               <DropdownItem>
                 <ListItemButton
                   className="button"
-                 href="/role/staff/manageMobileCustomer"
+                  href="/role/staff/manageMobileCustomer"
                 >
-                  <ListItemText primary="Manage Mobile Customer" className="navbar-text"/>
+                  <ListItemText
+                    primary="Manage Mobile Customer"
+                    className="navbar-text"
+                  />
                 </ListItemButton>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <ListItemButton className="button" href="/role/staff/machine">
             <ListItemIcon className="button-content">
-              <LocalLaundryServiceIcon className="navbar-text"/>
+              <LocalLaundryServiceIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Machine" className="navbar-text"/>
+            <ListItemText primary="Machine" className="navbar-text" />
           </ListItemButton>
           <br />
 
@@ -118,16 +134,16 @@ function NavBar() {
           <span className="nav-section-text">Inventory Management</span>
           <ListItemButton className="button" href="/role/staff/supplyList">
             <ListItemIcon className="button-content">
-              <ListIcon className="navbar-text"/>
+              <ListIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Supply List" className="navbar-text"/>
+            <ListItemText primary="Supply List" className="navbar-text" />
           </ListItemButton>
 
           <ListItemButton className="button" href="/role/staff/supplyInOut">
             <ListItemIcon className="button-content">
-              <CompareArrowsIcon className="navbar-text"/>
+              <CompareArrowsIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Supply In/Out" className="navbar-text"/>
+            <ListItemText primary="Supply In/Out" className="navbar-text" />
           </ListItemButton>
 
           {/* <p className="white-space"> &nbsp; </p> */}
@@ -136,9 +152,9 @@ function NavBar() {
 
           <ListItemButton className="button" href="/">
             <ListItemIcon className="button-content">
-              <LogoutIcon className="navbar-text"/>
+              <LogoutIcon className="navbar-text" />
             </ListItemIcon>
-            <ListItemText primary="Logout" className="navbar-text"/>
+            <ListItemText primary="Logout" className="navbar-text" />
           </ListItemButton>
         </React.Fragment>
       </List>
