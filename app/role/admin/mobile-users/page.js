@@ -35,7 +35,7 @@ const getMobileUsers = async () => {
 const MobileUser = () => {
   const [mobileUserData, setMobileUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [entriesPerPage, setEntriesPerPage] = useState(5);
+  const [entriesPerPage, setEntriesPerPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(mobileUserData.length / entriesPerPage);
@@ -54,9 +54,6 @@ const MobileUser = () => {
     }
   };
 
-  const handleEntriesPerPageChange = (event) => {
-    setEntriesPerPage(event.target.value);
-  };
 
   useEffect(() => {
     const fetchMobileUSers = async () => {
@@ -111,21 +108,26 @@ const MobileUser = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredUsers.map((mobile) => (
-                  <TableRow
-                    key={mobile._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell className="table-body">{mobile.firstName}</TableCell>
-                    <TableCell className="table-body">{mobile.lastName}</TableCell>
-                    <TableCell className="table-body">{mobile.email}</TableCell>
-                    <TableCell className="table-body">
-                      <RemoveButton id={mobile._id} />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {filteredUsers
+                  .slice(
+                    (currentPage - 1) * entriesPerPage,
+                    currentPage * entriesPerPage
+                  )
+                  .map((mobile) => (
+                    <TableRow
+                      key={mobile._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell className="table-body">{mobile.firstName}</TableCell>
+                      <TableCell className="table-body">{mobile.lastName}</TableCell>
+                      <TableCell className="table-body">{mobile.email}</TableCell>
+                      <TableCell className="table-body">
+                        <RemoveButton id={mobile._id} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>

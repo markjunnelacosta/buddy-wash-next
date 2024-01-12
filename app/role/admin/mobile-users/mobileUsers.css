@@ -16,8 +16,8 @@
 .mobile-table-container {
     display: flex;
     gap: 10px;
-    padding: 2rem;
-    height: 100%;
+    /* padding: 2rem; */
+    /* height: 100%; */
     width: 100%;
     max-height: 400px;
 }
@@ -76,8 +76,7 @@ input {
     background-color: #A9DDDD;
     color: white;
     border: 1px solid #A9DDDD;
-    padding: 1px 2px;
-    margin: 0 4px;
+    margin-top: 10px;
     cursor: pointer;
     border-radius: 4px;
 }
