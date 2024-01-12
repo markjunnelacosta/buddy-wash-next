@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import TableContainer from '@mui/material/TableContainer';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import React, { useState, useEffect } from "react";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import TableSortLabel from "@mui/material/TableSortLabel";
@@ -20,10 +20,10 @@ const API_PATHS = {
 
 function DryerTable() {
   const [dryerData, setDryerData] = useState([]);
-  const [newDryer, setNewDryer] = useState('');
+  const [newDryer, setNewDryer] = useState("");
   const [entriesPerPage, setEntriesPerPage] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
-  const [inputError, setInputError] = useState('');
+  const [inputError, setInputError] = useState("");
   const [orderBy, setOrderBy] = useState("dryerNumber");
   const [order, setOrder] = useState("asc");
   const [currentApiPath, setCurrentApiPath] = useState(API_PATHS.DRYER);
@@ -51,11 +51,13 @@ function DryerTable() {
   };
 
   const descendingComparator = (a, b, orderBy) => {
-    if (orderBy === 'dryerNumber') {
+    if (orderBy === "dryerNumber") {
       const aNum = parseInt(a[orderBy]);
       const bNum = parseInt(b[orderBy]);
       if (isNaN(aNum) || isNaN(bNum)) {
-        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, { numeric: true });
+        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, {
+          numeric: true,
+        });
       }
       return bNum - aNum;
     } else {
@@ -66,7 +68,7 @@ function DryerTable() {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   };
@@ -94,15 +96,15 @@ function DryerTable() {
         };
 
         fetch(currentApiPath, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(newDryerObject),
         })
           .then((response) => {
             if (!response.ok) {
-              throw new Error('Failed to add a new dryer');
+              throw new Error("Failed to add a new dryer");
             }
             return response.json();
           })
@@ -110,17 +112,17 @@ function DryerTable() {
             fetchData();
           })
           .catch((error) => {
-            console.error('Error adding a new dryer:', error);
+            console.error("Error adding a new dryer:", error);
           });
 
         setDryerData((prevData) => [...prevData, newDryerObject]);
-        setNewDryer('');
-        setInputError('');
+        setNewDryer("");
+        setInputError("");
       } else {
-        setInputError('The number already exists');
+        setInputError("The number already exists");
       }
     } else {
-      setInputError('Please enter a valid integer between 1 and 25');
+      setInputError("Please enter a valid integer between 1 and 25");
     }
   };
 
@@ -138,11 +140,11 @@ function DryerTable() {
 
   const fetchData = () => {
     fetch(currentApiPath, {
-      cache: 'no-store',
+      cache: "no-store",
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch dryer data');
+          throw new Error("Failed to fetch dryer data");
         }
         return response.json();
       })
@@ -153,7 +155,7 @@ function DryerTable() {
         console.log("Dryer numbers in the database:", dryerNumbers);
       })
       .catch((error) => {
-        console.error('Error fetching dryer data:', error);
+        console.error("Error fetching dryer data:", error);
       });
   };
 
@@ -166,9 +168,9 @@ function DryerTable() {
       <div
         className="add-dryer-form"
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <TextField
@@ -177,8 +179,8 @@ function DryerTable() {
           onChange={(e) => setNewDryer(e.target.value)}
           variant="outlined"
           id="dryerNumberInput"
-          style={{ marginLeft: '10px' }}
-          error={inputError !== ''}
+          style={{ marginLeft: "10px" }}
+          error={inputError !== ""}
           helperText={inputError}
           onInput={(e) => {
             const inputValue = e.target.value;
@@ -198,12 +200,12 @@ function DryerTable() {
           variant="outlined"
           color="primary"
           onClick={addNewDryer}
-          style={{ marginRight: '10px', color: 'blue', borderColor: 'blue' }}
+          style={{ marginRight: "10px", color: "blue", borderColor: "blue" }}
         >
           Add
         </Button>
       </div>
-      <div style={{ height: '400px', overflow: 'auto' }}>
+      <div style={{ height: "400px", overflow: "auto" }}>
         <TableContainer component={Paper}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
@@ -214,9 +216,9 @@ function DryerTable() {
                 <TableCell align="center" className="table-header-bold">
                   Action
                 </TableCell>
-                <TableCell align="center" className="table-header-bold">
+                {/* <TableCell align="center" className="table-header-bold">
                   Queue
-                </TableCell>
+                </TableCell>  */}
                 <TableCell align="center" className="table-header-bold">
                   Use Count
                 </TableCell>
@@ -234,22 +236,20 @@ function DryerTable() {
                 )
                 .map((dryer, index) => (
                   <TableRow key={index}>
-                    <TableCell align="center">
-                      {dryer.dryerNumber}
-                    </TableCell>
+                    <TableCell align="center">{dryer.dryerNumber}</TableCell>
                     <TableCell align="center">
                       {dryer.timer == "00:00" ||
-                        dryer.timer == "0" ||
-                        dryer.timer == "tempValue"
+                      dryer.timer == "0" ||
+                      dryer.timer == "tempValue"
                         ? "Off"
                         : "Running"}
                     </TableCell>
-                    <TableCell align="center">{dryer.queue}</TableCell>
+                    {/* <TableCell align="center">{dryer.queue}</TableCell> */}
                     <TableCell align="center">{dryer.useCount}</TableCell>
                     <TableCell align="center">
-                      {dryer.status === 'Operational'
-                        ? 'Operational'
-                        : 'Under Maintenance'}
+                      {dryer.status === "Operational"
+                        ? "Operational"
+                        : "Under Maintenance"}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -11,7 +11,7 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 
 const getMachineRemarks = async () => {
   try {
-    const res = await fetch("/api/branch2MachineRemarks", {
+    const res = await fetch("/api/BRANCH2/branch2MachineRemarks", {
       cache: "no-store",
     });
 
@@ -21,7 +21,7 @@ const getMachineRemarks = async () => {
 
     // console.log(await res.json());
     const response = await res.json();
-    return response.machineRemarks;
+    return response.branch2MachineRemarks;
   } catch (error) {
     console.log("Error loading machine remarks. ", error);
   }

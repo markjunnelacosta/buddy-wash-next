@@ -1,8 +1,8 @@
-"use client"
-import React, { useState } from 'react';
-import './machines.css';
-import MachineTable from './machineTable';
-import DryerTable from './dryerTable';
+"use client";
+import React, { useState } from "react";
+import "./machines.css";
+import MachineTable from "./machineTable";
+import DryerTable from "./dryerTable";
 import MachineRemarksTable from "./machineRemarksTable";
 import DryerRemarksTable from "./dryerRemarksTable";
 import MachineReportsTable from "./machineReportsTable";
@@ -10,7 +10,7 @@ import DryerReportsTable from "./dryerReportsTable";
 
 const getMachineRemarks = async () => {
   try {
-    const res = await fetch("/api/branch2MachineRemarks", {
+    const res = await fetch("/api/BRANCH2/branch2MachineRemarks", {
       cache: "no-store",
     });
 
@@ -20,14 +20,14 @@ const getMachineRemarks = async () => {
 
     // console.log(await res.json());
     const response = await res.json();
-    return response.machineRemarks;
+    return response.branch2MachineRemarks;
   } catch (error) {
     console.log("Error loading machine remarks. ", error);
   }
 };
 const getDryerRemarks = async () => {
   try {
-    const res = await fetch("/api/branch2DryerRemarks", {
+    const res = await fetch("/api/BRANCH2/branch2DryerRemarks", {
       cache: "no-store",
     });
 
@@ -37,7 +37,7 @@ const getDryerRemarks = async () => {
 
     // console.log(await res.json());
     const response = await res.json();
-    return response.dryerRemarks;
+    return response.branch2DryerRemarks;
   } catch (error) {
     console.log("Error loading dryer remarks. ", error);
   }
@@ -97,8 +97,18 @@ function Machines() {
     <div className="machines-container">
       <div className="blue-container">
         <div className="top">
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Washing Machines</p>
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Machines</p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Washing Machines
+          </p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Dryer Machines
+          </p>
         </div>
         <div className="tables-container">
           <div className="machineTable-container">
@@ -110,8 +120,18 @@ function Machines() {
         </div>
 
         <div className="top">
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Machine Remarks</p>
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Remarks</p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Machine Remarks
+          </p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Dryer Remarks
+          </p>
         </div>
         <div className="tables-container">
           <div className="machineTable-container">
@@ -123,8 +143,18 @@ function Machines() {
         </div>
 
         <div className="top">
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Machine Reports</p>
-          <p className="table-header" style={{ flex: 1, textAlign: 'center', fontWeight: "bold" }}>Dryer Reports</p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Machine Reports
+          </p>
+          <p
+            className="table-header"
+            style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}
+          >
+            Dryer Reports
+          </p>
         </div>
         <div className="tables-container">
           <div className="machineTable-container">
@@ -134,7 +164,6 @@ function Machines() {
             <DryerReportsTable />
           </div>
         </div>
-
       </div>
     </div>
   );
