@@ -8,40 +8,40 @@ import DryerRemarksTable from "./dryerRemarksTable";
 import MachineReportsTable from "./machineReportsTable";
 import DryerReportsTable from "./dryerReportsTable";
 
-const getMachineRemarks = async () => {
-  try {
-    const res = await fetch("/api/BRANCH2/branch2MachineRemarks", {
-      cache: "no-store",
-    });
+// const getMachineRemarks = async () => {
+//   try {
+//     const res = await fetch("/api/BRANCH2/branch2MachineRemarks", {
+//       cache: "no-store",
+//     });
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch machine remarks");
-    }
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch machine remarks");
+//     }
 
-    // console.log(await res.json());
-    const response = await res.json();
-    return response.branch2MachineRemarks;
-  } catch (error) {
-    console.log("Error loading machine remarks. ", error);
-  }
-};
-const getDryerRemarks = async () => {
-  try {
-    const res = await fetch("/api/BRANCH2/branch2DryerRemarks", {
-      cache: "no-store",
-    });
+//     // console.log(await res.json());
+//     const response = await res.json();
+//     return response.branch2MachineRemarks;
+//   } catch (error) {
+//     console.log("Error loading machine remarks. ", error);
+//   }
+// };
+// const getDryerRemarks = async () => {
+//   try {
+//     const res = await fetch("/api/BRANCH2/branch2DryerRemarks", {
+//       cache: "no-store",
+//     });
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch dryer remarks");
-    }
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch dryer remarks");
+//     }
 
-    // console.log(await res.json());
-    const response = await res.json();
-    return response.branch2DryerRemarks;
-  } catch (error) {
-    console.log("Error loading dryer remarks. ", error);
-  }
-};
+//     // console.log(await res.json());
+//     const response = await res.json();
+//     return response.branch2DryerRemarks;
+//   } catch (error) {
+//     console.log("Error loading dryer remarks. ", error);
+//   }
+// };
 
 function Machines() {
   const [machines, setMachines] = useState([]); // store list of machines
@@ -50,48 +50,48 @@ function Machines() {
   const [dryerRemarks, setDryerRemarks] = useState([]);
   const [dryerSearchQuery, setDryerSearchQuery] = useState("");
 
-  React.useEffect(() => {
-    const fetchMachineRemarks = async () => {
-      try {
-        const machineRemarksData = await getMachineRemarks();
-        setMachineRemarks(machineRemarksData);
-      } catch (error) {
-        console.error("Error fetching machine Remarks:", error);
-      }
-    };
+  // React.useEffect(() => {
+  //   const fetchMachineRemarks = async () => {
+  //     try {
+  //       const machineRemarksData = await getMachineRemarks();
+  //       setMachineRemarks(machineRemarksData);
+  //     } catch (error) {
+  //       console.error("Error fetching machine Remarks:", error);
+  //     }
+  //   };
 
-    fetchMachineRemarks();
-  }, []);
+  //   fetchMachineRemarks();
+  // }, []);
 
-  React.useEffect(() => {
-    console.log(machineRemarks);
-  }, [machineRemarks]);
+  // React.useEffect(() => {
+  //   console.log(machineRemarks);
+  // }, [machineRemarks]);
 
-  // Filter users based on search query
-  const filteredMachineRemarks = machineRemarks.filter((machineRemarks) =>
-    machineRemarks.number.includes(searchQuery)
-  );
-  React.useEffect(() => {
-    const fetchDryerRemarks = async () => {
-      try {
-        const dryerRemarksData = await getDryerRemarks();
-        setDryerRemarks(dryerRemarksData);
-      } catch (error) {
-        console.error("Error fetching dryer Remarks:", error);
-      }
-    };
+  // // Filter users based on search query
+  // const filteredMachineRemarks = machineRemarks.filter((machineRemarks) =>
+  //   machineRemarks.number.includes(searchQuery)
+  // );
+  // React.useEffect(() => {
+  //   const fetchDryerRemarks = async () => {
+  //     try {
+  //       const dryerRemarksData = await getDryerRemarks();
+  //       setDryerRemarks(dryerRemarksData);
+  //     } catch (error) {
+  //       console.error("Error fetching dryer Remarks:", error);
+  //     }
+  //   };
 
-    fetchDryerRemarks();
-  }, []);
+  //   fetchDryerRemarks();
+  // }, []);
 
-  React.useEffect(() => {
-    console.log(dryerRemarks);
-  }, [dryerRemarks]);
+  // React.useEffect(() => {
+  //   console.log(dryerRemarks);
+  // }, [dryerRemarks]);
 
-  // Filter users based on search query
-  const filteredDryerRemarks = dryerRemarks.filter((dryerRemarks) =>
-    dryerRemarks.number.includes(dryerSearchQuery)
-  );
+  // // Filter users based on search query
+  // const filteredDryerRemarks = dryerRemarks.filter((dryerRemarks) =>
+  //   dryerRemarks.number.includes(dryerSearchQuery)
+  // );
 
   return (
     <div className="machines-container">
