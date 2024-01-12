@@ -143,9 +143,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const assignMachine = () => {
     const currDate = new Date();
     console.log(machineData);
-    const availableMachine = longestLastUsedMachine;
-    //  ||
-    // machineData.find((m) => m.timer == "0" || m.timer == "00:00");
+    const availableMachine =
+      longestLastUsedMachine ||
+      machineData.find((m) => m.timer == "0" || m.timer == "00:00");
     console.log("available machines" + availableMachine);
     updateMachineLastUsed(availableMachine, currDate.toLocaleTimeString());
     updateMachineTimer(availableMachine);
@@ -248,13 +248,14 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   console.log("longest last used dryer", longestLastUsedDryer);
 
   const assignDryer = () => {
+    const currDate = new Date();
     console.log(dryerData);
-    const availableDryer = dryerData.find(
-      (d) => d.timer == "00:00" || d.timer == "0"
-    );
+    const availableDryer =
+      longestLastUsedDryer ||
+      dryerData.find((d) => d.timer == "00:00" || d.timer == "0");
     console.log("available dryers" + availableDryer);
     updateDryerTimer(availableDryer);
-
+    updateDryerLastUsed(availableDryer, currDate.toLocaleTimeString());
     if (availableDryer.status == "Operational") {
       return +availableDryer.dryerNumber;
     }
