@@ -20,7 +20,8 @@ const API_PATHS = {
 function MachineTable() {
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
-  const [isEditMachinePopupVisible, setEditMachinePopupVisible] = useState(false);
+  const [isEditMachinePopupVisible, setEditMachinePopupVisible] =
+    useState(false);
   const [entriesPerPage, setEntriesPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState("machineNumber");
@@ -50,11 +51,13 @@ function MachineTable() {
   };
 
   const descendingComparator = (a, b, orderBy) => {
-    if (orderBy === 'machineNumber') {
+    if (orderBy === "machineNumber") {
       const aNum = parseInt(a[orderBy]);
       const bNum = parseInt(b[orderBy]);
       if (isNaN(aNum) || isNaN(bNum)) {
-        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, { numeric: true });
+        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, {
+          numeric: true,
+        });
       }
       return bNum - aNum;
     } else {
@@ -65,7 +68,7 @@ function MachineTable() {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   };
@@ -129,9 +132,9 @@ function MachineTable() {
               <TableCell align="center" className="table-header-bold">
                 Action
               </TableCell>
-              <TableCell align="center" className="table-header-bold">
+              {/* <TableCell align="center" className="table-header-bold">
                 Queue
-              </TableCell>
+              </TableCell> */}
               <TableCell align="center" className="table-header-bold">
                 Use Count
               </TableCell>
@@ -154,12 +157,12 @@ function MachineTable() {
                   <TableCell align="center">{machine.machineNumber}</TableCell>
                   <TableCell align="center">
                     {machine.timer == "00:00" ||
-                      machine.timer == "0" ||
-                      machine.timer == "tempValue"
+                    machine.timer == "0" ||
+                    machine.timer == "tempValue"
                       ? "Off"
                       : "Running"}
                   </TableCell>
-                  <TableCell align="center">{machine.queue}</TableCell>
+                  {/* <TableCell align="center">{machine.queue}</TableCell> */}
                   <TableCell align="center">{machine.useCount}</TableCell>
                   <TableCell align="center">
                     {machine.status === "Operational"
@@ -184,10 +187,7 @@ function MachineTable() {
           <ArrowBackIosRoundedIcon />
         </button>
         <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
           <ArrowForwardIosRoundedIcon />
         </button>
       </div>

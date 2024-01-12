@@ -50,11 +50,13 @@ function DryerTable() {
   };
 
   const descendingComparator = (a, b, orderBy) => {
-    if (orderBy === 'dryerNumber') {
+    if (orderBy === "dryerNumber") {
       const aNum = parseInt(a[orderBy]);
       const bNum = parseInt(b[orderBy]);
       if (isNaN(aNum) || isNaN(bNum)) {
-        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, { numeric: true });
+        return String(a[orderBy]).localeCompare(String(b[orderBy]), undefined, {
+          numeric: true,
+        });
       }
       return bNum - aNum;
     } else {
@@ -65,7 +67,7 @@ function DryerTable() {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   };
@@ -129,9 +131,9 @@ function DryerTable() {
               <TableCell align="center" className="table-header-bold">
                 Action
               </TableCell>
-              <TableCell align="center" className="table-header-bold">
+              {/* <TableCell align="center" className="table-header-bold">
                 Queue
-              </TableCell>
+              </TableCell> */}
               <TableCell align="center" className="table-header-bold">
                 Use Count
               </TableCell>
@@ -154,12 +156,12 @@ function DryerTable() {
                   <TableCell align="center">{dryer.dryerNumber}</TableCell>
                   <TableCell align="center">
                     {dryer.timer == "00:00" ||
-                      dryer.timer == "0" ||
-                      dryer.timer == "tempValue"
+                    dryer.timer == "0" ||
+                    dryer.timer == "tempValue"
                       ? "Off"
                       : "Running"}
                   </TableCell>
-                  <TableCell align="center">{dryer.queue}</TableCell>
+                  {/* <TableCell align="center">{dryer.queue}</TableCell> */}
                   <TableCell align="center">{dryer.useCount}</TableCell>
                   <TableCell align="center">
                     {dryer.status === "Operational"
@@ -176,7 +178,7 @@ function DryerTable() {
                   </TableCell>
                 </TableRow>
               ))}
-           </tbody>
+          </tbody>
         </Table>
       </TableContainer>
       <div className="pagination">
@@ -184,10 +186,7 @@ function DryerTable() {
           <ArrowBackIosRoundedIcon />
         </button>
         <span>{`Showing entries ${startRange}-${endRange} of ${totalPages}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
           <ArrowForwardIosRoundedIcon />
         </button>
       </div>
@@ -197,7 +196,7 @@ function DryerTable() {
         onClose={handleCloseEditDryerPopup}
         type="dryer" // Specify the type for dryers
       />
-    </div >
+    </div>
   );
 }
 
