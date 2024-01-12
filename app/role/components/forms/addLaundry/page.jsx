@@ -137,9 +137,9 @@ const AddLaundry = ({ isOpen, onClose, onSaveData, onUpdateSupply }) => {
   const assignMachine = () => {
     const currDate = new Date();
     console.log(machineData);
-    const availableMachine = machineData.find(
-      (m) => m.timer == "0" || m.timer == "00:00"
-    );
+    const availableMachine = longestLastUsedMachine;
+    //  ||
+    // machineData.find((m) => m.timer == "0" || m.timer == "00:00");
     console.log("available machines" + availableMachine);
     updateMachineLastUsed(availableMachine, currDate.toLocaleTimeString());
     updateMachineTimer(availableMachine);
